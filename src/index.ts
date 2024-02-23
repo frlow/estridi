@@ -1,5 +1,5 @@
 import { getNodeMetadata } from './nodes'
-import { createFeature, handleNode } from './generate'
+import { createFeature, Feature, handleNode } from './feature'
 
 figma.showUI(__html__)
 
@@ -17,7 +17,7 @@ figma.ui.onmessage = (msg) => {
       console.log(createFeature('demo', handleNode(parsed)))
       return
     }
-    const result: { name: string; feature: string }[] = []
+    const result: Feature[] = []
     const sections = figma.currentPage.children.filter((c) => isSection(c))
     for (const section of sections as SectionNode[]) {
       const start = section.children.find((c) => isStartNode(c))
@@ -28,11 +28,9 @@ figma.ui.onmessage = (msg) => {
       const handledActions = actions.map((a) => handleNode(traverse(a)))
       handledActions.forEach((h) => handledNodes.push(...h))
       const feature = createFeature(section.name, handledNodes)
-      result.push({
-        name: section.name,
-        feature,
-      })
+      result.push(feature)
     }
+    console.log(JSON.stringify(result).length)
     fetch('http://localhost:3000/', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
