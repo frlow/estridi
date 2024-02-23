@@ -17,15 +17,12 @@ export const generateVitest = (features: Feature[]) => {
         "\n  test('" + feature.scenarios.indexOf(scenario) + "', async () => {"
       out +=
         '\n    let state: any = steps.Before ? await steps.Before() : undefined'
-      for (const given of scenario.given) {
+      for (const given of scenario.given)
         out += "\n    state = await steps['" + given.text + "'](state)"
-      }
-      for (const when of scenario.when) {
+      for (const when of scenario.when)
         out += "\n    state = await steps['When " + when.text + "'](state)"
-      }
-      for (const then of scenario.then) {
+      for (const then of scenario.then)
         out += "\n    state = await steps['Then " + then.text + "'](state)"
-      }
       out += '\n  })'
     }
     out += '\n})'
