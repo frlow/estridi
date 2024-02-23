@@ -28,5 +28,6 @@ export const generateVitest = (features: Feature[]) => {
     out += '\n})'
     fs.mkdirSync(`output/vitest`, { recursive: true })
     fs.writeFileSync(`output/vitest/${name}.test.ts`, out, 'utf8')
+    // TODO: Also generate steps if such file does not exist!
   }
 }
