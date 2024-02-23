@@ -6,5 +6,6 @@ node_modules
 out/
 dist/
 code.js
+featuresOld/
 features/
 .idea/

@@ -33,23 +33,33 @@ export const handleNode = (node: ParsedNode): ParsedNode[][] => {
 }
 
 const createScenarios = (nodes: ParsedNode[]) => {
+  const thenTypes = ['script', 'message', 'serviceCall', 'subprocess']
+  let ret = '  Scenario:'
   const given: string[] = []
-  let ret = ''
-  nodes.forEach((node) => {
-    const thens = ['script', 'message', 'serviceCall', 'subprocess']
-    if (thens.includes(node.meta?.type || '')) {
-      ret += '\n  Scenario: '
-      given.forEach((g) => (ret += '\n    Given ' + g))
-      ret +=
-        '\n    Then ' +
-          node.meta?.type +
-          ': ' +
-          node.meta?.text?.replace(/\n/, '') || 'N/A'
-    }
-    if (node.meta?.type === 'connector' && node.meta.text)
-      given.push(node.meta.text)
-  })
-  return ret
+  const when: string[] = []
+  const then: string[] = []
+  for (const node of nodes.filter((n) => !!n.meta)) {
+    if (thenTypes.includes(node.meta!.type))
+      then.push(
+        '\n    Then [' +
+          node.meta!.type +
+          '] ' +
+          node.meta?.text +
+          ' #' +
+          node.id,
+      )
+    else if (node.meta!.type === 'connector' && node.meta!.text)
+      given.push('\n    Given ' + node.meta!.text + ' #' + node.id)
+    else if (node.meta!.type === 'signalListen')
+      when.push('\n    When ' + node.meta!.text + ' #' + node.id)
+  }
+  console.log('given', given)
+  console.log('when', when)
+  console.log('then', then)
+  given.forEach((text) => (ret += text))
+  when.forEach((text) => (ret += text))
+  then.forEach((text) => (ret += text))
+  return ret + '\n'
 }
 
 export const createFeature = (name: string, nodes: ParsedNode[][]) =>

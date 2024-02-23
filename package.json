@@ -6,7 +6,7 @@
   "scripts": {
     "start": "concurrently \"pnpm watch\" \"pnpm serve\"",
     "watch": "esbuild --bundle --outfile=code.js src/index.ts --watch --target=es6",
-    "serve": "tsx src/server.ts"
+    "serve": "tsx watch src/server.ts"
   },
   "author": "",
   "license": "",

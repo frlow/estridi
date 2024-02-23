@@ -14,7 +14,6 @@ figma.ui.onmessage = (msg) => {
   if (msg.type === 'traverse') {
     if (figma.currentPage.selection[0]) {
       const parsed = traverse(figma.currentPage.selection[0])
-      console.log(parsed)
       console.log(createFeature('demo', handleNode(parsed)))
       return
     }
@@ -28,10 +27,10 @@ figma.ui.onmessage = (msg) => {
       const actions = section.children.filter((c) => isAction(c))
       const handledActions = actions.map((a) => handleNode(traverse(a)))
       handledActions.forEach((h) => handledNodes.push(...h))
-      console.log(handledNodes)
+      const feature = createFeature(section.name, handledNodes)
       result.push({
         name: section.name,
-        feature: createFeature(section.name, handledNodes),
+        feature,
       })
     }
     fetch('http://localhost:3000/', {
