@@ -1,0 +1,9 @@
+<button id="traverse" style="padding: 1rem; border-radius: 5px; background-color: firebrick; color: lavenderblush">Save
+    Features
+</button>
+<script>
+
+  document.getElementById('traverse').onclick = () => {
+    parent.postMessage({pluginMessage: {type: 'traverse'}}, '*')
+  }
+</script>

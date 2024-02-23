@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "System",
+    "lib": [
+      "es2016"
+    ],
+    "moduleResolution": "Node",
+    "strict": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/@figma"
+    ],
+  }
+}
