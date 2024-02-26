@@ -15,8 +15,8 @@ export const generateVitest = (dir: string, features: Feature[]) => {
     out += "\nimport { describe, test } from 'vitest'"
     out += "\nimport { steps } from './" + name + ".steps'"
     out += '\nexport type Steps<T = any> = {'
-    out += '\n  Before?: () => Promise<T>'
-    out += '\n  BaseGiven?: (state: T) => Promise<T>'
+    out += '\n  Before?: () => Promise<T|undefined>'
+    out += '\n  BaseGiven?: (state: T) => Promise<T|undefined>'
     const propNames: Record<string, null> = {}
     for (const scenario of feature.scenarios) {
       for (const given of scenario.given)
@@ -25,7 +25,7 @@ export const generateVitest = (dir: string, features: Feature[]) => {
       for (const then of scenario.then) propNames[`Then ${then.text}`] = null
     }
     Object.keys(propNames).forEach((key) => {
-      out += `\n  '${key}': (state: T) => Promise<T>`
+      out += `\n  '${key}': (state: T) => Promise<T|undefined>`
     })
     out += '\n}'
     out += "\ndescribe('" + feature.name + "', () => {"
@@ -45,12 +45,15 @@ export const generateVitest = (dir: string, features: Feature[]) => {
           given.text +
           ': ' +
           given.value +
-          "'](state)"
-      out += '\n    if (steps.BaseGiven) state = await state.BaseGiven(state)'
+          "'](state) || state"
+      out +=
+        '\n    if (steps.BaseGiven) state = await steps.BaseGiven(state)|| state'
       for (const when of scenario.when)
-        out += "\n    state = await steps['When " + when.text + "'](state)"
+        out +=
+          "\n    state = await steps['When " + when.text + "'](state)|| state"
       for (const then of scenario.then)
-        out += "\n    state = await steps['Then " + then.text + "'](state)"
+        out +=
+          "\n    state = await steps['Then " + then.text + "'](state)|| state"
       out += '\n  })'
     }
     out += '\n})'
@@ -60,7 +63,7 @@ export const generateVitest = (dir: string, features: Feature[]) => {
       let implementation = `import { Steps } from './${name}.test'`
       implementation += '\nexport const steps: Steps = {'
       Object.keys(propNames).forEach((key) => {
-        implementation += `\n  "${key}": async state => {debugger ;throw "Not implemented"; return state},`
+        implementation += `\n  "${key}": async state => {debugger ;throw "Not implemented"},`
       })
       implementation += '\n}'
 
