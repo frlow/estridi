@@ -49,9 +49,8 @@ export const generateVitest = (dir: string, features: Feature[]) => {
     out += '\n})'
 
     writeFile(path.join(dir, `${name}.test.ts`), out)
-    if (!path.join(dir, `${name}.steps.ts`)) {
+    if (!fs.existsSync(path.join(dir, `${name}.steps.ts`))) {
       let implementation = `import { Steps } from './${name}.test'`
-      // TODO MOAR!!!!!!
       implementation += '\nexport const steps: Steps = {'
       Object.keys(propNames).forEach((key) => {
         implementation += `\n  "${key}": state => {throw "Not implemented"; return state},`

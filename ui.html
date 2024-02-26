@@ -9,11 +9,11 @@
   button.onclick = () => {
     on = !on
     button.style.backgroundColor = on ? "#2d5487" : "firebrick"
-    if (on)
+    if (on) {
+      parent.postMessage({pluginMessage: {type: 'traverse'}}, '*')
       interval = setInterval(() => {
-        console.log("TICK!")
         parent.postMessage({pluginMessage: {type: 'traverse'}}, '*')
       }, 1000)
-    else clearInterval(interval)
+    } else clearInterval(interval)
   }
 </script>

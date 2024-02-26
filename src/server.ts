@@ -12,7 +12,6 @@ const dist = process.argv[3]
 
 app.post('/', (req, res) => {
   if (!!type && !!dist) {
-    console.log('wsoifhuskiodhf')
     switch (type) {
       case 'vitest':
         generateVitest(dist, req.body)
