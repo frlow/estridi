@@ -6,12 +6,9 @@ import * as path from 'node:path'
 
 export const getFileName = (name: string) =>
   name
-    .replace(/ /, '')
-    .replace(/:/, '')
-    .replace(/\|/, '')
-    .replace(/\//, '')
-    .toLowerCase()
     .replace(/ /g, '_')
+    .replace(/[:|\/]/g, '')
+    .toLowerCase()
 
 export const generateAll = (features: Feature[]) => {
   fs.mkdirSync('output', { recursive: true })

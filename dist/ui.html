@@ -1,0 +1,19 @@
+<button id="traverse" style="padding: 1rem; border-radius: 5px; background-color: firebrick; color: lavenderblush">Sync
+    Features
+</button>
+<script>
+
+  let on = false
+  const button = document.getElementById('traverse')
+  let interval
+  button.onclick = () => {
+    on = !on
+    button.style.backgroundColor = on ? "#2d5487" : "firebrick"
+    if (on) {
+      parent.postMessage({pluginMessage: {type: 'traverse'}}, '*')
+      interval = setInterval(() => {
+        parent.postMessage({pluginMessage: {type: 'traverse'}}, '*')
+      }, 1000)
+    } else clearInterval(interval)
+  }
+</script>
