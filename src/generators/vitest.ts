@@ -1,9 +1,11 @@
 import { Feature } from '../feature'
 import { getFileName } from './index'
 import * as fs from 'node:fs'
+import { writeFile } from './files'
+import * as path from 'node:path'
 
-export const generateVitest = (features: Feature[]) => {
-  fs.mkdirSync(`output/vitest`, { recursive: true })
+export const generateVitest = (dir: string, features: Feature[]) => {
+  fs.mkdirSync(dir, { recursive: true })
   for (const feature of features) {
     const name = getFileName(feature.name)
     let out = '// WARNING!!'
@@ -46,8 +48,8 @@ export const generateVitest = (features: Feature[]) => {
     }
     out += '\n})'
 
-    fs.writeFileSync(`output/vitest/${name}.test.ts`, out, 'utf8')
-    if (!fs.existsSync(`output/vitest/${name}.steps.ts`)) {
+    writeFile(path.join(dir, `${name}.test.ts`), out)
+    if (!path.join(dir, `${name}.steps.ts`)) {
       let implementation = `import { Steps } from './${name}.test'`
       // TODO MOAR!!!!!!
       implementation += '\nexport const steps: Steps = {'
@@ -56,7 +58,7 @@ export const generateVitest = (features: Feature[]) => {
       })
       implementation += '\n}'
 
-      fs.writeFileSync(`output/vitest/${name}.steps.ts`, implementation, 'utf8')
+      writeFile(path.join(dir, `${name}.steps.ts`), implementation)
     }
   }
 }

@@ -11,6 +11,7 @@
     button.style.backgroundColor = on ? "#2d5487" : "firebrick"
     if (on)
       interval = setInterval(() => {
+        console.log("TICK!")
         parent.postMessage({pluginMessage: {type: 'traverse'}}, '*')
       }, 1000)
     else clearInterval(interval)

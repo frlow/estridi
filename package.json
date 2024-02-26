@@ -6,7 +6,10 @@
   "scripts": {
     "start": "concurrently \"pnpm watch\" \"pnpm serve\"",
     "watch": "esbuild --bundle --outfile=code.js src/index.ts --watch --target=es6",
-    "serve": "tsx watch src/server.ts"
+    "serve": "tsx watch src/server.ts",
+    "build": "pnpm build:client && pnpm build:server && cp manifest.json dist/ && cp ui.html dist/",
+    "build:client": "esbuild --bundle --outfile=dist/code.js src/index.ts --target=es6",
+    "build:server": "esbuild --bundle --outfile=dist/server.js src/server.ts --target=es6 --platform=node --format=cjs"
   },
   "author": "",
   "license": "",

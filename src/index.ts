@@ -3,7 +3,6 @@ import { createFeature, Feature, handleNode } from './feature'
 
 figma.showUI(__html__)
 
-let last: string = ''
 const isStartNode = (node: any) =>
   node.name === 'Start' &&
   node.children![0].strokeWeight?.toString()?.startsWith('2')
@@ -13,11 +12,6 @@ const isAction = (node: BaseNode) => node.name === 'Signal listen'
 
 figma.ui.onmessage = (msg) => {
   if (msg.type === 'traverse') {
-    // if (figma.currentPage.selection[0]) {
-    //   const parsed = traverse(figma.currentPage.selection[0])
-    //   console.log(createFeature('demo', handleNode(parsed)))
-    //   return
-    // }
     const result: Feature[] = []
     const sections = figma.currentPage.children.filter((c) => isSection(c))
     for (const section of sections as SectionNode[]) {
@@ -32,13 +26,11 @@ figma.ui.onmessage = (msg) => {
       result.push(feature)
     }
     const body = JSON.stringify(result)
-    if (last !== body)
-      fetch('http://localhost:3000/', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body,
-      }).catch(() => console.log('local server not started'))
-    last = body
+    fetch('http://localhost:3000/', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body,
+    }).catch(() => console.log('local server not started'))
   }
   if (msg.type === 'identify') {
     const nodes = figma.currentPage.selection
