@@ -28,7 +28,12 @@ export const generateVitest = (dir: string, features: Feature[]) => {
       out += `\n  '${key}': (state: T) => Promise<T|undefined>`
     })
     out += '\n}'
-    out += "\ndescribe('" + feature.name + "', () => {"
+    out +=
+      '\ndescribe' +
+      (feature.enabled ? '' : '.skip') +
+      "('" +
+      feature.name +
+      "', () => {"
     for (const scenario of feature.scenarios) {
       const label = [
         ...scenario.when.map((w) => w.text),
