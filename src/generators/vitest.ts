@@ -16,6 +16,7 @@ export const generateVitest = (dir: string, features: Feature[]) => {
     out += "\nimport { steps } from './" + name + ".steps'"
     out += '\nexport type Steps<T = any> = {'
     out += '\n  Before?: () => Promise<T>'
+    out += '\n  BaseGiven?: (state: T) => Promise<T>'
     const propNames: Record<string, null> = {}
     for (const scenario of feature.scenarios) {
       for (const given of scenario.given)
@@ -29,8 +30,13 @@ export const generateVitest = (dir: string, features: Feature[]) => {
     out += '\n}'
     out += "\ndescribe('" + feature.name + "', () => {"
     for (const scenario of feature.scenarios) {
-      out +=
-        "\n  test('" + feature.scenarios.indexOf(scenario) + "', async () => {"
+      const label = [
+        ...scenario.when.map((w) => w.text),
+        ...scenario.then.map((t) => t.text),
+        ' - ',
+        ...scenario.given.map((g) => g.value),
+      ].join(' ')
+      out += "\n  test('" + label + "', async () => {"
       out +=
         '\n    let state: any = steps.Before ? await steps.Before() : undefined'
       for (const given of scenario.given)
@@ -40,6 +46,7 @@ export const generateVitest = (dir: string, features: Feature[]) => {
           ': ' +
           given.value +
           "'](state)"
+      out += '\n    if (steps.BaseGiven) state = await state.BaseGiven(state)'
       for (const when of scenario.when)
         out += "\n    state = await steps['When " + when.text + "'](state)"
       for (const then of scenario.then)
@@ -53,7 +60,7 @@ export const generateVitest = (dir: string, features: Feature[]) => {
       let implementation = `import { Steps } from './${name}.test'`
       implementation += '\nexport const steps: Steps = {'
       Object.keys(propNames).forEach((key) => {
-        implementation += `\n  "${key}": state => {throw "Not implemented"; return state},`
+        implementation += `\n  "${key}": async state => {debugger ;throw "Not implemented"; return state},`
       })
       implementation += '\n}'
 
