@@ -2,11 +2,9 @@
 *.log
 *.log.*
 node_modules
-
+dist/
 out/
 code.js
 featuresOld/
 features/
 .idea/
-output/
-!dist/code.js

@@ -1,7 +1,10 @@
+#!/usr/bin/env node
 import express from 'express'
 import cors from 'cors'
 import { generateAll } from './generators'
 import { generateVitest } from './generators/vitest'
+import { fileURLToPath } from 'node:url'
+import * as path from 'node:path'
 
 const app = express()
 app.use(cors())
@@ -24,5 +27,9 @@ app.post('/', (req, res) => {
 })
 
 const port = 3000
+console.log('Manifest located in the following directory:')
+console.log(
+  import.meta.url ? fileURLToPath(path.parse(import.meta.url).dir) : __dirname,
+)
 console.log(`Listening on: http://localhost:${port}/`)
 app.listen(3000)
