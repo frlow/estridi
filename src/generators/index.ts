@@ -10,6 +10,7 @@ export const getFileName = (name: string) =>
     .replace(/\|/, '')
     .replace(/\//, '')
     .toLowerCase()
+    .replace(/ /g, '_')
 
 export const generateAll = (features: Feature[]) => {
   fs.mkdirSync('output', { recursive: true })

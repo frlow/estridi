@@ -4,7 +4,7 @@ export type ParsedSection = {
 }
 export type ParsedNode = {
   id: string
-  meta?: { type: string; text: string }
+  meta?: { type: string; text: string; value?: string }
   next?: ParsedNode[]
 }
 
@@ -27,21 +27,23 @@ export const handleNode = (node: ParsedNode): ParsedNode[][] => {
       }
     }
   }
-
-  console.log('ret', ret)
   return ret
 }
 
 const createScenarios = (nodes: ParsedNode[]) => {
   const thenTypes = ['script', 'message', 'serviceCall', 'subprocess']
-  const given: { text: string; type: string }[] = []
+  const given: { text: string; type: string; value?: string }[] = []
   const when: { text: string; type: string }[] = []
   const then: { text: string; type: string }[] = []
   for (const node of nodes.filter((n) => !!n.meta)) {
     if (thenTypes.includes(node.meta!.type))
       then.push({ type: node.meta!.type, text: node.meta?.text! })
     else if (node.meta!.type === 'connector' && node.meta!.text)
-      given.push({ type: node.meta!.type, text: node.meta?.text! })
+      given.push({
+        type: node.meta!.type,
+        text: node.meta?.text!,
+        value: node.meta?.value,
+      })
     else if (node.meta!.type === 'signalListen')
       when.push({ type: node.meta!.type, text: node.meta?.text! })
   }

@@ -3,13 +3,27 @@ import { getFileName } from './index'
 import * as fs from 'node:fs'
 
 export const generateVitest = (features: Feature[]) => {
+  fs.mkdirSync(`output/vitest`, { recursive: true })
   for (const feature of features) {
     const name = getFileName(feature.name)
-    let out = "import { describe, test } from 'vitest'"
-    out += "\nimport { steps } from './${name}.steps'"
+    let out = '// WARNING!!'
+    out +=
+      '\n// this file is auto-generated and will change when updating the system design'
+    out += "\n// don't change this file!\n"
+    out += "\nimport { describe, test } from 'vitest'"
+    out += "\nimport { steps } from './" + name + ".steps'"
     out += '\nexport type Steps<T = any> = {'
     out += '\n  Before?: () => Promise<T>'
-    // TODO steps types here!
+    const propNames: Record<string, null> = {}
+    for (const scenario of feature.scenarios) {
+      for (const given of scenario.given)
+        propNames[`Given ${given.text}: ${given.value}`] = null
+      for (const when of scenario.when) propNames[`When ${when.text}`] = null
+      for (const then of scenario.then) propNames[`Then ${then.text}`] = null
+    }
+    Object.keys(propNames).forEach((key) => {
+      out += `\n  '${key}': (state: T) => Promise<T>`
+    })
     out += '\n}'
     out += "\ndescribe('" + feature.name + "', () => {"
     for (const scenario of feature.scenarios) {
@@ -18,7 +32,12 @@ export const generateVitest = (features: Feature[]) => {
       out +=
         '\n    let state: any = steps.Before ? await steps.Before() : undefined'
       for (const given of scenario.given)
-        out += "\n    state = await steps['" + given.text + "'](state)"
+        out +=
+          "\n    state = await steps['Given " +
+          given.text +
+          ': ' +
+          given.value +
+          "'](state)"
       for (const when of scenario.when)
         out += "\n    state = await steps['When " + when.text + "'](state)"
       for (const then of scenario.then)
@@ -26,8 +45,18 @@ export const generateVitest = (features: Feature[]) => {
       out += '\n  })'
     }
     out += '\n})'
-    fs.mkdirSync(`output/vitest`, { recursive: true })
+
     fs.writeFileSync(`output/vitest/${name}.test.ts`, out, 'utf8')
-    // TODO: Also generate steps if such file does not exist!
+    if (!fs.existsSync(`output/vitest/${name}.steps.ts`)) {
+      let implementation = `import { Steps } from './${name}.test'`
+      // TODO MOAR!!!!!!
+      implementation += '\nexport const steps: Steps = {'
+      Object.keys(propNames).forEach((key) => {
+        implementation += `\n  "${key}": state => {throw "Not implemented"; return state},`
+      })
+      implementation += '\n}'
+
+      fs.writeFileSync(`output/vitest/${name}.steps.ts`, implementation, 'utf8')
+    }
   }
 }

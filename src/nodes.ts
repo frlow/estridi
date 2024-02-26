@@ -19,6 +19,8 @@ const findText = (node: any) =>
   (node.children.find((c: any) => c.type === 'TEXT')?.characters || '')
     .replace(/[^a-zA-Z0-9 ]/g, ' ')
     .replace(/\n/g, ' ')
+    .replace(/ +/g, ' ')
+    .trim()
 
 const getScriptMetadata = (node: any) => {
   if (node.name !== 'Script') return undefined
