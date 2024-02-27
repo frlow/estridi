@@ -1,5 +1,5 @@
 import { getNodeMetadata } from './nodes'
-import { createFeature, Feature, handleNode } from './feature'
+import { createFeature, Feature, ParsedNode, ParsedTable, preapreNode } from './feature'
 
 figma.showUI(__html__)
 
@@ -10,19 +10,37 @@ const isStartNode = (node: any) =>
 const isSection = (node: BaseNode) => node.type === 'SECTION'
 const isAction = (node: BaseNode) => node.name === 'Signal listen'
 
-const handleStartNode = (startNode?: BaseNode) => {
-  if (!startNode) return undefined
-  const parsedStartNode = traverse(startNode)
-  const handledNodes = handleNode(parsedStartNode)
-  const actions = startNode.parent!.children.filter((c) => isAction(c))
-  const handledActions = actions.map((a) => handleNode(traverse(a)))
-  handledActions.forEach((h) => handledNodes.push(...h))
-  return handledNodes
+const handleNode = (node?: BaseNode) => {
+  if (!node) return undefined
+  const parsedStartNode = traverse(node)
+  return preapreNode(parsedStartNode)
 }
 
-const handleTable = (table?: BaseNode)=>{
-  // TODO Handle table!
-  return [] as any
+const handleActionNode = (actionNode?: BaseNode) => {
+  // if (!actionNode) return undefined
+  // const parsedStartNode = traverse(startNode)
+  // const handledNodes = handleNode(parsedStartNode)
+  // const actions = startNode.parent!.children.filter((c) => isAction(c))
+  // const handledActions = actions.map((a) => handleNode(traverse(a)))
+  // handledActions.forEach((h) => handledNodes.push(...h))
+  // return handledNodes
+}
+
+const handleTable = (tableNode?: any): ParsedTable | undefined => {
+  if (!tableNode) return undefined
+  const header = tableNode.children.filter((c: any) => c.rowIndex === 0).map((c: any) => c.text?.characters)
+  const rows = tableNode.children.filter((c: any) => c.rowIndex > 0)
+    .reduce((acc: any, cur: any) => {
+      if (!acc[cur.rowIndex - 1]) acc[cur.rowIndex - 1] = { label: cur.text?.characters, values: [] }
+      else acc[cur.rowIndex - 1].values.push(cur.text?.characters)
+      return acc
+    }, [])
+    .filter((r: any) => !!r.label)
+  if (rows.length === 0) return undefined
+  return {
+    header,
+    rows
+  }
 }
 
 figma.ui.onmessage = (msg) => {
@@ -30,16 +48,16 @@ figma.ui.onmessage = (msg) => {
     const result: Feature[] = []
     const sections = figma.currentPage.children.filter((c) => isSection(c))
     for (const section of sections as SectionNode[]) {
-      const start = section.children.find((c) => isStartNode(c))
-      const table = section.children.find((c) => c.type === 'TABLE')
-      if (!start && !table) continue
-      const handledNodes = handleStartNode(start)
-      const handledTable = handleTable(table)
-      const feature = createFeature(section.name, handledNodes)
+      const nodes = section.children.filter((c) => isStartNode(c) || isAction(c))
+      const tables = section.children.filter((c) => c.type === 'TABLE')
+      const handledNodes = nodes.map(s => handleNode(s)).filter(s => !!s).flatMap(s => s as ParsedNode[][])
+      const handledTables = tables.map(t => handleTable(t)).filter(t => !!t).flatMap(t => t as ParsedTable)
+      if (handledNodes.length === 0 && handledTables.length === 0) continue
+      const feature = createFeature(section.name, handledNodes, handledTables)
       result.push(feature)
     }
     const body = JSON.stringify(result)
-    //console.log(result)
+    console.log(result)
     fetch('http://localhost:3000/', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },

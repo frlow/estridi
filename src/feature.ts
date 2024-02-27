@@ -1,14 +1,15 @@
-export type ParsedSection = {
-  name: string
-  node: ParsedNode
-}
 export type ParsedNode = {
   id: string
   meta?: { type: string; text: string; value?: string }
   next?: ParsedNode[]
 }
 
-export const handleNode = (node: ParsedNode): ParsedNode[][] => {
+export type ParsedTable = {
+  header: string[]
+  rows: string[][]
+}
+
+export const preapreNode = (node: ParsedNode): ParsedNode[][] => {
   const toHandle: { node: ParsedNode; acc: ParsedNode[] }[] = [
     { node, acc: [] }
   ]
@@ -55,8 +56,8 @@ const createScenarios = (nodes: ParsedNode[]) => {
 }
 
 export type Feature = ReturnType<typeof createFeature>
-export const createFeature = (name: string, nodes?: ParsedNode[][], table?: any) => ({
+export const createFeature = (name: string, nodes: ParsedNode[][], tables: ParsedTable[]) => ({
   name,
   scenarios: nodes?.map((n) => createScenarios(n)),
-  table
+  tables
 })
