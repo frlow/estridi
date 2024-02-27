@@ -23,7 +23,6 @@ figma.ui.onmessage = (msg) => {
       const handledActions = actions.map((a) => handleNode(traverse(a)))
       handledActions.forEach((h) => handledNodes.push(...h))
       const feature = createFeature(section.name, handledNodes)
-      feature.enabled = parsedStartNode.meta.enabled
       result.push(feature)
     }
     const body = JSON.stringify(result)

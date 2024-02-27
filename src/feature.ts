@@ -58,5 +58,4 @@ export type Feature = ReturnType<typeof createFeature>
 export const createFeature = (name: string, nodes: ParsedNode[][]) => ({
   name,
   scenarios: nodes.map((n) => createScenarios(n)),
-  enabled: false,
 })

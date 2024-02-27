@@ -15,6 +15,7 @@ export const generateVitest = (dir: string, features: Feature[]) => {
     out += "\nimport { describe, test } from 'vitest'"
     out += "\nimport { steps } from './" + name + ".steps'"
     out += '\nexport type Steps<T = any> = {'
+    out += '\n  enable: boolean'
     out += '\n  Before?: () => Promise<T|undefined>'
     out += '\n  BaseGiven?: (state: T) => Promise<T|undefined>'
     const propNames: Record<string, null> = {}
@@ -29,8 +30,7 @@ export const generateVitest = (dir: string, features: Feature[]) => {
     })
     out += '\n}'
     out +=
-      '\ndescribe' +
-      (feature.enabled ? '' : '.skip') +
+      '\ndescribe.skipIf(!steps.enable)' +
       "('" +
       feature.name +
       "', () => {"
@@ -67,6 +67,7 @@ export const generateVitest = (dir: string, features: Feature[]) => {
     if (!fs.existsSync(path.join(dir, `${name}.steps.ts`))) {
       let implementation = `import { Steps } from './${name}.test'`
       implementation += '\nexport const steps: Steps = {'
+      implementation += '\n  enable: false,'
       Object.keys(propNames).forEach((key) => {
         implementation += `\n  "${key}": async state => {debugger ;throw "Not implemented"},`
       })
