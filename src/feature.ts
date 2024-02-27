@@ -10,7 +10,7 @@ export type ParsedNode = {
 
 export const handleNode = (node: ParsedNode): ParsedNode[][] => {
   const toHandle: { node: ParsedNode; acc: ParsedNode[] }[] = [
-    { node, acc: [] },
+    { node, acc: [] }
   ]
   const ret: any = []
   while (toHandle.length > 0) {
@@ -19,8 +19,8 @@ export const handleNode = (node: ParsedNode): ParsedNode[][] => {
       toHandle.push(
         ...(current.node.next?.map((n) => ({
           node: n,
-          acc: [...current.acc, current.node],
-        })) || []),
+          acc: [...current.acc, current.node]
+        })) || [])
       )
       if ((current.node.next?.length || 0) === 0) {
         ret.push([...current.acc, current.node])
@@ -42,7 +42,7 @@ const createScenarios = (nodes: ParsedNode[]) => {
       given.push({
         type: node.meta!.type,
         text: node.meta?.text!,
-        value: node.meta?.value,
+        value: node.meta?.value
       })
     else if (node.meta!.type === 'signalListen')
       when.push({ type: node.meta!.type, text: node.meta?.text! })
@@ -50,12 +50,13 @@ const createScenarios = (nodes: ParsedNode[]) => {
   return {
     given,
     when,
-    then,
+    then
   }
 }
 
 export type Feature = ReturnType<typeof createFeature>
-export const createFeature = (name: string, nodes: ParsedNode[][]) => ({
+export const createFeature = (name: string, nodes?: ParsedNode[][], table?: any) => ({
   name,
-  scenarios: nodes.map((n) => createScenarios(n)),
+  scenarios: nodes?.map((n) => createScenarios(n)),
+  table
 })
