@@ -6,7 +6,10 @@ export type ParsedNode = {
 
 export type ParsedTable = {
   header: string[]
-  rows: string[][]
+  rows: {
+    label: string,
+    values: string[]
+  }[]
 }
 
 export const preapreNode = (node: ParsedNode): ParsedNode[][] => {

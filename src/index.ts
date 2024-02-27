@@ -2,7 +2,7 @@ import { getNodeMetadata } from './nodes'
 import { createFeature, Feature, ParsedNode, ParsedTable, preapreNode } from './feature'
 
 figma.showUI(__html__)
-
+export const allowedRegex = /[^a-zA-Z0-9åäöÅÄÖ ]/g
 const isStartNode = (node: any) =>
   node.name === 'Start' &&
   node.children![0].strokeWeight?.toString()?.startsWith('2')
@@ -16,23 +16,17 @@ const handleNode = (node?: BaseNode) => {
   return preapreNode(parsedStartNode)
 }
 
-const handleActionNode = (actionNode?: BaseNode) => {
-  // if (!actionNode) return undefined
-  // const parsedStartNode = traverse(startNode)
-  // const handledNodes = handleNode(parsedStartNode)
-  // const actions = startNode.parent!.children.filter((c) => isAction(c))
-  // const handledActions = actions.map((a) => handleNode(traverse(a)))
-  // handledActions.forEach((h) => handledNodes.push(...h))
-  // return handledNodes
-}
-
 const handleTable = (tableNode?: any): ParsedTable | undefined => {
   if (!tableNode) return undefined
-  const header = tableNode.children.filter((c: any) => c.rowIndex === 0).map((c: any) => c.text?.characters)
+  const header = tableNode.children.filter((c: any) => c.rowIndex === 0).map((c: any) => c.text?.characters?.replace(/[^a-zA-Z0-9 ]/g, ''))
+  header.shift()
   const rows = tableNode.children.filter((c: any) => c.rowIndex > 0)
     .reduce((acc: any, cur: any) => {
-      if (!acc[cur.rowIndex - 1]) acc[cur.rowIndex - 1] = { label: cur.text?.characters, values: [] }
-      else acc[cur.rowIndex - 1].values.push(cur.text?.characters)
+      if (!acc[cur.rowIndex - 1]) acc[cur.rowIndex - 1] = {
+        label: cur.text?.characters?.replace(allowedRegex, ''),
+        values: []
+      }
+      else acc[cur.rowIndex - 1].values.push(cur.text?.characters?.replace(allowedRegex, ''))
       return acc
     }, [])
     .filter((r: any) => !!r.label)
@@ -87,7 +81,7 @@ const traverse = (node: any, visited: string[] = []): any => {
           id: c.id,
           meta: {
             type: 'connector',
-            text: meta.text.replace(/[^a-zA-Z0-9]/, ''),
+            text: meta.text.replace(allowedRegex, ''),
             value: c.name || 'unknown'
           },
           next: [

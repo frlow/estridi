@@ -1,3 +1,5 @@
+import { allowedRegex } from './index'
+
 export const getNodeMetadata = (node: BaseNode) =>
   getScriptMetadata(node) ||
   getServiceCallMetadata(node) ||
@@ -17,7 +19,7 @@ export const getNodeMetadata = (node: BaseNode) =>
 
 const findText = (node: any) =>
   (node.children.find((c: any) => c.type === 'TEXT')?.characters || '')
-    .replace(/[^a-zA-Z0-9 ]/g, ' ')
+    .replace(allowedRegex, ' ')
     .replace(/\n/g, ' ')
     .replace(/ +/g, ' ')
     .trim()
