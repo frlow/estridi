@@ -18,7 +18,7 @@ const createScenarioDefinitions = (feature: Feature, propNames: PropNames) => {
       givenValues[key] = { ...givenValues[key], [given.value || 'N/A']: true }
     }
     for (const when of scenario.when) propNamesTemp[`When ${when.text}`] = 'state'
-    for (const then of scenario.then) propNamesTemp[`Then ${then.text}`] = 'state'
+    for (const then of scenario.then) propNamesTemp[`Then ${getThenLabel(then.type)}: ${then.text}`] = 'state'
   }
   Object.keys(propNamesTemp).forEach((key) => {
     text += `\n  '${key}': (state: T${givenValues[key] ? `, value: ${Object.keys(givenValues[key]).sort().map(k => `'${k}'`).join('|')}` : ''}) => Promise<void>`
@@ -38,6 +38,19 @@ const createTableDefinitions = (feature: Feature, propNames: PropNames) => {
   )
   Object.keys(propNamesTemp).forEach(key => propNames[key] = propNamesTemp[key])
   return text
+}
+
+const getThenLabel = (type: string) => {
+  switch (type) {
+    case 'message':
+      return 'Message'
+    case 'serviceCall':
+      return 'ServiceCall'
+    case 'script':
+      return 'Script'
+    default:
+      return 'N/A'
+  }
 }
 
 const createScenarioTests = (feature: Feature) => {
@@ -64,7 +77,7 @@ const createScenarioTests = (feature: Feature) => {
         '\n    await steps[\'When ' + when.text + '\'](state)'
     for (const then of scenario.then)
       text +=
-        '\n    await steps[\'Then ' + then.text + '\'](state)'
+        '\n    await steps[\'Then ' + getThenLabel(then.type) + ': ' + then.text + '\'](state)'
     text += '\n  })'
   }
   return text

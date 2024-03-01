@@ -12,7 +12,7 @@ export type Steps<T = any> = {
   'Then ServiceCall: im json overview getaccounts ESB bank deposit getAccounts 201411': (state: T) => Promise<void>
   'Then Message: Could not load page': (state: T) => Promise<void>
   'Given Error from savedPayees': (state: T, value: 'no'|'yes') => Promise<void>
-  'Then Script: Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance': (state: T) => Promise<void>
+  'Then Message: Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance': (state: T) => Promise<void>
   'Given Error from listDrafts': (state: T, value: 'no'|'yes') => Promise<void>
   'Then ServiceCall: business payment listdraftforeignpayment v1 0': (state: T) => Promise<void>
   'Given Has recipients': (state: T, value: 'no'|'yes') => Promise<void>
@@ -33,7 +33,7 @@ describe.skipIf(!steps.enable)('540466 User Story: Select Account', () => {
     await steps['Given Error from savedPayees'](state,'yes')
     if (steps.BaseGiven) await steps.BaseGiven(state)
     await steps['Then ServiceCall: im json overview getaccounts ESB bank deposit getAccounts 201411'](state)
-    await steps['Then Script: Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance'](state)
+    await steps['Then Message: Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance'](state)
     await steps['Then Message: Could not load page'](state)
   })
   test('im json overview getaccounts ESB bank deposit getAccounts 201411 Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance business payment listdraftforeignpayment v1 0 Could not load page  -  no no yes', async () => {
@@ -43,7 +43,7 @@ describe.skipIf(!steps.enable)('540466 User Story: Select Account', () => {
     await steps['Given Error from listDrafts'](state,'yes')
     if (steps.BaseGiven) await steps.BaseGiven(state)
     await steps['Then ServiceCall: im json overview getaccounts ESB bank deposit getAccounts 201411'](state)
-    await steps['Then Script: Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance'](state)
+    await steps['Then Message: Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance'](state)
     await steps['Then ServiceCall: business payment listdraftforeignpayment v1 0'](state)
     await steps['Then Message: Could not load page'](state)
   })
@@ -55,7 +55,7 @@ describe.skipIf(!steps.enable)('540466 User Story: Select Account', () => {
     await steps['Given Has recipients'](state,'no')
     if (steps.BaseGiven) await steps.BaseGiven(state)
     await steps['Then ServiceCall: im json overview getaccounts ESB bank deposit getAccounts 201411'](state)
-    await steps['Then Script: Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance'](state)
+    await steps['Then Message: Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance'](state)
     await steps['Then ServiceCall: business payment listdraftforeignpayment v1 0'](state)
     await steps['Then Script: Hide radiobuttons Hide saved recipient dropdown'](state)
   })
@@ -67,7 +67,7 @@ describe.skipIf(!steps.enable)('540466 User Story: Select Account', () => {
     await steps['Given Has recipients'](state,'yes')
     if (steps.BaseGiven) await steps.BaseGiven(state)
     await steps['Then ServiceCall: im json overview getaccounts ESB bank deposit getAccounts 201411'](state)
-    await steps['Then Script: Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance'](state)
+    await steps['Then Message: Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance'](state)
     await steps['Then ServiceCall: business payment listdraftforeignpayment v1 0'](state)
     await steps['Then Script: Show radiobuttons New saved recipient'](state)
   })
