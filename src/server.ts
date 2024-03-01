@@ -5,6 +5,8 @@ import { generateAll } from './generators'
 import { generateVitest } from './generators/vitest'
 import { fileURLToPath } from 'node:url'
 import * as path from 'node:path'
+import { version } from '../package.json'
+import { writeAllFiles } from './generators/files'
 
 const app = express()
 app.use(cors())
@@ -17,7 +19,7 @@ app.post('/', (req, res) => {
   if (!!type && !!dist) {
     switch (type) {
       case 'vitest':
-        generateVitest(dist, req.body)
+        writeAllFiles(generateVitest(dist, req.body))
         break
       default:
         throw `Type ${type} not implemented`
@@ -27,9 +29,10 @@ app.post('/', (req, res) => {
 })
 
 const port = 3000
+console.log(`Version: ${version}`)
 console.log('Manifest located in the following directory:')
 console.log(
-  import.meta.url ? fileURLToPath(path.parse(import.meta.url).dir) : __dirname,
+  import.meta.url ? fileURLToPath(path.parse(import.meta.url).dir) : __dirname
 )
 console.log(`Listening on: http://localhost:${port}/`)
 app.listen(3000)

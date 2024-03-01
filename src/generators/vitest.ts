@@ -1,37 +1,42 @@
 import { Feature } from '../feature'
-import { getFileName } from './index'
-import * as fs from 'node:fs'
-import { writeFile } from './files'
+import { GenerationResult, getFileName } from './index'
 import * as path from 'node:path'
-import * as glob from 'glob'
+// import * as fs from 'node:fs'
+// import * as path from 'node:path'
+// import * as glob from 'glob'
 
+type PropNames = Record<string, string>
 const tableValueCutoff = 50
-const createScenarioDefinitions = (feature: Feature, propNames: Record<string, boolean>) => {
-  const propNamesTemp: Record<string, boolean> = {}
+const createScenarioDefinitions = (feature: Feature, propNames: PropNames) => {
+  const propNamesTemp: PropNames = {}
   let text = ''
+  const givenValues: Record<string, Record<string, boolean>> = {}
   for (const scenario of feature.scenarios) {
-    for (const given of scenario.given)
-      propNamesTemp[`Given ${given.text}: ${given.value}`] = true
-    for (const when of scenario.when) propNamesTemp[`When ${when.text}`] = true
-    for (const then of scenario.then) propNamesTemp[`Then ${then.text}`] = true
+    for (const given of scenario.given) {
+      const key = `Given ${given.text}`
+      propNamesTemp[key] = '(state, value)'
+      givenValues[key] = { ...givenValues[key], [given.value || 'N/A']: true }
+    }
+    for (const when of scenario.when) propNamesTemp[`When ${when.text}`] = 'state'
+    for (const then of scenario.then) propNamesTemp[`Then ${then.text}`] = 'state'
   }
   Object.keys(propNamesTemp).forEach((key) => {
-    text += `\n  '${key}': (state: T) => Promise<T|undefined>`
+    text += `\n  '${key}': (state: T${givenValues[key] ? `, value: ${Object.keys(givenValues[key]).sort().map(k => `'${k}'`).join('|')}` : ''}) => Promise<void>`
   })
-  Object.keys(propNamesTemp).forEach(key=>propNames[key]=propNamesTemp[key])
+  Object.keys(propNamesTemp).forEach(key => propNames[key] = propNamesTemp[key])
   return text
 }
 
-const createTableDefinitions = (feature: Feature, propNames: Record<string, boolean>) => {
-  const propNamesTemp: Record<string, boolean> = {}
+const createTableDefinitions = (feature: Feature, propNames: PropNames) => {
+  const propNamesTemp: PropNames = {}
   let text = ''
   for (const table of feature.tables)
     for (const row of table.rows)
-      propNamesTemp[`Validate ${row.label}: ${row.values.map(v => v.substring(0, tableValueCutoff)).join(', ')}`] = false
+      propNamesTemp[`Validate ${row.label}: ${row.values.map(v => v.substring(0, tableValueCutoff)).join(', ')}`] = '()'
   Object.keys(propNamesTemp).forEach((key) =>
     text += `\n  '${key}': () => Promise<void>`
   )
-  Object.keys(propNamesTemp).forEach(key=>propNames[key]=propNamesTemp[key])
+  Object.keys(propNamesTemp).forEach(key => propNames[key] = propNamesTemp[key])
   return text
 }
 
@@ -49,19 +54,17 @@ const createScenarioTests = (feature: Feature) => {
       '\n    let state: any = steps.Before ? await steps.Before() : undefined'
     for (const given of scenario.given)
       text +=
-        '\n    state = await steps[\'Given ' +
+        '\n    await steps[\'Given ' +
         given.text +
-        ': ' +
-        given.value +
-        '\'](state) || state'
+        `\'](state,'${given.value}')`
     text +=
-      '\n    if (steps.BaseGiven) state = await steps.BaseGiven(state)|| state'
+      '\n    if (steps.BaseGiven) await steps.BaseGiven(state)'
     for (const when of scenario.when)
       text +=
-        '\n    state = await steps[\'When ' + when.text + '\'](state)|| state'
+        '\n    await steps[\'When ' + when.text + '\'](state)'
     for (const then of scenario.then)
       text +=
-        '\n    state = await steps[\'Then ' + then.text + '\'](state)|| state'
+        '\n    await steps[\'Then ' + then.text + '\'](state)'
     text += '\n  })'
   }
   return text
@@ -77,11 +80,11 @@ const createTableTests = (feature: Feature) => {
   return text
 }
 
-export const generateVitest = (dir: string, features: Feature[]) => {
-  const testFiles: string[] = []
-  fs.mkdirSync(dir, { recursive: true })
+export const generateVitest = (dir: string, features: Feature[]): GenerationResult[] => {
+  // const testFiles: string[] = []
+  const ret: GenerationResult[] = []
   for (const feature of features) {
-    const propNames: Record<string, boolean> = {}
+    const propNames: PropNames = {}
     const name = getFileName(feature.name)
     let out = '// WARNING!!'
     out +=
@@ -91,8 +94,8 @@ export const generateVitest = (dir: string, features: Feature[]) => {
     out += '\nimport { steps } from \'./' + name + '.steps\''
     out += '\nexport type Steps<T = any> = {'
     out += '\n  enable: boolean'
-    out += '\n  Before?: () => Promise<T|undefined>'
-    out += '\n  BaseGiven?: (state: T) => Promise<T|undefined>'
+    out += '\n  Before?: () => Promise<T>'
+    out += '\n  BaseGiven?: (state: T) => Promise<void>'
     out += createScenarioDefinitions(feature, propNames)
     out += createTableDefinitions(feature, propNames)
     out += '\n}'
@@ -105,23 +108,25 @@ export const generateVitest = (dir: string, features: Feature[]) => {
     out += createTableTests(feature)
     out += '\n})'
 
-    writeFile(path.join(dir, `${name}.test.ts`), out)
-    testFiles.push(path.join(dir, `${name}.test.ts`))
-    if (!fs.existsSync(path.join(dir, `${name}.steps.ts`))) {
-      let implementation = `import { Steps } from './${name}.test'`
-      implementation += '\nexport const steps: Steps = {'
-      implementation += '\n  enable: false,'
-      const keys = Object.keys(propNames)
-      keys.sort()
-      keys.forEach((key) => {
-        implementation += `\n  "${key}": async ${propNames[key] ? 'state' : '()'} => {debugger ;throw "Not implemented"},`
-      })
-      implementation += '\n}'
 
-      writeFile(path.join(dir, `${name}.steps.ts`), implementation)
-    }
+    ret.push({ file: path.join(dir, `${name}.test.ts`), content: out, overwrite: true })
+    // writeFile(path.join(dir, `${name}.test.ts`), out)
+    // testFiles.push(path.join(dir, `${name}.test.ts`))
+    // if (!fs.existsSync(path.join(dir, `${name}.steps.ts`))) {
+    let implementation = `import { Steps } from './${name}.test'`
+    implementation += '\nexport const steps: Steps = {'
+    implementation += '\n  enable: false,'
+    const keys = Object.keys(propNames)
+    keys.sort()
+    keys.forEach((key) => {
+      implementation += `\n  "${key}": async ${propNames[key]} => {debugger ;throw "Not implemented"},`
+    })
+    implementation += '\n}'
+    ret.push({ file: path.join(dir, `${name}.steps.ts`), content: implementation, overwrite: false })
+    // writeFile(path.join(dir, `${name}.steps.ts`), implementation)
   }
-  const existingTestFiles = glob.sync(`${dir}/**/*.test.ts`)
-  const filtered = existingTestFiles.filter(t => !testFiles.includes(t))
-  filtered.forEach(f => fs.rmSync(f))
+// const existingTestFiles = glob.sync(`${dir}/**/*.test.ts`)
+// const filtered = existingTestFiles.filter(t => !testFiles.includes(t))
+// filtered.forEach(f => fs.rmSync(f))
+  return ret
 }

@@ -1,5 +1,6 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
+import { GenerationResult } from './index'
 
 export const writeFile = (file: string, content: string) => {
   fs.mkdirSync(path.parse(file).dir, { recursive: true })
@@ -8,4 +9,10 @@ export const writeFile = (file: string, content: string) => {
     console.log(`Writing file: ${file}`)
     fs.writeFileSync(file, content, 'utf8')
   }
+}
+
+export const writeAllFiles = (files: GenerationResult[]) => {
+  files.forEach(file => {
+    if (file.overwrite || !fs.existsSync(file.file)) writeFile(file.file, file.content)
+  })
 }

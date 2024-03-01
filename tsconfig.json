@@ -5,11 +5,12 @@
     "lib": [
       "es2016"
     ],
+    "resolveJsonModule": true,
     "moduleResolution": "Node",
     "strict": true,
     "typeRoots": [
       "./node_modules/@types",
       "./node_modules/@figma"
-    ],
+    ]
   }
 }
