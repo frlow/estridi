@@ -3,7 +3,8 @@
     "target": "es6",
     "module": "System",
     "lib": [
-      "es2016"
+      "es2016",
+      "ES2022"
     ],
     "resolveJsonModule": true,
     "moduleResolution": "Node",
