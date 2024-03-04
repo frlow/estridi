@@ -78,3 +78,23 @@ export const testsInFeature = (scraped: Scraped, feature: string) => {
   })
   return ret
 }
+
+export const validationsInFeature = (scraped: Scraped, feature: string) => {
+  const tables = Object.entries(scraped).filter(s => s[1].type === 'table' && s[1].text === feature).map(s => ({
+    ...s[1],
+    id: s[0]
+  }))
+  const ret: { label: string, step: string }[] = []
+  tables.forEach(table => {
+    const rows = table.rows!.slice(1)
+    rows.sort((a, b) => a[0].localeCompare(b[0]))
+    rows.forEach(row => {
+      ret.push({
+        label: `Validate ${row[0]}`,
+        step: `Validate ${row[0]}: ${row.slice(1).map(v => v.replace(allowedRegex, '')).join(', ')}`
+      })
+    })
+  })
+  return ret
+}
+

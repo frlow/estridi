@@ -1,7 +1,7 @@
 import { GenerationResult, getFileName, getPrettyLabel } from './index'
 import { Scraped } from '../common'
 import * as path from 'node:path'
-import { allKeysInFeature, testsInFeature } from './utils/scraped'
+import { allKeysInFeature, testsInFeature, validationsInFeature } from './utils/scraped'
 
 export const generateVitest = (dir: string, scraped: Scraped): GenerationResult[] => {
   const features = Object.keys(Object.values(scraped)
@@ -26,6 +26,7 @@ ${test.gateways.map((g: any) => `    await steps['Given ${g.text}'](state,'${g.v
     if (steps.BaseGiven) await steps.BaseGiven(state)
 ${test.nodes.map((n: any) => `    await steps['${getPrettyLabel(n.type)}: ${n.text}'](state)`).join('\n')}
   })`)
+    const validations = validationsInFeature(scraped, feature).map(v => `  test("${v.label}", async ()=>await steps["${v.step}"]())`)
     const fileContent = `
 // WARNING!!
 // this file is auto-generated and will change when updating the system design
@@ -41,7 +42,8 @@ ${stepDefinitions.join('\n')}
 }
 describe.skipIf(!steps.enable)('${feature}', () => {
 ${tests.join('\n')}
-}`
+${validations.join('\n')}
+})`
     return { file: path.join(dir, `${getFileName(feature)}.test.ts`), content: fileContent.trim(), overwrite: true }
   })
 }
