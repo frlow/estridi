@@ -1,4 +1,4 @@
-import { Steps } from './540466_user_story_select_account.test'
+import { Steps } from './some_feature.test'
 export const steps: Steps = {
   enable: false,
   "Given A or B": async (state, value) => {debugger ;throw "Not implemented"},

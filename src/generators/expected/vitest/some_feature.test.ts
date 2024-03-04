@@ -3,7 +3,7 @@
 // don't change this file!
 
 import { describe, test } from 'vitest'
-import { steps } from './540466_user_story_select_account.steps'
+import { steps } from './some_feature.steps'
 export type Steps<T = any> = {
   enable: boolean
   Before?: () => Promise<T>
@@ -26,7 +26,7 @@ export type Steps<T = any> = {
   'Validate Gatuadress: Input field, RequiredString Format 135 characters, ': () => Promise<void>
   'Validate Postnummer: Input field, Required String Format 135 characters, ': () => Promise<void>
 }
-describe.skipIf(!steps.enable)('540466 User Story: Select Account', () => {
+describe.skipIf(!steps.enable)('Some feature', () => {
   test('api call demo Could not load page  -  yes', async () => {
     let state: any = steps.Before ? await steps.Before() : undefined
     await steps['Given Errors from demo'](state,'yes')
