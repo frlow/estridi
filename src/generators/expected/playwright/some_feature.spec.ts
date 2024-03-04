@@ -39,7 +39,7 @@ test.describe('Some feature', () => {
     await steps['Subprocess: Some subflow'](state)
     await steps['Subprocess: Validate fields Payment data'](state)
   })
-  test('api call demo Display stuff Show box Cancel Clear page - no B', async ({page, context}) => {
+  test('api call demo Display stuff Show box Cancel Clear page Go back to registration page - no B', async ({page, context}) => {
     let state: any = steps.Before ? await steps.Before({page, context}) : {page, context}
     await steps['Given Errors from demo'](state,'no')
     await steps['Given A or B'](state,'B')
@@ -49,6 +49,7 @@ test.describe('Some feature', () => {
     await steps['Script: Show box'](state)
     await steps['Action: Cancel'](state)
     await steps['Script: Clear page'](state)
+    await steps['SignalSend: Go back to registration page'](state)
   })
   test('api call demo Display stuff Show box Take action Hide box Saved payee Yet another subflow - no B', async ({page, context}) => {
     let state: any = steps.Before ? await steps.Before({page, context}) : {page, context}

@@ -63,7 +63,7 @@ export const testsInFeature = (scraped: Scraped, feature: string) => {
     }
   }
   const ret = processed.map(current => {
-    const testNodes = ['serviceCall', 'message', 'subprocess', 'script', 'signalListen']
+    const testNodes = ['serviceCall', 'message', 'subprocess', 'script', 'signalListen', 'signalSend']
     const gateways = current.filter((p: any) => p.type === 'gateway')
     const nodes = current.filter((p: any) => testNodes.includes(p.type))
     return {
