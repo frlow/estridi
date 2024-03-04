@@ -1,4 +1,4 @@
-import { Feature } from '../feature'
+import { Feature } from '../figma/feature'
 import { GenerationResult, getFileName } from './index'
 import * as path from 'node:path'
 // import * as fs from 'node:fs'
@@ -48,6 +48,8 @@ const getThenLabel = (type: string) => {
       return 'ServiceCall'
     case 'script':
       return 'Script'
+    case "subprocess":
+      return "Subprocess"
     default:
       return 'N/A'
   }

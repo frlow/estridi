@@ -6,7 +6,7 @@
         "given": [
           {
             "type": "connector",
-            "text": "Error from getaccounts",
+            "text": "Errors from demo",
             "value": "yes"
           }
         ],
@@ -14,7 +14,7 @@
         "then": [
           {
             "type": "serviceCall",
-            "text": "im json overview getaccounts ESB bank deposit getAccounts 201411"
+            "text": "api call demo"
           },
           {
             "type": "message",
@@ -26,28 +26,32 @@
         "given": [
           {
             "type": "connector",
-            "text": "Error from getaccounts",
+            "text": "Errors from demo",
             "value": "no"
           },
           {
             "type": "connector",
-            "text": "Error from savedPayees",
-            "value": "yes"
+            "text": "A or B",
+            "value": "A"
           }
         ],
         "when": [],
         "then": [
           {
             "type": "serviceCall",
-            "text": "im json overview getaccounts ESB bank deposit getAccounts 201411"
+            "text": "api call demo"
           },
           {
             "type": "message",
-            "text": "Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance"
+            "text": "Display stuff"
           },
           {
-            "type": "message",
-            "text": "Could not load page"
+            "type": "subprocess",
+            "text": "Some subflow"
+          },
+          {
+            "type": "subprocess",
+            "text": "Validate fields Payment data"
           }
         ]
       },
@@ -55,80 +59,32 @@
         "given": [
           {
             "type": "connector",
-            "text": "Error from getaccounts",
+            "text": "Errors from demo",
             "value": "no"
           },
           {
             "type": "connector",
-            "text": "Error from savedPayees",
-            "value": "no"
-          },
-          {
-            "type": "connector",
-            "text": "Error from listDrafts",
-            "value": "yes"
+            "text": "A or B",
+            "value": "B"
           }
         ],
         "when": [],
         "then": [
           {
             "type": "serviceCall",
-            "text": "im json overview getaccounts ESB bank deposit getAccounts 201411"
+            "text": "api call demo"
           },
           {
             "type": "message",
-            "text": "Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance"
-          },
-          {
-            "type": "serviceCall",
-            "text": "business payment listdraftforeignpayment v1 0"
-          },
-          {
-            "type": "message",
-            "text": "Could not load page"
-          }
-        ]
-      },
-      {
-        "given": [
-          {
-            "type": "connector",
-            "text": "Error from getaccounts",
-            "value": "no"
-          },
-          {
-            "type": "connector",
-            "text": "Error from savedPayees",
-            "value": "no"
-          },
-          {
-            "type": "connector",
-            "text": "Error from listDrafts",
-            "value": "no"
-          },
-          {
-            "type": "connector",
-            "text": "Has recipients",
-            "value": "no"
-          }
-        ],
-        "when": [],
-        "then": [
-          {
-            "type": "serviceCall",
-            "text": "im json overview getaccounts ESB bank deposit getAccounts 201411"
-          },
-          {
-            "type": "message",
-            "text": "Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance"
-          },
-          {
-            "type": "serviceCall",
-            "text": "business payment listdraftforeignpayment v1 0"
+            "text": "Display stuff"
           },
           {
             "type": "script",
-            "text": "Hide radiobuttons Hide saved recipient dropdown"
+            "text": "Some script"
+          },
+          {
+            "type": "subprocess",
+            "text": "Validate fields Payment data"
           }
         ]
       },
@@ -136,51 +92,83 @@
         "given": [
           {
             "type": "connector",
-            "text": "Error from getaccounts",
+            "text": "Errors from demo",
             "value": "no"
           },
           {
             "type": "connector",
-            "text": "Error from savedPayees",
-            "value": "no"
-          },
-          {
-            "type": "connector",
-            "text": "Error from listDrafts",
-            "value": "no"
-          },
-          {
-            "type": "connector",
-            "text": "Has recipients",
-            "value": "yes"
+            "text": "A or B",
+            "value": "B"
           }
         ],
-        "when": [],
+        "when": [
+          {
+            "type": "signalListen",
+            "text": "Take action"
+          }
+        ],
         "then": [
           {
             "type": "serviceCall",
-            "text": "im json overview getaccounts ESB bank deposit getAccounts 201411"
+            "text": "api call demo"
           },
           {
             "type": "message",
-            "text": "Show fromAccounts AccountNumber DefinedAccount Name CurrentBalance"
-          },
-          {
-            "type": "serviceCall",
-            "text": "business payment listdraftforeignpayment v1 0"
+            "text": "Display stuff"
           },
           {
             "type": "script",
-            "text": "Show radiobuttons New saved recipient"
+            "text": "Some script"
+          },
+          {
+            "type": "script",
+            "text": "Show something"
+          },
+          {
+            "type": "subprocess",
+            "text": "Saved payee Yet another subflow"
+          }
+        ]
+      },
+      {
+        "given": [
+          {
+            "type": "connector",
+            "text": "Errors from demo",
+            "value": "no"
+          },
+          {
+            "type": "connector",
+            "text": "A or B",
+            "value": "B"
+          }
+        ],
+        "when": [
+          {
+            "type": "signalListen",
+            "text": "Cancel"
+          }
+        ],
+        "then": [
+          {
+            "type": "serviceCall",
+            "text": "api call demo"
+          },
+          {
+            "type": "message",
+            "text": "Display stuff"
+          },
+          {
+            "type": "script",
+            "text": "Some script"
+          },
+          {
+            "type": "script",
+            "text": "Clear page"
           }
         ]
       }
     ],
-    "tables": []
-  },
-  {
-    "name": "Fields: New recipient data",
-    "scenarios": [],
     "tables": [
       {
         "header": [
@@ -194,11 +182,11 @@
             "values": [
               "DropdownInputSelectDesktop",
               "RequiredString Format 12 characters",
-              "Default value Välj land"
+              "Default value Sverige"
             ]
           },
           {
-            "label": "Mottagarens fullständiga namn",
+            "label": "Mottagarens namn",
             "values": [
               "Input field",
               "RequiredString Format 135 characters",

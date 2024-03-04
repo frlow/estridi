@@ -1,4 +1,4 @@
-import { Feature } from '../feature'
+import { Feature } from '../figma/feature'
 import { generateVitest } from './vitest'
 import { generateJSON } from './json'
 import * as fs from 'node:fs'

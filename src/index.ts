@@ -1,8 +1,10 @@
-import { getNodeMetadata } from './nodes'
-import { createFeature, Feature, ParsedNode, ParsedTable, preapreNode } from './feature'
+import { getNodeMetadata } from './figma/nodes'
+import { createFeature, Feature, ParsedNode, ParsedTable, preapreNode } from './figma/feature'
+import { traverse } from './figma/traverse'
+import { allowedRegex } from './figma/common'
 
 figma.showUI(__html__)
-export const allowedRegex = /[^a-zA-Z0-9åäöÅÄÖ ]/g
+
 const isStartNode = (node: any) =>
   node.name === 'Start' &&
   node.children![0].strokeWeight?.toString()?.startsWith('2')
@@ -42,7 +44,7 @@ figma.ui.onmessage = (msg) => {
     const result: Feature[] = []
     const sections = figma.currentPage.children.filter((c) => isSection(c))
     for (const section of sections as SectionNode[]) {
-      const nodes = section.children.filter((c) => isStartNode(c) || isAction(c))
+      const nodes = section.children.filter((c) => isStartNode(c))
       const tables = section.children.filter((c) => c.type === 'TABLE')
       const handledNodes = nodes.map(s => handleNode(s)).filter(s => !!s).flatMap(s => s as ParsedNode[][])
       const handledTables = tables.map(t => handleTable(t)).filter(t => !!t).flatMap(t => t as ParsedTable)
@@ -66,40 +68,3 @@ figma.ui.onmessage = (msg) => {
   }
 }
 
-const traverse = (node: any, visited: string[] = []): any => {
-  if (visited.includes(node.id)) return { id: node.id }
-  const connectors = node?.attachedConnectors.filter(
-    (c: any) =>
-      c?.dashPattern?.length === 0 &&
-      c?.connectorStart?.endpointNodeId === node.id
-  )
-  const meta = getNodeMetadata(node)
-  const nextNodes =
-    meta?.type === 'gateway'
-      ? connectors?.map((c: any) => {
-        return {
-          id: c.id,
-          meta: {
-            type: 'connector',
-            text: meta.text.replace(allowedRegex, ''),
-            value: c.name || 'unknown'
-          },
-          next: [
-            traverse(figma.getNodeById(c?.connectorEnd?.endpointNodeId), [
-              ...visited,
-              node.id
-            ])
-          ]
-        }
-      })
-      : connectors?.map((c: any) => {
-        const nextNode = figma.getNodeById(c?.connectorEnd?.endpointNodeId)
-        return traverse(nextNode, [...visited, node.id])
-      })
-
-  return {
-    id: node.id,
-    meta: getNodeMetadata(node),
-    next: nextNodes
-  }
-}
