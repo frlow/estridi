@@ -10,7 +10,6 @@
             "value": "yes"
           }
         ],
-        "when": [],
         "then": [
           {
             "type": "serviceCall",
@@ -35,7 +34,6 @@
             "value": "A"
           }
         ],
-        "when": [],
         "then": [
           {
             "type": "serviceCall",
@@ -68,7 +66,6 @@
             "value": "B"
           }
         ],
-        "when": [],
         "then": [
           {
             "type": "serviceCall",
@@ -80,7 +77,7 @@
           },
           {
             "type": "script",
-            "text": "Some script"
+            "text": "Show box"
           },
           {
             "type": "subprocess",
@@ -101,12 +98,6 @@
             "value": "B"
           }
         ],
-        "when": [
-          {
-            "type": "signalListen",
-            "text": "Take action"
-          }
-        ],
         "then": [
           {
             "type": "serviceCall",
@@ -118,11 +109,15 @@
           },
           {
             "type": "script",
-            "text": "Some script"
+            "text": "Show box"
+          },
+          {
+            "type": "signalListen",
+            "text": "Take action"
           },
           {
             "type": "script",
-            "text": "Show something"
+            "text": "Hide box"
           },
           {
             "type": "subprocess",
@@ -143,12 +138,6 @@
             "value": "B"
           }
         ],
-        "when": [
-          {
-            "type": "signalListen",
-            "text": "Cancel"
-          }
-        ],
         "then": [
           {
             "type": "serviceCall",
@@ -160,7 +149,11 @@
           },
           {
             "type": "script",
-            "text": "Some script"
+            "text": "Show box"
+          },
+          {
+            "type": "signalListen",
+            "text": "Cancel"
           },
           {
             "type": "script",

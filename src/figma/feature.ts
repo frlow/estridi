@@ -35,9 +35,8 @@ export const preapreNode = (node: ParsedNode): ParsedNode[][] => {
 }
 
 const createScenarios = (nodes: ParsedNode[]) => {
-  const thenTypes = ['script', 'message', 'serviceCall', 'subprocess']
+  const thenTypes = ['script', 'message', 'serviceCall', 'subprocess', "signalListen"]
   const given: { text: string; type: string; value?: string }[] = []
-  const when: { text: string; type: string }[] = []
   const then: { text: string; type: string }[] = []
   for (const node of nodes.filter((n) => !!n.meta)) {
     if (thenTypes.includes(node.meta!.type))
@@ -48,12 +47,9 @@ const createScenarios = (nodes: ParsedNode[]) => {
         text: node.meta?.text!,
         value: node.meta?.value
       })
-    else if (node.meta!.type === 'signalListen')
-      when.push({ type: node.meta!.type, text: node.meta?.text! })
   }
   return {
     given,
-    when,
     then
   }
 }

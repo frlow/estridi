@@ -17,8 +17,7 @@ const createScenarioDefinitions = (feature: Feature, propNames: PropNames) => {
       propNamesTemp[key] = '(state, value)'
       givenValues[key] = { ...givenValues[key], [given.value || 'N/A']: true }
     }
-    for (const when of scenario.when) propNamesTemp[`When ${when.text}`] = 'state'
-    for (const then of scenario.then) propNamesTemp[`Then ${getThenLabel(then.type)}: ${then.text}`] = 'state'
+    for (const then of scenario.then) propNamesTemp[`${getThenLabel(then.type)}: ${then.text}`] = 'state'
   }
   Object.keys(propNamesTemp).forEach((key) => {
     text += `\n  '${key}': (state: T${givenValues[key] ? `, value: ${Object.keys(givenValues[key]).sort().map(k => `'${k}'`).join('|')}` : ''}) => Promise<void>`
@@ -48,10 +47,12 @@ const getThenLabel = (type: string) => {
       return 'ServiceCall'
     case 'script':
       return 'Script'
-    case "subprocess":
-      return "Subprocess"
+    case 'subprocess':
+      return 'Subprocess'
+    case 'signalListen':
+      return 'Action'
     default:
-      return 'N/A'
+      return `=${type}=`
   }
 }
 
@@ -59,7 +60,6 @@ const createScenarioTests = (feature: Feature) => {
   let text = ''
   for (const scenario of feature.scenarios) {
     const label = [
-      ...scenario.when.map((w) => w.text),
       ...scenario.then.map((t) => t.text),
       ' - ',
       ...scenario.given.map((g) => g.value)
@@ -74,12 +74,9 @@ const createScenarioTests = (feature: Feature) => {
         `\'](state,'${given.value}')`
     text +=
       '\n    if (steps.BaseGiven) await steps.BaseGiven(state)'
-    for (const when of scenario.when)
-      text +=
-        '\n    await steps[\'When ' + when.text + '\'](state)'
     for (const then of scenario.then)
       text +=
-        '\n    await steps[\'Then ' + getThenLabel(then.type) + ': ' + then.text + '\'](state)'
+        '\n    await steps[\'' + getThenLabel(then.type) + ': ' + then.text + '\'](state)'
     text += '\n  })'
   }
   return text
