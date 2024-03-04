@@ -7,6 +7,7 @@ export const getNodeMetadata = (node: BaseNode) =>
   getSubProcessMetadata(node) ||
   getUserActionMetadata(node) ||
   getSignalSendExternalMetadata(node) ||
+  getSignalSendMetadata(node) ||
   getGatewayMetadata(node) ||
   getMessageMetadata(node) ||
   getSignalListenMetadata(node) ||
@@ -59,9 +60,16 @@ const getUserActionMetadata = (node: any) => {
 
 const getSignalSendExternalMetadata = (node: any) => {
   if (node.name !== 'Signal send external') return undefined
-  // TODO gray or pink?
   return {
     type: 'signalSendExternal',
+    text: findText(node)
+  }
+}
+
+const getSignalSendMetadata = (node: any) => {
+  if (node.name !== 'Signal send') return undefined
+  return {
+    type: 'signalSend',
     text: findText(node)
   }
 }

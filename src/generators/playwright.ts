@@ -28,9 +28,9 @@ const createTableDefinitions = (feature: Feature, propNames: PropNames) => {
   let text = ''
   for (const table of feature.tables)
     for (const row of table.rows)
-      propNamesTemp[`Validate ${row.label}: ${row.values.map(v => v.substring(0, tableValueCutoff)).join(', ')}`] = '()'
+      propNamesTemp[`Validate ${row.label}: ${row.values.map(v => v.substring(0, tableValueCutoff)).join(', ')}`] = 'state'
   Object.keys(propNamesTemp).forEach((key) =>
-    text += `\n  '${key}': () => Promise<void>`
+    text += `\n  '${key}': (state: {page: Page, context: BrowserContext}) => Promise<void>`
   )
   Object.keys(propNamesTemp).forEach(key => propNames[key] = propNamesTemp[key])
   return text
@@ -44,9 +44,9 @@ const createScenarioTests = (feature: Feature) => {
       ' - ',
       ...scenario.given.map((g) => g.value)
     ].join(' ')
-    text += '\n  test(\'' + label + '\', async () => {'
+    text += '\n  test(\'' + label + '\', async ({page, context}) => {'
     text +=
-      '\n    let state: any = steps.Before ? await steps.Before() : undefined'
+      '\n    let state: any = steps.Before ? await steps.Before({page, context}) : {page, context}'
     for (const given of scenario.given)
       text +=
         '\n    await steps[\'Given ' +
@@ -66,13 +66,13 @@ const createTableTests = (feature: Feature) => {
   let text = ''
   for (const table of feature.tables)
     for (const row of table.rows)
-      text += `\n  test("Validate ${row.label}", async ()=>await steps["Validate ${
+      text += `\n  test("Validate ${row.label}", async ({page, context})=>await steps["Validate ${
         row.label}: ${
-        row.values.map(v => v.substring(0, tableValueCutoff)).join(', ')}"]())`
+        row.values.map(v => v.substring(0, tableValueCutoff)).join(', ')}"]({page, context}))`
   return text
 }
 
-export const generateVitest = (dir: string, features: Feature[]): GenerationResult[] => {
+export const generatePlaywright = (dir: string, features: Feature[]): GenerationResult[] => {
   const ret: GenerationResult[] = []
   for (const feature of features) {
     const propNames: PropNames = {}
@@ -81,26 +81,24 @@ export const generateVitest = (dir: string, features: Feature[]): GenerationResu
     out +=
       '\n// this file is auto-generated and will change when updating the system design'
     out += '\n// don\'t change this file!\n'
-    out += '\nimport { describe, test } from \'vitest\''
+    out += '\nimport { test, Page, BrowserContext } from \'@playwright/test\''
     out += '\nimport { steps } from \'./' + name + '.steps\''
-    out += '\nexport type Steps<T = any> = {'
+    out += '\nexport type Steps<T extends {page: Page, context: BrowserContext} = {page: Page, context: BrowserContext}> = {'
     out += '\n  enable: boolean'
-    out += '\n  Before?: () => Promise<T>'
+    out += '\n  Before?: (args: {page: Page, context: BrowserContext}) => Promise<T>'
     out += '\n  BaseGiven?: (state: T) => Promise<void>'
     out += createScenarioDefinitions(feature, propNames)
     out += createTableDefinitions(feature, propNames)
     out += '\n}'
     out +=
-      '\ndescribe.skipIf(!steps.enable)' +
-      '(\'' +
-      feature.name +
-      '\', () => {'
+      '\ntest.describe(\'' + feature.name + '\', () => {'
+    out+='\n  test.skip(!steps.enable)'
     out += createScenarioTests(feature)
     out += createTableTests(feature)
     out += '\n})'
 
 
-    ret.push({ file: path.join(dir, `${name}.test.ts`), content: out, overwrite: true })
+    ret.push({ file: path.join(dir, `${name}.spec.ts`), content: out, overwrite: true })
     let implementation = `import { Steps } from './${name}.test'`
     implementation += '\nexport const steps: Steps = {'
     implementation += '\n  enable: false,'

@@ -35,11 +35,11 @@ export const preapreNode = (node: ParsedNode): ParsedNode[][] => {
 }
 
 const createScenarios = (nodes: ParsedNode[]) => {
-  const thenTypes = ['script', 'message', 'serviceCall', 'subprocess', "signalListen"]
+  const ignore = ['gateway', 'connector', 'start', 'userAction']
   const given: { text: string; type: string; value?: string }[] = []
   const then: { text: string; type: string }[] = []
   for (const node of nodes.filter((n) => !!n.meta)) {
-    if (thenTypes.includes(node.meta!.type))
+    if (!ignore.includes(node.meta!.type))
       then.push({ type: node.meta!.type, text: node.meta?.text! })
     else if (node.meta!.type === 'connector' && node.meta!.text)
       given.push({
