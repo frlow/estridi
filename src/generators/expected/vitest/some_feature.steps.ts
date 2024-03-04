@@ -11,6 +11,7 @@ export const steps: Steps = {
   "Script: Hide box": async state => {debugger ;throw "Not implemented"},
   "Script: Show box": async state => {debugger ;throw "Not implemented"},
   "ServiceCall: api call demo": async state => {debugger ;throw "Not implemented"},
+  "SignalSend: Go back to registration page": async state => {debugger ;throw "Not implemented"},
   "Subprocess: Saved payee Yet another subflow": async state => {debugger ;throw "Not implemented"},
   "Subprocess: Some subflow": async state => {debugger ;throw "Not implemented"},
   "Subprocess: Validate fields Payment data": async state => {debugger ;throw "Not implemented"},

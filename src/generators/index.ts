@@ -1,10 +1,11 @@
 import { generateJSON } from './json'
 import { writeAllFiles } from './files'
 import { Scraped } from '../common'
+import { generateVitest } from './vitest'
+import { generatePlaywright } from './playwright'
+import * as path from 'node:path'
 
 export type GenerationResult = { file: string, content: string, overwrite: boolean }
-
-export const freezeTests = true
 
 export const getFileName = (name: string) =>
   name
@@ -13,11 +14,10 @@ export const getFileName = (name: string) =>
     .toLowerCase()
 
 export const generateAll = (scraped: Scraped) => {
-  // fs.mkdirSync('output', { recursive: true })
   generateJSON('output', scraped)
   const filesToWrite: GenerationResult[] = []
-  // filesToWrite.push(...generateVitest(path.join('output', 'vitest'), features))
-  // filesToWrite.push(...generatePlaywright(path.join('output', 'playwright'), features))
+  filesToWrite.push(...generateVitest(path.join('output', 'vitest'), scraped))
+  filesToWrite.push(...generatePlaywright(path.join('output', 'playwright'), scraped))
   writeAllFiles(filesToWrite)
 }
 
