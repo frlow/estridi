@@ -23,7 +23,8 @@ export const isInside = (host: Points, child: Points) => {
 }
 
 export type TraversedNode = { id: string, meta: NodeMetadata, next: TraversedNode[] }
-export const traverse = (node: any, visited: string[] = []): TraversedNode => {
+export const traverse = (node: any, visited: string[] = []): TraversedNode | undefined => {
+  if(!node) return undefined
   if (visited.includes(node.id)) return { id: node.id, next: [], meta: undefined }
   const connectors = node?.attachedConnectors.filter(
     (c: any) =>

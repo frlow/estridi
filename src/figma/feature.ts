@@ -12,7 +12,8 @@ export type ParsedTable = {
   }[]
 }
 
-export const preapreNode = (node: ParsedNode): ParsedNode[][] => {
+export const prepareNode = (node: ParsedNode | undefined): ParsedNode[][] | undefined => {
+  if (!node) return undefined
   const toHandle: { node: ParsedNode; acc: ParsedNode[] }[] = [
     { node, acc: [] }
   ]
