@@ -55,7 +55,7 @@ ${validations.join('\n')}
       else if (key.type === 'table') return 'state'
       else return 'state'
     }
-    const implementation = `import { Steps } from './some_feature.spec'
+    const implementation = `import { Steps } from './${getFileName(feature)}.spec'
 export const steps: Steps = {
   enable: false,
 ${keys.map(key => `  "${key.key}": async ${keyState(key)} => {debugger ;throw "Not implemented"},`).join('\n')}

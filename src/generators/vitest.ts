@@ -20,7 +20,8 @@ export const generateVitest = (dir: string, scraped: Scraped): GenerationResult[
     const stepDefinitions = allKeysInFeature(scraped, feature)
       .map(key => `  '${key.key}': (${keyState(key)}) => Promise<void>`)
 
-    const tests = testsInFeature(scraped, feature).map(test => `  test('${test.label}', async () => {
+    const tif = testsInFeature(scraped, feature)
+    const tests = tif.map(test => `  test('${test.label}', async () => {
     let state: any = steps.Before ? await steps.Before(${test.keys.map((k: string) => `'${k}'`).join(', ')}) : undefined
 ${test.gateways.map((g: any) => `    await steps['Given ${g.text}'](state,'${g.value}')`).join('\n')}
     if (steps.BaseGiven) await steps.BaseGiven(state)
@@ -55,7 +56,7 @@ ${validations.join('\n')}
       else if (key.type === 'table') return '()'
       else return 'state'
     }
-    const implementation = `import { Steps } from './some_feature.test'
+    const implementation = `import { Steps } from './${getFileName(feature)}.test'
 export const steps: Steps = {
   enable: false,
 ${keys.map(key => `  "${key.key}": async ${keyState(key)} => {debugger ;throw "Not implemented"},`).join('\n')}
