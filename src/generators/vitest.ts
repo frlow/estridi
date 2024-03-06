@@ -11,7 +11,7 @@ export const generateVitest = (dir: string, scraped: Scraped): GenerationResult[
       [cur.text]: null
     }), {} as Record<string, null>))
 
-  const ret =  features.map(feature => {
+  const ret = features.map(feature => {
     const keyState = (key: any) => {
       if (key.type === 'gateway') return `state: T, value: ${key.values!.map((v: any) => `'${v}'`).join('|')}`
       else if (key.type === 'table') return ''
@@ -27,6 +27,7 @@ ${test.gateways.map((g: any) => `    await steps['Given ${g.text}'](state,'${g.v
 ${test.nodes.map((n: any) => `    await steps['${getPrettyLabel(n.type)}: ${n.text}'](state)`).join('\n')}
   })`)
     const validations = validationsInFeature(scraped, feature).map(v => `  test("${v.label}", async ()=>await steps["${v.step}"]())`)
+
     const fileContent = `
 // WARNING!!
 // this file is auto-generated and will change when updating the system design

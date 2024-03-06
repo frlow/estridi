@@ -13,7 +13,7 @@ const formats = {
 
 export const freezeTests = true
 
-describe('genrate tests', () => {
+describe('generate tests', () => {
   for (const [format, generator] of Object.entries(formats))
     describe(`${format} tests`, () => {
       test.skipIf(freezeTests)('regenerate', () => {

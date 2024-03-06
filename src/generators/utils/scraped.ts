@@ -15,7 +15,9 @@ export const allKeysInFeature = (scraped: Scraped, feature: string): {
     const current = toProcess.pop()
     if (current?.text && getPrettyLabel(current.type)) {
       keys[`${getPrettyLabel(current.type)}: ${current.text}`] = null
-    } else if (current?.type === 'gateway')
+    } else if (
+      current?.type === 'gateway' &&
+      !Object.keys(current.connections || {}).some((connectionId: any) => visited.includes(connectionId)))
       keys[`Given ${current.text}`] = { values: Object.values(current.connections || {}), type: 'gateway' }
     Object.keys(current?.connections || {}).forEach(id => {
       if (visited.includes(id)) return
@@ -55,14 +57,27 @@ export const testsInFeature = (scraped: Scraped, feature: string) => {
       processed.push(log)
       continue
     }
+    if (current.type === 'gateway' && Object.keys(current.connections || {})
+      .some((con: any) => log.some((l: any) => l.id === con))) {
+      const newLog = clone(log)
+      newLog[newLog.length - 1].type = 'gatewayLoopEnd'
+      const id = Object.keys(current.connections || {})
+        .find((con: any) => !log.some((l: any) => l.id === con)) || ''
+      const meta = scraped[id]
+      if (!meta) continue
+      toProcess.push([...newLog, { ...meta, id }])
+      continue
+    }
     for (const connection of Object.entries(current.connections || {})) {
+      // Check if connection points back in loop
+      if (log.some((l: any) => l.id === connection[0])) continue
       const newLog = clone(log)
       if (current.type === 'gateway')
         newLog[newLog.length - 1].value = connection[1]
       toProcess.push([...newLog, { ...scraped[connection[0]], id: connection[0] }])
     }
   }
-  const ret = processed.map(current => {
+  return processed.map(current => {
     const testNodes = ['serviceCall', 'message', 'subprocess', 'script', 'signalListen', 'signalSend']
     const gateways = current.filter((p: any) => p.type === 'gateway')
     const nodes = current.filter((p: any) => testNodes.includes(p.type))
@@ -76,7 +91,6 @@ export const testsInFeature = (scraped: Scraped, feature: string) => {
       nodes
     }
   })
-  return ret
 }
 
 export const validationsInFeature = (scraped: Scraped, feature: string) => {

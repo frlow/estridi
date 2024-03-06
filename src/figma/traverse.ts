@@ -35,7 +35,10 @@ export const traverse2 = (name: string, node: any, nodes: Scraped = {}) => {
     const outboundConnections = current.attachedConnectors
       .filter((con: any) => con?.dashPattern?.length === 0 && con.connectorStart.endpointNodeId === current.id)
       .reduce((acc: any, cur: any) => ({ ...acc, [cur.connectorEnd.endpointNodeId]: cur.name || 'N/A' }), {})
-    if (meta?.type === 'userAction') current.parent.children.filter((c: any) => isNodeInside(current, c)).forEach((action: any) => outboundConnections[action.id] = 'Action')
+    if (meta?.type === 'userAction')
+      current.parent.children
+        .filter((c: any) => isNodeInside(current, c))
+        .forEach((action: any) => outboundConnections[action.id] = 'Action')
     nodes[current.id] = { ...meta, connections: outboundConnections }
     nodesToHandle.push(...Object.keys(outboundConnections).filter(key => !nodes[key]))
   }

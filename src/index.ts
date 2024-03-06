@@ -11,7 +11,6 @@ const isSection = (node: BaseNode) => node.type === 'SECTION'
 
 figma.ui.onmessage = (msg) => {
   if (msg.type === 'traverse') {
-    // const result: Feature[] = []
     const nodes2: Scraped = {}
     const sections = figma.currentPage.children.filter((c) => isSection(c))
     for (const section of sections as SectionNode[]) {

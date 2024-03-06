@@ -8,6 +8,7 @@ export const steps: Steps = {
   "Message: Could not load page": async state => {debugger ;throw "Not implemented"},
   "Message: Display stuff": async state => {debugger ;throw "Not implemented"},
   "Script: Clear page": async state => {debugger ;throw "Not implemented"},
+  "Script: Do thing with thing": async state => {debugger ;throw "Not implemented"},
   "Script: Hide box": async state => {debugger ;throw "Not implemented"},
   "Script: Show box": async state => {debugger ;throw "Not implemented"},
   "ServiceCall: api call demo": async state => {debugger ;throw "Not implemented"},
