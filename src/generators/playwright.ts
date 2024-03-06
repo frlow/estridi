@@ -21,7 +21,7 @@ export const generatePlaywright = (dir: string, scraped: Scraped): GenerationRes
       .map(key => `  '${key.key}': (${keyState(key)}) => Promise<void>`)
 
     const tests = testsInFeature(scraped, feature).map(test => `  test('${test.label}', async ({page, context}) => {
-    let state: any = steps.Before ? await steps.Before({page, context}) : {page, context}
+    let state: any = steps.Before ? await steps.Before({page, context}, ${test.keys.map((k: string) => `'${k}'`).join(', ')}) : {page, context}
 ${test.gateways.map((g: any) => `    await steps['Given ${g.text}'](state,'${g.value}')`).join('\n')}
     if (steps.BaseGiven) await steps.BaseGiven(state)
 ${test.nodes.map((n: any) => `    await steps['${getPrettyLabel(n.type)}: ${n.text}'](state)`).join('\n')}
@@ -36,7 +36,7 @@ import { test, Page, BrowserContext } from '@playwright/test'
 import { steps } from './${getFileName(feature)}.steps'
 export type Steps<T extends {page: Page, context: BrowserContext} = {page: Page, context: BrowserContext}> = {
   enable: boolean
-  Before?: (args: {page: Page, context: BrowserContext}) => Promise<T>
+  Before?: (args: {page: Page, context: BrowserContext}, ...keys: string[]) => Promise<T>
   BaseGiven?: (state: T) => Promise<void>
 ${stepDefinitions.join('\n')}
 }

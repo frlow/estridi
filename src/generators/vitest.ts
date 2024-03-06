@@ -21,7 +21,7 @@ export const generateVitest = (dir: string, scraped: Scraped): GenerationResult[
       .map(key => `  '${key.key}': (${keyState(key)}) => Promise<void>`)
 
     const tests = testsInFeature(scraped, feature).map(test => `  test('${test.label}', async () => {
-    let state: any = steps.Before ? await steps.Before() : undefined
+    let state: any = steps.Before ? await steps.Before(${test.keys.map((k: string) => `'${k}'`).join(', ')}) : undefined
 ${test.gateways.map((g: any) => `    await steps['Given ${g.text}'](state,'${g.value}')`).join('\n')}
     if (steps.BaseGiven) await steps.BaseGiven(state)
 ${test.nodes.map((n: any) => `    await steps['${getPrettyLabel(n.type)}: ${n.text}'](state)`).join('\n')}
@@ -37,7 +37,7 @@ import { describe, test } from 'vitest'
 import { steps } from './${getFileName(feature)}.steps'
 export type Steps<T = any> = {
   enable: boolean
-  Before?: () => Promise<T>
+  Before?: (...keys: string[]) => Promise<T>
   BaseGiven?: (state: T) => Promise<void>
 ${stepDefinitions.join('\n')}
 }
@@ -48,7 +48,7 @@ ${validations.join('\n')}
     return { file: path.join(dir, `${getFileName(feature)}.test.ts`), content: fileContent.trim(), overwrite: true }
   })
 
-  features.forEach(feature=>{
+  features.forEach(feature => {
     const keys = allKeysInFeature(scraped, feature)
     const keyState = (key: any) => {
       if (key.type === 'gateway') return `(state, value)`
@@ -58,9 +58,13 @@ ${validations.join('\n')}
     const implementation = `import { Steps } from './some_feature.test'
 export const steps: Steps = {
   enable: false,
-${keys.map(key=>`  "${key.key}": async ${keyState(key)} => {debugger ;throw "Not implemented"},`).join("\n")}
+${keys.map(key => `  "${key.key}": async ${keyState(key)} => {debugger ;throw "Not implemented"},`).join('\n')}
 }`
-    ret.push({ file: path.join(dir, `${getFileName(feature)}.steps.ts`), content: implementation.trim(), overwrite: false })
+    ret.push({
+      file: path.join(dir, `${getFileName(feature)}.steps.ts`),
+      content: implementation.trim(),
+      overwrite: false
+    })
   })
 
   return ret

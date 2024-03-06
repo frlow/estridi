@@ -6,7 +6,7 @@ import { test, Page, BrowserContext } from '@playwright/test'
 import { steps } from './some_feature.steps'
 export type Steps<T extends {page: Page, context: BrowserContext} = {page: Page, context: BrowserContext}> = {
   enable: boolean
-  Before?: (args: {page: Page, context: BrowserContext}) => Promise<T>
+  Before?: (args: {page: Page, context: BrowserContext}, ...keys: string[]) => Promise<T>
   BaseGiven?: (state: T) => Promise<void>
   'Action: Cancel': (state: T) => Promise<void>
   'Action: Take action': (state: T) => Promise<void>
@@ -31,7 +31,7 @@ export type Steps<T extends {page: Page, context: BrowserContext} = {page: Page,
 test.describe('Some feature', () => {
   test.skip(!steps.enable)
   test('api call demo Display stuff Some subflow Validate fields Payment data Do thing with thing - no A', async ({page, context}) => {
-    let state: any = steps.Before ? await steps.Before({page, context}) : {page, context}
+    let state: any = steps.Before ? await steps.Before({page, context}, '1:115') : {page, context}
     await steps['Given Errors from demo'](state,'no')
     await steps['Given A or B'](state,'A')
     if (steps.BaseGiven) await steps.BaseGiven(state)
@@ -42,7 +42,7 @@ test.describe('Some feature', () => {
     await steps['Script: Do thing with thing'](state)
   })
   test('api call demo Display stuff Show box Cancel Clear page Go back to registration page - no B', async ({page, context}) => {
-    let state: any = steps.Before ? await steps.Before({page, context}) : {page, context}
+    let state: any = steps.Before ? await steps.Before({page, context}, '1:115', '4:322') : {page, context}
     await steps['Given Errors from demo'](state,'no')
     await steps['Given A or B'](state,'B')
     if (steps.BaseGiven) await steps.BaseGiven(state)
@@ -54,7 +54,7 @@ test.describe('Some feature', () => {
     await steps['SignalSend: Go back to registration page'](state)
   })
   test('api call demo Display stuff Show box Take action Hide box Saved payee Yet another subflow - no B', async ({page, context}) => {
-    let state: any = steps.Before ? await steps.Before({page, context}) : {page, context}
+    let state: any = steps.Before ? await steps.Before({page, context}, '1:115', '4:313') : {page, context}
     await steps['Given Errors from demo'](state,'no')
     await steps['Given A or B'](state,'B')
     if (steps.BaseGiven) await steps.BaseGiven(state)
@@ -66,7 +66,7 @@ test.describe('Some feature', () => {
     await steps['Subprocess: Saved payee Yet another subflow'](state)
   })
   test('api call demo Display stuff Show box Validate fields Payment data Do thing with thing - no B', async ({page, context}) => {
-    let state: any = steps.Before ? await steps.Before({page, context}) : {page, context}
+    let state: any = steps.Before ? await steps.Before({page, context}, '1:115') : {page, context}
     await steps['Given Errors from demo'](state,'no')
     await steps['Given A or B'](state,'B')
     if (steps.BaseGiven) await steps.BaseGiven(state)
@@ -77,7 +77,7 @@ test.describe('Some feature', () => {
     await steps['Script: Do thing with thing'](state)
   })
   test('api call demo Could not load page - yes', async ({page, context}) => {
-    let state: any = steps.Before ? await steps.Before({page, context}) : {page, context}
+    let state: any = steps.Before ? await steps.Before({page, context}, '1:115') : {page, context}
     await steps['Given Errors from demo'](state,'yes')
     if (steps.BaseGiven) await steps.BaseGiven(state)
     await steps['ServiceCall: api call demo'](state)

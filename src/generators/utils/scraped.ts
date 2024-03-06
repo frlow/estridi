@@ -81,6 +81,8 @@ export const testsInFeature = (scraped: Scraped, feature: string) => {
     const testNodes = ['serviceCall', 'message', 'subprocess', 'script', 'signalListen', 'signalSend']
     const gateways = current.filter((p: any) => p.type === 'gateway')
     const nodes = current.filter((p: any) => testNodes.includes(p.type))
+    const keyNodes = ['start', 'signalListen']
+    const keys = current.filter((p: any) => keyNodes.includes(p.type)).map((k: { id: string }) => k.id)
     return {
       label: `${current.filter((p: any) => testNodes
         .includes(p.type))
@@ -88,7 +90,8 @@ export const testsInFeature = (scraped: Scraped, feature: string) => {
         .filter((p: any) => p.type === 'gateway')
         .map((p: any) => p.value).join(' ')}`,
       gateways,
-      nodes
+      nodes,
+      keys
     }
   })
 }
