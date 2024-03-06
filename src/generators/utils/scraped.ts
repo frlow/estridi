@@ -82,7 +82,11 @@ export const testsInFeature = (scraped: Scraped, feature: string) => {
     const gateways = current.filter((p: any) => p.type === 'gateway')
     const nodes = current.filter((p: any) => testNodes.includes(p.type))
     const keyNodes = ['start', 'signalListen']
-    const keys = current.filter((p: any) => keyNodes.includes(p.type)).map((k: { id: string }) => k.id)
+    const keys = current.filter((p: any) => keyNodes.includes(p.type)).map((k: {
+      id: string,
+      type: string,
+      text: string
+    }) => k.type === 'start' ? `Start: ${k.id}` : k.text)
     return {
       label: `${current.filter((p: any) => testNodes
         .includes(p.type))
