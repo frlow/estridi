@@ -44,7 +44,11 @@ export const allKeysInFeature = (scraped: Scraped, feature: string): {
 const clone = (obj: any) => JSON.parse(JSON.stringify(obj))
 
 export const testsInFeature = (scraped: Scraped, feature: string) => {
-  const startPoints = Object.entries(scraped).filter(s => s[1].type === 'start' && s[1].text === feature).map(s => ({
+  const startPoints = Object.entries(scraped).filter(s =>
+    s[1].type === 'start' &&
+    s[1].text === feature &&
+    Object.keys(s[1].connections || {}).length > 0
+  ).map(s => ({
     ...s[1],
     id: s[0]
   }))

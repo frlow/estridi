@@ -11,7 +11,7 @@ const formats = {
   playwright: generatePlaywright
 }
 
-export const regenerate = false
+export const regenerate = true
 if (regenerate) {
   for (const [format, generator] of Object.entries(formats)) {
     const files = generator(path.join(__dirname, 'expected', format), testdata).map(f => ({
