@@ -4,13 +4,14 @@ import { Scraped } from '../common'
 import { generateVitest } from './vitest'
 import { generatePlaywright } from './playwright'
 import * as path from 'node:path'
+import { allowedRegex } from '../common'
 
 export type GenerationResult = { file: string, content: string, overwrite: boolean }
 
 export const getFileName = (name: string) =>
   name
     .replace(/ /g, '_')
-    .replace(/[:|\/]/g, '')
+    .replace(/[:|\/"]/g, '')
     .toLowerCase()
 
 export const generateAll = (scraped: Scraped) => {

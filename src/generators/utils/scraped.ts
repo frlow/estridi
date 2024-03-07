@@ -1,6 +1,5 @@
-import { Scraped } from '../../common'
+import { allowedRegex, Scraped } from '../../common'
 import { getPrettyLabel } from '../index'
-import { allowedRegex } from '../../figma/common'
 
 export const allKeysInFeature = (scraped: Scraped, feature: string): {
   key: string,

@@ -1,4 +1,4 @@
-import { allowedRegex } from './common'
+import { allowedRegex } from '../common'
 
 export type NodeMetadata = ReturnType<typeof getNodeMetadata>
 export const getNodeMetadata = (node: BaseNode) =>
