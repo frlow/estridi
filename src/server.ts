@@ -2,29 +2,28 @@
 import express from 'express'
 import cors from 'cors'
 import { generateAll } from './generators'
-import { generateVitest } from './generators/vitest'
 import { fileURLToPath } from 'node:url'
 import * as path from 'node:path'
 import { version } from '../package.json'
-import { writeAllFiles } from './generators/files'
+import fs from 'fs'
 
 const app = express()
 app.use(cors())
 app.use(express.json())
 
-const type = process.argv[2]
-const dist = process.argv[3]
+const defaultConfig = {
+  json: 'output',
+  vitest: path.join('output', 'vitest'),
+  playwright: path.join('output', 'playwright')
+}
+const configPath = 'estridi.json'
+if (!fs.existsSync(configPath)) fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2), 'utf8')
+const config = JSON.parse(fs.readFileSync(configPath, 'utf8'))
+export type Config = typeof defaultConfig
+console.log('Config', config)
 
 app.post('/', (req, res) => {
-  if (!!type && !!dist) {
-    switch (type) {
-      case 'vitest':
-        writeAllFiles(generateVitest(dist, req.body))
-        break
-      default:
-        throw `Type ${type} not implemented`
-    }
-  } else generateAll(req.body)
+  generateAll(req.body, config)
   res.sendStatus(200)
 })
 

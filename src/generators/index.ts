@@ -3,8 +3,7 @@ import { writeAllFiles } from './files'
 import { Scraped } from '../common'
 import { generateVitest } from './vitest'
 import { generatePlaywright } from './playwright'
-import * as path from 'node:path'
-import { allowedRegex } from '../common'
+import type { Config } from '../server'
 
 export type GenerationResult = { file: string, content: string, overwrite: boolean }
 
@@ -14,11 +13,12 @@ export const getFileName = (name: string) =>
     .replace(/[:|\/"]/g, '')
     .toLowerCase()
 
-export const generateAll = (scraped: Scraped) => {
-  generateJSON('output', scraped)
+
+export const generateAll = (scraped: Scraped, config: Config) => {
+  if (config.json) generateJSON(config.json, scraped)
   const filesToWrite: GenerationResult[] = []
-  filesToWrite.push(...generateVitest(path.join('output', 'vitest'), scraped))
-  filesToWrite.push(...generatePlaywright(path.join('output', 'playwright'), scraped))
+  if (config.vitest) filesToWrite.push(...generateVitest(config.vitest, scraped))
+  if (config.playwright) filesToWrite.push(...generatePlaywright(config.playwright, scraped))
   writeAllFiles(filesToWrite)
 }
 
