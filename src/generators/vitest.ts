@@ -1,15 +1,9 @@
-import { GenerationResult, getFileName, getPrettyLabel } from './index'
-import { Scraped } from '../common'
+import { GenerationResult, getPrettyLabel } from './index'
+import { Feature } from '../common'
 import * as path from 'node:path'
-import { allKeysInFeature, testsInFeature, validationsInFeature } from './utils/scraped'
 
-export const generateVitest = (dir: string, scraped: Scraped): GenerationResult[] => {
-  const features = Object.keys(Object.values(scraped)
-    .filter(s => s.type === 'start' || s.type === 'table')
-    .reduce((acc, cur) => ({
-      ...acc,
-      [cur.text]: null
-    }), {} as Record<string, null>))
+export const generateVitest = (dir: string, features: Feature[]): GenerationResult[] => {
+
 
   const ret = features.map(feature => {
     const keyState = (key: any) => {
@@ -17,17 +11,16 @@ export const generateVitest = (dir: string, scraped: Scraped): GenerationResult[
       else if (key.type === 'table') return ''
       else return 'state: T'
     }
-    const stepDefinitions = allKeysInFeature(scraped, feature)
+    const stepDefinitions = feature.keys
       .map(key => `  '${key.key}': (${keyState(key)}) => Promise<void>`)
 
-    const tif = testsInFeature(scraped, feature)
-    const tests = tif.map(test => `  test('${test.label}', async () => {
+    const tests = feature.tests.map(test => `  test('${test.label}', async () => {
     let state: any = steps.Before ? await steps.Before(${test.keys.map((k: string) => `'${k}'`).join(', ')}) : undefined
 ${test.gateways.map((g: any) => `    await steps['Given ${g.text}'](state,'${g.value}')`).join('\n')}
     if (steps.BaseGiven) await steps.BaseGiven(state)
 ${test.nodes.map((n: any) => `    await steps['${getPrettyLabel(n.type)}: ${n.text}'](state)`).join('\n')}
   })`)
-    const validations = validationsInFeature(scraped, feature).map(v => `  test("${v.label}", async ()=>await steps["${v.step}"]())`)
+    const validations = feature.validations.map(v => `  test("${v.label}", async ()=>await steps["${v.step}"]())`)
 
     const fileContent = `
 // WARNING!!
@@ -35,34 +28,34 @@ ${test.nodes.map((n: any) => `    await steps['${getPrettyLabel(n.type)}: ${n.te
 // don't change this file!
 
 import { describe, test } from 'vitest'
-import { steps } from './${getFileName(feature)}.steps'
+import { steps } from './${feature.fileName}.steps'
 export type Steps<T = any> = {
   enable: boolean
   Before?: (...keys: string[]) => Promise<T>
   BaseGiven?: (state: T) => Promise<void>
 ${stepDefinitions.join('\n')}
 }
-describe.skipIf(!steps.enable)('${feature}', () => {
+describe.skipIf(!steps.enable)('${feature.name}', () => {
 ${tests.join('\n')}
 ${validations.join('\n')}
 })`
-    return { file: path.join(dir, `${getFileName(feature)}.test.ts`), content: fileContent.trim(), overwrite: true }
+    return { file: path.join(dir, `${feature.fileName}.test.ts`), content: fileContent.trim(), overwrite: true }
   })
 
   features.forEach(feature => {
-    const keys = allKeysInFeature(scraped, feature)
+    const keys = feature.keys
     const keyState = (key: any) => {
       if (key.type === 'gateway') return `(state, value)`
       else if (key.type === 'table') return '()'
       else return 'state'
     }
-    const implementation = `import { Steps } from './${getFileName(feature)}.test'
+    const implementation = `import { Steps } from './${feature.fileName}.test'
 export const steps: Steps = {
   enable: false,
 ${keys.map(key => `  "${key.key}": async ${keyState(key)} => {debugger ;throw "Not implemented"},`).join('\n')}
 }`
     ret.push({
-      file: path.join(dir, `${getFileName(feature)}.steps.ts`),
+      file: path.join(dir, `${feature.fileName}.steps.ts`),
       content: implementation.trim(),
       overwrite: false
     })

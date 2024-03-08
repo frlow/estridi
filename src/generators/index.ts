@@ -4,6 +4,7 @@ import { Scraped } from '../common'
 import { generateVitest } from './vitest'
 import { generatePlaywright } from './playwright'
 import type { Config } from '../server'
+import { getFeatures } from './utils/feature'
 
 export type GenerationResult = { file: string, content: string, overwrite: boolean }
 
@@ -15,10 +16,11 @@ export const getFileName = (name: string) =>
 
 
 export const generateAll = (scraped: Scraped, config: Config) => {
-  if (config.json) generateJSON(config.json, scraped)
+  const features = getFeatures(scraped)
+  if (config.json) generateJSON(config.json, scraped, features)
   const filesToWrite: GenerationResult[] = []
-  if (config.vitest) filesToWrite.push(...generateVitest(config.vitest, scraped))
-  if (config.playwright) filesToWrite.push(...generatePlaywright(config.playwright, scraped))
+  if (config.vitest) filesToWrite.push(...generateVitest(config.vitest, features))
+  if (config.playwright) filesToWrite.push(...generatePlaywright(config.playwright, features))
   writeAllFiles(filesToWrite)
 }
 
