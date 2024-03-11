@@ -19,6 +19,7 @@ figma.ui.onmessage = (msg) => {
       const tables = section.children.filter((c) => c.type === 'TABLE')
       tables.forEach(t => scrapeTable2(section.name, t, nodes2))
     }
+    console.log(nodes2)
     fetch('http://localhost:3000/', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },

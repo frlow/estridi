@@ -98,10 +98,6 @@ const getSignalListenMetadata = (node: any) => {
 
 const getStartMetadata = (node: any) => {
   if (node.name !== 'Start') return undefined
-  if (node.strokeWeight > 1) return {
-    type: 'end',
-    text: findText(node)
-  }
   return {
     type: 'start',
     text: findText(node)

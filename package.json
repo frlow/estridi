@@ -1,6 +1,6 @@
 {
   "name": "estridi",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Your Figma Plugin",
   "main": "code.js",
   "scripts": {
@@ -8,7 +8,8 @@
     "watch": "esbuild --bundle --outfile=code.js src/index.ts --watch --target=es6",
     "serve": "tsx src/server.ts",
     "build": "esbuild --bundle --outfile=dist/code.js src/index.ts --target=es6 && esbuild --bundle --outfile=dist/server.js src/server.ts --target=es6 --platform=node --format=cjs && cp manifest.json dist/ && cp ui.html dist/",
-    "test": "vitest"
+    "test": "vitest",
+    "install:local": "pnpm build && npm pack && npm i -g *.tgz && rimraf *.tgz"
   },
   "bin": "./dist/server.js",
   "author": "",
