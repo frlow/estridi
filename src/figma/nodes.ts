@@ -98,8 +98,9 @@ const getSignalListenMetadata = (node: any) => {
 
 const getStartMetadata = (node: any) => {
   if (node.name !== 'Start') return undefined
+  const type = node.attachedConnectors.some((c: any) => c.connectorStart.endpointNodeId === node.id) ? 'start' : 'end'
   return {
-    type: 'start',
+    type,
     text: findText(node)
   }
 }

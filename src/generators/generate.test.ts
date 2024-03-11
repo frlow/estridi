@@ -12,7 +12,7 @@ const formats = {
   playwright: generatePlaywright
 }
 const features = getFeatures(testdata)
-export const regenerate = false
+export const regenerate = true
 if (regenerate) {
   for (const [format, generator] of Object.entries(formats)) {
     const files = generator(path.join(__dirname, 'expected', format), features).map(f => ({

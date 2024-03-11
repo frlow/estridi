@@ -75,8 +75,8 @@
     "type": "gateway",
     "text": "Has more",
     "connections": {
-      "35:542": "yes",
-      "4:415": "no"
+      "4:415": "no",
+      "35:542": "yes"
     }
   },
   "4:415": {

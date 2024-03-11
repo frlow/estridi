@@ -3,8 +3,6 @@ import { Feature } from '../common'
 import * as path from 'node:path'
 
 export const generateVitest = (dir: string, features: Feature[]): GenerationResult[] => {
-
-
   const ret = features.map(feature => {
     const keyState = (key: any) => {
       if (key.type === 'gateway') return `state: T, value: ${key.values!.map((v: any) => `'${v}'`).join('|')}`
@@ -14,7 +12,7 @@ export const generateVitest = (dir: string, features: Feature[]): GenerationResu
     const stepDefinitions = feature.keys
       .map(key => `  '${key.key}': (${keyState(key)}) => Promise<void>`)
 
-    const tests = feature.tests.map(test => `  test('${test.label}', async () => {
+    const tests = feature.tests.map(test => `  test(\`${test.label}\`, async () => {
     let state: any = steps.Before ? await steps.Before(${test.keys.map((k: string) => `'${k}'`).join(', ')}) : undefined
 ${test.gateways.map((g: any) => `    await steps['Given ${g.text}'](state,'${g.value}')`).join('\n')}
     if (steps.BaseGiven) await steps.BaseGiven(state)

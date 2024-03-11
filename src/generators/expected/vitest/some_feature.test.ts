@@ -29,7 +29,9 @@ export type Steps<T = any> = {
   'Validate Postnummer: Input field, Required String Format 135 characters, ': () => Promise<void>
 }
 describe.skipIf(!steps.enable)('Some feature', () => {
-  test('api call demo Display stuff Some subflow Validate fields Payment data Do thing with thing - no A', async () => {
+  test(`Base
+        Errors from demo --> no
+        A or B --> A`, async () => {
     let state: any = steps.Before ? await steps.Before('Start: 1:115') : undefined
     await steps['Given Errors from demo'](state,'no')
     await steps['Given A or B'](state,'A')
@@ -40,7 +42,9 @@ describe.skipIf(!steps.enable)('Some feature', () => {
     await steps['Subprocess: Validate fields Payment data'](state)
     await steps['Script: Do thing with thing'](state)
   })
-  test('api call demo Display stuff Show box Cancel Clear page Go back to registration page - no B', async () => {
+  test(`Cancel
+        Errors from demo --> no
+        A or B --> B`, async () => {
     let state: any = steps.Before ? await steps.Before('Start: 1:115', 'Cancel') : undefined
     await steps['Given Errors from demo'](state,'no')
     await steps['Given A or B'](state,'B')
@@ -52,7 +56,9 @@ describe.skipIf(!steps.enable)('Some feature', () => {
     await steps['Script: Clear page'](state)
     await steps['SignalSend: Go back to registration page'](state)
   })
-  test('api call demo Display stuff Show box Take action Hide box Saved payee Yet another subflow - no B', async () => {
+  test(`Take action
+        Errors from demo --> no
+        A or B --> B`, async () => {
     let state: any = steps.Before ? await steps.Before('Start: 1:115', 'Take action') : undefined
     await steps['Given Errors from demo'](state,'no')
     await steps['Given A or B'](state,'B')
@@ -64,7 +70,9 @@ describe.skipIf(!steps.enable)('Some feature', () => {
     await steps['Script: Hide box'](state)
     await steps['Subprocess: Saved payee Yet another subflow'](state)
   })
-  test('api call demo Display stuff Show box Validate fields Payment data Do thing with thing - no B', async () => {
+  test(`Base
+        Errors from demo --> no
+        A or B --> B`, async () => {
     let state: any = steps.Before ? await steps.Before('Start: 1:115') : undefined
     await steps['Given Errors from demo'](state,'no')
     await steps['Given A or B'](state,'B')
@@ -75,7 +83,8 @@ describe.skipIf(!steps.enable)('Some feature', () => {
     await steps['Subprocess: Validate fields Payment data'](state)
     await steps['Script: Do thing with thing'](state)
   })
-  test('api call demo Could not load page - yes', async () => {
+  test(`Base
+        Errors from demo --> yes`, async () => {
     let state: any = steps.Before ? await steps.Before('Start: 1:115') : undefined
     await steps['Given Errors from demo'](state,'yes')
     if (steps.BaseGiven) await steps.BaseGiven(state)

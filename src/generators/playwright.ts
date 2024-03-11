@@ -12,7 +12,7 @@ export const generatePlaywright = (dir: string, features: Feature[]): Generation
     const stepDefinitions = feature.keys
       .map(key => `  '${key.key}': (${keyState(key)}) => Promise<void>`)
 
-    const tests = feature.tests.map(test => `  test('${test.label}', async ({page, context}) => {
+    const tests = feature.tests.map(test => `  test(\`${test.label}\`, async ({page, context}) => {
     let state: any = steps.Before ? await steps.Before({page, context}, ${test.keys.map((k: string) => `'${k}'`).join(', ')}) : {page, context}
 ${test.gateways.map((g: any) => `    await steps['Given ${g.text}'](state,'${g.value}')`).join('\n')}
     if (steps.BaseGiven) await steps.BaseGiven(state)

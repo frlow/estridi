@@ -16,7 +16,7 @@ export const allKeysInFeature = (scraped: Scraped, feature: string): {
       keys[`${getPrettyLabel(current.type)}: ${current.text}`] = null
     } else if (
       current?.type === 'gateway' &&
-      !Object.keys(current.connections || {}).some((connectionId: any) => visited.includes(connectionId)))
+      !Object.keys(current.connections || {}).some((connectionId: any) => scraped[connectionId]?.type === 'gatewayLoop'))
       keys[`Given ${current.text}`] = { values: Object.values(current.connections || {}), type: 'gateway' }
     Object.keys(current?.connections || {}).forEach(id => {
       if (visited.includes(id)) return
@@ -90,12 +90,11 @@ export const testsInFeature = (scraped: Scraped, feature: string) => {
       type: string,
       text: string
     }) => k.type === 'start' ? `Start: ${k.id}` : k.text)
+    const title = nodes.filter((n: any) => n.type === 'signalListen').map((n: any) => n.text).join(' ') || 'Base'
+    const gatewayNames = gateways.map((g: any) => `        ${g.text} --> ${g.value}`)
+    const label = [title, ...gatewayNames].join('\n')
     return {
-      label: `${current.filter((p: any) => testNodes
-        .includes(p.type))
-        .map((p: any) => p.text).join(' ')} - ${current
-        .filter((p: any) => p.type === 'gateway')
-        .map((p: any) => p.value).join(' ')}`,
+      label,
       gateways,
       nodes,
       keys
