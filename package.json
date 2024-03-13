@@ -1,6 +1,6 @@
 {
   "name": "estridi",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "Your Figma Plugin",
   "main": "code.js",
   "scripts": {

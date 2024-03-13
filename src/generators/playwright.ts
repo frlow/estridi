@@ -33,7 +33,7 @@ export type Steps<T extends {page: Page, context: BrowserContext} = {page: Page,
 ${stepDefinitions.join('\n')}
 }
 test.describe('${feature.name}', () => {
-  test.skip(!steps.enable)
+  if(!steps.enable) return
 ${tests.join('\n')}
 ${validations.join('\n')}
 })`
