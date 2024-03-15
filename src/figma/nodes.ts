@@ -1,26 +1,34 @@
 import { allowedRegex } from '../common'
+import { isNodeInside } from './traverse'
 
 export type NodeMetadata = ReturnType<typeof getNodeMetadata>
-export const getNodeMetadata = (node: BaseNode) =>
-  getScriptMetadata(node) ||
-  getServiceCallMetadata(node) ||
-  getSubProcessMetadata(node) ||
-  getUserActionMetadata(node) ||
-  getSignalSendExternalMetadata(node) ||
-  getSignalSendMetadata(node) ||
-  getGatewayMetadata(node) ||
-  getMessageMetadata(node) ||
-  getSignalListenMetadata(node) ||
-  getStartMetadata(node) ||
-  getInputMetadata(node) ||
-  getOutputMetadata(node) ||
-  getConnectorMetadata(node) ||
-  getParallelGatewayMetadata(node) ||
-  getTimerMetadata(node) ||
-  getNoteMetadata(node)
+export const getNodeMetadata = (node: BaseNode) => {
+  const meta: any = getScriptMetadata(node) ||
+    getServiceCallMetadata(node) ||
+    getSubProcessMetadata(node) ||
+    getUserActionMetadata(node) ||
+    getSignalSendExternalMetadata(node) ||
+    getSignalSendMetadata(node) ||
+    getGatewayMetadata(node) ||
+    getMessageMetadata(node) ||
+    getSignalListenMetadata(node) ||
+    getStartMetadata(node) ||
+    getInputMetadata(node) ||
+    getOutputMetadata(node) ||
+    getConnectorMetadata(node) ||
+    getParallelGatewayMetadata(node) ||
+    getTimerMetadata(node) ||
+    getNoteMetadata(node)
+  if (!meta) return undefined
+  meta.connections = (node as any).attachedConnectors
+    .filter((con: any) => con?.dashPattern?.length === 0 && con.connectorStart.endpointNodeId === node.id)
+    .reduce((acc: any, cur: any) => ({ ...acc, [cur.connectorEnd.endpointNodeId]: cur.name || 'N/A' }), {})
+  meta.id = node.id
+  return meta
+}
 
-const findText = (node: any) =>
-  (node.children.find((c: any) => c.type === 'TEXT')?.characters || '')
+export const findText = (node: any) =>
+  (node.children?.find((c: any) => c.type === 'TEXT')?.characters || '')
     .replace(allowedRegex, ' ')
     .replace(/\n/g, ' ')
     .replace(/ +/g, ' ')
@@ -54,7 +62,8 @@ const getUserActionMetadata = (node: any) => {
   if (node.name !== 'User action') return undefined
   return {
     type: 'userAction',
-    text: findText(node)
+    text: findText(node),
+    actions: node.parent.children.filter((n: any) => n.name === 'Signal listen' && isNodeInside(node, n)).map((n:any) => n.id)
   }
 }
 
@@ -98,10 +107,12 @@ const getSignalListenMetadata = (node: any) => {
 
 const getStartMetadata = (node: any) => {
   if (node.name !== 'Start') return undefined
-  const type = node.attachedConnectors.some((c: any) => c.connectorStart.endpointNodeId === node.id) ? 'start' : 'end'
+  const connector = node.attachedConnectors.find((c: any) => c.connectorStart.endpointNodeId === node.id)
+  const type = !!connector ? 'start' : 'end'
+  const text = (!!connector && connector.name !== 'Connector line') ? connector?.name : `start_${node.id.replace(':', '_')}`
   return {
     type,
-    text: findText(node)
+    text
   }
 }
 

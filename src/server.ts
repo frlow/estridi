@@ -11,19 +11,8 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-const defaultConfig = {
-  json: 'output',
-  vitest: path.join('output', 'vitest'),
-  playwright: path.join('output', 'playwright')
-}
-const configPath = 'estridi.json'
-if (!fs.existsSync(configPath)) fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2), 'utf8')
-const config = JSON.parse(fs.readFileSync(configPath, 'utf8'))
-export type Config = typeof defaultConfig
-console.log('Config', config)
-
 app.post('/', (req, res) => {
-  generateAll(req.body, config)
+  generateAll(req.body)
   res.sendStatus(200)
 })
 
