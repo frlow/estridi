@@ -9,7 +9,6 @@
     "serve": "tsx src/server.ts",
     "build": "esbuild --bundle --outfile=dist/code.js src/client.ts --target=es6 && esbuild --bundle --outfile=dist/server.js src/server.ts --target=es6 --platform=node --format=cjs && cp manifest.json dist/ && cp ui.html dist/",
     "test": "vitest",
-    "dev": "tsx src/cli.ts",
     "install:local": "pnpm build && npm pack && npm i -g *.tgz && rimraf *.tgz"
   },
   "bin": "./dist/server.js",

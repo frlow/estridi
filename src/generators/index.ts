@@ -1,6 +1,6 @@
 import { writeAllFiles } from './utils/files'
 import { Scraped } from '../common'
-import { findAllPaths } from './utils/paths'
+import { generatePlaywrightTests } from './playwright'
 
 export type GenerationResult = { file: string, content: string, overwrite: boolean }
 
@@ -17,8 +17,8 @@ export const generateAll = (scraped: Scraped) => {
     file: 'output/scraped.json',
     overwrite: true
   }
-  findAllPaths(scraped)
-  writeAllFiles([json])
+  const playwright = generatePlaywrightTests(scraped)
+  writeAllFiles([json, playwright])
 }
 
 export const getPrettyLabel = (type: string) => {
