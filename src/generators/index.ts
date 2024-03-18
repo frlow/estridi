@@ -17,7 +17,7 @@ export const generateAll = (scraped: Scraped) => {
     file: 'output/scraped.json',
     overwrite: true
   }
-  const playwright = generatePlaywrightTests(scraped)
+  const playwright = generatePlaywrightTests(scraped, "output", "demo")
   writeAllFiles([json, playwright])
 }
 
