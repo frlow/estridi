@@ -1,5 +1,5 @@
-import { Scraped } from '../../common'
-import { findAllPaths } from './paths'
+import { Scraped } from '../common.js'
+import { findAllPaths } from './paths.mjs'
 
 
 export const getTestData = (scraped: Scraped) => {

@@ -1,19 +1,64 @@
-import { Scraped } from '../common'
-import { GenerationResult } from './index'
-import { getTestData } from './utils/testData'
+import { GenerationResult, Scraped } from '../common.js'
+import { getTestData } from '../utils/testData.js'
 import * as path from 'node:path'
 
-export const generatePlaywrightTests = (scraped: Scraped, dir: string): GenerationResult => {
+export const generatePlaywrightTests = (scraped: Scraped, dir: string): GenerationResult[] => {
   const testData = getTestData(scraped)
   const name = 'demo'
   const testedNodeTypes = ['message', 'script', 'subprocess']
   const testedNodes = testData.filter(node => testedNodeTypes.includes(node.type))
   const content = `import { test } from '@playwright/test'
-import { testNode } from './utils'
-import { handles } from './index'
+import { testNode } from 'estridi/playwright'
+import { handles } from './${name}.js'
 
 test.describe('${name}', () => {
 ${testedNodes.map(n => `  test('${n.type}: ${n.text}, ${n.id}', async ({ page, context }) => await testNode({ page, context, handles }, '${n.id}'))`).join('\n')}
 })`
-  return { content: content, overwrite: true, file: path.join(dir, `${name}.test.ts`) }
+
+  const indexFileContent = `import { findAllPaths, Handles } from 'estridi/playwright'
+import { ActionKey, GatewayKey, scraped, ServiceCallKey, TestNodeKey } from './scraped.js'
+
+export const handles: Handles<
+  GatewayKey,
+  ServiceCallKey,
+  TestNodeKey,
+  ActionKey
+> = {
+  handleSetup: async (args) => {
+    debugger
+    throw 'Not implemented'
+  },
+  handleStart: async (args) => {
+    debugger
+    throw 'Not implemented'
+  },
+  handleServiceCall: async (key, gateways, args) => {
+    switch (key) {
+      default:
+        debugger
+        throw \`\${key} not implemented\`
+    }
+  },
+  handleAction: async (key, gateways, args) => {
+    switch (key) {
+      default:
+        debugger
+        throw \`\${key} not implemented\`
+    }
+  },
+  handleTestNode: async (key, paths, args) => {
+    switch (key) {
+      default:
+        debugger
+        throw \`\${key} not implemented\`
+    }
+  },
+  scraped,
+  allPaths: findAllPaths(scraped)
+}
+`
+  return [
+    { content: content, overwrite: true, file: path.join(dir, `${name}.spec.ts`) },
+    { content: indexFileContent, overwrite: false, file: path.join(dir, `${name}.ts`) },
+  ]
 }

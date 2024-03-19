@@ -1,6 +1,6 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-import { GenerationResult } from './index'
+import { GenerationResult } from '../common.js'
 
 export const writeFile = (generationResult: GenerationResult) => {
   fs.mkdirSync(path.parse(generationResult.file).dir, { recursive: true })

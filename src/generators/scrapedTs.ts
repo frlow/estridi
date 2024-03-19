@@ -1,7 +1,6 @@
-import { Scraped } from '../common'
-import { GenerationResult } from './index'
+import { GenerationResult, Scraped } from '../common.js'
 import * as path from 'node:path'
-import { getTestData } from './utils/testData'
+import { getTestData } from '../utils/testData.js'
 
 export const generateScrapedTs = (scraped: Scraped, dir: string): GenerationResult => {
   const testData = getTestData(scraped)
@@ -13,7 +12,13 @@ export const generateScrapedTs = (scraped: Scraped, dir: string): GenerationResu
     .map(n => `  | '${n.id}: ${n.text}'`)
   const testNodeKeys = testData.filter(n => ['message', 'script', 'subprocess'].includes(n.type))
     .map(n => `  | '${n.id}: ${n.text}'`)
-  const content = `export const scraped = ${JSON.stringify(scraped, null, 2)}
+  const content = `export const scraped: {
+  type: string,
+  text: string,
+  connections: Record<string, string>,
+  id: string,
+  actions?: string[]
+}[] = ${JSON.stringify(scraped, null, 2)}
 export type GatewayKey = 
 ${gatewayKeys.join('\n')}
 export type ServiceCallKey = 

@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 import express from 'express'
 import cors from 'cors'
-import { generateAll } from './generators'
+import { generateAll } from './generators/index.js'
 import { fileURLToPath } from 'node:url'
 import * as path from 'node:path'
-import { version } from '../package.json'
-import fs from 'fs'
+// import { version } from '../package.json' assert {type: "json" }
 
 const app = express()
 app.use(cors())
@@ -17,7 +16,7 @@ app.post('/', (req, res) => {
 })
 
 const port = 3000
-console.log(`Version: ${version}`)
+// console.log(`Version: ${version}`)
 console.log('Manifest located in the following directory:')
 console.log(
   import.meta.url ? fileURLToPath(path.parse(import.meta.url).dir) : __dirname

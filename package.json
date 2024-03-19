@@ -1,13 +1,14 @@
 {
   "name": "estridi",
-  "version": "0.0.19",
+  "version": "0.2.0",
+  "type": "module",
   "description": "Your Figma Plugin",
   "main": "code.js",
   "scripts": {
     "start": "rimraf output && concurrently \"pnpm watch\" \"pnpm serve\"",
     "watch": "esbuild --bundle --outfile=code.js src/client.ts --watch --target=es6",
-    "serve": "tsx src/server.ts",
-    "build": "esbuild --bundle --outfile=dist/code.js src/client.ts --target=es6 && esbuild --bundle --outfile=dist/server.js src/server.ts --target=es6 --platform=node --format=cjs && cp manifest.json dist/ && cp ui.html dist/",
+    "serve": "tsc && node dist/server.js",
+    "build": "esbuild --bundle --outfile=code.js src/client.ts --target=es6 && tsc",
     "test": "vitest",
     "dev": "tsx src/generators/cli.ts",
     "install:local": "pnpm build && npm pack && npm i -g *.tgz && rimraf *.tgz"
@@ -15,8 +16,10 @@
   "bin": "./dist/server.js",
   "author": "",
   "license": "",
-  "devDependencies": {
-    "@playwright/test": "^1.42.1",
+  "peerDependencies": {
+    "@playwright/test": "^1.42.1"
+  },
+  "dependencies": {
     "glob": "^10.3.10",
     "@figma/plugin-typings": "*",
     "@types/cors": "^2.8.17",
@@ -32,7 +35,7 @@
     "vitest": "^1.3.1",
     "rimraf": "^5.0.5"
   },
-  "files": [
-    "dist"
-  ]
+  "exports": {
+    "./playwright": "./dist/runners/playwrightRunner.mjs"
+  }
 }

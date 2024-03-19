@@ -1,17 +1,35 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "System",
+    "module": "NodeNext",
     "lib": [
       "es2016",
       "ES2022"
     ],
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "moduleResolution": "Node",
+    "moduleResolution": "NodeNext",
     "strict": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
     "typeRoots": [
       "./node_modules/@types",
       "./node_modules/@figma"
-    ]
-  }
+    ],
+    "outDir": "dist",
+    "declaration": true,
+    "paths": {
+      "estridi/playwright": [
+        "./src/runners/playwrightRunner.ts"
+      ]
+      // enables us to use @components/MyComponent
+    }
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "output",
+    "**/*.test.ts"
+  ]
 }

@@ -1,9 +1,10 @@
-import { writeAllFiles } from './utils/files'
-import { Scraped } from '../common'
-import { generatePlaywrightTests } from './playwright'
-import { generateScrapedTs } from './scrapedTs'
+import { writeAllFiles } from '../utils/files.js'
+import { GenerationResult, Scraped } from '../common.js'
+import { generatePlaywrightTests } from './playwright.js'
+import { generateScrapedTs } from './scrapedTs.js'
+import path from 'node:path'
 
-export type GenerationResult = { file: string, content: string, overwrite: boolean }
+
 
 export const getFileName = (name: string) =>
   name
@@ -13,9 +14,15 @@ export const getFileName = (name: string) =>
 
 
 export const generateAll = (scraped: Scraped) => {
-  const scrapedTs: GenerationResult = generateScrapedTs(scraped, 'output')
-  const playwright = generatePlaywrightTests(scraped, 'output')
-  writeAllFiles([scrapedTs, playwright])
+  const targetDir = "tests"
+  const scrapedTs: GenerationResult = generateScrapedTs(scraped, targetDir)
+  const playwright = generatePlaywrightTests(scraped, targetDir)
+  const json: GenerationResult = {
+    file: path.join(targetDir, 'scraped.json'),
+    overwrite: true,
+    content: JSON.stringify(scraped, null, 2)
+  }
+  writeAllFiles([scrapedTs, ...playwright, json])
 }
 
 export const getPrettyLabel = (type: string) => {

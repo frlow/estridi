@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { isInside } from './nodes'
+import { isInside } from './nodes.js'
 
 test('overlap', () => {
   const host = {

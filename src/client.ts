@@ -1,4 +1,4 @@
-import { getNodeMetadata } from './figma/nodes'
+import { getNodeMetadata } from './figma/nodes.js'
 
 figma.showUI(__html__)
 figma.ui.onmessage = (msg) => {
