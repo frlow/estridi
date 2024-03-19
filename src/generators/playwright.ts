@@ -3,8 +3,9 @@ import { GenerationResult } from './index'
 import { getTestData } from './utils/testData'
 import * as path from 'node:path'
 
-export const generatePlaywrightTests = (scraped: Scraped, dir: string, name: string): GenerationResult => {
+export const generatePlaywrightTests = (scraped: Scraped, dir: string): GenerationResult => {
   const testData = getTestData(scraped)
+  const name = 'demo'
   const testedNodeTypes = ['message', 'script', 'subprocess']
   const testedNodes = testData.filter(node => testedNodeTypes.includes(node.type))
   const content = `import { test } from '@playwright/test'

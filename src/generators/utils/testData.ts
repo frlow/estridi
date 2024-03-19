@@ -4,8 +4,9 @@ import { findAllPaths } from './paths'
 
 export const getTestData = (scraped: Scraped) => {
   const allPaths = findAllPaths(scraped)
-  const flat = allPaths.flatMap(n => n)
-  const unique = flat.filter((n, i, arr) => arr.indexOf(n) === i)
+  const unique = allPaths
+    .flatMap(n => n)
+    .filter((n, i, arr) => arr.indexOf(n) === i)
   const lowestIndex = (id: string) => {
     const relevant = allPaths.filter(path => path.includes(id))
     const indexes = relevant.map((arr) =>
