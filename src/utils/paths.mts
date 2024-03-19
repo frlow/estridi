@@ -1,10 +1,9 @@
 import { Scraped } from '../common.js'
 
 export const findAllPaths = (scraped: Scraped) => {
-  const root = scraped.find(node => node.type === 'start' && node.text?.startsWith("root"))
+  const root = scraped.find(node => node.type === 'start' && node.text === "root")
   if (!root) {
-    console.warn('Could not find root node!')
-    return []
+    throw 'Could not find root node!'
   }
   const process = (start: string) => {
     const paths: string[][] = []

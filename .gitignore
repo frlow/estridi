@@ -10,3 +10,4 @@ features/
 .idea/
 output/
 estridi.json
+tests/
