@@ -1,10 +1,6 @@
 import { Scraped } from '../common.js'
 
 export const findAllPaths = (scraped: Scraped, rootId: string) => {
-  const root = scraped.find(node => node.id === rootId)
-  if (!root) {
-    throw 'Could not find root node!'
-  }
   const process = (start: string) => {
     const paths: string[][] = []
     const toProcess: { nodes: string[], stack: string[], current: string }[] = [{
@@ -55,5 +51,5 @@ export const findAllPaths = (scraped: Scraped, rootId: string) => {
     console.warn(missingSubProcesses)
     return paths
   }
-  return process(root.id)
+  return process(rootId)
 }
