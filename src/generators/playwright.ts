@@ -1,28 +1,38 @@
 import { GenerationResult, Scraped } from '../common.js'
 import { getTestData } from '../utils/testData.js'
 import * as path from 'node:path'
+import { generateTestKeys } from './testKeys.js'
 
 export const generatePlaywrightTests = (scraped: Scraped, dir: string, rootId: string, name: string): GenerationResult[] => {
   const testData = getTestData(scraped, rootId)
   const testedNodeTypes = ['message', 'script', 'subprocess']
   const testedNodes = testData.filter(node => testedNodeTypes.includes(node.type))
   const content = `import { test } from '@playwright/test'
-import { testNode } from 'estridi/playwright'
+import { testNode, testAllPaths, Handles } from 'estridi/playwright'
 import { handles } from './${name}.handles.js'
-
+const t =
+  (id: string) =>
+  async ({ page, context }: any) =>
+    await testNode({ page, context, handles }, id)
 test.describe('${name}', () => {
-${testedNodes.map(n => `  test('${n.type}: ${n.text}, ${n.id}', async ({ page, context }) => await testNode({ page, context, handles }, '${n.id}'))`).join('\n')}
-})`
+${testedNodes.map(n => `  test('${n.type}: ${n.text}, ${n.id}', t('${n.id}'))`).join('\n')}
+  if (process.env.TEST_ALL_PATHS === 'true')
+    test.describe('all', () => testAllPaths(handles, test))
+})
 
-  const indexFileContent = `import { findAllPaths, Handles } from 'estridi/playwright'
-import { ActionKey, GatewayKey, scraped, ServiceCallKey, TestNodeKey } from './${name}.scraped.js'
-
-export const handles: Handles<
+${generateTestKeys(scraped, rootId)}
+export type ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles = Handles<
   GatewayKey,
   ServiceCallKey,
   TestNodeKey,
   ActionKey
-> = {
+>`
+
+  const indexFileContent = `import { findAllPaths, Handles } from 'estridi/playwright'
+import type { ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles } from './${name}.spec.js'
+import scraped from './scraped.json'
+
+export const handles: ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles = {
   handleSetup: async (args) => {
     debugger
     throw 'Not implemented'

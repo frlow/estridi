@@ -1,8 +1,7 @@
-import { GenerationResult, Scraped } from '../common.js'
-import * as path from 'node:path'
+import { Scraped } from '../common.js'
 import { getTestData } from '../utils/testData.js'
 
-export const generateScrapedTs = (scraped: Scraped, dir: string, rootId: string, name: string): GenerationResult => {
+export const generateTestKeys = (scraped: Scraped, rootId: string) => {
   const testData = getTestData(scraped, rootId)
   const gatewayKeys = testData.filter(n => n.type === 'gateway')
     .map(n => `  | '${n.id}: ${n.text}'`)
@@ -12,14 +11,7 @@ export const generateScrapedTs = (scraped: Scraped, dir: string, rootId: string,
     .map(n => `  | '${n.id}: ${n.text}'`)
   const testNodeKeys = testData.filter(n => ['message', 'script', 'subprocess'].includes(n.type))
     .map(n => `  | '${n.id}: ${n.text}'`)
-  const content = `export const scraped: {
-  type: string,
-  text: string,
-  connections: Record<string, string>,
-  id: string,
-  actions?: string[]
-}[] = ${JSON.stringify(scraped, null, 2)}
-export type GatewayKey = 
+  return `export type GatewayKey = 
 ${gatewayKeys.join('\n')}
 export type ServiceCallKey = 
 ${serviceCallKeys.join('\n')}
@@ -28,9 +20,4 @@ ${actionKeys.join('\n')}
 export type TestNodeKey = 
 ${testNodeKeys.join('\n')}
 `
-  return {
-    content,
-    file: path.join(dir, `${name}.scraped.ts`),
-    overwrite: true
-  }
 }
