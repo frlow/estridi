@@ -16,7 +16,7 @@
       "./node_modules/@types",
       "./node_modules/@figma"
     ],
-    "outDir": "dist",
+    "outDir": "dist/esm",
     "declaration": true,
     "paths": {
       "estridi/playwright": [

@@ -1,6 +1,6 @@
 {
   "name": "estridi",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "type": "module",
   "description": "Your Figma Plugin",
   "main": "code.js",
@@ -8,12 +8,12 @@
     "start": "rimraf output && concurrently \"pnpm watch\" \"pnpm serve\"",
     "watch": "esbuild --bundle --outfile=code.js src/client.ts --watch --target=es6",
     "serve": "tsc && node dist/server.js",
-    "build": "esbuild --bundle --outfile=code.js src/client.ts --target=es6 && tsc",
+    "build": "esbuild --bundle --outfile=code.js src/client.ts --target=es6 && tsc && tsc -p tsconfig.cjs.json && node cjsfix.js",
     "test": "vitest",
     "dev": "tsx src/generators/cli.ts",
     "install:local": "pnpm build && npm pack && npm i -g *.tgz && rimraf *.tgz"
   },
-  "bin": "./dist/server.js",
+  "bin": "./dist/esm/server.js",
   "author": "",
   "license": "",
   "peerDependencies": {
@@ -36,6 +36,10 @@
     "rimraf": "^5.0.5"
   },
   "exports": {
-    "./playwright": "./dist/runners/playwrightRunner.mjs"
+    "./playwright": {
+      "import": "./dist/esm/runners/playwrightRunner.js",
+      "types": "./dist/esm/runners/playwrightRunner.d.ts",
+      "require": "./dist/cjs/runners/playwrightRunner.js"
+    }
   }
 }

@@ -1,4 +1,4 @@
-export { findAllPaths } from '../utils/paths.mjs'
+export { findAllPaths } from '../utils/paths.js'
 
 export type Scraped = any[]
 export type Handles<
