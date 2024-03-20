@@ -7,7 +7,7 @@
   "scripts": {
     "start": "rimraf output && concurrently \"pnpm watch\" \"pnpm serve\"",
     "watch": "esbuild --bundle --outfile=code.js src/client.ts --watch --target=es6",
-    "serve": "tsc && node dist/server.js",
+    "serve": "tsc && node dist/esm/server.js",
     "build": "esbuild --bundle --outfile=code.js src/client.ts --target=es6 && tsc && tsc -p tsconfig.cjs.json && node cjsfix.js",
     "test": "vitest",
     "dev": "tsx src/generators/cli.ts",

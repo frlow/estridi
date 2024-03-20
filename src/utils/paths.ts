@@ -1,7 +1,7 @@
 import { Scraped } from '../common.js'
 
-export const findAllPaths = (scraped: Scraped) => {
-  const root = scraped.find(node => node.type === 'start' && node.text === "root")
+export const findAllPaths = (scraped: Scraped, rootId: string) => {
+  const root = scraped.find(node => node.id === rootId)
   if (!root) {
     throw 'Could not find root node!'
   }

@@ -5,7 +5,6 @@ import { generateScrapedTs } from './scrapedTs.js'
 import path from 'node:path'
 
 
-
 export const getFileName = (name: string) =>
   name
     .replace(/ /g, '_')
@@ -14,15 +13,23 @@ export const getFileName = (name: string) =>
 
 
 export const generateAll = (scraped: Scraped) => {
-  const targetDir = "tests"
-  const scrapedTs: GenerationResult = generateScrapedTs(scraped, targetDir)
-  const playwright = generatePlaywrightTests(scraped, targetDir)
-  const json: GenerationResult = {
-    file: path.join(targetDir, 'scraped.json'),
-    overwrite: true,
-    content: JSON.stringify(scraped, null, 2)
+  const targetDir = 'tests'
+  const roots = scraped.filter(node => node.type === 'start' && node.text.startsWith('root:'))
+  if (roots.length === 0) {
+    console.warn('No root nodes fond!')
+    return
   }
-  writeAllFiles([scrapedTs, ...playwright, json])
+  for (const root of roots) {
+    const name = root.text.split(':')[1]
+    const scrapedTs: GenerationResult = generateScrapedTs(scraped, targetDir, root.id, name)
+    const playwright = generatePlaywrightTests(scraped, targetDir, root.id, name)
+    const json: GenerationResult = {
+      file: path.join(targetDir, 'scraped.json'),
+      overwrite: true,
+      content: JSON.stringify(scraped, null, 2)
+    }
+    writeAllFiles([scrapedTs, ...playwright, json])
+  }
 }
 
 export const getPrettyLabel = (type: string) => {

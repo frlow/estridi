@@ -2,8 +2,8 @@ import { GenerationResult, Scraped } from '../common.js'
 import * as path from 'node:path'
 import { getTestData } from '../utils/testData.js'
 
-export const generateScrapedTs = (scraped: Scraped, dir: string): GenerationResult => {
-  const testData = getTestData(scraped)
+export const generateScrapedTs = (scraped: Scraped, dir: string, rootId: string, name: string): GenerationResult => {
+  const testData = getTestData(scraped, rootId)
   const gatewayKeys = testData.filter(n => n.type === 'gateway')
     .map(n => `  | '${n.id}: ${n.text}'`)
   const serviceCallKeys = testData.filter(n => n.type === 'serviceCall')
@@ -30,7 +30,7 @@ ${testNodeKeys.join('\n')}
 `
   return {
     content,
-    file: path.join(dir, 'scraped.ts'),
+    file: path.join(dir, `${name}.scraped.ts`),
     overwrite: true
   }
 }
