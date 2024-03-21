@@ -8,16 +8,14 @@ export const generatePlaywrightTests = (scraped: Scraped, dir: string, rootId: s
   const testedNodeTypes = ['message', 'script', 'subprocess']
   const testedNodes = testData.filter(node => testedNodeTypes.includes(node.type))
   const content = `import { test } from '@playwright/test'
-import { testNode, testAllPaths, Handles } from 'estridi/playwright'
+import { createTester, Handles } from 'estridi/playwright'
+import scraped from './scraped.json'
 import { handles } from './${name}.handles.js'
-const t =
-  (id: string) =>
-  async ({ page, context }: any) =>
-    await testNode({ page, context, handles }, id)
+const { t, all } = createTester(handles, scraped, '${rootId}')
 test.describe('${name}', () => {
 ${testedNodes.map(n => `  test('${n.type}: ${n.text}, ${n.id}', t('${n.id}'))`).join('\n')}
   if (process.env.TEST_ALL_PATHS === 'true')
-    test.describe('all', () => testAllPaths(handles, test))
+    test.describe('all', () => all(test))
 })
 
 ${generateTestKeys(scraped, rootId)}
@@ -28,9 +26,7 @@ export type ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles = Handles
   ActionKey
 >`
 
-  const indexFileContent = `import { findAllPaths, Handles } from 'estridi/playwright'
-import type { ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles } from './${name}.spec.js'
-import scraped from './scraped.json'
+  const indexFileContent = `import type { ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles } from './${name}.spec.js'
 
 export const handles: ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles = {
   handleSetup: async (args) => {
@@ -61,9 +57,7 @@ export const handles: ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles
         debugger
         throw \`\${key} not implemented\`
     }
-  },
-  scraped,
-  allPaths: findAllPaths(scraped, "${rootId}")
+  }
 }
 `
   return [

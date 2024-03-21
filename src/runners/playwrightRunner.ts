@@ -1,4 +1,4 @@
-export { findAllPaths } from '../utils/paths.js'
+import { findAllPaths } from '../utils/paths.js'
 
 export type Scraped = any[]
 export type Handles<
@@ -24,8 +24,6 @@ export type Handles<
     paths: string[],
     args: NodeTestArgs
   ) => Promise<void>
-  scraped: Scraped
-  allPaths: string[][]
 }
 
 const getGateways = (pathToTest: any[]) =>
@@ -42,20 +40,14 @@ export type NodeTestArgs = {
   context: any
 }
 
-export const testAllPaths = ({
-                               allPaths,
-                               handleTestNode,
-                               handleAction,
-                               handleStart,
-                               handleServiceCall,
-                               scraped,
-                               handleSetup
-                             }: Handles, test: (name: string, testFunc: (args: any) => Promise<void>) => void) => {
+export const testAllPaths = (handles: Handles, test: (name: string, testFunc: (args: any) => Promise<void>) => void, scraped: any, rootId: string) => {
+  const { handleTestNode, handleAction, handleStart, handleServiceCall, handleSetup } = handles
+  const allPaths = findAllPaths(scraped, rootId)
   for (const path of allPaths) {
     test(
-      path.map((id) => scraped.find((s) => s.id === id).text).join(', '),
+      path.map((id) => scraped.find((s: any) => s.id === id).text).join(', '),
       async ({ page, context }) => {
-        const pathToTest = path.map((id) => scraped.find((s) => s.id === id))
+        const pathToTest = path.map((id) => scraped.find((s: any) => s.id === id))
 
         const gateways = getGateways(pathToTest)
         const serviceCalls = pathToTest.filter(
@@ -87,7 +79,7 @@ export const testAllPaths = ({
 }
 
 export const testNode = async (
-  args: NodeTestArgs & { handles: Handles },
+  args: NodeTestArgs & { handles: Handles, allPaths: string[][], scraped: any },
   id: string
 ) => {
   const {
@@ -97,10 +89,10 @@ export const testNode = async (
     handleServiceCall,
     handleSetup
   } = args.handles
-  const relevantPaths = args.handles.allPaths
+  const relevantPaths = args.allPaths
     .filter((paths) => paths.includes(id))
     .map((path) =>
-      path.map((id) => args.handles.scraped.find((s) => s.id === id))
+      path.map((id) => args.scraped.find((s: any) => s.id === id))
     )
   const pathToTest = relevantPaths[0]
   const gateways = getGateways(pathToTest)
@@ -128,4 +120,11 @@ export const testNode = async (
   }
 }
 
-
+export const createTester = (handles: Handles, scraped: any, rootId: string) => {
+  const allPaths = findAllPaths(scraped, rootId)
+  const t = (id: string) =>
+    async ({ page, context }: any) =>
+      await testNode({ page, context, handles, scraped, allPaths }, id)
+  const all = (testFunc: Parameters<typeof testAllPaths>[1]) => testAllPaths(handles, testFunc, scraped, rootId)
+  return { t, all }
+}
