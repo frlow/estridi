@@ -34,7 +34,7 @@ export type ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles = Handles
   {page: Page, context: BrowserContext}
 >`
 
-  const handles = handlesContent(name)
+  const handles = handlesContent(name, `${name}.spec.js`)
   return [
     { content: content, overwrite: true, file: path.join(dir, `${name}.spec.ts`) },
     { content: handles, overwrite: false, file: path.join(dir, `${name}.handles.ts`) }

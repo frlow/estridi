@@ -1,4 +1,4 @@
-export const handlesContent = (name: string)=>`import type { ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles } from './${name}.spec.js'
+export const handlesContent = (name: string, testFileName: string)=>`import type { ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles } from './${testFileName}'
 
 export type State = {}
 export const handles: ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles = {
