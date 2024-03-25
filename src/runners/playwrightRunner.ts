@@ -40,47 +40,48 @@ export type NodeTestArgs = {
   context: any
 }
 
-export const testAllPaths = (handles: Handles, test: (name: string, testFunc: (args: any) => Promise<void>) => void, scraped: any, rootId: string) => {
-  const { handleTestNode, handleAction, handleStart, handleServiceCall, handleSetup } = handles
-  const allPaths = findAllPaths(scraped, rootId)
-  for (const path of allPaths) {
-    test(
-      path.map((id) => scraped.find((s: any) => s.id === id).text).join(', '),
-      async ({ page, context }) => {
-        const pathToTest = path.map((id) => scraped.find((s: any) => s.id === id))
-
-        const gateways = getGateways(pathToTest)
-        const serviceCalls = pathToTest.filter(
-          (n: any) => n.type === 'serviceCall'
-        )
-        await handleSetup({ page, context })
-        await Promise.all(
-          serviceCalls.map((sc: any) =>
-            handleServiceCall(`${sc.id}: ${sc.text}`, gateways, {
-              context,
-              page
-            })
-          )
-        )
-        await handleStart({ context, page })
-        for (const node of pathToTest) {
-          if (node!.type === 'signalListen')
-            await handleAction(`${node!.id}: ${node!.text}`, gateways, { page, context })
-          else if (['message', 'script', 'subprocess'].includes(node.type))
-            await handleTestNode(
-              `${node!.id}: ${node!.text}`,
-              pathToTest.map((n: any) => n.text),
-              { page, context }
-            )
-        }
-      }
-    )
-  }
-}
+// export const testAllPaths = (handles: Handles, test: (name: string, testFunc: (args: any) => Promise<void>) => void, scraped: any, rootId: string) => {
+//   const { handleTestNode, handleAction, handleStart, handleServiceCall, handleSetup } = handles
+//   const allPaths = findAllPaths(scraped, rootId)
+//   for (const path of allPaths) {
+//     test(
+//       path.map((id) => scraped.find((s: any) => s.id === id).text).join(', '),
+//       async ({ page, context }) => {
+//         const pathToTest = path.map((id) => scraped.find((s: any) => s.id === id))
+//
+//         const gateways = getGateways(pathToTest)
+//         const serviceCalls = pathToTest.filter(
+//           (n: any) => n.type === 'serviceCall'
+//         )
+//         await handleSetup({ page, context })
+//         await Promise.all(
+//           serviceCalls.map((sc: any) =>
+//             handleServiceCall(`${sc.id}: ${sc.text}`, gateways, {
+//               context,
+//               page
+//             })
+//           )
+//         )
+//         await handleStart({ context, page })
+//         for (const node of pathToTest) {
+//           if (node!.type === 'signalListen')
+//             await handleAction(`${node!.id}: ${node!.text}`, gateways, { page, context })
+//           else if (['message', 'script', 'subprocess'].includes(node.type))
+//             await handleTestNode(
+//               `${node!.id}: ${node!.text}`,
+//               pathToTest.map((n: any) => n.text),
+//               { page, context }
+//             )
+//         }
+//       }
+//     )
+//   }
+// }
 
 export const testNode = async (
-  args: NodeTestArgs & { handles: Handles, allPaths: string[][], scraped: any },
-  id: string
+  config: { args: NodeTestArgs, handles: Handles, allPaths: string[][], scraped: any },
+  id?: string,
+  path?: string[]
 ) => {
   const {
     handleTestNode,
@@ -88,34 +89,38 @@ export const testNode = async (
     handleStart,
     handleServiceCall,
     handleSetup
-  } = args.handles
-  const relevantPaths = args.allPaths
-    .filter((paths) => paths.includes(id))
-    .map((path) =>
-      path.map((id) => args.scraped.find((s: any) => s.id === id))
-    )
-  const pathToTest = relevantPaths[0]
+  } = config.handles
+  const findRelevantPath = (id: string) => {
+    const relevantPaths = config.allPaths
+      .filter((paths) => paths.includes(id))
+      .map((path) =>
+        path.map((id) => config.scraped.find((s: any) => s.id === id))
+      )
+    return relevantPaths[0]
+  }
+
+  const pathToTest = id ? findRelevantPath(id) : (path || [])
   const gateways = getGateways(pathToTest)
   const serviceCalls = pathToTest.filter((n: any) => n.type === 'serviceCall')
-  await handleSetup(args)
+  await handleSetup(config.args)
   await Promise.all(
     serviceCalls.map((sc: any) =>
-      handleServiceCall(`${sc.id}: ${sc.text}`, gateways, args)
+      handleServiceCall(`${sc.id}: ${sc.text}`, gateways, config.args)
     )
   )
-  await handleStart(args)
+  await handleStart(config.args)
   for (const node of pathToTest) {
     if (node!.type === 'signalListen')
       await handleAction(
         `${node!.id}: ${node!.text}`,
         gateways,
-        args
+        config.args
       )
-    else if (node!.id === id)
+    else if (node!.id === id || (path && ['message', 'script', 'subprocess'].includes(node.type)))
       await handleTestNode(
         `${node!.id}: ${node!.text}`,
         pathToTest.map((n: any) => n.text),
-        args
+        config.args
       )
   }
 }
@@ -123,8 +128,13 @@ export const testNode = async (
 export const createTester = (handles: Handles, scraped: any, rootId: string) => {
   const allPaths = findAllPaths(scraped, rootId)
   const t = (id: string) =>
-    async ({ page, context }: any) =>
-      await testNode({ page, context, handles, scraped, allPaths }, id)
-  const all = (testFunc: Parameters<typeof testAllPaths>[1]) => testAllPaths(handles, testFunc, scraped, rootId)
-  return { t, all }
+    async (args: any) =>
+      await testNode({ args, handles, scraped, allPaths }, id)
+  const testPath = (path: string[]) => async (args: any) => await testNode({
+    args,
+    handles,
+    scraped,
+    allPaths
+  }, undefined, path)
+  return { t, allPaths, testPath }
 }

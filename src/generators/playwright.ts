@@ -11,11 +11,15 @@ export const generatePlaywrightTests = (scraped: Scraped, dir: string, rootId: s
 import { createTester, Handles } from 'estridi/playwright'
 import scraped from './scraped.json'
 import { handles } from './${name}.handles.js'
-const { t, all } = createTester(handles, scraped, '${rootId}')
+const { t, testPath, allPaths } = createTester(handles, scraped, '${rootId}')
 test.describe('${name}', () => {
 ${testedNodes.map(n => `  test('${n.type}: ${n.text}, ${n.id}', t('${n.id}'))`).join('\n')}
   if (process.env.TEST_ALL_PATHS === 'true')
-    test.describe('all', () => all(test))
+    test.describe('all paths', () => {
+      for (const path of allPaths) {
+        test(path.join(', '), testPath(path))
+      }
+    })
 })
 
 ${generateTestKeys(scraped, rootId)}
