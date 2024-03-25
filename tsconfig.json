@@ -19,8 +19,8 @@
     "outDir": "dist/esm",
     "declaration": true,
     "paths": {
-      "estridi/playwright": [
-        "./src/runners/playwrightRunner.ts"
+      "estridi": [
+        "./src/runners/runner.ts"
       ]
       // enables us to use @components/MyComponent
     }

@@ -36,10 +36,10 @@
     "rimraf": "^5.0.5"
   },
   "exports": {
-    "./playwright": {
-      "import": "./dist/esm/runners/playwrightRunner.js",
-      "types": "./dist/esm/runners/playwrightRunner.d.ts",
-      "require": "./dist/cjs/runners/playwrightRunner.js"
+    ".": {
+      "import": "./dist/esm/runners/runner.js",
+      "types": "./dist/esm/runners/runner.d.ts",
+      "require": "./dist/cjs/runners/runner.js"
     }
   }
 }

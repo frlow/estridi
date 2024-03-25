@@ -1,4 +1,4 @@
-import { Scraped } from '../common.js'
+import { Scraped, testedNodeTypes } from '../common.js'
 import { getTestData } from '../utils/testData.js'
 
 export const generateTestKeys = (scraped: Scraped, rootId: string) => {
@@ -9,7 +9,7 @@ export const generateTestKeys = (scraped: Scraped, rootId: string) => {
     .map(n => `  | '${n.id}: ${n.text}'`)
   const actionKeys = testData.filter(n => n.type === 'signalListen')
     .map(n => `  | '${n.id}: ${n.text}'`)
-  const testNodeKeys = testData.filter(n => ['message', 'script', 'subprocess'].includes(n.type))
+  const testNodeKeys = testData.filter(n => testedNodeTypes.includes(n.type))
     .map(n => `  | '${n.id}: ${n.text}'`)
   return `export type GatewayKey = 
 ${gatewayKeys.join('\n')}
