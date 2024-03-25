@@ -2,7 +2,7 @@ import { GenerationResult, Scraped, testedNodeTypes } from '../common.js'
 import { getTestData } from '../utils/testData.js'
 import * as path from 'node:path'
 import { generateTestKeys } from './testKeys.js'
-import { handlesContent } from './handles.js'
+import { handlesContent, handlesKeys } from './handles.js'
 
 export const generatePlaywrightTests = (scraped: Scraped, dir: string, rootId: string, name: string): GenerationResult[] => {
   const testData = getTestData(scraped, rootId)
@@ -25,14 +25,7 @@ ${testedNodes.map(n => `  test('${n.type}: ${n.text}, ${n.id}', t('${n.id}'))`).
 })
 
 ${generateTestKeys(scraped, rootId)}
-export type ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles = Handles<
-  State,
-  GatewayKey,
-  ServiceCallKey,
-  TestNodeKey,
-  ActionKey,
-  {page: Page, context: BrowserContext}
->`
+${handlesKeys(name)}`
 
   const handles = handlesContent(name, `${name}.spec.js`)
   return [

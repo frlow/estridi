@@ -1,9 +1,11 @@
 import { writeAllFiles } from '../utils/files.js'
-import { GenerationResult, Scraped } from '../common.js'
+import { Scraped } from '../common.js'
 import { generatePlaywrightTests } from './playwright.js'
 import path from 'node:path'
 
-export const generateAll = (scraped: Scraped) => {
+export const modes = ['playwright', 'vitest'] as const
+export type Mode = typeof modes[number];
+export const generateAll = (scraped: Scraped, mode: Mode) => {
   const targetDir = 'tests'
   const roots = scraped.filter(node => node.type === 'start' && node.text.startsWith('root:'))
   if (roots.length === 0) {
@@ -12,12 +14,11 @@ export const generateAll = (scraped: Scraped) => {
   }
   for (const root of roots) {
     const name = root.text.split(':')[1]
-    const playwright = generatePlaywrightTests(scraped, targetDir, root.id, name)
-    const json: GenerationResult = {
+    if (mode === 'playwright') writeAllFiles(generatePlaywrightTests(scraped, targetDir, root.id, name))
+    writeAllFiles([{
       file: path.join(targetDir, 'scraped.json'),
       overwrite: true,
       content: JSON.stringify(scraped, null, 2)
-    }
-    writeAllFiles([...playwright, json])
+    }])
   }
 }

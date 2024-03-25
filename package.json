@@ -5,7 +5,7 @@
   "description": "Your Figma Plugin",
   "main": "code.js",
   "scripts": {
-    "start": "rimraf output && concurrently \"pnpm watch\" \"pnpm serve\"",
+    "start": "rimraf output && concurrently -k \"pnpm watch\" \"pnpm serve\"",
     "watch": "esbuild --bundle --outfile=code.js src/client.ts --watch --target=es6",
     "serve": "tsc && node dist/esm/server.js",
     "build": "esbuild --bundle --outfile=code.js src/client.ts --target=es6 && tsc && tsc -p tsconfig.cjs.json && node cjsfix.js",
