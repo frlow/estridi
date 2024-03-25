@@ -34,11 +34,11 @@ export const handles: ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles
 }
 `
 
-export const handlesKeys = (name: string) => `export type ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles = Handles<
+export const handlesKeys = (name: string, argsType: string) => `export type ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles = Handles<
   State,
   GatewayKey,
   ServiceCallKey,
   TestNodeKey,
   ActionKey,
-  {page: Page, context: BrowserContext}
+  ${argsType}
 >`

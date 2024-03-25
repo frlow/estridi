@@ -14,4 +14,7 @@ describe('generate', () => {
   test('playwright', () => {
     generateAll(scraped, 'playwright')
   })
+  test('vitest', () => {
+    generateAll(scraped, 'vitest')
+  })
 })
