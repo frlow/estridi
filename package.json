@@ -1,6 +1,6 @@
 {
   "name": "estridi",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "type": "module",
   "description": "Your Figma Plugin",
   "main": "code.js",
@@ -10,7 +10,8 @@
     "serve": "tsc && node dist/esm/server.js",
     "build": "esbuild --bundle --outfile=code.js src/client.ts --target=es6 && tsc && tsc -p tsconfig.cjs.json && node cjsfix.js",
     "test": "vitest",
-    "dev": "tsx src/generators/cli.ts",
+    "dev": "vite-node src/generators/cli.ts",
+    "client": "vite-node src/figma/cli.ts",
     "install:local": "pnpm build && npm pack && npm i -g *.tgz && rimraf *.tgz"
   },
   "bin": "./dist/esm/server.js",
@@ -30,10 +31,11 @@
     "esbuild": "^0.20.1",
     "express": "^4.18.2",
     "prettier": "^3.2.5",
-    "tsx": "^2.1.0",
     "typescript": "*",
     "vitest": "^1.3.1",
-    "rimraf": "^5.0.5"
+    "rimraf": "^5.0.5",
+    "figma-api": "^1.11.0",
+    "vite-node": "^1.4.0"
   },
   "exports": {
     ".": {
