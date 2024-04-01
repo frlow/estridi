@@ -17,7 +17,8 @@ export const getNodeMetadata = (node: any) => {
     getConnectorMetadata(node) ||
     getParallelGatewayMetadata(node) ||
     getTimerMetadata(node) ||
-    getNoteMetadata(node)
+    getNoteMetadata(node) ||
+    getTableMetadata(node)
   if (!meta) return undefined
   meta.connections = (node as any).attachedConnectors
     .filter((con: any) => con?.dashPattern?.length === 0 && con.connectorStart.endpointNodeId === node.id)
@@ -62,7 +63,7 @@ const getUserActionMetadata = (node: any) => {
   return {
     type: 'userAction',
     text: findText(node),
-    actions: node.parent.children.filter((n: any) => n.name === 'Signal listen' && isNodeInside(node, n)).map((n:any) => n.id)
+    actions: node.parent.children.filter((n: any) => n.name === 'Signal listen' && isNodeInside(node, n)).map((n: any) => n.id)
   }
 }
 
@@ -160,6 +161,23 @@ const getNoteMetadata = (node: any) => {
   return {
     type: 'note',
     text: findText(node)
+  }
+}
+
+const getTableMetadata = (node: any) => {
+  if (node.type !== 'TABLE') return undefined
+  const rows: string[][] = Object.values(node.children.reduce((acc: Record<string, string[]>, cur: any) => ({
+    ...acc,
+    [cur.absoluteBoundingBox.y]: [...(acc[cur.absoluteBoundingBox.y]||[]), cur.characters]
+  }), {}))
+  const headers = rows[0]
+  const text = rows[0][0]
+  const content = rows.slice(1)
+  return {
+    type: 'table',
+    text,
+    headers,
+    content
   }
 }
 

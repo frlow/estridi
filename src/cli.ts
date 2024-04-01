@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-import { loadFromFigma } from './figma/client.js'
+import { loadDocumentFromFigma } from './figma/client.js'
 import fs from 'fs'
 import { generateAll, Mode } from './generators/index.js'
+import { processFigmaDocument } from './figma/process.js'
 
 const filename = 'estridi.json'
 if (!fs.existsSync(filename)) throw 'estridi.json not found'
@@ -14,7 +15,8 @@ try {
 
 
 export async function main() {
-  const data = await loadFromFigma(config)
+  const document = await loadDocumentFromFigma(config)
+  const data = processFigmaDocument(document)
   generateAll(data, config.mode)
 }
 
