@@ -1,6 +1,6 @@
 {
   "name": "estridi",
-  "version": "0.2.8",
+  "version": "0.3.0",
   "type": "module",
   "description": "Your Figma Plugin",
   "main": "code.js",
@@ -14,7 +14,7 @@
     "client": "vite-node src/figma/cli.ts",
     "install:local": "pnpm build && npm pack && npm i -g *.tgz && rimraf *.tgz"
   },
-  "bin": "./dist/esm/server.js",
+  "bin": "./dist/esm/figma/cli.js",
   "author": "",
   "license": "",
   "peerDependencies": {
