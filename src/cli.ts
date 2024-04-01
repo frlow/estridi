@@ -1,6 +1,7 @@
-import { loadFromFigma } from './client.js'
+#!/usr/bin/env node
+import { loadFromFigma } from './figma/client.js'
 import fs from 'fs'
-import { generateAll, Mode } from '../generators/index.js'
+import { generateAll, Mode } from './generators/index.js'
 
 const filename = 'estridi.json'
 if (!fs.existsSync(filename)) throw 'estridi.json not found'

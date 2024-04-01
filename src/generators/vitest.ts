@@ -1,4 +1,4 @@
-import { GenerationResult, Scraped, testedNodeTypes } from '../common.js'
+import { GenerationResult, Scraped, scrapedFile, testedNodeTypes } from '../common.js'
 import { getTestData } from '../utils/testData.js'
 import * as path from 'node:path'
 import { generateTestKeys } from './testKeys.js'
@@ -10,7 +10,7 @@ export const generateVitestTests = (scraped: Scraped, dir: string, rootId: strin
   const testedNodes = testData.filter(node => testedNodeTypes.includes(node.type))
   const content = `import { test, describe } from 'vitest'
 import { createTester, Handles } from 'estridi'
-import scraped from './scraped.json'
+import scraped from './${scrapedFile}'
 import { handles, State } from './${name}.handles.js'
 const { allPaths, testNode, testPath } = createTester(scraped, '${rootId}', handles)
 const t = (id: string) => () => testNode(id)

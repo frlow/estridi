@@ -1,5 +1,5 @@
 import { writeAllFiles } from '../utils/files.js'
-import { Scraped } from '../common.js'
+import { Scraped, scrapedFile } from '../common.js'
 import { generatePlaywrightTests } from './playwright.js'
 import path from 'node:path'
 import { generateVitestTests } from './vitest.js'
@@ -18,7 +18,7 @@ export const generateAll = (scraped: Scraped, mode: Mode) => {
     if (mode === 'playwright') writeAllFiles(generatePlaywrightTests(scraped, targetDir, root.id, name))
     if (mode === 'vitest') writeAllFiles(generateVitestTests(scraped, targetDir, root.id, name))
     writeAllFiles([{
-      file: path.join(targetDir, 'scraped.json'),
+      file: path.join(targetDir, scrapedFile),
       overwrite: true,
       content: JSON.stringify(scraped, null, 2)
     }])
