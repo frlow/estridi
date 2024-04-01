@@ -1,7 +1,7 @@
 import { allowedRegex } from '../common.js'
 
 export type NodeMetadata = ReturnType<typeof getNodeMetadata>
-export const getNodeMetadata = (node: BaseNode) => {
+export const getNodeMetadata = (node: any) => {
   const meta: any = getScriptMetadata(node) ||
     getServiceCallMetadata(node) ||
     getSubProcessMetadata(node) ||

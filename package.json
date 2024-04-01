@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "vite-node src/cli.ts",
-    "build": "tsc && tsc -p tsconfig.cjs.json && node cjsfix.js",
+    "build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && node cjsfix.js",
     "test": "vitest"
   },
   "bin": "./dist/esm/cli.js",
