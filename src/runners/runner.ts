@@ -1,9 +1,16 @@
 import { findAllPaths } from '../utils/paths.js'
 import { testedNodeTypes } from '../common.js'
 
+export type Table = {
+  content: string[][],
+  headers: string[],
+  id: string,
+  text: string,
+}
+
 export type HandleArgs<TState, TNodeTestArgs, TTableKeys> = TNodeTestArgs & {
   state: TState,
-  getTable: (key: TTableKeys) => any
+  getTable: (key: TTableKeys) => Table
 }
 
 export type Handles<
@@ -68,7 +75,8 @@ const runTest = async <TNodeTestArgs>(
   const gateways = getGateways(pathToTest)
   const serviceCalls = pathToTest.filter((n: any) => n.type === 'serviceCall')
   const state = await handleSetup(config.args)
-  const getTable = (key: string) => config.scraped.find((n: any) => n.type === 'table' && n.text === key)
+  const getTable = (key: string) =>
+    config.scraped.find((n: any) => n.type === 'table' && `${n.id}: ${n.text}` === key)
   const args = { state, ...config.args, getTable }
   await Promise.all(
     serviceCalls.map((sc: any) =>

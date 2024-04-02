@@ -18,7 +18,7 @@ describe('runner', () => {
       mock
     })
   }
-  test('setup should be called', async () => {
+  test('methods should be called', async () => {
     const { testDocument } = await import('./reference/testdata.js')
     const data = processFigmaDocument(testDocument)
     const handles = baseHandles({ stateProp: 'value' })
@@ -79,6 +79,55 @@ describe('runner', () => {
           'stateProp': 'value'
         }
       })
-    expect(handles.mock).toHaveBeenCalledTimes(counter-1)
+    expect(handles.mock).toHaveBeenCalledTimes(counter - 1)
+  })
+
+  test('get table', async () => {
+    const { testDocument } = await import('./reference/testdata.js')
+    const data = processFigmaDocument(testDocument)
+    const handles = baseHandles({ stateProp: 'value' })
+    handles.handleTestNode = async (key, paths, args) => {
+      const table = args.getTable('1:601: My Fields')
+      expect(table).toStrictEqual({
+        'connections': {},
+        'content': [
+          [
+            'Land',
+            'DropdownInputSelectDesktop',
+            'Required\nString [Format: 1-2 characters]',
+            'Default value “Sverige”'
+          ],
+          [
+            'Mottagarens namn',
+            'Input field',
+            'Required\nString [Format: 1-35 characters]',
+            ''
+          ],
+          [
+            'Gatuadress',
+            'Input field',
+            'Required\nString [Format: 1-35 characters]',
+            ''
+          ],
+          [
+            'Postnummer',
+            'Input field',
+            'Required \nString [Format: 1-35 characters]',
+            ''
+          ]
+        ],
+        'headers': [
+          '.My Fields',
+          'Component type',
+          'Properties',
+          'Special Requirement'
+        ],
+        'id': '1:601',
+        'text': 'My Fields',
+        'type': 'table'
+      })
+    }
+    const tester = createTester(data, '1:115', handles)
+    await tester.testNode('4:348', { dummy: 0 })
   })
 })
