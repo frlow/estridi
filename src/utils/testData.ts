@@ -2,8 +2,8 @@ import { Scraped } from '../common.js'
 import { findAllPaths } from './paths.js'
 
 
-export const getTestData = (scraped: Scraped, rootId: string) => {
-  const allPaths = findAllPaths(scraped, rootId)
+export const getTestData = (scraped: Scraped, rootId: string, missingSubProcesses: Record<string, null>) => {
+  const allPaths = findAllPaths(scraped, rootId, missingSubProcesses)
   const unique = allPaths
     .flatMap(n => n)
     .filter((n, i, arr) => arr.indexOf(n) === i)

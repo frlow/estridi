@@ -6,7 +6,7 @@ import { generateVitestTests } from './vitest.js'
 
 export const modes = ['playwright', 'vitest'] as const
 export type Mode = typeof modes[number];
-export const generateAll = (scraped: Scraped, mode: Mode) => {
+export const generateAll = (scraped: Scraped, mode: Mode, missingSubProcesses: Record<string, null>) => {
   const targetDir = 'tests'
   const roots = scraped.filter(node => node.type === 'start' && node.text.startsWith('root:'))
   if (roots.length === 0) {
@@ -15,8 +15,8 @@ export const generateAll = (scraped: Scraped, mode: Mode) => {
   }
   for (const root of roots) {
     const name = root.text.split(':')[1]
-    if (mode === 'playwright') writeAllFiles(generatePlaywrightTests(scraped, targetDir, root.id, name))
-    if (mode === 'vitest') writeAllFiles(generateVitestTests(scraped, targetDir, root.id, name))
+    if (mode === 'playwright') writeAllFiles(generatePlaywrightTests(scraped, targetDir, root.id, name, missingSubProcesses))
+    if (mode === 'vitest') writeAllFiles(generateVitestTests(scraped, targetDir, root.id, name, missingSubProcesses))
     writeAllFiles([{
       file: path.join(targetDir, scrapedFile),
       overwrite: true,
