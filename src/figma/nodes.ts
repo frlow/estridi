@@ -168,14 +168,15 @@ const getTableMetadata = (node: any) => {
   if (node.type !== 'TABLE') return undefined
   const rows: string[][] = Object.values(node.children.reduce((acc: Record<string, string[]>, cur: any) => ({
     ...acc,
-    [cur.absoluteBoundingBox.y]: [...(acc[cur.absoluteBoundingBox.y]||[]), cur.characters]
+    [cur.absoluteBoundingBox.y]: [...(acc[cur.absoluteBoundingBox.y] || []), cur.characters]
   }), {}))
   const headers = rows[0]
-  const text = rows[0][0]
+  const corner = rows[0][0]
+  if (!corner.startsWith('.')) return undefined
   const content = rows.slice(1)
   return {
     type: 'table',
-    text,
+    text: corner.substring(1),
     headers,
     content
   }

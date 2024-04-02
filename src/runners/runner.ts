@@ -1,30 +1,36 @@
 import { findAllPaths } from '../utils/paths.js'
 import { testedNodeTypes } from '../common.js'
 
+export type HandleArgs<TState, TNodeTestArgs, TTableKeys> = TNodeTestArgs & {
+  state: TState,
+  getTable: (key: TTableKeys) => any
+}
+
 export type Handles<
   TState = any,
   TGWKey extends string = any,
-  TServceCallKey extends string = any,
+  TServiceCallKey extends string = any,
   TNodeKey extends string = any,
   TActionKey extends string = any,
-  TNodeTestArgs = any
+  TNodeTestArgs = any,
+  TTableKeys extends string = any
 > = {
   handleSetup: (args: TNodeTestArgs) => Promise<TState>
-  handleStart: (args: TNodeTestArgs & { state: TState }) => Promise<void>
+  handleStart: (args: HandleArgs<TState, TNodeTestArgs, TTableKeys>) => Promise<void>
   handleServiceCall: (
-    key: TServceCallKey,
+    key: TServiceCallKey,
     gateways: Record<TGWKey, string>,
-    args: TNodeTestArgs & { state: TState }
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys>
   ) => Promise<void>
   handleAction: (
     key: TActionKey,
     gateways: Record<TGWKey, string>,
-    args: TNodeTestArgs & { state: TState }
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys>
   ) => Promise<void>
   handleTestNode: (
     key: TNodeKey,
     paths: string[],
-    args: TNodeTestArgs & { state: TState }
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys>
   ) => Promise<void>
 }
 
@@ -61,25 +67,27 @@ const runTest = async <TNodeTestArgs>(
   const pathToTest = id ? findRelevantPath(id) : (path || [])
   const gateways = getGateways(pathToTest)
   const serviceCalls = pathToTest.filter((n: any) => n.type === 'serviceCall')
-  await handleSetup(config.args)
+  const state = await handleSetup(config.args)
+  const getTable = (key: string) => config.scraped.find((n: any) => n.type === 'table' && n.text === key)
+  const args = { state, ...config.args, getTable }
   await Promise.all(
     serviceCalls.map((sc: any) =>
-      handleServiceCall(`${sc.id}: ${sc.text}`, gateways, config.args)
+      handleServiceCall(`${sc.id}: ${sc.text}`, gateways, args)
     )
   )
-  await handleStart(config.args)
+  await handleStart(args)
   for (const node of pathToTest) {
     if (node!.type === 'signalListen')
       await handleAction(
         `${node!.id}: ${node!.text}`,
         gateways,
-        config.args
+        args
       )
     else if (node!.id === id || (path && testedNodeTypes.includes(node.type)))
       await handleTestNode(
         `${node!.id}: ${node!.text}`,
         pathToTest.map((n: any) => n.text),
-        config.args
+        args
       )
   }
 }

@@ -14,6 +14,8 @@ describe("process document", ()=>{
   test("dev", async ()=>{
     const document = await import('./testdata.test.js')
     const data = processFigmaDocument(document.testDocument)
-    generateAll(data, 'playwright')
+    const tables = data.find(d=>d.type==="table")
+    // generateAll(data, 'playwright')
+    debugger
   })
 })

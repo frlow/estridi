@@ -40,5 +40,6 @@ export const handlesKeys = (name: string, argsType: string) => `export type ${na
   ServiceCallKey,
   TestNodeKey,
   ActionKey,
-  ${argsType}
+  ${argsType},
+  TableKeys
 >`
