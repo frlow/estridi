@@ -13,7 +13,6 @@ describe('vitest', () => {
   test('script: Clear page, 4:357', t('4:357'))
   test('script: Hide box, 4:382', t('4:382'))
   test('script: Do thing with thing, 100:594', t('100:594'))
-  test('subprocess: A subflow, 4:398', t('4:398'))
   test('script: Some change, 207:221', t('207:221'))
   if (process.env.TEST_ALL_PATHS === 'true')
     describe('all paths', () => {
@@ -23,16 +22,16 @@ describe('vitest', () => {
     })
 })
 
-export type GatewayKey = 
+export type GatewayKey =
   | '1:117: Errors from demo'
   | '4:199: A or B'
   | '35:527: Has more'
-export type ServiceCallKey = 
+export type ServiceCallKey =
   | '1:116: api call demo'
-export type ActionKey = 
+export type ActionKey =
   | '4:322: Cancel'
   | '4:313: Take action'
-export type TestNodeKey = 
+export type TestNodeKey =
   | '1:127: Could not load page'
   | '1:124: Display stuff'
   | '4:215: Some subflow'
@@ -43,7 +42,7 @@ export type TestNodeKey =
   | '100:594: Do thing with thing'
   | '4:398: A subflow'
   | '207:221: Some change'
-export type TableKeys = 
+export type TableKeys =
   | '1:601: My Fields'
 
 export type VitestHandles = Handles<

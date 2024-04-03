@@ -7,7 +7,7 @@ import { handlesContent, handlesKeys } from './handles.js'
 export const generateVitestTests = (scraped: Scraped, dir: string, rootId: string, name: string): GenerationResult[] => {
   const testData = getTestData(scraped, rootId)
 
-  const testedNodes = testData.filter(node => testedNodeTypes.includes(node.type))
+  const testedNodes = testData.filter(node => testedNodeTypes.includes(node.type) && !node.linked)
   const content = `import { test, describe } from 'vitest'
 import { createTester, Handles } from 'estridi'
 import scraped from './${scrapedFile}'
@@ -25,7 +25,8 @@ ${testedNodes.map(n => `  test('${n.type}: ${n.text}, ${n.id}', t('${n.id}'))`).
 })
 
 ${generateTestKeys(scraped, rootId)}
-${handlesKeys(name, 'void')}`
+${handlesKeys(name, 'void')}
+`
 
   const handles = handlesContent(name, `${name}.test.js`)
   return [

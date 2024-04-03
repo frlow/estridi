@@ -20,21 +20,21 @@ export const generateTestNodeKeys = (testData: any[], rootId: string) =>
 export const generateTableKeys = (scraped: Scraped) => scraped.filter((n) => n.type === 'table').map(n => `  | '${n.id}: ${n.text}'`)
 
 export const generateTestKeys = (scraped: Scraped, rootId: string) => {
-  const testData = getTestData(scraped, rootId, {})
+  const testData = getTestData(scraped, rootId)
   const gatewayKeys = generateGatewayKeys(testData, rootId)
   const serviceCallKeys = generateServiceCallKeys(testData, rootId)
   const actionKeys = generateActionKeys(testData, rootId)
   const testNodeKeys = generateTestNodeKeys(testData, rootId)
   const tableKeys = generateTableKeys(scraped)
-  return `export type GatewayKey = 
+  return `export type GatewayKey =
 ${gatewayKeys.join('\n')}
-export type ServiceCallKey = 
+export type ServiceCallKey =
 ${serviceCallKeys.join('\n')}
-export type ActionKey = 
+export type ActionKey =
 ${actionKeys.join('\n')}
-export type TestNodeKey = 
+export type TestNodeKey =
 ${testNodeKeys.join('\n')}
-export type TableKeys = 
+export type TableKeys =
 ${tableKeys.join('\n')}
 `
 }

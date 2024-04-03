@@ -211,7 +211,8 @@
     "type": "subprocess",
     "text": "A subflow",
     "connections": {},
-    "id": "4:398"
+    "id": "4:398",
+    "linked": true
   },
   {
     "type": "end",

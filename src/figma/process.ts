@@ -12,5 +12,10 @@ export const processFigmaDocument = (document: any) => {
   processNode(document, acc)
   const nodes = Object.values(acc)
   nodes.forEach(n => n.scraped = nodes)
-  return nodes.map(node => getNodeMetadata(node)).filter(n => n)
+  const mappedNodes = nodes.map(node => getNodeMetadata(node)).filter(n => n)
+  mappedNodes.filter(node => node.type === 'subprocess').forEach(node => {
+    const link = mappedNodes.find(n => n.type === 'start' && n.text === node.text)
+    if (link) node.linked = true
+  })
+  return mappedNodes
 }
