@@ -103,7 +103,7 @@ const runTest = async <TNodeTestArgs>(
 }
 
 export const createTester = (scraped: any, rootId: string, handles: Handles) => {
-  const allPaths = findAllPaths(scraped, rootId, {})
+  const allPaths = findAllPaths(scraped, rootId)
   const testNode = (id: string, args?: any) => runTest({ allPaths, args, handles, scraped }, id)
   const testPath = (path: string[], args?: any) => runTest({ allPaths, args, handles, scraped }, undefined, path)
   return { allPaths, testNode, testPath }
