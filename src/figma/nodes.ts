@@ -20,8 +20,11 @@ export const getNodeMetadata = (node: any) => {
     getNoteMetadata(node) ||
     getTableMetadata(node)
   if (!meta) return undefined
-  meta.connections = (node as any).attachedConnectors
-    .filter((con: any) => con?.dashPattern?.length === 0 && con.connectorStart.endpointNodeId === node.id)
+  meta.connections = node.scraped
+    .filter((n: any) =>
+      n.type === 'CONNECTOR' &&
+      !n.strokeDashes &&
+      n.connectorStart.endpointNodeId === node.id)
     .reduce((acc: any, cur: any) => ({ ...acc, [cur.connectorEnd.endpointNodeId]: cur.name || 'N/A' }), {})
   meta.id = node.id
   return meta
@@ -63,7 +66,11 @@ const getUserActionMetadata = (node: any) => {
   return {
     type: 'userAction',
     text: findText(node),
-    actions: node.parent.children.filter((n: any) => n.name === 'Signal listen' && isNodeInside(node, n)).map((n: any) => n.id)
+    actions: node.scraped
+      .filter((n: any) =>
+        n.name === 'Signal listen' &&
+        isNodeInside(node.absoluteBoundingBox, n.absoluteBoundingBox))
+      .map((n: any) => n.id)
   }
 }
 
@@ -107,7 +114,9 @@ const getSignalListenMetadata = (node: any) => {
 
 const getStartMetadata = (node: any) => {
   if (node.name !== 'Start') return undefined
-  const connector = node.attachedConnectors.find((c: any) => c.connectorStart.endpointNodeId === node.id)
+  const connector = node.scraped.find((n: any) =>
+    n.type === 'CONNECTOR' &&
+    n.connectorStart?.endpointNodeId === node.id) //node.attachedConnectors.find((c: any) => c.connectorStart.endpointNodeId === node.id)
   const type = !!connector ? 'start' : 'end'
   const text = (!!connector && connector.name !== 'Connector line') ? connector?.name : `start_${node.id.replace(':', '_')}`
   return {

@@ -209,7 +209,7 @@
   },
   {
     "type": "subprocess",
-    "text": "Saved payee Yet another subflow",
+    "text": "A subflow",
     "connections": {},
     "id": "4:398"
   },
@@ -257,5 +257,25 @@
     "text": "",
     "connections": {},
     "id": "I100:594;8:340"
+  },
+  {
+    "type": "start",
+    "text": "A subflow",
+    "connections": {
+      "207:221": "A subflow"
+    },
+    "id": "207:214"
+  },
+  {
+    "type": "script",
+    "text": "Some change",
+    "connections": {},
+    "id": "207:221"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I207:221;8:340"
   }
 ]

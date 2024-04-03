@@ -17,12 +17,11 @@ try {
 export async function main() {
   const document = await loadDocumentFromFigma(config)
   const data = processFigmaDocument(document)
-  const missingSubProcesses: Record<string, null> = {}
-  generateAll(data, config.mode, missingSubProcesses)
-  console.warn(`\nThe following subprocess have not been linked:
-=========
-${Object.keys(missingSubProcesses).join('\n')}
-=========\n`)
+  generateAll(data, config.mode)
+//   console.warn(`\nThe following subprocess have not been linked:
+// =========
+// ${Object.keys(missingSubProcesses).join('\n')}
+// =========\n`)
 }
 
 main()

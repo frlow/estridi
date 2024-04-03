@@ -91,12 +91,14 @@ const runTest = async <TNodeTestArgs>(
         gateways,
         args
       )
-    else if (node!.id === id || (path && testedNodeTypes.includes(node.type)))
+    else if (node!.id === id || (path && testedNodeTypes.includes(node.type))) {
       await handleTestNode(
         `${node!.id}: ${node!.text}`,
         pathToTest.map((n: any) => n.text),
         args
       )
+      if (!!node!.id) return
+    }
   }
 }
 

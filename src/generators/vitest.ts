@@ -4,8 +4,8 @@ import * as path from 'node:path'
 import { generateTestKeys } from './testKeys.js'
 import { handlesContent, handlesKeys } from './handles.js'
 
-export const generateVitestTests = (scraped: Scraped, dir: string, rootId: string, name: string, missingSubProcesses: Record<string, null>): GenerationResult[] => {
-  const testData = getTestData(scraped, rootId, missingSubProcesses)
+export const generateVitestTests = (scraped: Scraped, dir: string, rootId: string, name: string): GenerationResult[] => {
+  const testData = getTestData(scraped, rootId)
 
   const testedNodes = testData.filter(node => testedNodeTypes.includes(node.type))
   const content = `import { test, describe } from 'vitest'

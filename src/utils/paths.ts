@@ -1,13 +1,12 @@
 import { Scraped } from '../common.js'
 
-export const findAllPaths = (scraped: Scraped, rootId: string, missingSubProcesses: Record<string, null>) => {
+export const findAllPaths = (scraped: Scraped, rootId: string) => {
   const paths: string[][] = []
   const toProcess: { nodes: string[], stack: string[], current: string }[] = [{
     nodes: [rootId],
     stack: [],
     current: rootId
   }]
-  // const missingSubProcesses: Record<string, null> = {}
   while (toProcess.length > 0) {
     const path = toProcess.pop()!
     const current = scraped.find(node => node.id === path.current)
@@ -18,7 +17,6 @@ export const findAllPaths = (scraped: Scraped, rootId: string, missingSubProcess
       }
       const subProcess = scraped.find(s => s.text === current.text && s.type === 'start')
       if (!subProcess) {
-        missingSubProcesses[current.text] = null
         toProcess.push(...connections.map((c) => ({
           nodes: [...path.nodes, c],
           current: c,

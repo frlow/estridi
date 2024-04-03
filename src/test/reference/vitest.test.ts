@@ -11,7 +11,10 @@ describe('vitest', () => {
   test('script: Show box, 4:252', t('4:252'))
   test('subprocess: Validate fields My fields, 4:456', t('4:456'))
   test('script: Clear page, 4:357', t('4:357'))
+  test('script: Hide box, 4:382', t('4:382'))
   test('script: Do thing with thing, 100:594', t('100:594'))
+  test('subprocess: A subflow, 4:398', t('4:398'))
+  test('script: Some change, 207:221', t('207:221'))
   if (process.env.TEST_ALL_PATHS === 'true')
     describe('all paths', () => {
       for (const path of allPaths) {
@@ -28,6 +31,7 @@ export type ServiceCallKey =
   | '1:116: api call demo'
 export type ActionKey = 
   | '4:322: Cancel'
+  | '4:313: Take action'
 export type TestNodeKey = 
   | '1:127: Could not load page'
   | '1:124: Display stuff'
@@ -35,7 +39,10 @@ export type TestNodeKey =
   | '4:252: Show box'
   | '4:456: Validate fields My fields'
   | '4:357: Clear page'
+  | '4:382: Hide box'
   | '100:594: Do thing with thing'
+  | '4:398: A subflow'
+  | '207:221: Some change'
 export type TableKeys = 
   | '1:601: My Fields'
 

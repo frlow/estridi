@@ -21,8 +21,8 @@ describe('process document', () => {
     fs.writeFileSync(path.join(referenceDir, 'testdata.ts'), `export const testDocument = ${JSON.stringify(document)}`, 'utf8')
     const data = processFigmaDocument(document)
     const rootId = data.find(n => n.text.startsWith('root:')).id
-    const vitest = generateVitestTests(data, referenceDir, rootId, 'vitest', {})
-    const playwright = generatePlaywrightTests(data, referenceDir, rootId, 'playwright', {})
+    const vitest = generateVitestTests(data, referenceDir, rootId, 'vitest')
+    const playwright = generatePlaywrightTests(data, referenceDir, rootId, 'playwright')
     writeAllFiles([...vitest, ...playwright])
     fs.writeFileSync(path.join(referenceDir, scrapedFile), JSON.stringify(data, null, 2), 'utf8')
   })
@@ -31,7 +31,7 @@ describe('process document', () => {
       const { testDocument } = await import('./reference/testdata.js')
       const data = processFigmaDocument(testDocument)
       const rootId = data.find(n => n.text.startsWith('root:')).id
-      const playwright = generatePlaywrightTests(data, referenceDir, rootId, 'playwright', {})
+      const playwright = generatePlaywrightTests(data, referenceDir, rootId, 'playwright')
       const expected = ['playwright.spec.ts', 'playwright.handles.ts']
         .map(f => fs.readFileSync(path.join(referenceDir, f), 'utf8'))
       expect(playwright[0].content).toEqual(expected[0])
@@ -42,7 +42,7 @@ describe('process document', () => {
       const { testDocument } = await import('./reference/testdata.js')
       const data = processFigmaDocument(testDocument)
       const rootId = data.find(n => n.text.startsWith('root:')).id
-      const playwright = generateVitestTests(data, referenceDir, rootId, 'vitest', {})
+      const playwright = generateVitestTests(data, referenceDir, rootId, 'vitest')
       const expected = ['vitest.test.ts', 'vitest.handles.ts']
         .map(f => fs.readFileSync(path.join(referenceDir, f), 'utf8'))
       expect(playwright[0].content).toEqual(expected[0])
