@@ -13,15 +13,10 @@ try {
   throw e
 }
 
-
 export async function main() {
   const document = await loadDocumentFromFigma(config)
   const data = processFigmaDocument(document)
   generateAll(data, config.mode)
-//   console.warn(`\nThe following subprocess have not been linked:
-// =========
-// ${Object.keys(missingSubProcesses).join('\n')}
-// =========\n`)
 }
 
 main()

@@ -63,7 +63,7 @@ const getSubProcessMetadata = (node: any) => {
 
 const getUserActionMetadata = (node: any) => {
   if (node.name !== 'User action') return undefined
-  return {
+  const ret = {
     type: 'userAction',
     text: findText(node),
     actions: node.scraped
@@ -72,6 +72,7 @@ const getUserActionMetadata = (node: any) => {
         isNodeInside(node.absoluteBoundingBox, n.absoluteBoundingBox))
       .map((n: any) => n.id)
   }
+  return ret
 }
 
 const getSignalSendExternalMetadata = (node: any) => {

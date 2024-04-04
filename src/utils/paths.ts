@@ -1,50 +1,45 @@
 import { Scraped } from '../common.js'
 
+const getCurrent = (item: ProcessItem, scraped: Scraped) => scraped.find(node => node.id === item.nodes[item.nodes.length - 1])
+const getConnections: (current: any, nodes: string[]) => string[] = (current, nodes) =>
+  ([...Object.keys(current.connections || {}), ...(current.actions || [])])
+    .filter(n => !nodes.includes(n)) // Filtering out loops
+
+type ProcessItem = { nodes: string[], stack: string[] }
+
 export const findAllPaths = (scraped: Scraped, rootId: string) => {
-  const paths: string[][] = []
-  const toProcess: { nodes: string[], stack: string[], current: string }[] = [{
+  const finishedPaths: string[][] = []
+  const toProcess: ProcessItem[] = [{
     nodes: [rootId],
-    stack: [],
-    current: rootId
+    stack: []
   }]
   while (toProcess.length > 0) {
     const path = toProcess.pop()!
-    const current = scraped.find(node => node.id === path.current)
-    const connections: string[] = [...Object.keys(current.connections || {}), ...(current.actions || [])]
-    if (current.type === 'subprocess') {
-      if (connections.length > 1) {
-        throw 'Not supported!'
-      }
-      const subProcess = scraped.find(s => s.text === current.text && s.type === 'start')
-      if (!subProcess) {
-        toProcess.push(...connections.map((c) => ({
-          nodes: [...path.nodes, c],
-          current: c,
-          stack: [...path.stack]
-        })))
-      } else {
-        toProcess.push({
-          nodes: [...path.nodes, subProcess.id],
-          current: subProcess.id,
-          stack: [...path.stack, ...connections]
-        })
-      }
-    } else if (connections.length === 0) {
-      if (path.stack.length > 0) {
-        const returnId = path.stack[path.stack.length - 1]
-        toProcess.push({
-          nodes: [...path.nodes, returnId],
-          current: returnId,
-          stack: path.stack.slice(0, path.stack.length - 1)
-        })
-      } else paths.push(path.nodes)
-    } else {
+    const current = getCurrent(path, scraped)
+    const connections = getConnections(current, path.nodes)
+    const stack = [...path.stack]
+    if (connections.length === 0 && path.stack.length === 0 && !current.linked) {
+      finishedPaths.push(path.nodes)
+      continue
     }
-    toProcess.push(...connections.filter(n => !path.nodes.includes(n)).map((c) => ({
-      nodes: [...path.nodes, c],
-      current: c,
-      stack: [...path.stack]
-    })))
+    if (connections.length === 0 && stack.length > 0) {
+      const fromStack = stack.splice(stack.length - 1, 1)[0]
+      connections.push(fromStack)
+    }
+
+    const nextItems = current.linked ?
+      [{
+        stack: [...stack, ...connections],
+        nodes: [...path.nodes, current.linked]
+      }] :
+      connections.map(c =>
+        ({
+          stack: [...stack],
+          nodes: [...path.nodes, c]
+        })
+      )
+
+    toProcess.push(...nextItems)
   }
-  return paths
+  return finishedPaths
 }

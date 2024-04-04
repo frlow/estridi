@@ -15,7 +15,7 @@ export const processFigmaDocument = (document: any) => {
   const mappedNodes = nodes.map(node => getNodeMetadata(node)).filter(n => n)
   mappedNodes.filter(node => node.type === 'subprocess').forEach(node => {
     const link = mappedNodes.find(n => n.type === 'start' && n.text === node.text)
-    if (link) node.linked = true
+    if (link) node.linked = link.id
   })
   return mappedNodes
 }

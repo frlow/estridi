@@ -15,7 +15,7 @@ describe('process document', () => {
   test.skipIf(fs.existsSync(referenceDir))('prepare', async () => {
     const token = (await import('../../estridi.json')).default.token
     const document = await loadDocumentFromFigma({
-      token, fileId: 'u56o42nzF7HYmZE05wWiUp'
+      token, fileId: 'Izz9320atTsGRKo1AjiuxZ'
     })
     fs.mkdirSync(referenceDir)
     fs.writeFileSync(path.join(referenceDir, 'testdata.ts'), `export const testDocument = ${JSON.stringify(document)}`, 'utf8')
