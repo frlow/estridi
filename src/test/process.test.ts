@@ -15,6 +15,8 @@ describe('process document', () => {
   test.skipIf(fs.existsSync(referenceDir))('prepare', async () => {
     const token = (await import('../../estridi.json')).default.token
     const document = await loadDocumentFromFigma({
+      // u56o42nzF7HYmZE05wWiUp small
+      // Izz9320atTsGRKo1AjiuxZ large
       token, fileId: 'Izz9320atTsGRKo1AjiuxZ'
     })
     fs.mkdirSync(referenceDir)

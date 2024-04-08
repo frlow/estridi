@@ -2,6 +2,7 @@ import { describe, expect, test, vi } from 'vitest'
 import { Handles } from 'estridi'
 import { processFigmaDocument } from '../figma/process.js'
 import { createTester } from '../runners/runner.js'
+import { findAllPaths } from '../utils/paths.js'
 
 describe('runner', () => {
   const baseHandles: (state?: any) => Handles & { mock: typeof vi.fn } = (state) => {
@@ -129,5 +130,14 @@ describe('runner', () => {
     }
     const tester = createTester(data, '1:115', handles)
     await tester.testNode('4:348', { dummy: 0 })
+  })
+
+  test('no duplicate paths', async () => {
+    const { testDocument } = await import('./reference/testdata.js')
+    const data = processFigmaDocument(testDocument)
+    const rootId = data.find(n => n.text.startsWith('root:')).id
+    const allPaths: string[][] = findAllPaths(data, rootId)
+    const doubles = allPaths.filter((p, i, arr) => arr.map(a => a.join(',')).indexOf(p.join(',')) !== i)
+    debugger
   })
 })

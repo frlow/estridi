@@ -39,6 +39,7 @@ export type Handles<
     paths: string[],
     args: HandleArgs<TState, TNodeTestArgs, TTableKeys>
   ) => Promise<void>
+  filterPaths?: (allPaths: string[][], scraped: any[]) => string[][]
 }
 
 const getGateways = (pathToTest: any[]) =>
@@ -103,7 +104,8 @@ const runTest = async <TNodeTestArgs>(
 }
 
 export const createTester = (scraped: any, rootId: string, handles: Handles) => {
-  const allPaths = findAllPaths(scraped, rootId)
+  const allPathsUnfiltered = findAllPaths(scraped, rootId)
+  const allPaths = handles.filterPaths ? handles.filterPaths(allPathsUnfiltered, scraped) : allPathsUnfiltered
   const testNode = (id: string, args?: any) => runTest({ allPaths, args, handles, scraped }, id)
   const testPath = (path: string[], args?: any) => runTest({ allPaths, args, handles, scraped }, undefined, path)
   return { allPaths, testNode, testPath }
