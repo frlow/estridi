@@ -51,7 +51,7 @@ const getGateways = (pathToTest: any[]) =>
     return acc
   }, {} as Record<string, string>)
 
-const runTest = async <TNodeTestArgs>(
+export const runTest = async <TNodeTestArgs>(
   config: { args: TNodeTestArgs, handles: Handles, allPaths: string[][], scraped: any },
   id?: string,
   path?: string[]
