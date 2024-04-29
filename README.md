@@ -10,13 +10,13 @@ Installation:
 npm install estridi
 ```
 
-### Create an access token:
+### create an access token:
 
 Follow the
 instruction [here](https://www.figma.com/developers/api#:~:text=Head%20to%20Settings%20from%20the,and%20scopes%20for%20the%20token.)
 to create an access token.
 
-## File id
+### file id
 
 The file id can be found by right clicking on the current tab in figma and selecting copy link
 
@@ -25,7 +25,7 @@ https://www.figma.com/file/Izz9320atTsGRKo1AjiuxZ/S3D---Register-Foreign-Payment
                           /This is the fileId   /
 ```
 
-### Create a config file:
+### create a config file:
 
 ```json5
 // estridi.json
