@@ -27,19 +27,23 @@ export type Handles<
   handleServiceCall: (
     key: TServiceCallKey,
     gateways: Record<TGWKey, string>,
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys>
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys>,
+    variant: string | undefined
   ) => Promise<void>
   handleAction: (
     key: TActionKey,
     gateways: Record<TGWKey, string>,
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys>
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys>,
+    variant: string | undefined
   ) => Promise<void>
   handleTestNode: (
     key: TNodeKey,
     paths: string[],
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys>
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys>,
+    variant: string | undefined
   ) => Promise<void>
   filterPaths?: (allPaths: string[][], scraped: any[]) => string[][]
+  variants?: (id: string)=>string[]
 }
 
 const getGateways = (pathToTest: any[]) =>
@@ -79,9 +83,10 @@ export const runTest = async <TNodeTestArgs>(
   const getTable = (key: string) =>
     config.scraped.find((n: any) => n.type === 'table' && `${n.id}: ${n.text}` === key)
   const args = { state, ...config.args, getTable }
+  const variant = ""
   await Promise.all(
     serviceCalls.map((sc: any) =>
-      handleServiceCall(`${sc.id}: ${sc.text}`, gateways, args)
+      handleServiceCall(`${sc.id}: ${sc.text}`, gateways, args, variant)
     )
   )
   await handleStart(args)
@@ -90,13 +95,15 @@ export const runTest = async <TNodeTestArgs>(
       await handleAction(
         `${node!.id}: ${node!.text}`,
         gateways,
-        args
+        args,
+        variant
       )
     else if (node!.id === id || (path && testedNodeTypes.includes(node.type))) {
       await handleTestNode(
         `${node!.id}: ${node!.text}`,
         pathToTest.map((n: any) => n.text),
-        args
+        args,
+        variant
       )
       if (!!node!.id) return
     }

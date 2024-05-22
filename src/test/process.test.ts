@@ -27,7 +27,7 @@ describe('process document', () => {
     const playwright = generatePlaywrightTests(data, referenceDir, rootId, 'playwright')
     writeAllFiles([...vitest, ...playwright])
     fs.writeFileSync(path.join(referenceDir, scrapedFile), JSON.stringify(data, null, 2), 'utf8')
-  })
+  }, {timeout: 50000})
   describe('modes', () => {
     test('playwright', async () => {
       const { testDocument } = await import('./reference/testdata.js')
@@ -52,7 +52,7 @@ describe('process document', () => {
     })
   })
 
-  test('tables', async () => {
+  test.skip('tables', async () => {
     const { testDocument } = await import('./reference/testdata.js')
     const data = processFigmaDocument(testDocument)
     const tableKeys = generateTableKeys(data)

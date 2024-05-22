@@ -13,9 +13,15 @@ import { createTester, Handles } from 'estridi'
 import scraped from './${scrapedFile}'
 import { handles, State } from './${name}.handles.js'
 const { allPaths, testNode, testPath } = createTester(scraped, '${rootId}', handles)
-const t = (id: string) => ({context, page}: {context: BrowserContext, page: Page}) => testNode(id, {context, page})
+const t = (id: string) => () => {
+  const variants = handles.variants ? handles.variants(id) : [id]
+  for (const variant of variants)
+    test(variant, ({ context, page }) =>
+      testNode(id, { context, page, variant })
+    )
+}
 test.describe('${name}', () => {
-${testedNodes.map(n => `  test('${n.type}: ${n.text}, ${n.id}', t('${n.id}'))`).join('\n')}
+${testedNodes.map(n => `  test.describe('${n.type}: ${n.text}, ${n.id}', t('${n.id}'))`).join('\n')}
   if (process.env.TEST_ALL_PATHS === 'true')
     test.describe('all paths', () => {
       for (const path of allPaths) {
@@ -25,7 +31,7 @@ ${testedNodes.map(n => `  test('${n.type}: ${n.text}, ${n.id}', t('${n.id}'))`).
 })
 
 ${generateTestKeys(scraped, rootId)}
-${handlesKeys(name, '{page: Page, context: BrowserContext}')}
+${handlesKeys(name, '{page: Page, context: BrowserContext, variant: string}')}
 `
 
   const handles = handlesContent(name, `${name}.spec.js`)
