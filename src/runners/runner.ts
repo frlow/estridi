@@ -39,7 +39,7 @@ export type Handles<
     args: HandleArgs<TState, TNodeTestArgs, TTableKeys>
   ) => Promise<void>
   filterPaths?: (allPaths: string[][], scraped: any[]) => string[][]
-  variants?: (id: string)=>string[]
+  variants?: (id: string) => string[]
 }
 
 const getGateways = (pathToTest: any[]) =>
@@ -53,7 +53,7 @@ const getGateways = (pathToTest: any[]) =>
 
 export const runTest = async <TNodeTestArgs>(
   config: { args: TNodeTestArgs, handles: Handles, allPaths: string[][], scraped: any },
-  id: string,
+  id: string
 ) => {
   const {
     handleTestNode,
@@ -68,7 +68,7 @@ export const runTest = async <TNodeTestArgs>(
       .map((path) =>
         path.map((id) => config.scraped.find((s: any) => s.id === id))
       )
-    return relevantPaths[0]
+    return relevantPaths.reduce((acc, cur) => cur.length < acc.length ? cur : acc, relevantPaths[0])
   }
 
   const pathToTest = findRelevantPath(id)
