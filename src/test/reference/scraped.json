@@ -1,5 +1,110 @@
 [
   {
+    "type": "serviceCall",
+    "text": "business payment listdraftforeignpayment v1 0",
+    "connections": {
+      "3085:4376": "Connector line"
+    },
+    "id": "3085:4352"
+  },
+  {
+    "type": "output",
+    "text": "",
+    "connections": {},
+    "id": "3085:4354"
+  },
+  {
+    "type": "input",
+    "text": "Output",
+    "connections": {},
+    "id": "I3085:4354;8:180"
+  },
+  {
+    "type": "output",
+    "text": "",
+    "connections": {},
+    "id": "I3085:4354;8:180;8:166"
+  },
+  {
+    "type": "input",
+    "text": "Input",
+    "connections": {},
+    "id": "3085:4358"
+  },
+  {
+    "type": "input",
+    "text": "",
+    "connections": {},
+    "id": "I3085:4358;8:175"
+  },
+  {
+    "type": "serviceCall",
+    "text": "getSavedPayees not created yet",
+    "connections": {
+      "3085:4374": "Connector line"
+    },
+    "id": "3085:4362"
+  },
+  {
+    "type": "input",
+    "text": "Input",
+    "connections": {},
+    "id": "3085:4365"
+  },
+  {
+    "type": "input",
+    "text": "",
+    "connections": {},
+    "id": "I3085:4365;8:175"
+  },
+  {
+    "type": "output",
+    "text": "",
+    "connections": {},
+    "id": "3085:4370"
+  },
+  {
+    "type": "input",
+    "text": "Output",
+    "connections": {},
+    "id": "I3085:4370;8:180"
+  },
+  {
+    "type": "output",
+    "text": "",
+    "connections": {},
+    "id": "I3085:4370;8:180;8:166"
+  },
+  {
+    "type": "gateway",
+    "text": "Error from savedPayees",
+    "connections": {
+      "3085:4352": "no",
+      "3085:4375": "yes"
+    },
+    "id": "3085:4374"
+  },
+  {
+    "type": "message",
+    "text": "Could not load page",
+    "connections": {},
+    "id": "3085:4375"
+  },
+  {
+    "type": "gateway",
+    "text": "Error from listDrafts",
+    "connections": {
+      "3085:4378": "yes"
+    },
+    "id": "3085:4376"
+  },
+  {
+    "type": "message",
+    "text": "Could not load page",
+    "connections": {},
+    "id": "3085:4378"
+  },
+  {
     "type": "gateway",
     "text": "New recipient",
     "connections": {
@@ -223,14 +328,6 @@
     "connections": {},
     "id": "3088:4999",
     "linked": "3088:5335"
-  },
-  {
-    "type": "connector",
-    "text": "",
-    "connections": {
-      "3088:6277": "Connector line"
-    },
-    "id": "3088:5149"
   },
   {
     "type": "gateway",
@@ -2136,112 +2233,6 @@
     "linked": "3088:4846"
   },
   {
-    "type": "serviceCall",
-    "text": "business payment listdraftforeignpayment v1 0",
-    "connections": {
-      "3085:4376": "Connector line"
-    },
-    "id": "3085:4352"
-  },
-  {
-    "type": "output",
-    "text": "",
-    "connections": {},
-    "id": "3085:4354"
-  },
-  {
-    "type": "input",
-    "text": "Output",
-    "connections": {},
-    "id": "I3085:4354;8:180"
-  },
-  {
-    "type": "output",
-    "text": "",
-    "connections": {},
-    "id": "I3085:4354;8:180;8:166"
-  },
-  {
-    "type": "input",
-    "text": "Input",
-    "connections": {},
-    "id": "3085:4358"
-  },
-  {
-    "type": "input",
-    "text": "",
-    "connections": {},
-    "id": "I3085:4358;8:175"
-  },
-  {
-    "type": "serviceCall",
-    "text": "getSavedPayees not created yet",
-    "connections": {
-      "3085:4374": "Connector line"
-    },
-    "id": "3085:4362"
-  },
-  {
-    "type": "input",
-    "text": "Input",
-    "connections": {},
-    "id": "3085:4365"
-  },
-  {
-    "type": "input",
-    "text": "",
-    "connections": {},
-    "id": "I3085:4365;8:175"
-  },
-  {
-    "type": "output",
-    "text": "",
-    "connections": {},
-    "id": "3085:4370"
-  },
-  {
-    "type": "input",
-    "text": "Output",
-    "connections": {},
-    "id": "I3085:4370;8:180"
-  },
-  {
-    "type": "output",
-    "text": "",
-    "connections": {},
-    "id": "I3085:4370;8:180;8:166"
-  },
-  {
-    "type": "gateway",
-    "text": "Error from savedPayees",
-    "connections": {
-      "3085:4352": "no",
-      "3085:4375": "yes"
-    },
-    "id": "3085:4374"
-  },
-  {
-    "type": "message",
-    "text": "Could not load page",
-    "connections": {},
-    "id": "3085:4375"
-  },
-  {
-    "type": "gateway",
-    "text": "Error from listDrafts",
-    "connections": {
-      "3085:4378": "yes",
-      "3229:5359": "no"
-    },
-    "id": "3085:4376"
-  },
-  {
-    "type": "message",
-    "text": "Could not load page",
-    "connections": {},
-    "id": "3085:4378"
-  },
-  {
     "type": "gateway",
     "text": "Select Currency",
     "connections": {
@@ -2540,7 +2531,7 @@
     "text": "Error from currencies",
     "connections": {
       "3085:4080": "yes",
-      "3085:4362": "no"
+      "3229:5359": "no"
     },
     "id": "3085:4078"
   },
@@ -2641,23 +2632,9 @@
     "type": "gateway",
     "text": "Has saved recipients",
     "connections": {
-      "3088:4958": "no"
+      "3088:6277": "no"
     },
     "id": "3088:4937"
-  },
-  {
-    "type": "script",
-    "text": "Hide radiobuttons Hide saved recipient dropdown",
-    "connections": {
-      "3088:5149": "Connector line"
-    },
-    "id": "3088:4958"
-  },
-  {
-    "type": "script",
-    "text": "",
-    "connections": {},
-    "id": "I3088:4958;8:340"
   },
   {
     "type": "message",
@@ -3640,14 +3617,6 @@
     "id": "I3895:6002;8:175"
   },
   {
-    "type": "signalListen",
-    "text": "Signera clicked",
-    "connections": {
-      "3895:5997": "Connector line"
-    },
-    "id": "3895:6010"
-  },
-  {
     "type": "message",
     "text": "Show error",
     "connections": {},
@@ -3981,8 +3950,8 @@
     "type": "userAction",
     "text": "action",
     "actions": [
-      "3895:6010",
-      "3895:6007"
+      "3895:6007",
+      "3895:6010"
     ],
     "connections": {
       "3895:6008": "Connector line"
@@ -4036,6 +4005,14 @@
       "3895:6053": "Connector line"
     },
     "id": "3895:6049"
+  },
+  {
+    "type": "signalListen",
+    "text": "Signera clicked",
+    "connections": {
+      "3895:5997": "Connector line"
+    },
+    "id": "3895:6010"
   },
   {
     "type": "signalListen",

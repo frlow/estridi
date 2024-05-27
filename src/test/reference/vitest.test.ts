@@ -2,22 +2,19 @@ import { test, describe } from 'vitest'
 import { createTester, Handles } from 'estridi'
 import scraped from './scraped.json'
 import { handles, State } from './vitest.handles.js'
-const { allPaths, testNode, testPath } = createTester(scraped, '3085:4043', handles)
+const { testNode } = createTester(scraped, '3085:4043', handles)
 const t = (id: string) => () => testNode(id)
 describe('vitest', () => {
   test('message: Could not load page, 3085:4054', t('3085:4054'))
   test('message: Could not load page, 3085:4090', t('3085:4090'))
-  test('message: Could not load page, 3085:4080', t('3085:4080'))
-  test('message: Could not load page, 3085:4375', t('3085:4375'))
   test('message: Show Sections Från Till Betalning Granska Godkänn, 3229:5359', t('3229:5359'))
-  test('message: Could not load page, 3085:4378', t('3085:4378'))
+  test('message: Could not load page, 3085:4080', t('3085:4080'))
   test('script: Open section Från, 3229:5382', t('3229:5382'))
   test('subprocess: Display fields Payer data, 3229:5394', t('3229:5394'))
   test('subprocess: Validate fields Payer data, 3229:5526', t('3229:5526'))
   test('script: Hide button Fortsätt, 3501:5498', t('3501:5498'))
   test('message: Show Payer data validation errors, 3088:5070', t('3088:5070'))
   test('script: Open section Till, 3229:5589', t('3229:5589'))
-  test('script: Hide radiobuttons Hide saved recipient dropdown, 3088:4958', t('3088:4958'))
   test('subprocess: Display fields New recipient data, 3088:5337', t('3088:5337'))
   test('script: Set IBAN BBAN label to IBAN, 3088:5551', t('3088:5551'))
   test('script: Hide BIC SWIFT field, 3088:5558', t('3088:5558'))
@@ -51,20 +48,12 @@ describe('vitest', () => {
   test('script: Close recipient signing modal, 3895:6032', t('3895:6032'))
   test('message: Display some error, 3904:6623', t('3904:6623'))
   test('subprocess: Payment summary page, 3895:6028', t('3895:6028'))
-  if (process.env.TEST_ALL_PATHS === 'true')
-    describe('all paths', () => {
-      for (const path of allPaths) {
-        test(path.join(', '), () => testPath(path))
-      }
-    })
 })
 
 export type GatewayKey =
   | '3085:4045: Error from getaccounts'
   | '3085:4084: Error from countries'
   | '3085:4078: Error from currencies'
-  | '3085:4374: Error from savedPayees'
-  | '3085:4376: Error from listDrafts'
   | '3230:5492: Errors from validation'
   | '3088:4937: Has saved recipients'
   | '3088:5354: Is country EU EES'
@@ -81,8 +70,6 @@ export type ServiceCallKey =
   | '3085:4044: im json overview getaccounts ESB bank deposit getAccounts 201411'
   | '3085:4083: bank payment crossborder countries'
   | '3085:4073: bank payment crossborder currencies'
-  | '3085:4362: getSavedPayees not created yet'
-  | '3085:4352: business payment listdraftforeignpayment v1 0'
   | '3895:5983: bank payment crossborder crossborder payments'
   | '3895:5997: payee sign'
   | '3903:6495: GET payee sign'
@@ -99,26 +86,21 @@ export type ActionKey =
   | '3781:5754: Prislista clicked'
   | '4238:4522: Landinformation Clicked'
   | '3781:5710: Aktuella preliminära vauta kurser clicked'
-  | '3895:6007: Avbryt clicked'
   | '3895:6010: Signera clicked'
+  | '3895:6007: Avbryt clicked'
   | '3973:6900: Signing completed'
   | '3974:3970: Cancel signing'
 export type TestNodeKey =
   | '3085:4054: Could not load page'
   | '3085:4090: Could not load page'
-  | '3085:4080: Could not load page'
-  | '3085:4375: Could not load page'
   | '3229:5359: Show Sections Från Till Betalning Granska Godkänn'
-  | '3085:4378: Could not load page'
+  | '3085:4080: Could not load page'
   | '3229:5382: Open section Från'
   | '3229:5394: Display fields Payer data'
   | '3229:5526: Validate fields Payer data'
   | '3501:5498: Hide button Fortsätt'
   | '3088:5070: Show Payer data validation errors'
-  | '3088:4584: Register recipient page'
   | '3229:5589: Open section Till'
-  | '3088:4958: Hide radiobuttons Hide saved recipient dropdown'
-  | '3088:6277: New payee information'
   | '3088:5337: Display fields New recipient data'
   | '3088:5551: Set IBAN BBAN label to IBAN'
   | '3088:5558: Hide BIC SWIFT field'
@@ -128,7 +110,6 @@ export type TestNodeKey =
   | '3088:5346: Show BIC SWIFT or National ID AND Show BBAN'
   | '3088:5348: Show BIC SWIFT field required AND Show BBAN'
   | '3088:5347: Show BIC SWIFT field optional AND Show IBAN'
-  | '3088:4771: Payment information page'
   | '3088:5216: Show errors'
   | '3229:5682: Open section Betalning'
   | '3088:5982: Display fields Payment data'
@@ -139,14 +120,12 @@ export type TestNodeKey =
   | '3781:5673: Open info about currency'
   | '3781:5651: Set currencyCode to SEK'
   | '3088:6182: Show ISO Curency Code in Amount field'
-  | '3088:5993: Validate payment'
   | '3229:5733: Show errors'
   | '3088:6009: Show betalningsreferens'
   | '3088:6006: Hide betalningsreferens'
   | '3781:5750: https www lansforsakringar se 49334d globalassets aa global dokument prislistor 08198 prislista privat pdf'
   | '4238:4585: https www lansforsakringar se 48efa3 globalassets aa global dokument information landinformation pdf'
   | '3088:6241: https www dnb se se sv markets valuta rentor kurslista overforing daglig'
-  | '3895:5992: New recipient summary modal'
   | '3895:5990: Display correct errors for incorrect fields'
   | '3895:6006: Show Modal Validated recipient fields'
   | '3973:6779: Close recipient summary modal'

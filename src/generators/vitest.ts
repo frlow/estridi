@@ -12,16 +12,10 @@ export const generateVitestTests = (scraped: Scraped, dir: string, rootId: strin
 import { createTester, Handles } from 'estridi'
 import scraped from './${scrapedFile}'
 import { handles, State } from './${name}.handles.js'
-const { allPaths, testNode, testPath } = createTester(scraped, '${rootId}', handles)
+const { testNode } = createTester(scraped, '${rootId}', handles)
 const t = (id: string) => () => testNode(id)
 describe('${name}', () => {
 ${testedNodes.map(n => `  test('${n.type}: ${n.text}, ${n.id}', t('${n.id}'))`).join('\n')}
-  if (process.env.TEST_ALL_PATHS === 'true')
-    describe('all paths', () => {
-      for (const path of allPaths) {
-        test(path.join(', '), () => testPath(path))
-      }
-    })
 })
 
 ${generateTestKeys(scraped, rootId)}

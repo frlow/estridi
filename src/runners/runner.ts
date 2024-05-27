@@ -1,5 +1,4 @@
 import { findAllPaths } from '../utils/paths.js'
-import { testedNodeTypes } from '../common.js'
 
 export type Table = {
   content: string[][],
@@ -54,8 +53,7 @@ const getGateways = (pathToTest: any[]) =>
 
 export const runTest = async <TNodeTestArgs>(
   config: { args: TNodeTestArgs, handles: Handles, allPaths: string[][], scraped: any },
-  id?: string,
-  path?: string[]
+  id: string,
 ) => {
   const {
     handleTestNode,
@@ -73,7 +71,7 @@ export const runTest = async <TNodeTestArgs>(
     return relevantPaths[0]
   }
 
-  const pathToTest = id ? findRelevantPath(id) : (path || [])
+  const pathToTest = findRelevantPath(id)
   const gateways = getGateways(pathToTest)
   const serviceCalls = pathToTest.filter((n: any) => n.type === 'serviceCall')
   const state = await handleSetup(config.args)
@@ -93,7 +91,7 @@ export const runTest = async <TNodeTestArgs>(
         gateways,
         args
       )
-    else if (node!.id === id || (path && testedNodeTypes.includes(node.type))) {
+    else if (node!.id === id) {
       await handleTestNode(
         `${node!.id}: ${node!.text}`,
         pathToTest.map((n: any) => n.text),
@@ -108,6 +106,5 @@ export const createTester = (scraped: any, rootId: string, handles: Handles) => 
   const allPathsUnfiltered = findAllPaths(scraped, rootId)
   const allPaths = handles.filterPaths ? handles.filterPaths(allPathsUnfiltered, scraped) : allPathsUnfiltered
   const testNode = (id: string, args?: any) => runTest({ allPaths, args, handles, scraped }, id)
-  const testPath = (path: string[], args?: any) => runTest({ allPaths, args, handles, scraped }, undefined, path)
-  return { allPaths, testNode, testPath }
+  return { testNode }
 }
