@@ -1,7 +1,8 @@
 {
   "name": "estridi",
-  "version": "0.3.15",
+  "version": "0.3.16",
   "type": "module",
+  "main": "./dist/esm/runners/runner.js",
   "scripts": {
     "start": "vite-node src/cli.ts",
     "build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && node cjsfix.js",
@@ -21,6 +22,7 @@
     "@types/node": "^20.11.19",
     "@playwright/test": "^1.42.1"
   },
+  "files": ["dist"],
   "exports": {
     ".": {
       "import": "./dist/esm/runners/runner.js",
