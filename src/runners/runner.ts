@@ -6,6 +6,7 @@ export type Table = {
   headers: string[],
   id: string,
   text: string,
+  signature: string
 }
 
 export type HandleArgs<TState, TNodeTestArgs, TTableKeys> = TNodeTestArgs & {
@@ -57,14 +58,35 @@ const getGateways = (pathToTest: any[]) =>
     return acc
   }, {} as Record<string, string>)
 
-export const createTable = (rawTable: Omit<Table, 'values'>): Table => {
+export const createTable = (rawTable: Omit<Table, 'values' | 'signature'>): Table => {
   return {
-    ...rawTable, get values() {
+    ...rawTable,
+    get values() {
       return rawTable.content.map(row => rawTable.headers.slice(1).reduce((acc, cur) => {
         const index = rawTable.headers.indexOf(cur)
         acc[cur] = row[index]
         return acc
-      }, {Id: row[0]} as Record<string, string>))
+      }, { Id: row[0] } as Record<string, string>))
+    },
+    get signature() {
+      function hashCode(str: string) {
+        let hash = 0
+        for (let i = 0, len = str.length; i < len; i++) {
+          let chr = str.charCodeAt(i)
+          hash = (hash << 5) - hash + chr
+          hash |= 0 // Convert to 32bit integer
+        }
+        return Math.abs(hash).toString().substring(0, 4).padStart(4, '0')
+      }
+
+      return (
+        '\n' +
+        [
+          rawTable.headers.map((h) => hashCode(h)).join('|'),
+          ...rawTable.content.map((line) => line.map((v) => hashCode(v)).join('|'))
+        ].join('\n') +
+        '\n'
+      )
     }
   }
 }

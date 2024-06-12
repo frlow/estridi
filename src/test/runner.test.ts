@@ -171,5 +171,40 @@ describe('runner', () => {
     expect(table.values[1]["Label"]).toEqual("bbb")
     expect(table.values[1]["Id"]).toEqual("BBB")
   })
+
+  test("table signature", ()=>{
+    const tableData = {
+      "type": "table",
+      "text": "Payer Data",
+      "headers": [
+        ".Dummy",
+        "Type",
+        "Label"
+      ],
+      "content": [
+        [
+          "AAA",
+          "String",
+          "aaa"
+        ],
+        [
+          "BBB",
+          "Number",
+          "bbb"
+        ]
+      ],
+      "connections": {},
+      "id": "3230:5359"
+    }
+
+    const signature = `
+1383|2622|7317
+6454|1808|9632
+6553|1950|9731
+`
+    expect(createTable(tableData).signature).toEqual(signature)
+    tableData.content[1][1]="changed"
+    expect(createTable(tableData).signature).not.toEqual(signature)
+  })
 })
 
