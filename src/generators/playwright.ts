@@ -25,7 +25,7 @@ ${testedNodes.map(n => `  test.describe('${n.type}: ${n.text}, ${n.id}', t('${n.
 })
 
 ${generateTestKeys(scraped, rootId)}
-${handlesKeys(name, '{page: Page, context: BrowserContext, variant: string}')}
+${handlesKeys(name, '{page: Page, context: BrowserContext}')}
 `
 
   const handles = handlesContent(name, `${name}.spec.js`)

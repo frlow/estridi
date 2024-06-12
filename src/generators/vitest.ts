@@ -13,13 +13,19 @@ import { createTester, Handles } from 'estridi'
 import scraped from './${scrapedFile}'
 import { handles, State } from './${name}.handles.js'
 const { testNode } = createTester(scraped, '${rootId}', handles)
-const t = (id: string) => () => testNode(id)
+const t = (id: string) => () => {
+  const variants = handles.variants ? handles.variants(id) : [id]
+  for (const variant of variants)
+    test(variant, () =>
+      testNode(id, { variant })
+    )
+}
 describe('${name}', () => {
 ${testedNodes.map(n => `  test('${n.type}: ${n.text}, ${n.id}', t('${n.id}'))`).join('\n')}
 })
 
 ${generateTestKeys(scraped, rootId)}
-${handlesKeys(name, 'void')}
+${handlesKeys(name, '{}')}
 `
 
   const handles = handlesContent(name, `${name}.test.js`)

@@ -151,6 +151,6 @@ export type PlaywrightHandles = Handles<
   ServiceCallKey,
   TestNodeKey,
   ActionKey,
-  {page: Page, context: BrowserContext, variant: string},
+  {page: Page, context: BrowserContext},
   TableKeys
 >

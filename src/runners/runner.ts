@@ -10,6 +10,7 @@ export type Table = {
 export type HandleArgs<TState, TNodeTestArgs, TTableKeys> = TNodeTestArgs & {
   state: TState,
   getTable: (key: TTableKeys) => Table
+  variant: string
 }
 
 export type Handles<
@@ -21,7 +22,7 @@ export type Handles<
   TNodeTestArgs = any,
   TTableKeys extends string = any
 > = {
-  handleSetup: (args: TNodeTestArgs) => Promise<TState>
+  handleSetup: (args: TNodeTestArgs & { variant: string }) => Promise<TState>
   handleStart: (args: HandleArgs<TState, TNodeTestArgs, TTableKeys>) => Promise<void>
   handleServiceCall: (
     args: HandleArgs<TState, TNodeTestArgs, TTableKeys> & {

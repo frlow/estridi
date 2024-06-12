@@ -3,7 +3,13 @@ import { createTester, Handles } from 'estridi'
 import scraped from './scraped.json'
 import { handles, State } from './vitest.handles.js'
 const { testNode } = createTester(scraped, '3085:4043', handles)
-const t = (id: string) => () => testNode(id)
+const t = (id: string) => () => {
+  const variants = handles.variants ? handles.variants(id) : [id]
+  for (const variant of variants)
+    test(variant, () =>
+      testNode(id, { variant })
+    )
+}
 describe('vitest', () => {
   test('message: Could not load page, 3085:4054', t('3085:4054'))
   test('message: Could not load page, 3085:4090', t('3085:4090'))
@@ -145,6 +151,6 @@ export type VitestHandles = Handles<
   ServiceCallKey,
   TestNodeKey,
   ActionKey,
-  void,
+  {},
   TableKeys
 >
