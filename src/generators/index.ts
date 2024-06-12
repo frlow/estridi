@@ -10,7 +10,7 @@ export const generateAll = (scraped: Scraped, mode: Mode) => {
   const targetDir = 'tests'
   const roots = scraped.filter(node => node.type === 'start' && node.text.startsWith('root:'))
   if (roots.length === 0) {
-    console.warn('No root nodes fond!')
+    console.warn('No root nodes found!')
     return
   }
   for (const root of roots) {

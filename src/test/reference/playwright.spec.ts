@@ -77,8 +77,8 @@ export type ServiceCallKey =
   | '3085:4083: bank payment crossborder countries'
   | '3085:4073: bank payment crossborder currencies'
   | '3895:5983: bank payment crossborder crossborder payments'
-  | '3895:5997: payee sign'
-  | '3903:6495: GET payee sign'
+  | '3895:5997: POST payee sign'
+  | '3903:6495: POST payee execute'
 export type ActionKey =
   | '3085:4575: Fortsätt clicked'
   | '3088:5366: Link to countries you can send to'

@@ -3055,7 +3055,7 @@
     "content": [
       [
         "Valuta",
-        "DropdownInputSelect",
+        "DropdownSelect",
         "Required",
         "Default value “Välj land”"
       ],
@@ -3153,7 +3153,7 @@
     "content": [
       [
         "Välj konto",
-        "DropdownInputSelect",
+        "DropdownSelect",
         "Required",
         ""
       ]
@@ -3571,7 +3571,7 @@
   },
   {
     "type": "serviceCall",
-    "text": "payee sign",
+    "text": "POST payee sign",
     "connections": {
       "3895:5998": "Connector line"
     },
@@ -3674,7 +3674,7 @@
   },
   {
     "type": "serviceCall",
-    "text": "GET payee sign",
+    "text": "POST payee execute",
     "connections": {
       "3904:6572": "Connector line"
     },
@@ -3712,7 +3712,7 @@
   },
   {
     "type": "note",
-    "text": "Status completed failed",
+    "text": "Status completed pending failed",
     "connections": {},
     "id": "3903:6548"
   },
@@ -4013,6 +4013,12 @@
       "3895:5997": "Connector line"
     },
     "id": "3895:6010"
+  },
+  {
+    "type": "note",
+    "text": "Status 204 No response",
+    "connections": {},
+    "id": "4548:4489"
   },
   {
     "type": "signalListen",

@@ -6,5 +6,5 @@
     "outDir": "dist/cjs"
   },
   "include": ["src/runners"],
-  "exclude": ["src/test"]
+  "exclude": ["src/test", "**/*.test.ts"]
 }

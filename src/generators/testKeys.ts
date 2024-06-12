@@ -27,14 +27,14 @@ export const generateTestKeys = (scraped: Scraped, rootId: string) => {
   const testNodeKeys = generateTestNodeKeys(testData)
   const tableKeys = generateTableKeys(scraped)
   return `export type GatewayKey =
-${gatewayKeys.join('\n')}
+${gatewayKeys.join('\n') || '\'N/A\''}
 export type ServiceCallKey =
-${serviceCallKeys.join('\n')}
+${serviceCallKeys.join('\n') || '\'N/A\''}
 export type ActionKey =
-${actionKeys.join('\n')}
+${actionKeys.join('\n') || '\'N/A\''}
 export type TestNodeKey =
-${testNodeKeys.join('\n')}
+${testNodeKeys.join('\n') || '\'N/A\''}
 export type TableKeys =
-${tableKeys.join('\n')}
+${tableKeys.join('\n') || '\'N/A\''}
 `
 }

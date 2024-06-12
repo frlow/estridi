@@ -24,19 +24,23 @@ export type Handles<
   handleSetup: (args: TNodeTestArgs) => Promise<TState>
   handleStart: (args: HandleArgs<TState, TNodeTestArgs, TTableKeys>) => Promise<void>
   handleServiceCall: (
-    key: TServiceCallKey,
-    gateways: Record<TGWKey, string>,
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys>
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys> & {
+      key: TServiceCallKey,
+      gateways: Record<TGWKey, string>
+    }
   ) => Promise<void>
   handleAction: (
-    key: TActionKey,
-    gateways: Record<TGWKey, string>,
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys>
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys> & {
+      key: TActionKey,
+      gateways: Record<TGWKey, string>
+    }
   ) => Promise<void>
   handleTestNode: (
-    key: TNodeKey,
-    paths: string[],
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys>
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys> & {
+      key: TNodeKey,
+      gateways: Record<TGWKey, string>
+      paths: string[],
+    }
   ) => Promise<void>
   filterPaths?: (allPaths: string[][], scraped: any[]) => string[][]
   variants?: (id: string) => string[]
@@ -77,25 +81,20 @@ export const runTest = async <TNodeTestArgs>(
   const state = await handleSetup(config.args)
   const getTable = (key: string) =>
     config.scraped.find((n: any) => n.type === 'table' && `${n.id}: ${n.text}` === key)
-  const args = { state, ...config.args, getTable }
+  const args = { state, ...config.args, getTable, gateways }
   await Promise.all(
     serviceCalls.map((sc: any) =>
-      handleServiceCall(`${sc.id}: ${sc.text}`, gateways, args)
+      handleServiceCall({ ...args, key: `${sc.id}: ${sc.text}` })
     )
   )
   await handleStart(args)
   for (const node of pathToTest) {
     if (node!.type === 'signalListen')
       await handleAction(
-        `${node!.id}: ${node!.text}`,
-        gateways,
-        args
-      )
+        { ...args, key: `${node!.id}: ${node!.text}` })
     else if (node!.id === id) {
       await handleTestNode(
-        `${node!.id}: ${node!.text}`,
-        pathToTest.map((n: any) => n.text),
-        args
+        { ...args, key: `${node!.id}: ${node!.text}`, path: pathToTest.map((n: any) => n.text) }
       )
       if (!!node!.id) return
     }
