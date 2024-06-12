@@ -10,4 +10,5 @@ features/
 .idea/
 output/
 estridi.json
+estridi.json.bak
 tests/
