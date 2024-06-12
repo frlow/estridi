@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from 'vitest'
 import { Handles } from 'estridi'
 import { processFigmaDocument } from '../figma/process.js'
-import { createTester } from '../runners/runner.js'
+import { createTester, createTable } from '../runners/runner.js'
 import { findAllPaths } from '../utils/paths.js'
 
 describe('runner', () => {
@@ -87,7 +87,7 @@ describe('runner', () => {
     const { testDocument } = await import('./reference/testdata.js')
     const data = processFigmaDocument(testDocument)
     const handles = baseHandles({ stateProp: 'value' })
-    handles.handleTestNode = async (key, paths, args) => {
+    handles.handleTestNode = async (args) => {
       const table = args.getTable('1:601: My Fields')
       expect(table).toStrictEqual({
         'connections': {},
@@ -140,4 +140,35 @@ describe('runner', () => {
     const doubles = allPaths.filter((p, i, arr) => arr.map(a => a.join(',')).indexOf(p.join(',')) !== i)
     debugger
   })
+
+  test("table values", ()=>{
+    const tableData = {
+      "type": "table",
+      "text": "Payer Data",
+      "headers": [
+        ".Dummy",
+        "Type",
+        "Label"
+      ],
+      "content": [
+        [
+          "AAA",
+          "String",
+          "aaa"
+        ],
+        [
+          "BBB",
+          "Number",
+          "bbb"
+        ]
+      ],
+      "connections": {},
+      "id": "3230:5359"
+    }
+
+    const table = createTable(tableData)
+    expect(table.values[0]["Type"]).toEqual("String")
+    expect(table.values[1]["Label"]).toEqual("bbb")
+  })
 })
+

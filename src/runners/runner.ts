@@ -2,6 +2,7 @@ import { findAllPaths } from '../utils/paths.js'
 
 export type Table = {
   content: string[][],
+  values: Record<string, string>[]
   headers: string[],
   id: string,
   text: string,
@@ -56,6 +57,18 @@ const getGateways = (pathToTest: any[]) =>
     return acc
   }, {} as Record<string, string>)
 
+export const createTable = (rawTable: Omit<Table, 'values'>): Table => {
+  return {
+    ...rawTable, get values() {
+      return rawTable.content.map(row => rawTable.headers.slice(1).reduce((acc, cur) => {
+        const index = rawTable.headers.indexOf(cur)
+        acc[cur] = row[index]
+        return acc
+      }, {} as Record<string, string>))
+    }
+  }
+}
+
 export const runTest = async <TNodeTestArgs>(
   config: { args: TNodeTestArgs, handles: Handles, allPaths: string[][], scraped: any },
   id: string
@@ -80,8 +93,7 @@ export const runTest = async <TNodeTestArgs>(
   const gateways = getGateways(pathToTest)
   const serviceCalls = pathToTest.filter((n: any) => n.type === 'serviceCall')
   const state = await handleSetup(config.args)
-  const getTable = (key: string) =>
-    config.scraped.find((n: any) => n.type === 'table' && `${n.id}: ${n.text}` === key)
+  const getTable = (key: string) => createTable(config.scraped.find((n: any) => n.type === 'table' && `${n.id}: ${n.text}` === key))
   const args = { state, ...config.args, getTable, gateways }
   await Promise.all(
     serviceCalls.map((sc: any) =>
