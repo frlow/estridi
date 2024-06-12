@@ -64,7 +64,7 @@ export const createTable = (rawTable: Omit<Table, 'values'>): Table => {
         const index = rawTable.headers.indexOf(cur)
         acc[cur] = row[index]
         return acc
-      }, {} as Record<string, string>))
+      }, {Id: row[0]} as Record<string, string>))
     }
   }
 }

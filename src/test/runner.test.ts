@@ -169,6 +169,7 @@ describe('runner', () => {
     const table = createTable(tableData)
     expect(table.values[0]["Type"]).toEqual("String")
     expect(table.values[1]["Label"]).toEqual("bbb")
+    expect(table.values[1]["Id"]).toEqual("BBB")
   })
 })
 
