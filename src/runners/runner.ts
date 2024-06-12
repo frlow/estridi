@@ -39,7 +39,7 @@ export type Handles<
     args: HandleArgs<TState, TNodeTestArgs, TTableKeys> & {
       key: TNodeKey,
       gateways: Record<TGWKey, string>
-      paths: string[],
+      path: string[],
     }
   ) => Promise<void>
   filterPaths?: (allPaths: string[][], scraped: any[]) => string[][]
