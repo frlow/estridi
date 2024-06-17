@@ -12,10 +12,9 @@ export const generateVitestTests = (scraped: Scraped, dir: string, rootId: strin
 import { createTester, Handles, loadScraped } from 'estridi'
 import { handles, State } from './${name}.handles.js'
 const scraped = loadScraped()
-const { testNode } = createTester(scraped, '${rootId}', handles)
+const { testNode, getVariants } = createTester(scraped, '${rootId}', handles)
 const t = (id: string) => () => {
-  const variants = handles.variants ? handles.variants(id) : [id]
-  for (const variant of variants)
+  for (const variant of getVariants(id))
     test(variant, () =>
       testNode(id, { variant })
     )

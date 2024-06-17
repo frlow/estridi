@@ -11,7 +11,7 @@ export type Scraped = {
   linked?: string
   headers?: string[]
   content?: string[][]
-}
+}[]
 
 export type Table = {
   content: string[][],
@@ -60,10 +60,15 @@ export type Handles<
   ) => Promise<void>
   filterPaths?: (args: {
     allPaths: string[][],
-    scraped: any[]
+    scraped: Scraped
     getGateways: (currentPath: string[]) => { text: string, id: string, value: string }[]
   }) => string[][]
-  variants?: (id: string) => string[]
+  variants?: (args: {
+    id: string,
+    scraped: Scraped,
+    matchId: (key: TNodeKey) => boolean
+    getTable: (id: TTableKeys) => Table
+  }) => string[] | undefined
 }
 
 const getGateways = (pathToTest: any[]) =>
@@ -108,6 +113,8 @@ export const createTable = (rawTable: Omit<Table, 'values' | 'signature'>): Tabl
   }
 }
 
+const getTable = (key: string, scraped: any) => createTable(scraped.find((n: any) => n.type === 'table' && `${n.id}: ${n.text}` === key))
+
 export const runTest = async <TNodeTestArgs>(
   config: { args: TNodeTestArgs, handles: Handles, allPaths: string[][], scraped: any },
   id: string
@@ -132,8 +139,8 @@ export const runTest = async <TNodeTestArgs>(
   const gateways = getGateways(pathToTest)
   const serviceCalls = pathToTest.filter((n: any) => n.type === 'serviceCall')
   const state = await handleSetup(config.args)
-  const getTable = (key: string) => createTable(config.scraped.find((n: any) => n.type === 'table' && `${n.id}: ${n.text}` === key))
-  const args = { state, ...config.args, getTable, gateways }
+
+  const args = { state, ...config.args, getTable: (key: string) => getTable(key, config.scraped), gateways }
   await Promise.all(
     serviceCalls.map((sc: any) =>
       handleServiceCall({ ...args, key: `${sc.id}: ${sc.text}` })
@@ -174,7 +181,14 @@ export const createTester = (scraped: any, rootId: string, handles: Handles) => 
     getGateways
   }) : allPathsUnfiltered
   const testNode = (id: string, args?: any) => runTest({ allPaths, args, handles, scraped }, id)
-  return { testNode }
+  const getVariants: (id: string) => string[] = (id) =>
+    handles.variants ? handles.variants({
+      scraped,
+      id,
+      matchId: (key: string) => key.includes(id),
+      getTable: (id: string) => getTable(id, scraped)
+    })|| [id] : [id]
+  return { testNode, getVariants }
 }
 
 export const loadScraped: () => Scraped = () => JSON.parse(fs.readFileSync(`./tests/${scrapedFile}`, 'utf8'))

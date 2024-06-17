@@ -77,7 +77,7 @@ const getUserActionMetadata = (node: any) => {
     text: findText(node),
     actions: node.scraped
       .filter((n: any) =>
-        n.name === 'Signal listen' &&
+        matchNames(n.name,'Signal listen') &&
         isNodeInside(node.absoluteBoundingBox, n.absoluteBoundingBox))
       .map((n: any) => n.id)
   }
