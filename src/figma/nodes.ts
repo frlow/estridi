@@ -1,5 +1,14 @@
 import { allowedRegex } from '../common.js'
 
+const matchNames = (name: string, nodeName: string) => {
+  if (name === nodeName) return true
+  // There are 2 ways of naming the nodes in figma templates
+  // old "Subflows"
+  // new "2. Subflows"
+  const fixed = name.replace(/[0-9]*\. /, "")
+  return fixed === nodeName
+}
+
 export type NodeMetadata = ReturnType<typeof getNodeMetadata>
 export const getNodeMetadata = (node: any) => {
   const meta: any = getScriptMetadata(node) ||
@@ -38,7 +47,7 @@ export const findText = (node: any) =>
     .trim()
 
 const getScriptMetadata = (node: any) => {
-  if (node.name !== 'Script') return undefined
+  if (!matchNames(node.name, 'Script')) return undefined
   return {
     type: 'script',
     text: findText(node)
@@ -46,7 +55,7 @@ const getScriptMetadata = (node: any) => {
 }
 
 const getServiceCallMetadata = (node: any) => {
-  if (node.name !== 'Service call') return undefined
+  if (!matchNames(node.name, 'Service call')) return undefined
   return {
     type: 'serviceCall',
     text: findText(node)
@@ -54,7 +63,7 @@ const getServiceCallMetadata = (node: any) => {
 }
 
 const getSubProcessMetadata = (node: any) => {
-  if (node.name !== 'Subprocess') return undefined
+  if (!matchNames(node.name, 'Subprocess')) return undefined
   return {
     type: 'subprocess',
     text: findText(node)
@@ -62,7 +71,7 @@ const getSubProcessMetadata = (node: any) => {
 }
 
 const getUserActionMetadata = (node: any) => {
-  if (node.name !== 'User action') return undefined
+  if (!matchNames(node.name, 'User action')) return undefined
   const ret = {
     type: 'userAction',
     text: findText(node),
@@ -76,7 +85,7 @@ const getUserActionMetadata = (node: any) => {
 }
 
 const getSignalSendExternalMetadata = (node: any) => {
-  if (node.name !== 'Signal send external') return undefined
+  if (!matchNames(node.name, 'Signal send external')) return undefined
   return {
     type: 'signalSendExternal',
     text: findText(node)
@@ -84,7 +93,7 @@ const getSignalSendExternalMetadata = (node: any) => {
 }
 
 const getSignalSendMetadata = (node: any) => {
-  if (node.name !== 'Signal send') return undefined
+  if (!matchNames(node.name, 'Signal send')) return undefined
   return {
     type: 'signalSend',
     text: findText(node)
@@ -92,21 +101,21 @@ const getSignalSendMetadata = (node: any) => {
 }
 
 const getGatewayMetadata = (node: any) => {
-  if (node.name !== 'Gateway') return undefined
+  if (!matchNames(node.name, 'Gateway')) return undefined
   return {
     type: node.children.length === 3 ? 'gatewayLoop' : 'gateway',
     text: findText(node)
   }
 }
 const getMessageMetadata = (node: any) => {
-  if (node.name !== 'Message') return undefined
+  if (!matchNames(node.name, 'Message')) return undefined
   return {
     type: 'message',
     text: findText(node)
   }
 }
 const getSignalListenMetadata = (node: any) => {
-  if (node.name !== 'Signal listen') return undefined
+  if (!matchNames(node.name, 'Signal listen')) return undefined
   return {
     type: 'signalListen',
     text: findText(node)
@@ -114,7 +123,7 @@ const getSignalListenMetadata = (node: any) => {
 }
 
 const getStartMetadata = (node: any) => {
-  if (node.name !== 'Start') return undefined
+  if (!matchNames(node.name, 'Start')) return undefined
   const connector = node.scraped.find((n: any) =>
     n.type === 'CONNECTOR' &&
     n.connectorStart?.endpointNodeId === node.id) //node.attachedConnectors.find((c: any) => c.connectorStart.endpointNodeId === node.id)
@@ -127,7 +136,7 @@ const getStartMetadata = (node: any) => {
 }
 
 const getInputMetadata = (node: any) => {
-  if (node.name !== 'Input') return undefined
+  if (!matchNames(node.name, 'Input')) return undefined
   return {
     type: 'input',
     text: findText(node)
@@ -135,7 +144,7 @@ const getInputMetadata = (node: any) => {
 }
 
 const getOutputMetadata = (node: any) => {
-  if (node.name !== 'Output') return undefined
+  if (!matchNames(node.name, 'Output')) return undefined
   return {
     type: 'output',
     text: findText(node)
@@ -143,7 +152,7 @@ const getOutputMetadata = (node: any) => {
 }
 
 const getConnectorMetadata = (node: any) => {
-  if (node.name !== 'Connector') return undefined
+  if (!matchNames(node.name, 'Connector')) return undefined
   return {
     type: 'connector',
     text: findText(node)
@@ -151,7 +160,7 @@ const getConnectorMetadata = (node: any) => {
 }
 
 const getParallelGatewayMetadata = (node: any) => {
-  if (node.name !== 'Paralell gateway') return undefined
+  if (!matchNames(node.name, 'Paralell gateway')) return undefined
   return {
     type: 'parallelGateway',
     text: findText(node)
@@ -159,7 +168,7 @@ const getParallelGatewayMetadata = (node: any) => {
 }
 
 const getTimerMetadata = (node: any) => {
-  if (node.name !== 'Timer') return undefined
+  if (!matchNames(node.name, 'Timer')) return undefined
   return {
     type: 'timer',
     text: findText(node)
@@ -167,7 +176,7 @@ const getTimerMetadata = (node: any) => {
 }
 
 const getNoteMetadata = (node: any) => {
-  if (node.name !== 'Note') return undefined
+  if (!matchNames(node.name, 'Note')) return undefined
   return {
     type: 'note',
     text: findText(node)

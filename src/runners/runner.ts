@@ -58,7 +58,11 @@ export type Handles<
       path: string[],
     }
   ) => Promise<void>
-  filterPaths?: (allPaths: string[][], scraped: any[]) => string[][]
+  filterPaths?: (args: {
+    allPaths: string[][],
+    scraped: any[]
+    getGateways: (currentPath: string[]) => { text: string, id: string, value: string }[]
+  }) => string[][]
   variants?: (id: string) => string[]
 }
 
@@ -151,7 +155,24 @@ export const runTest = async <TNodeTestArgs>(
 
 export const createTester = (scraped: any, rootId: string, handles: Handles) => {
   const allPathsUnfiltered = findAllPaths(scraped, rootId)
-  const allPaths = handles.filterPaths ? handles.filterPaths(allPathsUnfiltered, scraped) : allPathsUnfiltered
+  const getGateways: (currentPath: string[]) => {
+    text: string,
+    id: string,
+    value: string
+  }[] = (currentPath) => currentPath.map((id) => scraped.find((n: any) => n.id === id))
+    .reduce((acc, n, index, arr) => {
+      if (n.type !== 'gateway') return acc
+      return [...acc, {
+        text: n.text,
+        id: n.id,
+        value: n.connections[arr[index + 1].id]
+      }]
+    }, [])
+  const allPaths = handles.filterPaths ? handles.filterPaths({
+    allPaths: allPathsUnfiltered,
+    scraped,
+    getGateways
+  }) : allPathsUnfiltered
   const testNode = (id: string, args?: any) => runTest({ allPaths, args, handles, scraped }, id)
   return { testNode }
 }

@@ -1,6 +1,6 @@
 {
   "name": "estridi",
-  "version": "0.3.26",
+  "version": "0.3.29",
   "type": "module",
   "scripts": {
     "start": "vite-node src/cli.ts",

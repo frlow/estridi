@@ -16,6 +16,15 @@ export const findAllPaths = (scraped: Scraped, rootId: string) => {
   while (toProcess.length > 0) {
     const path = toProcess.pop()!
     const current = getCurrent(path, scraped)
+    if(!current){
+      const afflictedNode = path.nodes.at(-1)
+      console.error(`There seems to be a problem with the node "${afflictedNode}"`)
+      console.error(`Open Figma developer console and run:`)
+      console.error(`\n----------------------------\n`)
+      console.error(`figma.currentPage.findAll().find(n=>n.id==="${afflictedNode}")`)
+      console.error(`\n----------------------------\n`)
+      process.exit(1)
+    }
     const connections = getConnections(current, path.nodes)
     const stack = [...path.stack]
     if (connections.length === 0 && path.stack.length === 0 && !current.linked) {
