@@ -1,4 +1,17 @@
 import { findAllPaths } from '../utils/paths.js'
+import * as fs from 'node:fs'
+import { scrapedFile } from '../common.js'
+
+export type Scraped = {
+  type: string
+  text: string
+  connections: Record<string, string>
+  id: string
+  actions?: string[]
+  linked?: string
+  headers?: string[]
+  content?: string[][]
+}
 
 export type Table = {
   content: string[][],
@@ -142,3 +155,5 @@ export const createTester = (scraped: any, rootId: string, handles: Handles) => 
   const testNode = (id: string, args?: any) => runTest({ allPaths, args, handles, scraped }, id)
   return { testNode }
 }
+
+export const loadScraped: () => Scraped = () => JSON.parse(fs.readFileSync(`./tests/${scrapedFile}`, 'utf8'))

@@ -1,7 +1,7 @@
 import { test, Page, BrowserContext } from '@playwright/test'
-import { createTester, Handles } from 'estridi'
-import scraped from './scraped.json'
+import { createTester, Handles, loadScraped } from 'estridi'
 import { handles, State } from './playwright.handles.js'
+const scraped = loadScraped()
 const { testNode } = createTester(scraped, '3085:4043', handles)
 const t = (id: string) => () => {
   const variants = handles.variants ? handles.variants(id) : [id]

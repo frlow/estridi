@@ -6,7 +6,6 @@
       "es2016",
       "ES2022"
     ],
-    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "moduleResolution": "NodeNext",
     "strict": true,

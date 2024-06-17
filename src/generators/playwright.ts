@@ -9,9 +9,9 @@ export const generatePlaywrightTests = (scraped: Scraped, dir: string, rootId: s
 
   const testedNodes = testData.filter(node => testedNodeTypes.includes(node.type) && !node.linked)
   const content = `import { test, Page, BrowserContext } from '@playwright/test'
-import { createTester, Handles } from 'estridi'
-import scraped from './${scrapedFile}'
+import { createTester, Handles, loadScraped } from 'estridi'
 import { handles, State } from './${name}.handles.js'
+const scraped = loadScraped()
 const { testNode } = createTester(scraped, '${rootId}', handles)
 const t = (id: string) => () => {
   const variants = handles.variants ? handles.variants(id) : [id]
