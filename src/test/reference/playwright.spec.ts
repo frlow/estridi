@@ -2,10 +2,9 @@ import { test, Page, BrowserContext } from '@playwright/test'
 import { createTester, Handles, loadScraped } from 'estridi'
 import { handles, State } from './playwright.handles.js'
 const scraped = loadScraped()
-const { testNode } = createTester(scraped, '3085:4043', handles)
+const { testNode, getVariants } = createTester(scraped, '3085:4043', handles)
 const t = (id: string) => () => {
-  const variants = handles.variants ? handles.variants(id) : [id]
-  for (const variant of variants)
+  for (const variant of getVariants(id))
     test(variant, ({ context, page }) =>
       testNode(id, { context, page, variant })
     )
@@ -25,12 +24,13 @@ test.describe('playwright', () => {
   test.describe('script: Set IBAN BBAN label to IBAN, 3088:5551', t('3088:5551'))
   test.describe('script: Hide BIC SWIFT field, 3088:5558', t('3088:5558'))
   test.describe('signalSend: https www lansforsakringar se 49bd3e globalassets aa global dokument information landinformation pdf, 3088:5333', t('3088:5333'))
-  test.describe('script: Hide BIC SWIFT field AND Show IBAN, 3088:5345', t('3088:5345'))
-  test.describe('subprocess: Validate fields recipient data, 3088:5196', t('3088:5196'))
   test.describe('script: Show BIC SWIFT or National ID AND Show BBAN, 3088:5346', t('3088:5346'))
+  test.describe('subprocess: Validate fields recipient data, 3088:5196', t('3088:5196'))
+  test.describe('script: IBAN length is applied to field and infotext is updated, 4893:6573', t('4893:6573'))
   test.describe('script: Show BIC SWIFT field required AND Show BBAN, 3088:5348', t('3088:5348'))
-  test.describe('script: Show BIC SWIFT field optional AND Show IBAN, 3088:5347', t('3088:5347'))
   test.describe('message: Show errors, 3088:5216', t('3088:5216'))
+  test.describe('script: Show BIC SWIFT field optional AND Show IBAN, 3088:5347', t('3088:5347'))
+  test.describe('script: Hide BIC SWIFT field AND Show IBAN, 3088:5345', t('3088:5345'))
   test.describe('script: Open section Betalning, 3229:5682', t('3229:5682'))
   test.describe('subprocess: Display fields Payment data, 3088:5982', t('3088:5982'))
   test.describe('script: Show avgift section, 3885:5933', t('3885:5933'))
@@ -48,6 +48,8 @@ test.describe('playwright', () => {
   test.describe('signalSend: https www dnb se se sv markets valuta rentor kurslista overforing daglig, 3088:6241', t('3088:6241'))
   test.describe('message: Display correct errors for incorrect fields, 3895:5990', t('3895:5990'))
   test.describe('message: Show Modal Validated recipient fields, 3895:6006', t('3895:6006'))
+  test.describe('message: Show Last 3 Alert Messages, 4893:6322', t('4893:6322'))
+  test.describe('message: Show All Alert Messages, 4893:6282', t('4893:6282'))
   test.describe('script: Close recipient summary modal, 3973:6779', t('3973:6779'))
   test.describe('subprocess: view security authentication id2, 3895:6017', t('3895:6017'))
   test.describe('message: Show error, 3895:6015', t('3895:6015'))
@@ -62,14 +64,15 @@ export type GatewayKey =
   | '3085:4078: Error from currencies'
   | '3230:5492: Errors from validation'
   | '3088:4937: Has saved recipients'
-  | '3088:5354: Is country EU EES'
   | '3088:5349: Is country US AU CA'
   | '3088:5350: is ibanLength 0'
   | '3088:5214: Any validation errors'
+  | '3088:5354: Is country EU EES'
   | '3088:5984: Is country EU EES'
   | '3229:5732: Any validation errors'
   | '3885:5897: Is currencyCode EUR AND countryCode EU ESS'
   | '3895:5989: Error from validate service'
+  | '4894:4493: More than three alert messages'
   | '3895:5998: Any errors'
   | '3904:6572: Is status completed'
 export type ServiceCallKey =
@@ -111,12 +114,13 @@ export type TestNodeKey =
   | '3088:5551: Set IBAN BBAN label to IBAN'
   | '3088:5558: Hide BIC SWIFT field'
   | '3088:5333: https www lansforsakringar se 49bd3e globalassets aa global dokument information landinformation pdf'
-  | '3088:5345: Hide BIC SWIFT field AND Show IBAN'
-  | '3088:5196: Validate fields recipient data'
   | '3088:5346: Show BIC SWIFT or National ID AND Show BBAN'
+  | '3088:5196: Validate fields recipient data'
+  | '4893:6573: IBAN length is applied to field and infotext is updated'
   | '3088:5348: Show BIC SWIFT field required AND Show BBAN'
-  | '3088:5347: Show BIC SWIFT field optional AND Show IBAN'
   | '3088:5216: Show errors'
+  | '3088:5347: Show BIC SWIFT field optional AND Show IBAN'
+  | '3088:5345: Hide BIC SWIFT field AND Show IBAN'
   | '3229:5682: Open section Betalning'
   | '3088:5982: Display fields Payment data'
   | '3885:5933: Show avgift section'
@@ -134,6 +138,8 @@ export type TestNodeKey =
   | '3088:6241: https www dnb se se sv markets valuta rentor kurslista overforing daglig'
   | '3895:5990: Display correct errors for incorrect fields'
   | '3895:6006: Show Modal Validated recipient fields'
+  | '4893:6322: Show Last 3 Alert Messages'
+  | '4893:6282: Show All Alert Messages'
   | '3973:6779: Close recipient summary modal'
   | '3895:6017: view security authentication id2'
   | '3895:6015: Show error'

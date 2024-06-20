@@ -20,7 +20,7 @@ const t = (id: string) => () => {
     )
 }
 describe('${name}', () => {
-${testedNodes.map(n => `  test('${n.type}: ${n.text}, ${n.id}', t('${n.id}'))`).join('\n')}
+${testedNodes.map(n => `  describe('${n.type}: ${n.text}, ${n.id}', t('${n.id}'))`).join('\n')}
 })
 
 ${generateTestKeys(scraped, rootId)}

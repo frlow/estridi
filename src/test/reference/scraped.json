@@ -2734,7 +2734,7 @@
     "type": "signalListen",
     "text": "Select country",
     "connections": {
-      "3088:5354": "Connector line"
+      "3088:5349": "Connector line"
     },
     "id": "3088:5344"
   },
@@ -2799,8 +2799,8 @@
     "type": "gateway",
     "text": "is ibanLength 0",
     "connections": {
-      "3088:5347": "yes",
-      "3088:5348": "no"
+      "3088:5348": "no",
+      "4893:6573": "yes"
     },
     "id": "3088:5350"
   },
@@ -2809,7 +2809,7 @@
     "text": "Is country EU EES",
     "connections": {
       "3088:5345": "yes",
-      "3088:5349": "no"
+      "3088:5347": "no"
     },
     "id": "3088:5354"
   },
@@ -3055,7 +3055,7 @@
     "content": [
       [
         "Valuta",
-        "DropdownSelect",
+        "DropdownInputSelect",
         "Required",
         "Default value “Välj land”"
       ],
@@ -3498,29 +3498,11 @@
   },
   {
     "type": "serviceCall",
-    "text": "GET payee sign",
+    "text": "POST payment execute",
     "connections": {
       "3904:6647": "Connector line"
     },
     "id": "3904:6640"
-  },
-  {
-    "type": "output",
-    "text": "",
-    "connections": {},
-    "id": "3904:6642"
-  },
-  {
-    "type": "input",
-    "text": "Output",
-    "connections": {},
-    "id": "I3904:6642;8:180"
-  },
-  {
-    "type": "output",
-    "text": "",
-    "connections": {},
-    "id": "I3904:6642;8:180;8:166"
   },
   {
     "type": "input",
@@ -3536,7 +3518,7 @@
   },
   {
     "type": "note",
-    "text": "Status completed failed",
+    "text": "Status completed pending failed",
     "connections": {},
     "id": "3904:6646"
   },
@@ -3560,6 +3542,30 @@
     "text": "Execute payment",
     "connections": {},
     "id": "3904:6710"
+  },
+  {
+    "type": "output",
+    "text": "",
+    "connections": {},
+    "id": "4929:4513"
+  },
+  {
+    "type": "input",
+    "text": "Output",
+    "connections": {},
+    "id": "I4929:4513;8:180"
+  },
+  {
+    "type": "output",
+    "text": "",
+    "connections": {},
+    "id": "I4929:4513;8:180;8:166"
+  },
+  {
+    "type": "note",
+    "text": "Status 204 No response",
+    "connections": {},
+    "id": "4929:4514"
   },
   {
     "type": "signalListen",
@@ -3920,7 +3926,9 @@
   {
     "type": "message",
     "text": "Display correct errors for incorrect fields",
-    "connections": {},
+    "connections": {
+      "4894:4493": "Connector line"
+    },
     "id": "3895:5990"
   },
   {
@@ -4021,6 +4029,27 @@
     "id": "4548:4489"
   },
   {
+    "type": "message",
+    "text": "Show All Alert Messages",
+    "connections": {},
+    "id": "4893:6282"
+  },
+  {
+    "type": "gateway",
+    "text": "More than three alert messages",
+    "connections": {
+      "4893:6282": "no",
+      "4893:6322": "yes"
+    },
+    "id": "4894:4493"
+  },
+  {
+    "type": "message",
+    "text": "Show Last 3 Alert Messages",
+    "connections": {},
+    "id": "4893:6322"
+  },
+  {
     "type": "signalListen",
     "text": "Landinformation Clicked",
     "connections": {
@@ -4033,5 +4062,19 @@
     "text": "https www lansforsakringar se 48efa3 globalassets aa global dokument information landinformation pdf",
     "connections": {},
     "id": "4238:4585"
+  },
+  {
+    "type": "script",
+    "text": "IBAN length is applied to field and infotext is updated",
+    "connections": {
+      "3088:5354": "Connector line"
+    },
+    "id": "4893:6573"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I4893:6573;8:340"
   }
 ]
