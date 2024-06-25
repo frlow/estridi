@@ -43,6 +43,7 @@ export type Handles<
     args: HandleArgs<TState, TNodeTestArgs, TTableKeys> & {
       key: TServiceCallKey,
       gateways: Record<TGWKey, string>
+      inputs: string
     }
   ) => Promise<void>
   handleAction: (
@@ -143,7 +144,7 @@ export const runTest = async <TNodeTestArgs>(
   const args = { state, ...config.args, getTable: (key: string) => getTable(key, config.scraped), gateways }
   await Promise.all(
     serviceCalls.map((sc: any) =>
-      handleServiceCall({ ...args, key: `${sc.id}: ${sc.text}` })
+      handleServiceCall({ ...args, key: `${sc.id}: ${sc.text}`, inputs: sc.inputs.join(" ") })
     )
   )
   await handleStart(args)
@@ -187,7 +188,7 @@ export const createTester = (scraped: any, rootId: string, handles: Handles) => 
       id,
       matchId: (key: string) => key.includes(id),
       getTable: (id: string) => getTable(id, scraped)
-    })|| [id] : [id]
+    }) || [id] : [id]
   return { testNode, getVariants }
 }
 

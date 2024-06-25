@@ -5,7 +5,7 @@ const matchNames = (name: string, nodeName: string) => {
   // There are 2 ways of naming the nodes in figma templates
   // old "Subflows"
   // new "2. Subflows"
-  const fixed = name.replace(/[0-9]*\. /, "")
+  const fixed = name.replace(/[0-9]*\. /, '')
   return fixed === nodeName
 }
 
@@ -39,12 +39,16 @@ export const getNodeMetadata = (node: any) => {
   return meta
 }
 
-export const findText = (node: any) =>
-  (node.children?.find((c: any) => c.type === 'TEXT')?.characters || '')
-    .replace(allowedRegex, ' ')
+export const findText = (node: any) => {
+  const children: any[] = node.children || []
+  children.sort((a) => a.name === 'text' ? -1 : 1)
+  return (children.find((c: any) => c.type === 'TEXT')?.characters || '')
+    .replaceAll(allowedRegex, ' ')
     .replace(/\n/g, ' ')
     .replace(/ +/g, ' ')
     .trim()
+}
+
 
 const getScriptMetadata = (node: any) => {
   if (!matchNames(node.name, 'Script')) return undefined
@@ -56,8 +60,15 @@ const getScriptMetadata = (node: any) => {
 
 const getServiceCallMetadata = (node: any) => {
   if (!matchNames(node.name, 'Service call')) return undefined
+  const inputs = node.scraped
+    .filter((n: any) => n.connectorStart?.endpointNodeId === node.id || n.connectorEnd?.endpointNodeId === node.id)
+    .flatMap((n: any) => ([n.connectorStart?.endpointNodeId, n.connectorEnd?.endpointNodeId]))
+    .map((id: string) => node.scraped.find((n: any) => n.id === id))
+    .filter((n: any) => matchNames(n.name, 'Input'))
+    .map((n: any) => findText(n))
   return {
     type: 'serviceCall',
+    inputs,
     text: findText(node)
   }
 }
@@ -77,7 +88,7 @@ const getUserActionMetadata = (node: any) => {
     text: findText(node),
     actions: node.scraped
       .filter((n: any) =>
-        matchNames(n.name,'Signal listen') &&
+        matchNames(n.name, 'Signal listen') &&
         isNodeInside(node.absoluteBoundingBox, n.absoluteBoundingBox))
       .map((n: any) => n.id)
   }
