@@ -25,8 +25,10 @@ export type Table = {
 export type HandleArgs<TState, TNodeTestArgs, TTableKeys> = TNodeTestArgs & {
   state: TState,
   getTable: (key: TTableKeys) => Table
-  variant: string
+  variant: Variant<any>
 }
+
+export type Variant<T> = { name: string, via?: T[] }
 
 export type Handles<
   TState = any,
@@ -37,7 +39,7 @@ export type Handles<
   TNodeTestArgs = any,
   TTableKeys extends string = any
 > = {
-  handleSetup: (args: TNodeTestArgs & { variant: string }) => Promise<TState>
+  handleSetup: (args: TNodeTestArgs & { variant: Variant<any> }) => Promise<TState>
   handleStart: (args: HandleArgs<TState, TNodeTestArgs, TTableKeys>) => Promise<void>
   handleServiceCall: (
     args: HandleArgs<TState, TNodeTestArgs, TTableKeys> & {
@@ -69,7 +71,7 @@ export type Handles<
     scraped: Scraped,
     matchId: (key: TNodeKey) => boolean
     getTable: (id: TTableKeys) => Table
-  }) => string[] | undefined
+  }) => Variant<TTableKeys | TActionKey | TNodeKey | TServiceCallKey | TGWKey>[] | undefined
 }
 
 const getGateways = (pathToTest: any[]) =>
@@ -116,8 +118,8 @@ export const createTable = (rawTable: Omit<Table, 'values' | 'signature'>): Tabl
 
 const getTable = (key: string, scraped: any) => createTable(scraped.find((n: any) => n.type === 'table' && `${n.id}: ${n.text}` === key))
 
-export const runTest = async <TNodeTestArgs>(
-  config: { args: TNodeTestArgs, handles: Handles, allPaths: string[][], scraped: any },
+export const runTest = async (
+  config: { args: any, handles: Handles, allPaths: string[][], scraped: any },
   id: string
 ) => {
   const {
@@ -127,16 +129,18 @@ export const runTest = async <TNodeTestArgs>(
     handleServiceCall,
     handleSetup
   } = config.handles
-  const findRelevantPath = (id: string) => {
+  const findRelevantPath = (ids: string[]) => {
     const relevantPaths = config.allPaths
-      .filter((paths) => paths.includes(id))
+      .filter((path) => ids.every((id) => path.includes(id)))
       .map((path) =>
         path.map((id) => config.scraped.find((s: any) => s.id === id))
       )
     return relevantPaths.reduce((acc, cur) => cur.length < acc.length ? cur : acc, relevantPaths[0])
   }
-
-  const pathToTest = findRelevantPath(id)
+  const getRealKey = (key: string) => key.split(': ')[0]
+  const viaKeys = (config.args.variant.via || []).map((via: string) => getRealKey(via))
+  const pathToTest = findRelevantPath([id, ...viaKeys])
+  if(!pathToTest) throw "No possible path found that satisfies 'id' and 'via'"
   const gateways = getGateways(pathToTest)
   const serviceCalls = pathToTest.filter((n: any) => n.type === 'serviceCall')
   const state = await handleSetup(config.args)
@@ -144,7 +148,7 @@ export const runTest = async <TNodeTestArgs>(
   const args = { state, ...config.args, getTable: (key: string) => getTable(key, config.scraped), gateways }
   await Promise.all(
     serviceCalls.map((sc: any) =>
-      handleServiceCall({ ...args, key: `${sc.id}: ${sc.text}`, inputs: sc.inputs.join(" ") })
+      handleServiceCall({ ...args, key: `${sc.id}: ${sc.text}`, inputs: sc.inputs.join(' ') })
     )
   )
   await handleStart(args)
@@ -182,13 +186,13 @@ export const createTester = (scraped: any, rootId: string, handles: Handles) => 
     getGateways
   }) : allPathsUnfiltered
   const testNode = (id: string, args?: any) => runTest({ allPaths, args, handles, scraped }, id)
-  const getVariants: (id: string) => string[] = (id) =>
+  const getVariants: (id: string) => Variant<any>[] = (id) =>
     handles.variants ? handles.variants({
       scraped,
       id,
       matchId: (key: string) => key.includes(id),
       getTable: (id: string) => getTable(id, scraped)
-    }) || [id] : [id]
+    }) || [{ name: id }] : [{ name: id }]
   return { testNode, getVariants }
 }
 

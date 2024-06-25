@@ -15,7 +15,7 @@ const scraped = loadScraped()
 const { testNode, getVariants } = createTester(scraped, '${rootId}', handles)
 const t = (id: string) => () => {
   for (const variant of getVariants(id))
-    test(variant, () =>
+    test(variant.name, () =>
       testNode(id, { variant })
     )
 }
