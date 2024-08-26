@@ -28,7 +28,12 @@ export type HandleArgs<TState, TNodeTestArgs, TTableKeys> = TNodeTestArgs & {
   variant: Variant<any>
 }
 
-export type Variant<T> = { name: string, via?: T[] }
+export type Variant<T> = {
+  name: string,
+  via?: T[],
+  skipped?: boolean,
+  customTest?: (config: any, id: string) => Promise<void>
+}
 
 export type Handles<
   TState = any,
@@ -129,6 +134,11 @@ export const runTest = async (
     handleServiceCall,
     handleSetup
   } = config.handles
+  if (config.args.variant.skipped) return
+  if (config.args.variant.customTest) {
+    await config.args.variant.customTest(config, id)
+    return
+  }
   const findRelevantPath = (ids: string[]) => {
     const relevantPaths = config.allPaths
       .filter((path) => ids.every((id) => path.includes(id)))
@@ -140,23 +150,31 @@ export const runTest = async (
   const getRealKey = (key: string) => key.split(': ')[0]
   const viaKeys = (config.args.variant.via || []).map((via: string) => getRealKey(via))
   const pathToTest = findRelevantPath([id, ...viaKeys])
-  if(!pathToTest) throw "No possible path found that satisfies 'id' and 'via'"
+  if (!pathToTest) throw 'No possible path found that satisfies \'id\' and \'via\''
   const gateways = getGateways(pathToTest)
   const serviceCalls = pathToTest.filter((n: any) => n.type === 'serviceCall')
+
+  // Running setup step
   const state = await handleSetup(config.args)
 
   const args = { state, ...config.args, getTable: (key: string) => getTable(key, config.scraped), gateways }
   await Promise.all(
     serviceCalls.map((sc: any) =>
+      // Mocking service calls
       handleServiceCall({ ...args, key: `${sc.id}: ${sc.text}`, inputs: sc.inputs.join(' ') })
     )
   )
+
+  // Running start step
   await handleStart(args)
+
   for (const node of pathToTest) {
     if (node!.type === 'signalListen')
+      // Handle Action
       await handleAction(
         { ...args, key: `${node!.id}: ${node!.text}` })
     else if (node!.id === id) {
+      // Handle Node Test
       await handleTestNode(
         { ...args, key: `${node!.id}: ${node!.text}`, path: pathToTest.map((n: any) => n.text) }
       )
