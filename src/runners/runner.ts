@@ -32,7 +32,7 @@ export type Variant<T> = {
   name: string,
   via?: T[],
   skipped?: boolean,
-  customTest?: (config: any, id: string) => Promise<void>
+  customTest?: (config: any, id: string) => Promise<void>,
 }
 
 export type Handles<
@@ -121,10 +121,20 @@ export const createTable = (rawTable: Omit<Table, 'values' | 'signature'>): Tabl
   }
 }
 
-const getTable = (key: string, scraped: any) => createTable(scraped.find((n: any) => n.type === 'table' && `${n.id}: ${n.text}` === key))
+export const getTable = (key: string, scraped: any) => createTable(scraped.find((n: any) => n.type === 'table' && `${n.id}: ${n.text}` === key))
+const getRealKey = (key: string) => key.split(': ')[0]
+type Config = { args: any, handles: Handles, allPaths: string[][], scraped: any }
+const findRelevantPath = (ids: string[], config: Config) => {
+  const relevantPaths = config.allPaths
+    .filter((path) => ids.every((id) => path.includes(id)))
+    .map((path) =>
+      path.map((id) => config.scraped.find((s: any) => s.id === id))
+    )
+  return relevantPaths.reduce((acc, cur) => cur.length < acc.length ? cur : acc, relevantPaths[0])
+}
 
 export const runTest = async (
-  config: { args: any, handles: Handles, allPaths: string[][], scraped: any },
+  config: Config,
   id: string
 ) => {
   const {
@@ -139,25 +149,18 @@ export const runTest = async (
     await config.args.variant.customTest(config, id)
     return
   }
-  const findRelevantPath = (ids: string[]) => {
-    const relevantPaths = config.allPaths
-      .filter((path) => ids.every((id) => path.includes(id)))
-      .map((path) =>
-        path.map((id) => config.scraped.find((s: any) => s.id === id))
-      )
-    return relevantPaths.reduce((acc, cur) => cur.length < acc.length ? cur : acc, relevantPaths[0])
-  }
-  const getRealKey = (key: string) => key.split(': ')[0]
+
   const viaKeys = (config.args.variant.via || []).map((via: string) => getRealKey(via))
-  const pathToTest = findRelevantPath([id, ...viaKeys])
+  const pathToTest = findRelevantPath([id, ...viaKeys], config)
   if (!pathToTest) throw 'No possible path found that satisfies \'id\' and \'via\''
   const gateways = getGateways(pathToTest)
-  const serviceCalls = pathToTest.filter((n: any) => n.type === 'serviceCall')
 
   // Running setup step
   const state = await handleSetup(config.args)
 
   const args = { state, ...config.args, getTable: (key: string) => getTable(key, config.scraped), gateways }
+
+  const serviceCalls = pathToTest.filter((n: any) => n.type === 'serviceCall')
   await Promise.all(
     serviceCalls.map((sc: any) =>
       // Mocking service calls
@@ -178,12 +181,13 @@ export const runTest = async (
       await handleTestNode(
         { ...args, key: `${node!.id}: ${node!.text}`, path: pathToTest.map((n: any) => n.text) }
       )
-      if (!!node!.id) return
+      if (!!node!.id) return state
     }
   }
+  return state
 }
 
-export const createTester = (scraped: any, rootId: string, handles: Handles) => {
+export const createTester = <THandles extends Handles>(scraped: any, rootId: string, handles: THandles) => {
   const allPathsUnfiltered = findAllPaths(scraped, rootId)
   const getGateways: (currentPath: string[]) => {
     text: string,

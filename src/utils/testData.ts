@@ -19,5 +19,5 @@ export const getTestData = (scraped: Scraped, rootId: string) => {
     const bIndex = lowestIndex(b)
     return aIndex < bIndex ? -1 : 1
   })
-  return unique.map(id => scraped.find(s => s.id === id))
+  return unique.map(id => scraped.find(s => s.id === id)!)
 }

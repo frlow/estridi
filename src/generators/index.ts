@@ -1,7 +1,7 @@
 import { writeAllFiles } from '../utils/files.js'
 import { Scraped, scrapedFile } from '../common.js'
 import { generatePlaywrightTests } from './playwright.js'
-import path from 'node:path'
+import * as path from 'node:path'
 import { generateVitestTests } from './vitest.js'
 
 export const modes = ['playwright', 'vitest'] as const

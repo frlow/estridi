@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-import { loadDocumentFromFigma } from './figma/client.js'
 import fs from 'fs'
-import { generateAll, Mode } from './generators/index.js'
-import { processFigmaDocument } from './figma/process.js'
+import { generateAll } from './generators/index.js'
+import { EstridiConfig } from './common.js'
+import { process } from './processors/index.js'
 
 const filename = 'estridi.json'
 if (!fs.existsSync(filename)) throw 'estridi.json not found'
-let config: { mode: Mode, token: string, fileId: string } = null as any
+let config: EstridiConfig = null as any
 try {
   config = JSON.parse(fs.readFileSync(filename, 'utf8'))
 } catch (e) {
@@ -14,8 +14,7 @@ try {
 }
 
 export async function main() {
-  const document = await loadDocumentFromFigma(config)
-  const data = processFigmaDocument(document)
+  const data = await process(config)
   generateAll(data, config.mode)
 }
 
