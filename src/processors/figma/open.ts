@@ -1,31 +1,45 @@
-import { getTableMetadata } from './common.js'
+import { getConnections, getTableMetadata, isNodeInside, NodeType } from './common.js'
 
-const colors: Record<string, string> = {
-  '1-0.7803921699523926-0.7607843279838562-1': 'script',
-  '0.686274528503418-0.95686274766922-0.7764706015586853-1': 'serviceCall',
-  '0.8941176533699036-0.800000011920929-1-1': 'action',
-  '1-0.8039215803146362-0.16078431904315948-1': 'start',
-  '0.11764705926179886-0.11764705926179886-0.11764705926179886-1': 'end',
-  '0.7411764860153198-0.8901960849761963-1-1': 'gateway',
-  '1-0.9098039269447327-0.6392157077789307-1': 'subprocess'
+let legend: Record<string, NodeType>
+const getLegend = (node: any) => {
+  if (!legend) {
+    legend = {}
+    const legendSection = node.scraped.find((n: any) => n.name === 'Legend' && n.type === 'SECTION')
+    const items = legendSection.children.map((c: any) => ({
+      name: c.name,
+      colorKey: getColorKey(c)
+    })).filter((n: any) => n.colorKey)
+    items.forEach((item: any) => legend[item.colorKey] = item.name)
+  }
+  return legend
 }
+
+const getColorKey = (node: any) => {
+  const fills = node?.fills
+  if (!fills) return undefined
+  const fill = fills[0]
+  if (!fill) return undefined
+  const color = fill.color
+  return `${color.r}-${color.g}-${color.b}-${color.a}`
+}
+
+const getType = (node: any) => getLegend(node)[getColorKey(node)!]
 
 export const getOpenNodeMetadata = (node: any) => {
   const table = getTableMetadata(node)
   if (table) return table
   if (!node.fills) return undefined
-  const color = node.fills[0].color
-  const colorKey = `${color.r}-${color.g}-${color.b}-${color.a}`
-  const type = colors[colorKey]
+  const type = getType(node)
   if (!type)
     return undefined
   const meta = {} as any
-  meta.connections = node.scraped
-    .filter((n: any) =>
-      n.type === 'CONNECTOR' &&
-      !n.strokeDashes &&
-      n.connectorStart.endpointNodeId === node.id)
-    .reduce((acc: any, cur: any) => ({ ...acc, [cur.connectorEnd.endpointNodeId]: cur.name || 'N/A' }), {})
+  meta.connections = getConnections(node)
+  if (type === 'userAction')
+    meta.actions = node.scraped
+      .filter((n: any) =>
+        getType(n) === 'signalListen' &&
+        isNodeInside(node.absoluteBoundingBox, n.absoluteBoundingBox))
+      .map((n: any) => n.id)
   meta.id = node.id
   meta.type = type
   meta.text = node.name

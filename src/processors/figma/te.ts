@@ -1,5 +1,5 @@
 import { allowedRegex } from '../../common.js'
-import { getTableMetadata } from './common.js'
+import { getConnections, getTableMetadata, isNodeInside } from './common.js'
 
 const matchNames = (name: string, nodeName: string) => {
   if (name === nodeName) return true
@@ -30,13 +30,7 @@ export const getTeNodeMetadata = (node: any) => {
     getNoteMetadata(node) ||
     getTableMetadata(node)
   if (!meta) return undefined
-  meta.connections = node.scraped
-    .filter((n: any) =>
-      n.type === 'CONNECTOR' &&
-      !n.strokeDashes &&
-      n.connectorStart.endpointNodeId === node.id)
-    .reduce((acc: any, cur: any) => ({ ...acc, [cur.connectorEnd.endpointNodeId]: cur.name || 'N/A' }), {})
-  meta.id = node.id
+  meta.connections = getConnections(node)
   return meta
 }
 
@@ -197,24 +191,3 @@ const getNoteMetadata = (node: any) => {
 
 
 
-type Points = { x0: number, x1: number, y0: number, y1: number }
-export const isNodeInside = (host: any, child: any) =>
-  isInside({
-    x0: host.x,
-    x1: host.x + host.width,
-    y0: host.y,
-    y1: host.y + host.height
-  }, {
-    x0: child.x,
-    x1: child.x + child.width,
-    y0: child.y,
-    y1: child.y + child.height
-  })
-export const isInside = (host: Points, child: Points) => {
-  const compare = (x: number, y: number) => x > host.x0 && x < host.x1 && y > host.y0 && y < host.y1
-  if (compare(child.x0, child.y0)) return true
-  if (compare(child.x1, child.y0)) return true
-  if (compare(child.x0, child.y1)) return true
-  if (compare(child.x1, child.y1)) return true
-  return false
-}
