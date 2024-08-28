@@ -1,25 +1,4 @@
-import { allowedRegex, Scraped } from '../../common.js'
-
-const processNode = (node: any, acc: Record<string, any>) => {
-  if (acc[node.id]) return
-  acc[node.id] = node
-  const children = node.children || []
-  children.forEach((c: any) => processNode(c, acc))
-}
-
-export const processFigmaDocument = (document: any): Scraped => {
-  const acc: Record<string, any> = {}
-  processNode(document, acc)
-  const nodes = Object.values(acc)
-  nodes.forEach(n => n.scraped = nodes)
-  const mappedNodes = nodes.map(node => getNodeMetadata(node)).filter(n => n)
-  mappedNodes.filter(node => node.type === 'subprocess').forEach(node => {
-    const link = mappedNodes.find(n => n.type === 'start' && n.text === node.text)
-    if (link) node.linked = link.id
-  })
-  return mappedNodes
-}
-
+import { allowedRegex } from '../../common.js'
 
 const matchNames = (name: string, nodeName: string) => {
   if (name === nodeName) return true
@@ -30,8 +9,8 @@ const matchNames = (name: string, nodeName: string) => {
   return fixed === nodeName
 }
 
-export type NodeMetadata = ReturnType<typeof getNodeMetadata>
-export const getNodeMetadata = (node: any) => {
+// export type TeNodeMetadata = ReturnType<typeof getNodeMetadata>
+export const getTeNodeMetadata = (node: any) => {
   const meta: any = getScriptMetadata(node) ||
     getServiceCallMetadata(node) ||
     getSubProcessMetadata(node) ||

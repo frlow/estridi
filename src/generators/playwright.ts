@@ -11,10 +11,9 @@ export const generatePlaywrightTests = (scraped: Scraped, dir: string, rootId: s
   const content = `import { test, Page, BrowserContext } from '@playwright/test'
 import { createTester, Handles, loadScraped } from 'estridi'
 import { handles, State } from './${name}.handles.js'
+export type RootId = '${rootId}'
 const scraped = loadScraped()
 const { testNode, getVariants } = createTester(scraped, '${rootId}', handles)
-export const getTester = (customHandles?: typeof handles) =>
-  createTester(scraped, '${rootId}', customHandles || handles)
 const t = (id: string) => () => {
   for (const variant of getVariants(id))
     test(variant.name, ({ context, page }) =>
