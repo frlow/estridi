@@ -15,7 +15,7 @@ try {
 
 export async function main() {
   const data = await process(config)
-  generateAll(data, config.mode)
+  generateAll(data, config)
 }
 
 main()

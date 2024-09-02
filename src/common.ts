@@ -16,4 +16,4 @@ export type Scraped = {
 }[]
 export const testedNodeTypes = ['message', 'script', 'subprocess', 'signalSend']
 export const scrapedFile = 'scraped.json'
-export type EstridiConfig = { mode: Mode, token: string, fileId: string, processorType?: ProcessorType }
+export type EstridiConfig = { mode: Mode, token: string, fileId: string, processorType?: ProcessorType, rootNames?: string }
