@@ -178,6 +178,8 @@ export const runTest = async (
         { ...args, key: `${node!.id}: ${node!.text}` })
     else if (node!.id === id) {
       // Handle Node Test
+      if(config.args.variant.extraAction)
+        await config.args.variant.extraAction(config)
       await handleTestNode(
         { ...args, key: `${node!.id}: ${node!.text}`, path: pathToTest.map((n: any) => n.text) }
       )
