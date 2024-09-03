@@ -33,6 +33,7 @@ export type Variant<T> = {
   via?: T[],
   skipped?: boolean,
   customTest?: (config: any, id: string) => Promise<void>,
+  extraAction?: (config: any)=>Promise<void>
 }
 
 export type Handles<
