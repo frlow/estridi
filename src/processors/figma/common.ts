@@ -1,4 +1,5 @@
 import { Scraped } from '../../common.js'
+import { NodeType } from '../index.js'
 
 export const processNode = (node: any, acc: Record<string, any>) => {
   if (acc[node.id]) return
@@ -70,15 +71,7 @@ export const isInside = (host: Points, child: Points) => {
   return false
 }
 
-export type NodeType =
-  'script' |
-  'serviceCall' |
-  'userAction' |
-  'start' |
-  'end' |
-  'gateway' |
-  'subprocess' |
-  'signalListen'
+
 
 export type NodeMetadata = {
   type: NodeType

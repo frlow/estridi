@@ -1,4 +1,5 @@
-import { getConnections, getTableMetadata, isNodeInside, NodeType } from './common.js'
+import { getConnections, getTableMetadata, isNodeInside } from './common.js'
+import { NodeType } from '../index.js'
 
 let legend: Record<string, NodeType>
 const getLegend = (node: any) => {

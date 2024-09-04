@@ -19,7 +19,8 @@
     "typescript": "*",
     "prettier": "^3.2.5",
     "@types/node": "^20.11.19",
-    "@playwright/test": "^1.42.1"
+    "@playwright/test": "^1.42.1",
+    "mermaid": "^11.1.0"
   },
   "files": ["dist"],
   "exports": {

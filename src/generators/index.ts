@@ -4,7 +4,7 @@ import { generatePlaywrightTests } from './playwright.js'
 import * as path from 'node:path'
 import { generateVitestTests } from './vitest.js'
 
-export const modes = ['playwright', 'vitest'] as const
+export const modes = ['playwright', 'vitest', 'scraped'] as const
 export type Mode = typeof modes[number];
 export const generateAll = (scraped: Scraped, config: EstridiConfig) => {
   const targetDir = 'tests'
