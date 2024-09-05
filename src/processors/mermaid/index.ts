@@ -8,10 +8,8 @@ export const processMermaid = async ({ file }: { file?: string }): Promise<Scrap
   if (!file) throw 'file must be set'
   const content = fs.readFileSync(file, 'utf-8')
   const flowcharts: string[] = (content.match(/```mermaid(?:.|\n)*?```/g) || []).map(m => m.replace('```mermaid\n', '').replace('```', ''))
-  const renderer = createMermaidRenderer({ launchOptions: { headless: true, devtools: false } })
-
+  const parsedFlowcharts = await createMermaidRenderer({ launchOptions: { headless: true, devtools: false } })(flowcharts)
   const scraped: Scraped = []
-  const parsedFlowcharts = await renderer(flowcharts)
   for (const chart of parsedFlowcharts) {
     const { nodes, edges }: {nodes: any[], edges: any[]} = chart.value
 

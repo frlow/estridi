@@ -133,9 +133,7 @@ async function renderDiagrams({
       const diagramResult = await mermaid.mermaidAPI.getDiagramFromText(diagram)
       // @ts-ignore
       const parser = diagramResult.getParser().yy
-      const edges = parser.getEdges()
-      const data = parser.getData()
-      return data
+      return parser.getData()
     })
   )
 }
