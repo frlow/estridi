@@ -9,11 +9,11 @@ export type Mode = typeof modes[number];
 export const generateAll = (scraped: Scraped, config: EstridiConfig) => {
   const targetDir = 'tests'
   const roots = scraped.filter(node => {
-    const isRoot = node.type === 'start' && node.text.startsWith('root:')
+    const isRoot = node.rootName
     const allowedRoot =
       !config.rootNames || // No rootNames (allow only one)
       config.rootNames === '*' || // Wildcard, allow all
-      config.rootNames.split(',').includes(node.text.replace('root:', '')) // Filter by names
+      config.rootNames.split(',').includes(node.rootName || 'dummy') // Filter by names
     return isRoot && allowedRoot
   })
   if (roots.length === 0) {
@@ -25,7 +25,7 @@ export const generateAll = (scraped: Scraped, config: EstridiConfig) => {
   }
 
   for (const root of roots) {
-    const name = root.text.split(':')[1]
+    const name = root.rootName!
     if (config.mode === 'playwright') writeAllFiles(generatePlaywrightTests(scraped, targetDir, root.id, name))
     if (config.mode === 'vitest') writeAllFiles(generateVitestTests(scraped, targetDir, root.id, name))
     writeAllFiles([{

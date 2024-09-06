@@ -1,6 +1,6 @@
 import { Scraped, ScrapedNode } from '../../common.js'
 import { createMermaidRenderer } from './parser.js'
-import fs from 'fs'
+import * as fs from 'fs'
 
 
 

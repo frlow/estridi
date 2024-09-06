@@ -6,9 +6,11 @@ import { processFigmaDocument } from './figma/common.js'
 import { getTeNodeMetadata } from './figma/te.js'
 import { normalizeScraped } from './normalizer.js'
 import { getOpenNodeMetadata } from './figma/open.js'
+import { processMermaid } from './mermaid/index.js'
 
 const figmaTEFile = path.join(__dirname, 'testdata', 'figmaTE.json')
 const figmaOpenFile = path.join(__dirname, 'testdata', 'figmaOpen.json')
+const mermaidFile = path.join(__dirname, 'testdata', 'mermaid.md')
 const expectedNormalizedFile = path.join(__dirname, 'testdata', 'expectedNormalized.json')
 
 const getExpected = () => JSON.parse(fs.readFileSync(expectedNormalizedFile, 'utf8'))
@@ -36,6 +38,14 @@ describe('processors', async () => {
     fs.writeFileSync(expectedNormalizedFile, JSON.stringify(normalized, null, 2), 'utf8')
   })
 
+  test.skipIf(!process.env.UPDATE_DATA)('update only normalized', async () => {
+    // Use normalized TE file as reference
+    const document = JSON.parse(fs.readFileSync(figmaTEFile, 'utf8'))
+    const scraped = processFigmaDocument(document, getTeNodeMetadata)
+    const normalized = normalizeScraped(scraped)
+    fs.writeFileSync(expectedNormalizedFile, JSON.stringify(normalized, null, 2), 'utf8')
+  })
+
   test('process TE Figma document', () => {
     const document = JSON.parse(fs.readFileSync(figmaTEFile, 'utf8'))
     const scraped = processFigmaDocument(document, getTeNodeMetadata)
@@ -46,6 +56,12 @@ describe('processors', async () => {
   test('process Open Figma document', () => {
     const document = JSON.parse(fs.readFileSync(figmaOpenFile, 'utf8'))
     const scraped = processFigmaDocument(document, getOpenNodeMetadata)
+    const normalized = normalizeScraped(scraped)
+    expect(normalized).toStrictEqual(getExpected())
+  })
+
+  test('process Mermaid Markdown file', async () => {
+    const scraped = await  processMermaid({ file: mermaidFile })
     const normalized = normalizeScraped(scraped)
     expect(normalized).toStrictEqual(getExpected())
   })

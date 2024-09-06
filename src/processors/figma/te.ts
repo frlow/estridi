@@ -1,4 +1,5 @@
 import { getConnections, getTableMetadata, isNodeInside, sanitizeText } from './common.js'
+import { ScrapedNode } from '../../common.js'
 
 const matchNames = (name: string, nodeName: string) => {
   if (name === nodeName) return true
@@ -29,7 +30,8 @@ export const getTeNodeMetadata = (node: any) => {
     getNoteMetadata(node) ||
     getTableMetadata(node)
   if (!meta) return undefined
-  meta.connections = getConnections(node)
+  if (meta.type !== 'table')
+    meta.connections = getConnections(node)
   meta.id = node.id
   return meta
 }
@@ -131,10 +133,12 @@ const getStartMetadata = (node: any) => {
     n.connectorStart?.endpointNodeId === node.id) //node.attachedConnectors.find((c: any) => c.connectorStart.endpointNodeId === node.id)
   const type = !!connector ? 'start' : 'end'
   const text = (!!connector && connector.name !== 'Connector line') ? connector?.name : `start_${node.id.replace(':', '_')}`
-  return {
+  const ret: any = {
     type,
     text: type === 'end' ? 'end' : sanitizeText(text)
   }
+  if (ret.type === 'start' && text.startsWith('root:')) ret.rootName = text.replace('root:', '')
+  return ret
 }
 
 const getInputMetadata = (node: any) => {

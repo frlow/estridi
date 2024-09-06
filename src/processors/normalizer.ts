@@ -6,6 +6,7 @@ export const normalizeScraped = (scraped: Scraped) => {
     const ret: any = {}
     ret.type = node.type
     ret.text = node.text
+    if (node.rootName) ret.rootName = node.rootName
     if (node.type === 'end') ret.text = 'end'
     ret.connections = {}
     Object.entries(node.connections || {}).forEach(c => {
@@ -23,5 +24,10 @@ export const normalizeScraped = (scraped: Scraped) => {
     return ret
   }
   const rootNodes = scraped.filter(n => n.type === 'start')
-  return rootNodes.map(processNode)
+  const processedRootNodes = rootNodes.map(processNode)
+  const tables = scraped.filter(n => n.type === 'table').map((n: any) => {
+    delete n.id
+    return n
+  })
+  return [...processedRootNodes, ...tables]
 }

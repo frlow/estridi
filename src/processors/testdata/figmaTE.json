@@ -5807,6 +5807,326 @@
           "strokeWeight": 4,
           "strokeAlign": "CENTER",
           "strokeJoin": "BEVEL"
+        },
+        {
+          "id": "9:415",
+          "name": "Table",
+          "type": "TABLE",
+          "scrollBehavior": "SCROLLS",
+          "children": [
+            {
+              "id": "T9:415;1:4;1:6",
+              "name": "Table cell",
+              "type": "TABLE_CELL",
+              "scrollBehavior": "SCROLLS",
+              "absoluteBoundingBox": {
+                "x": -391,
+                "y": 752,
+                "width": 192,
+                "height": 64
+              },
+              "absoluteRenderBounds": {
+                "x": -391,
+                "y": 752,
+                "width": 192,
+                "height": 64
+              },
+              "fills": [
+                {
+                  "blendMode": "NORMAL",
+                  "type": "SOLID",
+                  "color": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1,
+                    "a": 1
+                  }
+                }
+              ],
+              "characters": ".My Table"
+            },
+            {
+              "id": "T9:415;1:4;1:7",
+              "name": "Table cell",
+              "type": "TABLE_CELL",
+              "scrollBehavior": "SCROLLS",
+              "absoluteBoundingBox": {
+                "x": -199,
+                "y": 752,
+                "width": 192,
+                "height": 64
+              },
+              "absoluteRenderBounds": {
+                "x": -199,
+                "y": 752,
+                "width": 192,
+                "height": 64
+              },
+              "fills": [
+                {
+                  "blendMode": "NORMAL",
+                  "type": "SOLID",
+                  "color": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1,
+                    "a": 1
+                  }
+                }
+              ],
+              "characters": "First"
+            },
+            {
+              "id": "T9:415;1:4;1:25",
+              "name": "Table cell",
+              "type": "TABLE_CELL",
+              "scrollBehavior": "SCROLLS",
+              "absoluteBoundingBox": {
+                "x": -7,
+                "y": 752,
+                "width": 192,
+                "height": 64
+              },
+              "absoluteRenderBounds": {
+                "x": -7,
+                "y": 752,
+                "width": 192,
+                "height": 64
+              },
+              "fills": [
+                {
+                  "blendMode": "NORMAL",
+                  "type": "SOLID",
+                  "color": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1,
+                    "a": 1
+                  }
+                }
+              ],
+              "characters": "Second"
+            },
+            {
+              "id": "T9:415;1:5;1:6",
+              "name": "Table cell",
+              "type": "TABLE_CELL",
+              "scrollBehavior": "SCROLLS",
+              "absoluteBoundingBox": {
+                "x": -391,
+                "y": 816,
+                "width": 192,
+                "height": 64
+              },
+              "absoluteRenderBounds": {
+                "x": -391,
+                "y": 816,
+                "width": 192,
+                "height": 64
+              },
+              "fills": [
+                {
+                  "blendMode": "NORMAL",
+                  "type": "SOLID",
+                  "color": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1,
+                    "a": 1
+                  }
+                }
+              ],
+              "characters": "Line 1"
+            },
+            {
+              "id": "T9:415;1:5;1:7",
+              "name": "Table cell",
+              "type": "TABLE_CELL",
+              "scrollBehavior": "SCROLLS",
+              "absoluteBoundingBox": {
+                "x": -199,
+                "y": 816,
+                "width": 192,
+                "height": 64
+              },
+              "absoluteRenderBounds": {
+                "x": -199,
+                "y": 816,
+                "width": 192,
+                "height": 64
+              },
+              "fills": [
+                {
+                  "blendMode": "NORMAL",
+                  "type": "SOLID",
+                  "color": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1,
+                    "a": 1
+                  }
+                }
+              ],
+              "characters": "AAAA"
+            },
+            {
+              "id": "T9:415;1:5;1:25",
+              "name": "Table cell",
+              "type": "TABLE_CELL",
+              "scrollBehavior": "SCROLLS",
+              "absoluteBoundingBox": {
+                "x": -7,
+                "y": 816,
+                "width": 192,
+                "height": 64
+              },
+              "absoluteRenderBounds": {
+                "x": -7,
+                "y": 816,
+                "width": 192,
+                "height": 64
+              },
+              "fills": [
+                {
+                  "blendMode": "NORMAL",
+                  "type": "SOLID",
+                  "color": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1,
+                    "a": 1
+                  }
+                }
+              ],
+              "characters": "BBBB"
+            },
+            {
+              "id": "T9:415;1:8;1:6",
+              "name": "Table cell",
+              "type": "TABLE_CELL",
+              "scrollBehavior": "SCROLLS",
+              "absoluteBoundingBox": {
+                "x": -391,
+                "y": 880,
+                "width": 192,
+                "height": 64
+              },
+              "absoluteRenderBounds": {
+                "x": -391,
+                "y": 880,
+                "width": 192,
+                "height": 64
+              },
+              "fills": [
+                {
+                  "blendMode": "NORMAL",
+                  "type": "SOLID",
+                  "color": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1,
+                    "a": 1
+                  }
+                }
+              ],
+              "characters": "Line 2"
+            },
+            {
+              "id": "T9:415;1:8;1:7",
+              "name": "Table cell",
+              "type": "TABLE_CELL",
+              "scrollBehavior": "SCROLLS",
+              "absoluteBoundingBox": {
+                "x": -199,
+                "y": 880,
+                "width": 192,
+                "height": 64
+              },
+              "absoluteRenderBounds": {
+                "x": -199,
+                "y": 880,
+                "width": 192,
+                "height": 64
+              },
+              "fills": [
+                {
+                  "blendMode": "NORMAL",
+                  "type": "SOLID",
+                  "color": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1,
+                    "a": 1
+                  }
+                }
+              ],
+              "characters": "CCCC"
+            },
+            {
+              "id": "T9:415;1:8;1:25",
+              "name": "Table cell",
+              "type": "TABLE_CELL",
+              "scrollBehavior": "SCROLLS",
+              "absoluteBoundingBox": {
+                "x": -7,
+                "y": 880,
+                "width": 192,
+                "height": 64
+              },
+              "absoluteRenderBounds": {
+                "x": -7,
+                "y": 880,
+                "width": 192,
+                "height": 64
+              },
+              "fills": [
+                {
+                  "blendMode": "NORMAL",
+                  "type": "SOLID",
+                  "color": {
+                    "r": 1,
+                    "g": 1,
+                    "b": 1,
+                    "a": 1
+                  }
+                }
+              ],
+              "characters": "DDDD"
+            }
+          ],
+          "blendMode": "PASS_THROUGH",
+          "absoluteBoundingBox": {
+            "x": -391,
+            "y": 752,
+            "width": 576,
+            "height": 192
+          },
+          "absoluteRenderBounds": {
+            "x": -391,
+            "y": 752,
+            "width": 576,
+            "height": 192
+          },
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          },
+          "effects": [],
+          "strokes": [
+            {
+              "opacity": 0.20000000298023224,
+              "blendMode": "NORMAL",
+              "type": "SOLID",
+              "color": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 1
+              }
+            }
+          ],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE"
         }
       ],
       "backgroundColor": {

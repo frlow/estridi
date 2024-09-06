@@ -1,13 +1,13 @@
-import { createRequire } from 'node:module'
-
 import { type Mermaid, type MermaidConfig } from 'mermaid'
 import { type Browser, type BrowserType, chromium, type LaunchOptions, type Page } from 'playwright-core'
+import * as path from 'node:path'
+import * as url from 'node:url'
 
 declare const mermaid: Mermaid
 
-const require = createRequire(import.meta.url)
-const html = String(new URL('./index.html', import.meta.url))
-const mermaidScript = { path: require.resolve('mermaid/dist/mermaid.js') }
+// @ts-ignore
+const html = url.pathToFileURL(path.join(__dirname, "index.html")).toString()
+const mermaidScript = { path: path.resolve('mermaid/dist/mermaid.js') }
 
 export interface CreateMermaidRendererOptions {
   /**

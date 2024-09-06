@@ -7,6 +7,7 @@ export type ScrapedNode = {
   id: string
   type: NodeType
   inputs?: string[]
+  rootName?: string
   text: string
   connections?: Record<string, string>
   actions?: string[]

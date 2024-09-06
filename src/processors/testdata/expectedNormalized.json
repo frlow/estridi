@@ -2,6 +2,7 @@
   {
     "type": "start",
     "text": "root main",
+    "rootName": "main",
     "connections": {
       "start": {
         "type": "serviceCall",
@@ -85,5 +86,26 @@
       }
     },
     "actions": []
+  },
+  {
+    "type": "table",
+    "text": "My Table",
+    "headers": [
+      ".My Table",
+      "First",
+      "Second"
+    ],
+    "content": [
+      [
+        "Line 1",
+        "AAAA",
+        "BBBB"
+      ],
+      [
+        "Line 2",
+        "CCCC",
+        "DDDD"
+      ]
+    ]
   }
 ]
