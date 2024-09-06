@@ -1,5 +1,4 @@
-import { allowedRegex } from '../../common.js'
-import { getConnections, getTableMetadata, isNodeInside } from './common.js'
+import { getConnections, getTableMetadata, isNodeInside, sanitizeText } from './common.js'
 
 const matchNames = (name: string, nodeName: string) => {
   if (name === nodeName) return true
@@ -31,17 +30,14 @@ export const getTeNodeMetadata = (node: any) => {
     getTableMetadata(node)
   if (!meta) return undefined
   meta.connections = getConnections(node)
+  meta.id = node.id
   return meta
 }
 
 export const findText = (node: any) => {
   const children: any[] = node.children || []
   children.sort((a) => a.name === 'text' ? -1 : 1)
-  return (children.find((c: any) => c.type === 'TEXT')?.characters || '')
-    .replaceAll(allowedRegex, ' ')
-    .replace(/\n/g, ' ')
-    .replace(/ +/g, ' ')
-    .trim()
+  return sanitizeText(children.find((c: any) => c.type === 'TEXT')?.characters || '')
 }
 
 
@@ -137,7 +133,7 @@ const getStartMetadata = (node: any) => {
   const text = (!!connector && connector.name !== 'Connector line') ? connector?.name : `start_${node.id.replace(':', '_')}`
   return {
     type,
-    text
+    text: type === 'end' ? 'end' : sanitizeText(text)
   }
 }
 

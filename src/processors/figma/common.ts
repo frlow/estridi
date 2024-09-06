@@ -1,4 +1,4 @@
-import { Scraped } from '../../common.js'
+import { allowedRegex, Scraped } from '../../common.js'
 import { NodeType } from '../index.js'
 
 export const processNode = (node: any, acc: Record<string, any>) => {
@@ -20,6 +20,11 @@ export const processFigmaDocument = (document: any, getNodeMetadata: (node: any)
   })
   return mappedNodes
 }
+
+export const sanitizeText = (text: string)=>text.replaceAll(allowedRegex, ' ')
+  .replace(/\n/g, ' ')
+  .replace(/ +/g, ' ')
+  .trim()
 
 export function getConnections(node: any) {
   return node.scraped

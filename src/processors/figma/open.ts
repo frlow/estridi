@@ -1,4 +1,4 @@
-import { getConnections, getTableMetadata, isNodeInside } from './common.js'
+import { getConnections, getTableMetadata, isNodeInside, sanitizeText } from './common.js'
 import { NodeType } from '../index.js'
 
 let legend: Record<string, NodeType>
@@ -26,7 +26,13 @@ const getColorKey = (node: any) => {
 
 const getType = (node: any) => getLegend(node)[getColorKey(node)!]
 
+const isInLegend = (node: any) => {
+  const legendSection = node.scraped.find((n: any) => n.name === 'Legend' && n.type === 'SECTION')
+  return !!legendSection.children.some((c: any) => c.id === node.id)
+}
+
 export const getOpenNodeMetadata = (node: any) => {
+  if (isInLegend(node)) return undefined
   const table = getTableMetadata(node)
   if (table) return table
   if (!node.fills) return undefined
@@ -34,15 +40,15 @@ export const getOpenNodeMetadata = (node: any) => {
   if (!type)
     return undefined
   const meta = {} as any
-  meta.connections = getConnections(node)
   if (type === 'userAction')
     meta.actions = node.scraped
       .filter((n: any) =>
         getType(n) === 'signalListen' &&
         isNodeInside(node.absoluteBoundingBox, n.absoluteBoundingBox))
       .map((n: any) => n.id)
+  meta.connections = getConnections(node)
   meta.id = node.id
   meta.type = type
-  meta.text = node.name
+  meta.text = sanitizeText(node.name)
   return meta
 }
