@@ -47,7 +47,6 @@ describe('processors', async () => {
     const document = JSON.parse(fs.readFileSync(figmaOpenFile, 'utf8'))
     const scraped = processFigmaDocument(document, getOpenNodeMetadata)
     const normalized = normalizeScraped(scraped)
-    const expected = getExpected()
-    expect(normalized).toStrictEqual(expected)
+    expect(normalized).toStrictEqual(getExpected())
   })
 })
