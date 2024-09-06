@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 import fs from 'fs'
-import { generateAll } from './generators/index.js'
 import { EstridiConfig } from './common.js'
-import { process } from './processors/index.js'
+import { runEstridi } from './index.js'
 
 const filename = 'estridi.json'
 if (!fs.existsSync(filename)) throw 'estridi.json not found'
@@ -14,8 +13,7 @@ try {
 }
 
 export async function main() {
-  const data = await process(config)
-  generateAll(data, config)
+  await runEstridi(config)
 }
 
 main()

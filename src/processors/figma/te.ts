@@ -1,5 +1,4 @@
 import { getConnections, getTableMetadata, isNodeInside, sanitizeText } from './common.js'
-import { ScrapedNode } from '../../common.js'
 
 const matchNames = (name: string, nodeName: string) => {
   if (name === nodeName) return true

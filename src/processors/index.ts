@@ -3,6 +3,7 @@ import { loadDocumentFromFigma } from './figma/client.js'
 import { processFigmaDocument } from './figma/common.js'
 import { getTeNodeMetadata } from './figma/te.js'
 import { getOpenNodeMetadata } from './figma/open.js'
+import { cleanScraped } from './normalizer.js'
 
 export enum ProcessorType {
   'FigJamTE' = 'FigJamTE',
@@ -23,14 +24,18 @@ export type NodeType =
 
 export const process = async (config: EstridiConfig): Promise<Scraped> => {
   const processorType = config.processorType || ProcessorType.FigJamTE
+  let raw: Scraped
   switch (processorType) {
     case ProcessorType.FigJamTE:
-      return processFigmaDocument(await loadDocumentFromFigma(config), getTeNodeMetadata)
+      raw = processFigmaDocument(await loadDocumentFromFigma(config), getTeNodeMetadata)
+      break
     case ProcessorType.FigJamOpen:
-      return processFigmaDocument(await loadDocumentFromFigma(config), getOpenNodeMetadata)
+      raw = processFigmaDocument(await loadDocumentFromFigma(config), getOpenNodeMetadata)
+      break
     // case ProcessorType.Mermaid:
     //   return await processMermaid(config)
     default:
       throw 'N/A'
   }
+  return cleanScraped(raw)
 }

@@ -1,6 +1,10 @@
 import { Scraped, ScrapedNode } from '../common.js'
 
 
+export const cleanScraped = (scraped: Scraped): Scraped => {
+  return scraped
+}
+
 export const normalizeScraped = (scraped: Scraped) => {
   const processNode = (node: ScrapedNode) => {
     const ret: any = {}
