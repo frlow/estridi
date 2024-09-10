@@ -3,15 +3,7 @@ import {connectorNode, getBaseFigmaNode, table, teNodes} from "./data/figmaBase"
 import {figmaExampleTE} from "./data/figmaExamples";
 
 export const getFigmaDocument = (variant: any): FigmaDocument => {
-  if (variant.data?.source?.Variant === "TE") {
-    if(variant.data.tables){
-      return getBaseFigmaNode([table({children: [
-          [".My Table", "Column1", "Column2"],
-          ["Line1", "AAAA", "BBBB"],
-          ["Line2", "CCCC", "DDDD"],
-        ]})])
-    }
-    if (!variant.data?.node) return figmaExampleTE as any
+  if (variant.data?.source?.Variant === "TE" && variant.data?.node) {
     const type = variant.data?.node.Id
     const textExample = "Some text"
     switch (type) {
@@ -50,6 +42,12 @@ export const getFigmaDocument = (variant: any): FigmaDocument => {
         debugger
     }
   }
-  debugger
-  throw "Case not handled"
+  if(variant.data?.tables){
+    return getBaseFigmaNode([table({children: [
+        [".My Table", "Column1", "Column2"],
+        ["Line1", "AAAA", "BBBB"],
+        ["Line2", "CCCC", "DDDD"],
+      ]})])
+  }
+  return figmaExampleTE as any
 }

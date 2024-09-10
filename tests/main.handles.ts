@@ -23,14 +23,11 @@ export const handles: MainHandles = {
             type: variant.data?.source?.Family,
             variant: variant.data?.source?.Variant
           } as EstridiConfig
-              // {
-              //   if (variant.data?.source?.Variant === "TE")
-              //     return {type: "figma", variant: "TE", logging: "verbose", token: "-", fileId: "-"}
-              //   debugger
-          // }
           else if (gateways["22:2092: Errors loading config"] === "yes") return undefined
           return {
-            logging: "verbose"
+            logging: "verbose",
+            type: "figma",
+            variant: "TE"
           } as EstridiConfig
         }
         break
@@ -62,7 +59,11 @@ export const handles: MainHandles = {
         expect(state.estridi.getLog("couldNotLoadData")).toStrictEqual(null)
         break
       case "22:2121: Show loaded config": {
-        expect(state.estridi.getLog("loadedConfig")).toStrictEqual({logging: "verbose"})
+        expect(state.estridi.getLog("loadedConfig")).toStrictEqual({
+          "logging": "verbose",
+          "type": "figma",
+          "variant": "TE",
+        })
         break
       }
       case "22:2167: Show loaded data": {
@@ -124,6 +125,10 @@ export const handles: MainHandles = {
           "type": "table",
         })
         break
+      case "39:2363: Show parsed nodes and tables": {
+        expect(state.estridi.getLog("allParsed")).toStrictEqual({})
+        break
+      }
       default:
         debugger
         throw `${key} not implemented`

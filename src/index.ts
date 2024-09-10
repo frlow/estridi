@@ -36,6 +36,7 @@ export type LogEvents =
     "parsedSubprocess" |
     "parsedUserAction" |
     "parsedTable" |
+    "allParsed" |
     "figmaNodes"
 export type EstridiLog = {
   tag: LogEvents,
@@ -58,7 +59,9 @@ export const estridi = () => {
       log("couldNotLoadData", null)
       return undefined
     }
-    return await process(config, data, log)
+    const processed = await process(config, data, log)
+    log("allParsed", processed)
+    return processed
   }
 
   const loadData = async (config: EstridiConfig): Promise<any> => {

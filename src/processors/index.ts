@@ -12,7 +12,7 @@ export const process = async (config: EstridiConfig, data: any, log: LogFunc): P
   if (config.type === "figma")
     return await processFigma(config, data, log)
   debugger
-  throw "sodihfosdf"
+  throw `type: ${config.type} not implemented yet`
 }
 
 type Points = { x0: number, x1: number, y0: number, y1: number }
