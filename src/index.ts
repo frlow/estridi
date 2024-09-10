@@ -1,5 +1,6 @@
 import {process} from "./processors";
 import {loadFigmaDocument} from "./processors/figma";
+
 export * from './scraped.js'
 
 export type BaseConfig = {
@@ -21,12 +22,20 @@ const loadConfig = (): EstridiConfig => {
   throw "Not implemented"
 }
 
+
 export type LogEvents =
+    "couldNotLoadData" |
+    "loadedConfig" |
     "loadedData" |
-    "figmaNodes" |
     "parsedScript" |
-    "parsedTable" |
-    "parsedOther"
+    "parsedServiceCall" |
+    "parsedOther" |
+    "parsedRoot" |
+    "parsedStart" |
+    "parsedGateway" |
+    "parsedSubprocess" |
+    "parsedUserAction" |
+    "figmaNodes"
 export type EstridiLog = {
   tag: LogEvents,
   data: any
@@ -40,7 +49,21 @@ export const estridi = () => {
     const log: LogFunc = (tag, data) => {
       if (config.logging === "verbose") _log.push({data, tag})
     }
-    return await process(config, ret, log)
+    if (!config) return undefined
+    log("loadedConfig", config)
+    const data = await ret.loadData(config)
+    log("loadedData", data)
+    if (!data) {
+      log("couldNotLoadData", null)
+      return undefined
+    }
+    return await process(config, data, log)
+  }
+
+  const loadData = async (config: EstridiConfig): Promise<any> => {
+    if (config.type === "figma") return ret.loadFigmaDocument(config)
+    debugger
+    throw "not implemented"
   }
 
   const ret = {
@@ -48,6 +71,7 @@ export const estridi = () => {
     getAllLog: (tag: LogEvents) => _log.filter(l => l.tag === tag)?.map(l => l.data),
     log: _log,
     loadConfig,
+    loadData,
     loadFigmaDocument,
     generate
   }

@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "figma-api": "^1.11.0",
-    "estridi": "^0.4.4",
+    "estridi": "^0.4.5",
     "vitest": "^2.0.5"
   },
   "keywords": [],

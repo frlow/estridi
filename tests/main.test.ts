@@ -11,37 +11,40 @@ const t = (id: string) => () => {
     )
 }
 describe('main', () => {
-  describe('script: V List all loaded data, 1:741', t('1:741'))
-  describe('script: V List all nodes, 1:803', t('1:803'))
-  describe('script: V Do not show parsed table, 2:1466', t('2:1466'))
-  describe('script: V Show parsed table, 1:853', t('1:853'))
-  describe('script: V Parse Script Text Connections 0 1, 4:1524', t('4:1524'))
-  describe('script: V Filter only connected nodes, 1:1133', t('1:1133'))
-  describe('script: Scraped file should be written, 1:1071', t('1:1071'))
+  describe('message: Show loaded config, 22:2121', t('22:2121'))
+  describe('message: Could not load config, 22:2100', t('22:2100'))
+  describe('message: Show loaded data, 22:2167', t('22:2167'))
+  describe('message: Could not load data, 22:2150', t('22:2150'))
+  describe('subprocess: Parse Nodes, 22:2180', t('22:2180'))
+  describe('message: Show parsed nodes, 22:2210', t('22:2210'))
+  describe('subprocess: Parse Tables, 22:2197', t('22:2197'))
+  describe('message: Show parsed tables, 22:2232', t('22:2232'))
+  describe('script: Write scraped file, 22:2245', t('22:2245'))
+  describe('subprocess: Generate Tests, 22:2278', t('22:2278'))
 })
 
 export type GatewayKey =
-  | '1:569: Source type'
-  | '1:674: Source type'
-  | '1:845: Is node table'
-  | '2:1420: Does table have dot first in name'
-  | '1:897: Figma variant'
-  | '4:1511: Node type'
+  | '22:2092: Errors loading config'
+  | '22:2142: Errors loading data'
 export type ServiceCallKey =
   | '1:380: Config file'
-  | '1:568: Load Figma Document'
+  | '22:2042: Load Data'
 export type ActionKey =
 'N/A'
 export type TestNodeKey =
-  | '1:741: V List all loaded data'
-  | '1:803: V List all nodes'
-  | '2:1466: V Do not show parsed table'
-  | '1:853: V Show parsed table'
-  | '4:1524: V Parse Script Text Connections 0 1'
-  | '1:1133: V Filter only connected nodes'
-  | '1:1071: Scraped file should be written'
+  | '22:2121: Show loaded config'
+  | '22:2100: Could not load config'
+  | '22:2167: Show loaded data'
+  | '22:2150: Could not load data'
+  | '22:2180: Parse Nodes'
+  | '22:2210: Show parsed nodes'
+  | '22:2197: Parse Tables'
+  | '22:2232: Show parsed tables'
+  | '22:2245: Write scraped file'
+  | '22:2278: Generate Tests'
 export type TableKeys =
   | '1:966: Node types'
+  | '16:1764: Source types'
 
 export type MainHandles = Handles<
   State,

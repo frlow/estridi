@@ -24,7 +24,6 @@ export const loadFigmaDocument = async ({fileId, token}: { fileId: string, token
 const mapConnections = (nodes: ProcessedNodes): ProcessedNodes => {
   const temp = structuredClone(nodes)
   const connections = Object.values(temp).filter(n => n.type === "CONNECTOR")
-  console.log(connections)
   Object.keys(temp).forEach(key => {
     const node = temp[key]
     node.connections = connections.filter(c => {
@@ -38,7 +37,6 @@ export type ProcessedNodes = Record<string, Node<any>>
 export const processFigma = async (config: FigmaConfig, data: FigmaDocument, log: LogFunc) => {
   const nodes: ProcessedNodes = {}
   processNode(data, nodes)
-  log("figmaNodes", nodes)
   const nodesWithConnections = mapConnections(nodes)
   switch (config.variant) {
     case "TE":

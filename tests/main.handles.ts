@@ -1,7 +1,8 @@
 import type {MainHandles} from './main.test.js'
-import {estridi, Estridi, EstridiConfig, FigmaConfig, Scraped} from '../src'
-import {getTEFigmaDocument} from "./serviceCalls/figmaTEServiceCalls";
+import {estridi, Estridi, EstridiConfig, Scraped} from '../src'
 import {expect} from "vitest";
+import {getFigmaDocument} from "./serviceCalls/figmaServiceCalls";
+import {figmaExampleTE} from "./serviceCalls/data/figmaExamples";
 
 export type State = { estridi: Estridi, scraped?: Scraped }
 export const handles: MainHandles = {
@@ -13,28 +14,29 @@ export const handles: MainHandles = {
   handleStart: async ({state}) => {
     state.scraped = await state.estridi.generate()
   },
-  handleServiceCall: async ({key, state, gateways}) => {
+  handleServiceCall: async ({key, state, gateways, variant}) => {
     switch (key) {
       case "1:380: Config file":
         state.estridi.loadConfig = () => {
-          if (gateways["1:569: Source type"] === "figma") {
-            const config: FigmaConfig = {
-              fileId: "dummyFile",
-              token: "dummyToken",
-              type: "figma",
-              variant: gateways["1:897: Figma variant"] === "Open" ? "Open" : "TE",
-              logging: "verbose"
-            }
-            return config
-          }
-          throw "Not implemented!"
+          if (variant.data?.source) return {
+            logging: "verbose",
+            type: variant.data?.source?.Family,
+            variant: variant.data?.source?.Variant
+          } as EstridiConfig
+              // {
+              //   if (variant.data?.source?.Variant === "TE")
+              //     return {type: "figma", variant: "TE", logging: "verbose", token: "-", fileId: "-"}
+              //   debugger
+          // }
+          else if (gateways["22:2092: Errors loading config"] === "yes") return undefined
+          return {
+            logging: "verbose"
+          } as EstridiConfig
         }
         break
-      case "1:568: Load Figma Document": {
-        state.estridi.loadFigmaDocument = async (config: EstridiConfig) => {
-          if (config.variant === "TE") return getTEFigmaDocument(gateways)
-          throw "Not implemented yet!"
-        }
+      case "22:2042: Load Data": {
+        if (gateways["22:2142: Errors loading data"] === "yes") state.estridi.loadData = async () => undefined
+        state.estridi.loadFigmaDocument = async () => getFigmaDocument(variant)
         break
       }
       default:
@@ -49,50 +51,65 @@ export const handles: MainHandles = {
         throw `${args.key} not implemented`
     }
   },
-  handleTestNode: async ({state, key}) => {
-    const getLog = state.estridi.getLog
+  handleTestNode: async ({state, key, variant, getTable}) => {
     switch (key) {
-      case "1:741: V List all loaded data": {
-        expect(getLog("loadedData").children[0].children[0]).toBeTruthy()
+      case "22:2100: Could not load config":
+        expect(state.scraped).toBeUndefined()
+        expect(state.estridi.log).toStrictEqual([])
+        break
+      case "22:2150: Could not load data":
+        expect(state.scraped).toBeUndefined()
+        expect(state.estridi.getLog("couldNotLoadData")).toStrictEqual(null)
+        break
+      case "22:2121: Show loaded config": {
+        expect(state.estridi.getLog("loadedConfig")).toStrictEqual({logging: "verbose"})
         break
       }
-      case "1:803: V List all nodes":
-        expect(getLog("figmaNodes")["0:0"]).toBeTruthy()
-        break
-      case "1:853: V Show parsed table":
-        expect(getLog("parsedTable")).toStrictEqual({
-          "id": "9:415",
-          "rows": [
-            [
-              ".My Table",
-              "First",
-              "Second",
-            ],
-            [
-              "Line 1",
-              "AAAA",
-              "BBBB",
-            ],
-            [
-              "Line 2",
-              "CCCC",
-              "DDDD",
-            ],
-          ],
-          "type": "table",
-        })
-        break
-      case "2:1466: V Do not show parsed table": {
-        expect(getLog("parsedTable")).toBeUndefined()
+      case "22:2167: Show loaded data": {
+        if (variant.data.source.Family === "figma" && variant.data.source.Variant === "TE")
+          expect(state.estridi.getLog("loadedData")).toStrictEqual(figmaExampleTE)
+        else
+          debugger
         break
       }
-      case "4:1524: V Parse Script Text Connections 0 1": {
-        expect(getLog("parsedScript")).toStrictEqual({
-          "id": "1:338",
-          "next": "1:500",
-          "text": "Show Data",
-          "type": "script",
-        })
+      case "22:2180: Parse Nodes": {
+        const type: string = variant.data.node.Alias || variant.data.node.Id
+        const logName = `parsed${type[0].toUpperCase()}${type.substring(1)}`
+        const node = state.estridi.getLog(logName as any)
+        const props = Object.entries(variant.data.node).filter(e => e[1] === "x").map(e => e[0])
+        expect(node.id).toBeTruthy()
+        for (const prop of props)
+          switch (prop) {
+            case "text":
+              if (node.isRoot)
+                expect(node.text).toEqual("test")
+              else if (node.type === "subprocess")
+                expect(node.text).toEqual("Next")
+              else
+                expect(node.text).toEqual("Some text")
+              break
+            case "next":
+              expect(node.next).toEqual("NextId")
+              break
+            case "isRoot":
+              expect(node.isRoot).toEqual(true)
+              break
+            case "options":
+              expect(node.options).toStrictEqual({
+                "YesId": "yes",
+                "NoId": "no",
+              })
+              break
+            case "link":
+              expect(node.link).toEqual("LinkId")
+              break
+            case "actions":
+              expect(node.actions).toStrictEqual({"ActionId": "Click"})
+              break
+            default:
+              debugger
+              throw `no expected data for ${prop}`
+          }
         break
       }
       default:
@@ -115,5 +132,20 @@ export const handles: MainHandles = {
         if (gatewayHasConflictingValues('Source type')) return false
         // More conditions below
         return true
-      })
+      }),
+  variants: ({getTable, matchId}) => {
+    // const nodes = getTable("1:966: Node types").values.map(n => ({data: {node: n}, name: n.Id}))
+    const sources = getTable("16:1764: Source types").values.map(s => ({data: {source: s}, name: s.Id}))
+    const temp: any[] = []
+    for (const source of getTable("16:1764: Source types").values) {
+      for (const node of getTable("1:966: Node types").values) {
+        temp.push({source, node})
+      }
+    }
+    const sourcesAndNodes = temp.map(t => ({data: t, name: `${t.source.Id} ${t.node.Id}`}))
+    if (matchId("22:2180: Parse Nodes"))
+      return sourcesAndNodes
+          // .filter(n => n.name === "Figma TE userAction")
+    if (matchId("22:2167: Show loaded data")) return sources
+  }
 }

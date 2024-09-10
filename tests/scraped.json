@@ -75,17 +75,63 @@
   },
   {
     "type": "subprocess",
-    "text": "Generate Scraped",
+    "text": "Generate Tests",
+    "connections": {
+      "22:2261": "Connector line"
+    },
+    "id": "22:2278"
+  },
+  {
+    "type": "script",
+    "text": "Write scraped file",
+    "connections": {
+      "22:2278": "Connector line"
+    },
+    "id": "22:2245"
+  },
+  {
+    "type": "script",
+    "text": "",
     "connections": {},
-    "id": "1:489",
-    "linked": "1:667"
+    "id": "I22:2245;8:340"
+  },
+  {
+    "type": "subprocess",
+    "text": "Parse Nodes",
+    "connections": {
+      "22:2210": "Connector line"
+    },
+    "id": "22:2180"
+  },
+  {
+    "type": "message",
+    "text": "Show loaded config",
+    "connections": {
+      "22:2042": "Connector line"
+    },
+    "id": "22:2121"
+  },
+  {
+    "type": "message",
+    "text": "Could not load config",
+    "connections": {},
+    "id": "22:2100"
+  },
+  {
+    "type": "gateway",
+    "text": "Errors loading config",
+    "connections": {
+      "22:2100": "yes",
+      "22:2121": "no"
+    },
+    "id": "22:2092"
   },
   {
     "type": "serviceCall",
     "inputs": [],
     "text": "Config file",
     "connections": {
-      "1:539": "Connector line"
+      "22:2092": "Connector line"
     },
     "id": "1:380"
   },
@@ -99,320 +145,189 @@
     "id": "1:373"
   },
   {
-    "type": "subprocess",
-    "text": "Load Raw Document",
-    "connections": {
-      "1:489": "Connector line"
-    },
-    "id": "1:539",
-    "linked": "1:620"
-  },
-  {
-    "type": "connector",
-    "text": "",
-    "connections": {
-      "1:631": "Connector line"
-    },
-    "id": "1:567"
-  },
-  {
-    "type": "serviceCall",
-    "inputs": [],
-    "text": "Load Figma Document",
-    "connections": {
-      "1:741": "Connector line"
-    },
-    "id": "1:568"
-  },
-  {
-    "type": "gateway",
-    "text": "Source type",
-    "connections": {
-      "1:568": "figma"
-    },
-    "id": "1:569"
-  },
-  {
-    "type": "start",
-    "text": "Load Raw Document",
-    "connections": {
-      "1:569": "Load Raw Document"
-    },
-    "id": "1:620"
-  },
-  {
-    "type": "end",
-    "text": "end",
-    "connections": {},
-    "id": "1:631"
-  },
-  {
-    "type": "start",
-    "text": "Generate Scraped",
-    "connections": {
-      "1:674": "Generate Scraped"
-    },
-    "id": "1:667"
-  },
-  {
-    "type": "gateway",
-    "text": "Source type",
-    "connections": {
-      "1:803": "figma"
-    },
-    "id": "1:674"
-  },
-  {
-    "type": "script",
-    "text": "V List all loaded data",
-    "connections": {
-      "1:567": "Connector line"
-    },
-    "id": "1:741"
-  },
-  {
-    "type": "script",
-    "text": "",
-    "connections": {},
-    "id": "I1:741;8:340"
-  },
-  {
-    "type": "script",
-    "text": "V List all nodes",
-    "connections": {
-      "1:820": "Connector line"
-    },
-    "id": "1:803"
-  },
-  {
-    "type": "script",
-    "text": "",
-    "connections": {},
-    "id": "I1:803;8:340"
-  },
-  {
-    "type": "gatewayLoop",
-    "text": "Iterate over all nodes",
-    "connections": {
-      "1:845": "Connector line"
-    },
-    "id": "1:820"
-  },
-  {
-    "type": "gateway",
-    "text": "Is node table",
-    "connections": {
-      "1:897": "no",
-      "2:1420": "yes"
-    },
-    "id": "1:845"
-  },
-  {
-    "type": "script",
-    "text": "V Show parsed table",
-    "connections": {
-      "2:1443": "Connector line"
-    },
-    "id": "1:853"
-  },
-  {
-    "type": "script",
-    "text": "",
-    "connections": {},
-    "id": "I1:853;8:340"
-  },
-  {
-    "type": "connector",
-    "text": "",
-    "connections": {
-      "1:820": "Connector line",
-      "1:1103": "Connector line"
-    },
-    "id": "1:878"
-  },
-  {
-    "type": "gateway",
-    "text": "Figma variant",
-    "connections": {
-      "1:930": "TE"
-    },
-    "id": "1:897"
-  },
-  {
-    "type": "subprocess",
-    "text": "Parse TE Node",
-    "connections": {
-      "1:1031": "Connector line"
-    },
-    "id": "1:930",
-    "linked": "1:1158"
-  },
-  {
     "type": "table",
     "text": "Node types",
     "headers": [
       ".Node types",
-      "Notes"
+      "text",
+      "next",
+      "options",
+      "isRoot",
+      "actions",
+      "link",
+      "Alias"
     ],
     "content": [
       [
         "script",
+        "x",
+        "x",
+        "",
+        "",
+        "",
+        "",
         ""
       ],
       [
+        "message",
+        "x",
+        "x",
+        "",
+        "",
+        "",
+        "",
+        "script"
+      ],
+      [
         "serviceCall",
+        "x",
+        "x",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "root",
+        "x",
+        "x",
+        "",
+        "x",
+        "",
+        "",
         ""
       ],
       [
         "start",
-        ""
-      ],
-      [
-        "end",
+        "x",
+        "x",
+        "",
+        "",
+        "",
+        "",
         ""
       ],
       [
         "gateway",
+        "x",
+        "",
+        "x",
+        "",
+        "",
+        "",
         ""
       ],
       [
         "subprocess",
+        "x",
+        "x",
+        "",
+        "",
+        "",
+        "x",
         ""
       ],
       [
-        "signalListen",
+        "userAction",
+        "x",
+        "x",
+        "",
+        "",
+        "x",
+        "",
         ""
       ],
       [
-        "table",
+        "other",
+        "",
+        "x",
+        "",
+        "",
+        "",
+        "",
         ""
       ]
     ],
     "id": "1:966"
   },
   {
-    "type": "connector",
-    "text": "",
-    "connections": {
-      "1:878": "Connector line"
-    },
-    "id": "1:1031"
+    "type": "table",
+    "text": "Source types",
+    "headers": [
+      ".Source types",
+      "Family",
+      "Variant"
+    ],
+    "content": [
+      [
+        "Figma TE",
+        "figma",
+        "TE"
+      ]
+    ],
+    "id": "16:1764"
   },
   {
-    "type": "script",
-    "text": "Scraped file should be written",
+    "type": "serviceCall",
+    "inputs": [],
+    "text": "Load Data",
     "connections": {
-      "1:1087": "Connector line"
+      "22:2142": "Connector line"
     },
-    "id": "1:1071"
+    "id": "22:2042"
   },
   {
-    "type": "script",
-    "text": "",
+    "type": "gateway",
+    "text": "Errors loading data",
+    "connections": {
+      "22:2150": "yes",
+      "22:2167": "Connector line"
+    },
+    "id": "22:2142"
+  },
+  {
+    "type": "message",
+    "text": "Could not load data",
     "connections": {},
-    "id": "I1:1071;8:340"
+    "id": "22:2150"
+  },
+  {
+    "type": "message",
+    "text": "Show loaded data",
+    "connections": {
+      "22:2180": "Connector line"
+    },
+    "id": "22:2167"
+  },
+  {
+    "type": "subprocess",
+    "text": "Parse Tables",
+    "connections": {
+      "22:2232": "Connector line"
+    },
+    "id": "22:2197"
+  },
+  {
+    "type": "message",
+    "text": "Show parsed nodes",
+    "connections": {
+      "22:2197": "Connector line"
+    },
+    "id": "22:2210"
+  },
+  {
+    "type": "message",
+    "text": "Show parsed tables",
+    "connections": {
+      "22:2245": "Connector line"
+    },
+    "id": "22:2232"
   },
   {
     "type": "end",
     "text": "end",
     "connections": {},
-    "id": "1:1087"
-  },
-  {
-    "type": "connector",
-    "text": "",
-    "connections": {
-      "1:1133": "Connector line"
-    },
-    "id": "1:1103"
-  },
-  {
-    "type": "script",
-    "text": "V Filter only connected nodes",
-    "connections": {
-      "1:1071": "Connector line"
-    },
-    "id": "1:1133"
-  },
-  {
-    "type": "script",
-    "text": "",
-    "connections": {},
-    "id": "I1:1133;8:340"
-  },
-  {
-    "type": "start",
-    "text": "Parse TE Node",
-    "connections": {
-      "4:1511": "Parse TE Node"
-    },
-    "id": "1:1158"
-  },
-  {
-    "type": "gateway",
-    "text": "Does table have dot first in name",
-    "connections": {
-      "1:853": "yes",
-      "2:1466": "no"
-    },
-    "id": "2:1420"
-  },
-  {
-    "type": "connector",
-    "text": "",
-    "connections": {
-      "1:878": "Connector line"
-    },
-    "id": "2:1443"
-  },
-  {
-    "type": "script",
-    "text": "V Do not show parsed table",
-    "connections": {
-      "2:1443": "Connector line"
-    },
-    "id": "2:1466"
-  },
-  {
-    "type": "script",
-    "text": "",
-    "connections": {},
-    "id": "I2:1466;8:340"
-  },
-  {
-    "type": "gateway",
-    "text": "Node type",
-    "connections": {
-      "4:1524": "script"
-    },
-    "id": "4:1511"
-  },
-  {
-    "type": "script",
-    "text": "V Parse Script Text Connections 0 1",
-    "connections": {
-      "4:1553": "Connector line"
-    },
-    "id": "4:1524"
-  },
-  {
-    "type": "script",
-    "text": "",
-    "connections": {},
-    "id": "I4:1524;8:340"
-  },
-  {
-    "type": "connector",
-    "text": "",
-    "connections": {
-      "4:1560": "Connector line"
-    },
-    "id": "4:1553"
-  },
-  {
-    "type": "end",
-    "text": "end",
-    "connections": {},
-    "id": "4:1560"
+    "id": "22:2261"
   }
 ]

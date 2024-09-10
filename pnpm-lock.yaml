@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       estridi:
-        specifier: ^0.4.4
-        version: 0.4.4
+        specifier: ^0.4.5
+        version: 0.4.5
       figma-api:
         specifier: ^1.11.0
         version: 1.11.0
@@ -328,8 +328,8 @@ packages:
   estree-walker@3.0.3:
     resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==}
 
-  estridi@0.4.4:
-    resolution: {integrity: sha512-VGPfMSFFugnJDdEPNKinW3pEM8z3zDMDvgrnGUSwKQMz89ko2PjoXK7XRuQzdcp7Kb+5jVsaQcacLNU72GmrPw==}
+  estridi@0.4.5:
+    resolution: {integrity: sha512-BYnD0rgQSOYUBXxDMK0MRY6d9Nb4P2lfk61CLjcNdc3SWvOPJPRRUuTD23457CERURr5tfko3OuhiONHqi51nQ==}
     hasBin: true
 
   execa@8.0.1:
@@ -782,7 +782,7 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.5
 
-  estridi@0.4.4:
+  estridi@0.4.5:
     dependencies:
       figma-api: 1.11.0
     transitivePeerDependencies:
