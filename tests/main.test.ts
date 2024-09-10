@@ -17,6 +17,7 @@ describe('main', () => {
   describe('message: Could not load data, 22:2150', t('22:2150'))
   describe('subprocess: Parse Nodes, 22:2180', t('22:2180'))
   describe('subprocess: Parse Tables, 22:2197', t('22:2197'))
+  describe('message: Show only nodes connected to root, 36:2333', t('36:2333'))
   describe('script: Write scraped file, 22:2245', t('22:2245'))
   describe('subprocess: Generate Tests, 22:2278', t('22:2278'))
 })
@@ -36,6 +37,7 @@ export type TestNodeKey =
   | '22:2150: Could not load data'
   | '22:2180: Parse Nodes'
   | '22:2197: Parse Tables'
+  | '36:2333: Show only nodes connected to root'
   | '22:2245: Write scraped file'
   | '22:2278: Generate Tests'
 export type TableKeys =

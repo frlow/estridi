@@ -22,7 +22,7 @@ export const getBaseFigmaNode = (children: Node<any>[]): FigmaDocument => ({
 
 export const teNodes = {
   script: ({text, id}: { text?: string, id?: string }) => ({
-    "id": id || "1:50",
+    "id": id || "ScriptId",
     "name": "3. Script",
     "type": "INSTANCE",
     "children": [
@@ -38,7 +38,7 @@ export const teNodes = {
     ],
   }),
   serviceCall: ({text, id}: { text?: string, id?: string }) => ({
-    "id": id || "1:60",
+    "id": id || "ServiceCallId",
     "name": "4. Service call",
     "children": [
       {
@@ -48,11 +48,11 @@ export const teNodes = {
     ],
   }),
   start: ({id}: { id?: string }) => ({
-    "id": id || "1:10",
+    "id": id || "StartId",
     "name": "01. Start"
   }),
   gateway: ({id, text}: { id?: string, text?: string }) => ({
-    "id": id || "1:5",
+    "id": id || "GatewayId",
     "name": "04. Gateway",
     "children": [
       {
@@ -63,7 +63,7 @@ export const teNodes = {
     ],
   }),
   subprocess: ({id, text}: { id?: string, text?: string }) => ({
-    "id": id || "1:80",
+    "id": id || "SubprocessId",
     "name": "2. Subprocess",
     "children": [
       {
@@ -74,7 +74,7 @@ export const teNodes = {
     ]
   }),
   userAction: ({id, text, position}: { id?: string, text?: string, position: number }) => ({
-    "id": id || "1:55",
+    "id": id || "UserActionId",
     "name": "1. User action",
     "children": [
       {
@@ -91,7 +91,7 @@ export const teNodes = {
     },
   }),
   signalListen: ({id, text, position}: { id?: string, text?: string, position: number }) => ({
-    "id": id || "1:58",
+    "id": id || "SignalListenId",
     "name": "05. Signal listen",
     "children": [
       {
@@ -110,13 +110,26 @@ export const teNodes = {
 }
 
 export const connectorNode = ({id, end, start, text}: { id?: string, start: string, end?: string, text?: string }) => ({
-  "id": id || "1:200",
+  "id": id || "ConnectorId",
   "type": "CONNECTOR",
   "name": text || "Connector Line",
   "connectorStart": {
     "endpointNodeId": start,
   },
   "connectorEnd": {
-    "endpointNodeId": end || "1:500",
+    "endpointNodeId": end || "NextId",
   },
 })
+
+export const table = ({id, children}: { id?: string, children: string[][] }) => {
+  const mappedChildren = children.flatMap((row, i) => row.map(text => ({
+    characters: text,
+    absoluteBoundingBox: {y: i}
+  })))
+  return ({
+    "id": id || "TableId",
+    "name": "Table",
+    "type": "TABLE",
+    children: mappedChildren
+  })
+}

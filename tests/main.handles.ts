@@ -73,10 +73,10 @@ export const handles: MainHandles = {
         break
       }
       case "22:2180: Parse Nodes": {
-          const type: string = variant.data.node.Alias || variant.data.node.Id
+        const type: string = variant.data.node.Alias || variant.data.node.Id
         const logName = `parsed${type[0].toUpperCase()}${type.substring(1)}`
         let node = state.estridi.getLog(logName as any)
-        if(type==="other") node = state.estridi.log.find(l=>l.tag==="parsedOther" && l.data.next).data
+        if (type === "other") node = state.estridi.log.find(l => l.tag === "parsedOther" && l.data.next).data
         const props = Object.entries(variant.data.node).filter(e => e[1] === "x").map(e => e[0])
         expect(node.id).toBeTruthy()
         for (const prop of props)
@@ -113,6 +113,17 @@ export const handles: MainHandles = {
           }
         break
       }
+      case "22:2197: Parse Tables":
+        expect(state.estridi.getLog("parsedTable")).toStrictEqual({
+          "id": "TableId",
+          "rows": [
+            [".My Table", "Column1", "Column2",],
+            ["Line1", "AAAA", "BBBB",],
+            ["Line2", "CCCC", "DDDD",],
+          ],
+          "type": "table",
+        })
+        break
       default:
         debugger
         throw `${key} not implemented`
@@ -137,6 +148,7 @@ export const handles: MainHandles = {
   variants: ({getTable, matchId}) => {
     // const nodes = getTable("1:966: Node types").values.map(n => ({data: {node: n}, name: n.Id}))
     const sources = getTable("16:1764: Source types").values.map(s => ({data: {source: s}, name: s.Id}))
+    const tables = getTable("16:1764: Source types").values.map(s => ({data: {source: s, tables: true}, name: s.Id}))
     const temp: any[] = []
     for (const source of getTable("16:1764: Source types").values) {
       for (const node of getTable("1:966: Node types").values) {
@@ -146,7 +158,8 @@ export const handles: MainHandles = {
     const sourcesAndNodes = temp.map(t => ({data: t, name: `${t.source.Id} ${t.node.Id}`}))
     if (matchId("22:2180: Parse Nodes"))
       return sourcesAndNodes
-          // .filter(n => n.name === "Figma TE other")
+    // .filter(n => n.name === "Figma TE other")
     if (matchId("22:2167: Show loaded data")) return sources
+    if (matchId("22:2197: Parse Tables")) return tables
   }
 }

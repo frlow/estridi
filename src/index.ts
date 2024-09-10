@@ -35,6 +35,7 @@ export type LogEvents =
     "parsedGateway" |
     "parsedSubprocess" |
     "parsedUserAction" |
+    "parsedTable" |
     "figmaNodes"
 export type EstridiLog = {
   tag: LogEvents,
