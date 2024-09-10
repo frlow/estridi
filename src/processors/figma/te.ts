@@ -117,7 +117,7 @@ const getNodeMetadata = (node: Node, log: LogFunc): ScrapedNode => {
       }
     }
     default: {
-      const other: ScrapedOther = {type: "other", id: node.id}
+      const other: ScrapedOther = {type: "other", id: node.id, next: getNext(node)}
       log("parsedOther", other)
       return other
     }

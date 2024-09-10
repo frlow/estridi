@@ -37,6 +37,8 @@ export const getFigmaDocument = (variant: any): FigmaDocument => {
           connectorNode({start: "1:55", id: "4:4", end: "NextId"}),
           connectorNode({start: "6:6", id: "9:9", end: "ActionId"}),
         ])
+      case "other":
+        return getBaseFigmaNode([{id:"AnyId"}, connectorNode({start:"AnyId", end:"NextId"})])
       default:
         debugger
     }

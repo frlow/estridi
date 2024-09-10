@@ -67,7 +67,7 @@ export const estridi = () => {
   }
 
   const ret = {
-    getLog: (tag: LogEvents) => _log.find(l => l.tag === tag)?.data,
+    getLog: (tag: LogEvents) => _log.findLast(l => l.tag === tag)?.data,
     getAllLog: (tag: LogEvents) => _log.filter(l => l.tag === tag)?.map(l => l.data),
     log: _log,
     loadConfig,

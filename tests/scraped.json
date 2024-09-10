@@ -99,7 +99,7 @@
     "type": "subprocess",
     "text": "Parse Nodes",
     "connections": {
-      "22:2210": "Connector line"
+      "22:2197": "Connector line"
     },
     "id": "22:2180"
   },
@@ -304,25 +304,9 @@
     "type": "subprocess",
     "text": "Parse Tables",
     "connections": {
-      "22:2232": "Connector line"
-    },
-    "id": "22:2197"
-  },
-  {
-    "type": "message",
-    "text": "Show parsed nodes",
-    "connections": {
-      "22:2197": "Connector line"
-    },
-    "id": "22:2210"
-  },
-  {
-    "type": "message",
-    "text": "Show parsed tables",
-    "connections": {
       "22:2245": "Connector line"
     },
-    "id": "22:2232"
+    "id": "22:2197"
   },
   {
     "type": "end",

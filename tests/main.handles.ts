@@ -73,9 +73,10 @@ export const handles: MainHandles = {
         break
       }
       case "22:2180: Parse Nodes": {
-        const type: string = variant.data.node.Alias || variant.data.node.Id
+          const type: string = variant.data.node.Alias || variant.data.node.Id
         const logName = `parsed${type[0].toUpperCase()}${type.substring(1)}`
-        const node = state.estridi.getLog(logName as any)
+        let node = state.estridi.getLog(logName as any)
+        if(type==="other") node = state.estridi.log.find(l=>l.tag==="parsedOther" && l.data.next).data
         const props = Object.entries(variant.data.node).filter(e => e[1] === "x").map(e => e[0])
         expect(node.id).toBeTruthy()
         for (const prop of props)
@@ -145,7 +146,7 @@ export const handles: MainHandles = {
     const sourcesAndNodes = temp.map(t => ({data: t, name: `${t.source.Id} ${t.node.Id}`}))
     if (matchId("22:2180: Parse Nodes"))
       return sourcesAndNodes
-          // .filter(n => n.name === "Figma TE userAction")
+          // .filter(n => n.name === "Figma TE other")
     if (matchId("22:2167: Show loaded data")) return sources
   }
 }
