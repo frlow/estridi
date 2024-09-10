@@ -31,6 +31,7 @@ export type HandleArgs<TState, TNodeTestArgs, TTableKeys> = TNodeTestArgs & {
 export type Variant<T> = {
   name: string,
   via?: T[],
+  data?: any,
   skipped?: boolean,
   customTest?: (config: any, id: string) => Promise<void>,
   extraAction?: (config: any)=>Promise<void>
