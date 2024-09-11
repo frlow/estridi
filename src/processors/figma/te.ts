@@ -52,7 +52,8 @@ const getNodeMetadata = (node: Node, log: LogFunc): ScrapedNode => {
         ...acc,
         [cur.absoluteBoundingBox.y]: [...(acc[cur.absoluteBoundingBox.y] || []), cur.characters]
       }), {}))
-      const table: ScrapedTable = {type: "table", rows, id: node.id}
+      const text = rows[0][0].substring(1)
+      const table: ScrapedTable = {type: "table", rows, id: node.id, text}
       log("parsedTable", table)
       return table
     }

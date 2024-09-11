@@ -48,6 +48,9 @@ export type LogEvents =
     "allParsed" |
     "gatewayKeys" |
     "serviceCallKeys" |
+    "actionKeys" |
+    "testNodeKeys" |
+    "tableKeys" |
     "figmaNodes"
 export type EstridiLog = {
   tag: LogEvents,

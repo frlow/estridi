@@ -21,6 +21,7 @@ export type ScrapedOther = {
 export type ScrapedTable = {
   type: ScrapedNodeType<"table">,
   rows: string[][]
+  text: string
 } & BaseNode
 
 export type ScrapedScript = {

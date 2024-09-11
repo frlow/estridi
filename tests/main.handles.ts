@@ -122,6 +122,7 @@ export const handles: MainHandles = {
             ["Line2", "CCCC", "DDDD",],
           ],
           "type": "table",
+          text: "My Table"
         })
         break
       case "39:2363: Show parsed nodes and tables": {
@@ -226,6 +227,7 @@ export const handles: MainHandles = {
               ],
             ],
             "type": "table",
+            text: "My Table"
           }
         ])
         break
@@ -234,6 +236,19 @@ export const handles: MainHandles = {
         break
       case "51:352: Show service call keys":
         expect(state.estridi.getLog("serviceCallKeys")).toStrictEqual(["1:67: Get Data From Backend",])
+        break
+      case "51:362: Show action keys":
+        expect(state.estridi.getLog("actionKeys")).toStrictEqual(['1:235: action'])
+        break
+      case "51:372: Show test node keys":
+        expect(state.estridi.getLog("testNodeKeys")).toStrictEqual([
+          "1:338: Show Data",
+          "1:365: Show Done",
+          "1:326: Clear Page"
+        ])
+        break
+      case "51:382: Show table keys":
+        expect(state.estridi.getLog("tableKeys")).toStrictEqual(['9:415: My Table'])
         break
       default:
         debugger
