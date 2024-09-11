@@ -54,14 +54,13 @@ export const estridi = () => {
     if (!config) return undefined
     log("loadedConfig", config)
     const data = await ret.loadData(config)
-    log("loadedData", data)
     if (!data) {
       log("couldNotLoadData", null)
       return undefined
     }
+    log("loadedData", data)
     const processed = await process(config, data, log)
     log("allParsed", processed)
-    return processed
   }
 
   const loadData = async (config: EstridiConfig): Promise<any> => {

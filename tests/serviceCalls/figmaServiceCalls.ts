@@ -9,13 +9,24 @@ export const getFigmaDocument = (variant: any): FigmaDocument => {
     switch (type) {
       case "script":
       case "message":
-        return getBaseFigmaNode([teNodes.script({text: textExample}), connectorNode({start: "ScriptId"})])
+        return getBaseFigmaNode([
+          teNodes.script({text: textExample}),
+          connectorNode({start: "ScriptId"})])
       case "serviceCall":
-        return getBaseFigmaNode([teNodes.serviceCall({text: textExample}), connectorNode({start: "ServiceCallId"})])
+        return getBaseFigmaNode([
+          teNodes.serviceCall({text: textExample}),
+          connectorNode({start: "ServiceCallId"})
+        ])
       case "root":
-        return getBaseFigmaNode([teNodes.start({}), connectorNode({start: "StartId", text: "root:test"})])
+        return getBaseFigmaNode([
+          teNodes.start({}),
+          connectorNode({start: "StartId", text: "root:test"})
+        ])
       case "start":
-        return getBaseFigmaNode([teNodes.start({}), connectorNode({start: "StartId", text: textExample})])
+        return getBaseFigmaNode([
+          teNodes.start({}),
+          connectorNode({start: "StartId", text: textExample})
+        ])
       case "gateway":
         return getBaseFigmaNode([
           teNodes.gateway({text: textExample}),
@@ -37,17 +48,19 @@ export const getFigmaDocument = (variant: any): FigmaDocument => {
           connectorNode({start: "SignalListenId", id: "ConnectorId2", end: "ActionId"}),
         ])
       case "other":
-        return getBaseFigmaNode([{id:"AnyId"}, connectorNode({start:"AnyId", end:"NextId"})])
+        return getBaseFigmaNode([{id: "AnyId"}, connectorNode({start: "AnyId", end: "NextId"})])
       default:
         debugger
     }
   }
-  if(variant.data?.tables){
-    return getBaseFigmaNode([table({children: [
+  if (variant.data?.tables) {
+    return getBaseFigmaNode([table({
+      children: [
         [".My Table", "Column1", "Column2"],
         ["Line1", "AAAA", "BBBB"],
         ["Line2", "CCCC", "DDDD"],
-      ]})])
+      ]
+    })])
   }
   return figmaExampleTE as any
 }

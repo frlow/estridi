@@ -4,7 +4,7 @@ import {expect} from "vitest";
 import {getFigmaDocument} from "./serviceCalls/figmaServiceCalls";
 import {figmaExampleTE} from "./serviceCalls/data/figmaExamples";
 
-export type State = { estridi: Estridi, scraped?: Scraped }
+export type State = { estridi: Estridi }
 export const handles: MainHandles = {
   handleSetup: async (args) => {
     return {
@@ -12,7 +12,7 @@ export const handles: MainHandles = {
     }
   },
   handleStart: async ({state}) => {
-    state.scraped = await state.estridi.generate()
+    await state.estridi.generate()
   },
   handleServiceCall: async ({key, state, gateways, variant}) => {
     switch (key) {
@@ -51,11 +51,9 @@ export const handles: MainHandles = {
   handleTestNode: async ({state, key, variant, getTable}) => {
     switch (key) {
       case "22:2100: Could not load config":
-        expect(state.scraped).toBeUndefined()
         expect(state.estridi.log).toStrictEqual([])
         break
       case "22:2150: Could not load data":
-        expect(state.scraped).toBeUndefined()
         expect(state.estridi.getLog("couldNotLoadData")).toStrictEqual(null)
         break
       case "22:2121: Show loaded config": {
@@ -126,7 +124,7 @@ export const handles: MainHandles = {
         })
         break
       case "39:2363: Show parsed nodes and tables": {
-        expect(state.estridi.getLog("allParsed")).toStrictEqual({})
+        expect(state.estridi.getLog("allParsed").length).toEqual(111) // Amount of nodes in the example data
         break
       }
       default:
