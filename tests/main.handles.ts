@@ -1,6 +1,6 @@
 import type {MainHandles} from './main.test.js'
 import {estridi, Estridi, EstridiConfig} from '../src'
-import {expect} from "vitest";
+import {expect, vi} from "vitest";
 import {getFigmaDocument} from "./serviceCalls/figmaServiceCalls";
 import {figmaExampleTE} from "./serviceCalls/data/figmaExamples";
 
@@ -12,6 +12,7 @@ export const handles: MainHandles = {
     }
   },
   handleStart: async ({state}) => {
+    state.estridi.writeScrapedFile = vi.fn()
     await state.estridi.generate()
   },
   handleServiceCall: async ({key, state, gateways, variant}) => {
@@ -127,8 +128,8 @@ export const handles: MainHandles = {
         expect(state.estridi.getLog("allParsed").length).toEqual(111) // Amount of nodes in the example data
         break
       }
-      case "47:2395: Show filtered nodes connected to root":
-        expect(state.estridi.getLog("filteredNodes")).toStrictEqual([
+      case "50:315: Write scraped json file only nodes connected to root":
+        expect(state.estridi.writeScrapedFile).toHaveBeenCalledWith([
           {
             "id": "1:72",
             "isRoot": true,

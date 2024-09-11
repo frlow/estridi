@@ -74,6 +74,18 @@
     "id": "1:454"
   },
   {
+    "type": "script",
+    "text": "Write scraped json file only nodes connected to root",
+    "connections": {},
+    "id": "50:315"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I50:315;8:340"
+  },
+  {
     "type": "subprocess",
     "text": "Generate Tests",
     "connections": {
@@ -313,14 +325,8 @@
     "type": "start",
     "text": "Generate Tests",
     "connections": {
-      "47:2395": "Generate Tests"
+      "50:315": "Generate Tests"
     },
     "id": "47:2388"
-  },
-  {
-    "type": "message",
-    "text": "Show filtered nodes connected to root",
-    "connections": {},
-    "id": "47:2395"
   }
 ]

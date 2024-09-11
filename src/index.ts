@@ -1,6 +1,8 @@
 import {process} from "./processors";
 import {loadFigmaDocument} from "./processors/figma";
 import {filterScraped} from "./common";
+import {Scraped} from "./scraped";
+import * as fs from "fs";
 
 export * from './scraped.js'
 
@@ -41,12 +43,13 @@ export type LogEvents =
     "parsedUserAction" |
     "parsedTable" |
     "allParsed" |
-    "filteredNodes" |
     "figmaNodes"
 export type EstridiLog = {
   tag: LogEvents,
   data: any
 }[]
+
+const writeScrapedFile = (scraped: Scraped) => fs.writeFileSync("scraped.json", JSON.stringify(scraped, null, 2), 'utf8')
 
 export type LogFunc = (tag: LogEvents, data: any) => void
 export const estridi = () => {
@@ -67,7 +70,7 @@ export const estridi = () => {
     const processed = await process(config, data, log)
     log("allParsed", processed)
     const filtered = filterScraped(processed, config.roots)
-    log("filteredNodes", filtered)
+    ret.writeScrapedFile(filtered)
   }
 
   const loadData = async (config: EstridiConfig): Promise<any> => {
@@ -83,7 +86,8 @@ export const estridi = () => {
     loadConfig,
     loadData,
     loadFigmaDocument,
-    generate
+    generate,
+    writeScrapedFile
   }
   return ret
 }
