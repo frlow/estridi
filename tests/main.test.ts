@@ -19,6 +19,11 @@ describe('main', () => {
   describe('subprocess: Parse Tables, 22:2197', t('22:2197'))
   describe('message: Show parsed nodes and tables, 39:2363', t('39:2363'))
   describe('script: Write scraped json file only nodes connected to root, 50:315', t('50:315'))
+  describe('message: Show gateway keys, 51:342', t('51:342'))
+  describe('message: Show service call keys, 51:352', t('51:352'))
+  describe('message: Show action keys, 51:362', t('51:362'))
+  describe('message: Show test node keys, 51:372', t('51:372'))
+  describe('message: Show table keys, 51:382', t('51:382'))
 })
 
 export type GatewayKey =
@@ -38,6 +43,11 @@ export type TestNodeKey =
   | '22:2197: Parse Tables'
   | '39:2363: Show parsed nodes and tables'
   | '50:315: Write scraped json file only nodes connected to root'
+  | '51:342: Show gateway keys'
+  | '51:352: Show service call keys'
+  | '51:362: Show action keys'
+  | '51:372: Show test node keys'
+  | '51:382: Show table keys'
 export type TableKeys =
   | '1:966: Node types'
   | '16:1764: Source types'

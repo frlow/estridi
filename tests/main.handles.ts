@@ -229,6 +229,12 @@ export const handles: MainHandles = {
           }
         ])
         break
+      case "51:342: Show gateway keys":
+        expect(state.estridi.getLog("gatewayKeys")).toStrictEqual(["1:73: Any errors from backend"])
+        break
+      case "51:352: Show service call keys":
+        expect(state.estridi.getLog("serviceCallKeys")).toStrictEqual(["1:67: Get Data From Backend",])
+        break
       default:
         debugger
         throw `${key} not implemented`

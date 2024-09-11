@@ -3,14 +3,17 @@ import {loadFigmaDocument} from "./processors/figma";
 import {filterScraped} from "./common";
 import {Scraped} from "./scraped";
 import * as fs from "fs";
+import {generateTestFiles} from "./generators";
 
 export * from './scraped.js'
 
-export type  RootsConfig = string[] | boolean | undefined
+export type RootsConfig = string[] | boolean | undefined
+export type EstridiTargets = 'playwright' | 'vitest'
 
 export type BaseConfig = {
   logging: "normal" | "verbose"
   roots?: RootsConfig
+  target?: EstridiTargets
 }
 
 export type FigmaConfig = {
@@ -43,6 +46,8 @@ export type LogEvents =
     "parsedUserAction" |
     "parsedTable" |
     "allParsed" |
+    "gatewayKeys" |
+    "serviceCallKeys" |
     "figmaNodes"
 export type EstridiLog = {
   tag: LogEvents,
@@ -71,6 +76,7 @@ export const estridi = () => {
     log("allParsed", processed)
     const filtered = filterScraped(processed, config.roots)
     ret.writeScrapedFile(filtered)
+    const testFiles = generateTestFiles(config, filtered, log)
   }
 
   const loadData = async (config: EstridiConfig): Promise<any> => {

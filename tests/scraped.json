@@ -76,7 +76,9 @@
   {
     "type": "script",
     "text": "Write scraped json file only nodes connected to root",
-    "connections": {},
+    "connections": {
+      "51:342": "Connector line"
+    },
     "id": "50:315"
   },
   {
@@ -328,5 +330,43 @@
       "50:315": "Generate Tests"
     },
     "id": "47:2388"
+  },
+  {
+    "type": "message",
+    "text": "Show gateway keys",
+    "connections": {
+      "51:352": "Connector line"
+    },
+    "id": "51:342"
+  },
+  {
+    "type": "message",
+    "text": "Show service call keys",
+    "connections": {
+      "51:362": "Connector line"
+    },
+    "id": "51:352"
+  },
+  {
+    "type": "message",
+    "text": "Show action keys",
+    "connections": {
+      "51:372": "Connector line"
+    },
+    "id": "51:362"
+  },
+  {
+    "type": "message",
+    "text": "Show test node keys",
+    "connections": {
+      "51:382": "Connector line"
+    },
+    "id": "51:372"
+  },
+  {
+    "type": "message",
+    "text": "Show table keys",
+    "connections": {},
+    "id": "51:382"
   }
 ]

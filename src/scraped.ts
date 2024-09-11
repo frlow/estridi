@@ -64,12 +64,12 @@ export type ScrapedUserAction = {
 
 
 export type ScrapedNode =
+    ScrapedGateway |
+    ScrapedScript |
     ScrapedTable |
     ScrapedOther |
-    ScrapedScript |
     ScrapedServiceCall |
     ScrapedStart |
-    ScrapedGateway |
     ScrapedSubprocess |
     ScrapedUserAction
 export type Scraped = ScrapedNode[]
