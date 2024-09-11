@@ -1,5 +1,5 @@
 import type {MainHandles} from './main.test.js'
-import {estridi, Estridi, EstridiConfig, Scraped} from '../src'
+import {estridi, Estridi, EstridiConfig} from '../src'
 import {expect} from "vitest";
 import {getFigmaDocument} from "./serviceCalls/figmaServiceCalls";
 import {figmaExampleTE} from "./serviceCalls/data/figmaExamples";
@@ -127,6 +127,86 @@ export const handles: MainHandles = {
         expect(state.estridi.getLog("allParsed").length).toEqual(111) // Amount of nodes in the example data
         break
       }
+      case "47:2395: Show filtered nodes connected to root":
+        expect(state.estridi.getLog("filteredNodes")).toStrictEqual([
+          {
+            "id": "1:72",
+            "isRoot": true,
+            "next": "1:67",
+            "text": "main",
+            "type": "start",
+          },
+          {
+            "id": "1:67",
+            "next": "1:73",
+            "text": "Get Data From Backend",
+            "type": "serviceCall",
+          },
+          {
+            "id": "1:73",
+            "options": {
+              "1:338": "no",
+              "1:74": "yes",
+            },
+            "text": "Any errors from backend",
+            "type": "gateway",
+          },
+          {
+            "id": "1:74",
+            "next": undefined,
+            "type": "other",
+          },
+          {
+            "id": "1:338",
+            "next": "1:235",
+            "text": "Show Data",
+            "type": "script",
+          },
+          {
+            "actions": {
+              "1:326": "Cancel Clicked",
+              "1:76": "Next Clicked",
+            },
+            "id": "1:235",
+            "next": "1:77",
+            "text": "action",
+            "type": "userAction",
+          },
+          {
+            "id": "1:77",
+            "isRoot": undefined,
+            "next": undefined,
+            "text": "start",
+            "type": "start",
+          },
+          {
+            "id": "1:76",
+            "link": "1:358",
+            "next": undefined,
+            "text": "Next Page",
+            "type": "subprocess",
+          },
+          {
+            "id": "1:358",
+            "isRoot": false,
+            "next": "1:365",
+            "text": "Next Page",
+            "type": "start",
+          },
+          {
+            "id": "1:365",
+            "next": undefined,
+            "text": "Show Done",
+            "type": "script",
+          },
+          {
+            "id": "1:326",
+            "next": undefined,
+            "text": "Clear Page",
+            "type": "script",
+          },
+        ])
+        break
       default:
         debugger
         throw `${key} not implemented`

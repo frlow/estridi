@@ -27,7 +27,7 @@ const mapConnections = (nodes: ProcessedNodes): ProcessedNodes => {
   Object.keys(temp).forEach(key => {
     const node = temp[key]
     node.connections = connections.filter(c => {
-      return c.connectorStart?.endpointNodeId === node.id
+      return c.connectorStart?.endpointNodeId === node.id && !c.strokeDashes
     }).map(c => ({id: c.connectorEnd?.endpointNodeId, text: c.name}))
   })
   return temp

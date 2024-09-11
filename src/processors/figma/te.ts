@@ -9,7 +9,8 @@ import {
   ScrapedScript,
   ScrapedServiceCall,
   ScrapedStart,
-  ScrapedSubprocess, ScrapedTable,
+  ScrapedSubprocess,
+  ScrapedTable,
   ScrapedUserAction
 } from "../../index";
 import {ProcessedNodes} from "./index";
@@ -46,15 +47,15 @@ const getNext = (node: any): string | undefined => {
 const getNodeMetadata = (node: Node, log: LogFunc): ScrapedNode => {
   const type = getType(node)
   switch (type) {
-      case "table": {
-        const rows: string[][] = Object.values((node as any).children.reduce((acc: Record<string, string[]>, cur: any) => ({
-          ...acc,
-          [cur.absoluteBoundingBox.y]: [...(acc[cur.absoluteBoundingBox.y] || []), cur.characters]
-        }), {}))
-        const table: ScrapedTable = {type: "table", rows, id: node.id}
-        log("parsedTable", table)
-        return table
-      }
+    case "table": {
+      const rows: string[][] = Object.values((node as any).children.reduce((acc: Record<string, string[]>, cur: any) => ({
+        ...acc,
+        [cur.absoluteBoundingBox.y]: [...(acc[cur.absoluteBoundingBox.y] || []), cur.characters]
+      }), {}))
+      const table: ScrapedTable = {type: "table", rows, id: node.id}
+      log("parsedTable", table)
+      return table
+    }
     case "script": {
       const script: ScrapedScript = {
         type: "script",
@@ -133,7 +134,10 @@ const afterProcess = (scraped: Scraped, nodes: ProcessedNodes, log: LogFunc): Sc
   })
   ret.filter(node => node.type === "userAction").forEach((ua: ScrapedUserAction) => {
     const uaNode = nodes[ua.id]
-    const actions = Object.values(nodes).filter((n) => n.absoluteBoundingBox && isNodeInside(uaNode.absoluteBoundingBox, n.absoluteBoundingBox))
+    const actions = Object.values(nodes).filter((n) =>
+        n.name?.replace("05.", "").trim() === "Signal listen" &&
+        n.absoluteBoundingBox &&
+        isNodeInside(uaNode.absoluteBoundingBox, n.absoluteBoundingBox))
     actions.forEach(a => ua.actions[getNext(a)] = findText(a))
     log("parsedUserAction", ua)
   })

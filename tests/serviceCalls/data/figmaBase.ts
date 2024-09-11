@@ -109,7 +109,13 @@ export const teNodes = {
   })
 }
 
-export const connectorNode = ({id, end, start, text}: { id?: string, start: string, end?: string, text?: string }) => ({
+export const connectorNode = ({id, end, start, text, dotted}: {
+  id?: string,
+  start: string,
+  end?: string,
+  text?: string,
+  dotted?: boolean
+}) => ({
   "id": id || "ConnectorId",
   "type": "CONNECTOR",
   "name": text || "Connector Line",
@@ -119,6 +125,7 @@ export const connectorNode = ({id, end, start, text}: { id?: string, start: stri
   "connectorEnd": {
     "endpointNodeId": end || "NextId",
   },
+  strokeDashes: dotted ? [] : undefined
 })
 
 export const table = ({id, children}: { id?: string, children: string[][] }) => {
