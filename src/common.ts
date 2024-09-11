@@ -15,5 +15,6 @@ export const filterScraped = (scraped: Scraped, roots: RootsConfig): Scraped => 
   const acc: Record<string, ScrapedNode> = {}
   const rootNodes = scraped.filter((node: ScrapedStart) => node.isRoot)
   rootNodes.forEach(n => processNode(n))
+  scraped.filter(s => s.type === "table").forEach(t => acc[t.id] = t)
   return Object.values(acc)
 }

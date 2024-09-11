@@ -205,6 +205,27 @@ export const handles: MainHandles = {
             "text": "Clear Page",
             "type": "script",
           },
+          {
+            "id": "9:415",
+            "rows": [
+              [
+                ".My Table",
+                "First",
+                "Second",
+              ],
+              [
+                "Line 1",
+                "AAAA",
+                "BBBB",
+              ],
+              [
+                "Line 2",
+                "CCCC",
+                "DDDD",
+              ],
+            ],
+            "type": "table",
+          }
         ])
         break
       default:
