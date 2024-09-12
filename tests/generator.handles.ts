@@ -1,15 +1,13 @@
 import type {GeneratorHandles} from './generator.test.js'
-import {estridi, Estridi, EstridiConfig} from '../src'
+import {estridi, Estridi, EstridiConfig, EstridiParameters} from '../src'
 import {expect, vi} from "vitest";
 import {getFigmaDocument} from "./serviceCalls/figmaServiceCalls";
 import {figmaExampleTE} from "./serviceCalls/data/figmaExamples";
 
-export type State = { estridi: Estridi }
+export type State = { estridi: Estridi, parameters: EstridiParameters }
 export const handles: GeneratorHandles = {
   handleSetup: async (args) => {
-    return {
-      estridi: estridi()
-    }
+    return {} as State
   },
   handleStart: async ({state}) => {
     state.estridi.writeFile = vi.fn()
@@ -17,7 +15,12 @@ export const handles: GeneratorHandles = {
   },
   handleServiceCall: async ({key, state, gateways, variant}) => {
     switch (key) {
+      case "58:1051: Cli parameters": {
+        state.parameters = {}
+        break
+      }
       case "1:380: Config file":
+        state.estridi = estridi(state.parameters)
         state.estridi.loadConfig = () => {
           if (variant.data?.source) return {
             logging: "verbose",

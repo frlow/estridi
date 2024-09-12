@@ -14,6 +14,8 @@ export type BaseConfig = {
   logging: "normal" | "verbose"
 }
 
+export type EstridiParameters = { target?: EstridiTargets, rootName?: string }
+
 export type FigmaConfig = {
   token: string
   fileId: string
@@ -58,7 +60,7 @@ const writeFile = (content: any, fileName: string) => {
 }
 
 export type LogFunc = (tag: LogEvents, data: any) => void
-export const estridi = () => {
+export const estridi = ({target, rootName}: EstridiParameters) => {
   const _log: EstridiLog = []
   const generate = async () => {
     const config = ret.loadConfig()
@@ -75,8 +77,8 @@ export const estridi = () => {
     log("loadedData", data)
     const processed = await process(config, data, log)
     log("allParsed", processed)
-    const filtered = filterScraped(processed)
-    generateTestFiles(config, filtered, log, ret.writeFile)
+    const filtered = filterScraped(processed, rootName)
+    generateTestFiles(config, filtered, log, ret.writeFile, target)
   }
 
   const loadData = async (config: EstridiConfig): Promise<any> => {
