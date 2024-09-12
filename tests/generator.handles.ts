@@ -4,6 +4,8 @@ import {expect, vi} from "vitest";
 import {getFigmaDocument} from "./serviceCalls/figmaServiceCalls";
 import {figmaExampleTE} from "./serviceCalls/data/figmaExamples";
 import {expectedDataFile, expectedHandlesFile} from "./serviceCalls/data/testFiles";
+import * as fs from "fs";
+import path from "path";
 
 export type State = { estridi: Estridi, parameters: EstridiParameters, writtenFiles: string[] }
 export const handles: GeneratorHandles = {
@@ -12,6 +14,8 @@ export const handles: GeneratorHandles = {
   },
   handleStart: async ({state, variant}) => {
     state.estridi.writeFile = vi.fn().mockImplementation((content, fileName) => {
+      fs.mkdirSync("demo/tests", {recursive: true})
+      fs.writeFileSync(path.join("demo", fileName), content, 'utf8')
       const a = 0 // debugging here!
     })
     state.writtenFiles = await state.estridi.generate()
