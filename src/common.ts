@@ -1,7 +1,6 @@
 import {Scraped, ScrapedNode, ScrapedStart} from "./scraped";
-import {RootsConfig} from "./index";
 
-export const filterScraped = (scraped: Scraped, roots: RootsConfig): Scraped => {
+export const filterScraped = (scraped: Scraped, rootName?: string): Scraped => {
   const processNode = (node: any) => {
     if (!node) return
     if (acc[node.id]) return

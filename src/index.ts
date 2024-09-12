@@ -12,8 +12,6 @@ export type EstridiTargets = 'playwright' | 'vitest'
 
 export type BaseConfig = {
   logging: "normal" | "verbose"
-  roots?: RootsConfig
-  target?: EstridiTargets
 }
 
 export type FigmaConfig = {
@@ -77,7 +75,7 @@ export const estridi = () => {
     log("loadedData", data)
     const processed = await process(config, data, log)
     log("allParsed", processed)
-    const filtered = filterScraped(processed, config.roots)
+    const filtered = filterScraped(processed)
     generateTestFiles(config, filtered, log, ret.writeFile)
   }
 

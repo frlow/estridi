@@ -152,7 +152,7 @@
     "text": "root generator",
     "rootName": "generator",
     "connections": {
-      "1:380": "root:generator"
+      "58:1051": "root:generator"
     },
     "id": "1:373"
   },
@@ -437,7 +437,7 @@
   },
   {
     "type": "gateway",
-    "text": "Config specifies root node",
+    "text": "Root node specified",
     "connections": {
       "57:452": "yes",
       "57:489": "no"
@@ -507,25 +507,16 @@
   },
   {
     "type": "gateway",
-    "text": "Target in config file",
+    "text": "Target set",
     "connections": {
-      "58:724": "Connector line",
-      "58:707": "Connector line"
-    },
-    "id": "58:656"
-  },
-  {
-    "type": "gateway",
-    "text": "Target as parameter",
-    "connections": {
-      "58:656": "no",
-      "58:734": "yes"
+      "58:734": "yes",
+      "58:707": "no"
     },
     "id": "58:675"
   },
   {
     "type": "message",
-    "text": "No target",
+    "text": "Default target playwright",
     "connections": {
       "58:744": "Connector line"
     },
@@ -533,17 +524,9 @@
   },
   {
     "type": "message",
-    "text": "Target from config",
+    "text": "Show target",
     "connections": {
-      "58:744": "Connector line"
-    },
-    "id": "58:724"
-  },
-  {
-    "type": "message",
-    "text": "Target from parameter",
-    "connections": {
-      "58:744": "Connector line"
+      "58:1014": "Connector line"
     },
     "id": "58:734"
   },
@@ -594,5 +577,29 @@
       "58:953": "root:runner"
     },
     "id": "58:945"
+  },
+  {
+    "type": "gateway",
+    "text": "Is target valid",
+    "connections": {
+      "58:744": "yes",
+      "58:1027": "Connector line"
+    },
+    "id": "58:1014"
+  },
+  {
+    "type": "message",
+    "text": "Target not valid",
+    "connections": {},
+    "id": "58:1027"
+  },
+  {
+    "type": "serviceCall",
+    "inputs": [],
+    "text": "Cli parameters",
+    "connections": {
+      "1:380": "Connector line"
+    },
+    "id": "58:1051"
   }
 ]

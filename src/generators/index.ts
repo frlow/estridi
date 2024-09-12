@@ -1,5 +1,5 @@
 import {
-  EstridiConfig,
+  EstridiConfig, EstridiTargets,
   LogFunc,
   Scraped,
   ScrapedGateway,
@@ -18,7 +18,7 @@ export type GenerationKeys = {
   tableKeys: string[],
 }
 
-export const generateTestFiles = (config: EstridiConfig, scraped: Scraped, log: LogFunc, writeFile: WriteFileFunc) => {
+export const generateTestFiles = (config: EstridiConfig, scraped: Scraped, log: LogFunc, writeFile: WriteFileFunc, target?: EstridiTargets) => {
   const gatewayKeys = scraped.filter(s => s.type === "gateway").map((g: ScrapedGateway) =>
       `${g.id}: ${g.text}`)
   const serviceCallKeys = scraped.filter(s => s.type === "serviceCall").map((g: ScrapedServiceCall) =>
@@ -29,11 +29,4 @@ export const generateTestFiles = (config: EstridiConfig, scraped: Scraped, log: 
       `${g.id}: ${g.text}`)
   const tableKeys = scraped.filter(s => s.type === "table").map((g: ScrapedTable) =>
       `${g.id}: ${g.text}`)
-  switch (config.target) {
-    case "playwright": {
-      break
-    }
-    default:
-      break
-  }
 }

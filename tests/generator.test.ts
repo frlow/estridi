@@ -22,9 +22,9 @@ describe('generator', () => {
   describe('message: Document must contain exactly one root, 57:503', t('57:503'))
   describe('message: Show using defined root, 57:567', t('57:567'))
   describe('message: Root node not found, 57:466', t('57:466'))
-  describe('message: Target from parameter, 58:734', t('58:734'))
-  describe('message: No target, 58:707', t('58:707'))
-  describe('message: Target from config, 58:724', t('58:724'))
+  describe('message: Default target playwright, 58:707', t('58:707'))
+  describe('message: Show target, 58:734', t('58:734'))
+  describe('message: Target not valid, 58:1027', t('58:1027'))
   describe('message: Show filtered nodes connected to root, 58:877', t('58:877'))
   describe('script: Write data file, 50:315', t('50:315'))
   describe('message: Done No target, 58:803', t('58:803'))
@@ -37,14 +37,15 @@ describe('generator', () => {
 export type GatewayKey =
   | '22:2092: Errors loading config'
   | '22:2142: Errors loading data'
-  | '57:430: Config specifies root node'
+  | '57:430: Root node specified'
   | '57:489: Is there exactly one root'
   | '57:452: Does root exist'
-  | '58:675: Target as parameter'
-  | '58:656: Target in config file'
+  | '58:675: Target set'
+  | '58:1014: Is target valid'
   | '58:781: Is target set'
   | '53:456: Does handles file exist'
 export type ServiceCallKey =
+  | '58:1051: Cli parameters'
   | '1:380: Config file'
   | '22:2042: Load Data'
 export type ActionKey =
@@ -61,9 +62,9 @@ export type TestNodeKey =
   | '57:503: Document must contain exactly one root'
   | '57:567: Show using defined root'
   | '57:466: Root node not found'
-  | '58:734: Target from parameter'
-  | '58:707: No target'
-  | '58:724: Target from config'
+  | '58:707: Default target playwright'
+  | '58:734: Show target'
+  | '58:1027: Target not valid'
   | '58:877: Show filtered nodes connected to root'
   | '50:315: Write data file'
   | '58:803: Done No target'
