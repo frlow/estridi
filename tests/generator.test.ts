@@ -23,11 +23,10 @@ describe('generator', () => {
   describe('message: Show using defined root, 57:567', t('57:567'))
   describe('message: Root node not found, 57:466', t('57:466'))
   describe('message: Default target playwright, 58:707', t('58:707'))
-  describe('message: Show target, 58:734', t('58:734'))
   describe('message: Target not valid, 58:1027', t('58:1027'))
+  describe('message: Show target, 58:734', t('58:734'))
   describe('message: Show filtered nodes connected to root, 58:877', t('58:877'))
   describe('script: Write data file, 50:315', t('50:315'))
-  describe('message: Done No target, 58:803', t('58:803'))
   describe('script: Write Test file for selected target, 53:434', t('53:434'))
   describe('script: Write Handles file, 53:465', t('53:465'))
   describe('script: Leave handles file unchanged, 53:478', t('53:478'))
@@ -42,7 +41,6 @@ export type GatewayKey =
   | '57:452: Does root exist'
   | '58:675: Target set'
   | '58:1014: Is target valid'
-  | '58:781: Is target set'
   | '53:456: Does handles file exist'
 export type ServiceCallKey =
   | '58:1051: Cli parameters'
@@ -63,11 +61,10 @@ export type TestNodeKey =
   | '57:567: Show using defined root'
   | '57:466: Root node not found'
   | '58:707: Default target playwright'
-  | '58:734: Show target'
   | '58:1027: Target not valid'
+  | '58:734: Show target'
   | '58:877: Show filtered nodes connected to root'
   | '50:315: Write data file'
-  | '58:803: Done No target'
   | '53:434: Write Test file for selected target'
   | '53:465: Write Handles file'
   | '53:478: Leave handles file unchanged'

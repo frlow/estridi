@@ -1,6 +1,6 @@
 import {Scraped, ScrapedNode, ScrapedStart} from "./scraped";
 
-export const filterScraped = (scraped: Scraped, rootName?: string): Scraped => {
+export const filterScraped = (scraped: Scraped, rootName: string): Scraped => {
   const processNode = (node: any) => {
     if (!node) return
     if (acc[node.id]) return
@@ -12,8 +12,10 @@ export const filterScraped = (scraped: Scraped, rootName?: string): Scraped => {
     if (node.link) processNode(scraped.find(n => n.id === node.link))
   }
   const acc: Record<string, ScrapedNode> = {}
-  const rootNodes = scraped.filter((node: ScrapedStart) => node.isRoot)
-  rootNodes.forEach(n => processNode(n))
+  const root = scraped.find((r: ScrapedStart) => r.isRoot && r.text === rootName)
+  processNode(root)
+  // const rootNodes = scraped.filter((node: ScrapedStart) => node.isRoot)
+  // rootNodes.forEach(n => processNode(n))
   scraped.filter(s => s.type === "table").forEach(t => acc[t.id] = t)
   return Object.values(acc)
 }

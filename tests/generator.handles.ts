@@ -1,22 +1,34 @@
 import type {GeneratorHandles} from './generator.test.js'
-import {estridi, Estridi, EstridiConfig, EstridiParameters} from '../src'
+import {estridi, Estridi, EstridiConfig, EstridiParameters, EstridiTargets} from '../src'
 import {expect, vi} from "vitest";
 import {getFigmaDocument} from "./serviceCalls/figmaServiceCalls";
 import {figmaExampleTE} from "./serviceCalls/data/figmaExamples";
+import {expectedDataFile, expectedHandlesFile} from "./serviceCalls/data/testFiles";
 
 export type State = { estridi: Estridi, parameters: EstridiParameters }
 export const handles: GeneratorHandles = {
   handleSetup: async (args) => {
     return {} as State
   },
-  handleStart: async ({state}) => {
-    state.estridi.writeFile = vi.fn()
+  handleStart: async ({state, variant}) => {
+    state.estridi.writeFile = vi.fn().mockImplementation((content, fileName) => {
+      const a = 0 // debugging here!
+    })
+    state.estridi.fileExists = vi.fn().mockImplementation(() => {
+      return !!variant.data?.fileExists
+    })
     await state.estridi.generate()
   },
   handleServiceCall: async ({key, state, gateways, variant}) => {
     switch (key) {
       case "58:1051: Cli parameters": {
-        state.parameters = {}
+        const rootName = variant.data?.parameters?.rootName ||
+            (gateways["57:452: Does root exist"] === "no" ? "dummy" :
+                (gateways["57:430: Root node specified"] === "yes" ? "main" : undefined))
+        const target: EstridiTargets = variant.data?.parameters?.target ||
+            (gateways["58:1014: Is target valid"] === "no" ? "dummy" as any :
+                (gateways["58:675: Target set"] === "yes" ? "vitest" : undefined))
+        state.parameters = {rootName, target}
         break
       }
       case "1:380: Config file":
@@ -37,7 +49,14 @@ export const handles: GeneratorHandles = {
         break
       case "22:2042: Load Data": {
         if (gateways["22:2142: Errors loading data"] === "yes") state.estridi.loadData = async () => undefined
-        state.estridi.loadFigmaDocument = async () => getFigmaDocument(variant)
+        state.estridi.loadFigmaDocument = async () => {
+          const ret = structuredClone(getFigmaDocument(variant))
+          if (gateways["57:489: Is there exactly one root"] === "yes") {
+            const otherConnector = (ret as any).children[0].children.find(n => n.id === "26:156")
+            if (otherConnector) otherConnector.name = "other"
+          }
+          return ret
+        }
         break
       }
       default:
@@ -132,17 +151,86 @@ export const handles: GeneratorHandles = {
         expect(state.estridi.getLog("allParsed").length).toEqual(121) // Amount of nodes in the example data
         break
       }
-      case "53:434: Write Test file for selected target":
+      case "57:503: Document must contain exactly one root":
+        expect(state.estridi.getLog("parameterError")).toEqual("Root name must be set if more than one root exists")
+        break
+      case "57:466: Root node not found":
+        expect(state.estridi.getLog("parameterError")).toEqual("Root node not found")
+        break
+      case "57:599: Show using default root":
+        expect(state.estridi.getLog("parametersUsed").rootName).toEqual("main")
+        break
+      case "57:567: Show using defined root":
+        expect(state.estridi.getLog("parametersUsed").rootName).toEqual("main")
+        break
+      case "58:707: Default target playwright":
+        expect(state.estridi.getLog("parametersUsed").target).toEqual("playwright")
+        break
+      case "58:1027: Target not valid":
+        expect(state.estridi.getLog("parameterError")).toEqual("Target not valid")
+        break
+      case "58:734: Show target":
+        expect(state.estridi.getLog("parametersUsed").target).toEqual("vitest")
+        break
+      case "58:877: Show filtered nodes connected to root":
+        expect(state.estridi.getLog("filteredNodes")).toStrictEqual([
+          {
+            "id": "26:135",
+            "isRoot": true,
+            "next": "26:143",
+            "text": "other",
+            "type": "start",
+          },
+          {
+            "id": "26:143",
+            "next": undefined,
+            "text": "Something else",
+            "type": "script",
+          },
+          {
+            "id": "9:415",
+            "rows": [
+              [
+                ".My Table",
+                "First",
+                "Second",
+              ],
+              [
+                "Line 1",
+                "AAAA",
+                "BBBB",
+              ],
+              [
+                "Line 2",
+                "CCCC",
+                "DDDD",
+              ],
+            ],
+            "text": "My Table",
+            "type": "table",
+          },
+        ])
+        break
+      case "50:315: Write data file":
+        expect(state.estridi.writeFile).toHaveBeenCalledWith(expectedDataFile, "tests/main.data.ts")
+        break
+      case "53:434: Write Test file for selected target": {
         const generator = variant.data.generator
         switch (generator.Id) {
           case "playwright":
-            expect(state.estridi.writeFile).toHaveBeenCalledWith("soudhufsd", `tests/test.${generator["Test file name"]}.ts`)
+            expect(state.estridi.writeFile).toHaveBeenNthCalledWith(3, "soudhufsd", `tests/test.${generator["Test file name"]}.ts`)
             break
           default:
             debugger
             throw "Not implemented!"
         }
         break
+      }
+      case "53:465: Write Handles file": {
+        const generator = variant.data.generator
+        expect(state.estridi.writeFile).toHaveBeenNthCalledWith(2, expectedHandlesFile(generator["Test file name"]), `tests/main.handles.ts`)
+        break
+      }
       default:
         debugger
         throw `${key} not implemented`
@@ -174,7 +262,10 @@ export const handles: GeneratorHandles = {
       }
     }
     const sourcesAndNodes = temp.map(t => ({data: t, name: `${t.source.Id} ${t.node.Id}`}))
-    const generators = getTable("51:412: Generation targets").values.map(v => ({name: v.Id, data: {generator: v}}))
+    const generators = getTable("51:412: Generation targets").values.map(v => ({
+      name: v.Id,
+      data: {parameters: {target: v.Id}, generator: v}
+    }))
 
     if (matchId("22:2180: Parse Nodes"))
       return sourcesAndNodes
@@ -182,5 +273,16 @@ export const handles: GeneratorHandles = {
     if (matchId("22:2167: Show loaded data")) return sources
     if (matchId("22:2197: Parse Tables")) return tables
     if (matchId("53:434: Write Test file for selected target")) return generators
+    if (matchId("53:465: Write Handles file")) return generators
+    if (matchId("58:877: Show filtered nodes connected to root")) return [{
+      name: "Filtered nodes",
+      data: {parameters: {rootName: "other"}}
+    }]
+  }, config: {
+    discouragedNodes: [
+      "58:1027: Target not valid",
+      "57:466: Root node not found",
+      "57:599: Show using default root"
+    ]
   }
 }

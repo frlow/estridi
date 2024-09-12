@@ -1,14 +1,15 @@
 import {
-  EstridiConfig, EstridiTargets,
-  LogFunc,
+  Estridi,
+  EstridiConfig,
+  EstridiTargets,
   Scraped,
   ScrapedGateway,
   ScrapedScript,
   ScrapedServiceCall,
   ScrapedTable,
   ScrapedUserAction,
-  WriteFileFunc
 } from "../index";
+import {handlesContent} from "./handles";
 
 export type GenerationKeys = {
   gatewayKeys: string[],
@@ -18,7 +19,17 @@ export type GenerationKeys = {
   tableKeys: string[],
 }
 
-export const generateTestFiles = (config: EstridiConfig, scraped: Scraped, log: LogFunc, writeFile: WriteFileFunc, target?: EstridiTargets) => {
+export const generateTestFiles = (config: EstridiConfig, scraped: Scraped, {
+  writeFile,
+  fileExists
+}: Estridi, target: EstridiTargets, name: string) => {
+  writeFile(`export const scraped = ${JSON.stringify(scraped, null, 2)}`, `tests/${name}.data.ts`)
+  const testFileName = target === "playwright" ? `${name}.spec.ts` :
+      `${name}.test.ts`
+  if (!fileExists(`tests/${name}.handles.ts`)) {
+    const handles = handlesContent(name, testFileName)
+    writeFile(handles, `tests/${name}.handles.ts`)
+  }
   const gatewayKeys = scraped.filter(s => s.type === "gateway").map((g: ScrapedGateway) =>
       `${g.id}: ${g.text}`)
   const serviceCallKeys = scraped.filter(s => s.type === "serviceCall").map((g: ScrapedServiceCall) =>

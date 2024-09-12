@@ -97,7 +97,7 @@
     "type": "script",
     "text": "Write data file",
     "connections": {
-      "58:781": "Connector line"
+      "53:434": "Connector line"
     },
     "id": "50:315"
   },
@@ -420,7 +420,7 @@
   },
   {
     "type": "subprocess",
-    "text": "Validate config",
+    "text": "Validate params",
     "connections": {
       "22:2261": "Connector line"
     },
@@ -429,9 +429,9 @@
   },
   {
     "type": "start",
-    "text": "Validate config",
+    "text": "Validate params",
     "connections": {
-      "57:430": "Validate config"
+      "57:430": "Validate params"
     },
     "id": "57:410"
   },
@@ -509,8 +509,8 @@
     "type": "gateway",
     "text": "Target set",
     "connections": {
-      "58:734": "yes",
-      "58:707": "no"
+      "58:707": "no",
+      "58:1014": "yes"
     },
     "id": "58:675"
   },
@@ -526,7 +526,7 @@
     "type": "message",
     "text": "Show target",
     "connections": {
-      "58:1014": "Connector line"
+      "58:744": "Connector line"
     },
     "id": "58:734"
   },
@@ -537,21 +537,6 @@
       "57:623": "Connector line"
     },
     "id": "58:744"
-  },
-  {
-    "type": "gateway",
-    "text": "Is target set",
-    "connections": {
-      "53:434": "Connector line",
-      "58:803": "Connector line"
-    },
-    "id": "58:781"
-  },
-  {
-    "type": "message",
-    "text": "Done No target",
-    "connections": {},
-    "id": "58:803"
   },
   {
     "type": "message",
@@ -582,8 +567,8 @@
     "type": "gateway",
     "text": "Is target valid",
     "connections": {
-      "58:744": "yes",
-      "58:1027": "Connector line"
+      "58:734": "yes",
+      "58:1027": "no"
     },
     "id": "58:1014"
   },

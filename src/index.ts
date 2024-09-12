@@ -4,11 +4,14 @@ import {filterScraped} from "./common";
 import * as fs from "fs";
 import {generateTestFiles} from "./generators";
 import * as path from "path";
+import {Scraped, ScrapedStart} from "./scraped";
 
 export * from './scraped.js'
 
 export type RootsConfig = string[] | boolean | undefined
-export type EstridiTargets = 'playwright' | 'vitest'
+
+export const estridiTargets = ['playwright', 'vitest'] as const
+export type EstridiTargets = typeof estridiTargets[number]
 
 export type BaseConfig = {
   logging: "normal" | "verbose"
@@ -46,6 +49,9 @@ export type LogEvents =
     "parsedUserAction" |
     "parsedTable" |
     "allParsed" |
+    "parameterError" |
+    "parametersUsed" |
+    "filteredNodes" |
     "figmaNodes"
 export type EstridiLog = {
   tag: LogEvents,
@@ -59,8 +65,28 @@ const writeFile = (content: any, fileName: string) => {
   fs.writeFileSync(fileName, toWrite, 'utf8')
 }
 
+const validateParams = (params: EstridiParameters, scraped: Scraped): {
+  rootName?: string,
+  target?: EstridiTargets,
+  error?: string
+} => {
+  const roots: ScrapedStart[] = scraped.filter((s: ScrapedStart) => s.isRoot) as ScrapedStart[]
+  let rootName: string
+  if (!params.rootName && roots.length === 1) rootName = roots[0].text
+  else if (!params.rootName) return {error: "Root name must be set if more than one root exists"}
+  else if (!roots.some(r => r.text === params.rootName))
+    return {error: "Root node not found"}
+  else
+    rootName = params.rootName
+  const target: EstridiTargets = params.target || "playwright"
+  if (!estridiTargets.includes(target)) return {error: "Target not valid"}
+  return {rootName, target}
+}
+
+const fileExists = (fileName: string): boolean => fs.existsSync(fileName)
+
 export type LogFunc = (tag: LogEvents, data: any) => void
-export const estridi = ({target, rootName}: EstridiParameters) => {
+export const estridi = (params: EstridiParameters) => {
   const _log: EstridiLog = []
   const generate = async () => {
     const config = ret.loadConfig()
@@ -77,8 +103,16 @@ export const estridi = ({target, rootName}: EstridiParameters) => {
     log("loadedData", data)
     const processed = await process(config, data, log)
     log("allParsed", processed)
-    const filtered = filterScraped(processed, rootName)
-    generateTestFiles(config, filtered, log, ret.writeFile, target)
+
+    const validatedParams = validateParams(params, processed)
+    if (validatedParams.error) {
+      log("parameterError", validatedParams.error)
+      return
+    }
+    log("parametersUsed", validatedParams)
+    const filtered = filterScraped(processed, validatedParams.rootName!)
+    log("filteredNodes", filtered)
+    generateTestFiles(config, filtered, ret, validatedParams.target!, validatedParams.rootName)
   }
 
   const loadData = async (config: EstridiConfig): Promise<any> => {
@@ -95,7 +129,8 @@ export const estridi = ({target, rootName}: EstridiParameters) => {
     generate,
     loadData,
     loadConfig,
-    writeFile
+    writeFile,
+    fileExists
   }
   return ret
 }
