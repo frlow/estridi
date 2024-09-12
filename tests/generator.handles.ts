@@ -1,11 +1,11 @@
-import type {MainHandles} from './main.test.js'
+import type {GeneratorHandles} from './generator.test.js'
 import {estridi, Estridi, EstridiConfig} from '../src'
 import {expect, vi} from "vitest";
 import {getFigmaDocument} from "./serviceCalls/figmaServiceCalls";
 import {figmaExampleTE} from "./serviceCalls/data/figmaExamples";
 
 export type State = { estridi: Estridi }
-export const handles: MainHandles = {
+export const handles: GeneratorHandles = {
   handleSetup: async (args) => {
     return {
       estridi: estridi()
@@ -129,7 +129,7 @@ export const handles: MainHandles = {
         expect(state.estridi.getLog("allParsed").length).toEqual(121) // Amount of nodes in the example data
         break
       }
-      case "53:434: Write Test file":
+      case "53:434: Write Test file for selected target":
         const generator = variant.data.generator
         switch (generator.Id) {
           case "playwright":
@@ -178,6 +178,6 @@ export const handles: MainHandles = {
     // .filter(n => n.name === "Figma TE other")
     if (matchId("22:2167: Show loaded data")) return sources
     if (matchId("22:2197: Parse Tables")) return tables
-    if (matchId("53:434: Write Test file")) return generators
+    if (matchId("53:434: Write Test file for selected target")) return generators
   }
 }

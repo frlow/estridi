@@ -1,6 +1,6 @@
 import { test, describe } from 'vitest'
 import { createTester, Handles, loadScraped } from 'estridi'
-import { handles, State } from './main.handles.js'
+import { handles, State } from './generator.handles.js'
 export type RootId = '1:373'
 const scraped = loadScraped()
 const { testNode, getVariants } = createTester(scraped, '1:373', handles)
@@ -10,7 +10,7 @@ const t = (id: string) => () => {
       testNode(id, { variant })
     )
 }
-describe('main', () => {
+describe('generator', () => {
   describe('message: Show loaded config, 22:2121', t('22:2121'))
   describe('message: Could not load config, 22:2100', t('22:2100'))
   describe('message: Show loaded data, 22:2167', t('22:2167'))
@@ -76,7 +76,7 @@ export type TableKeys =
   | '16:1764: Source types'
   | '51:412: Generation targets'
 
-export type MainHandles = Handles<
+export type GeneratorHandles = Handles<
   State,
   GatewayKey,
   ServiceCallKey,

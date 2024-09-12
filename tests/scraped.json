@@ -74,6 +74,18 @@
     "id": "1:454"
   },
   {
+    "type": "script",
+    "text": "Something",
+    "connections": {},
+    "id": "58:953"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I58:953;8:340"
+  },
+  {
     "type": "connector",
     "text": "",
     "connections": {
@@ -137,10 +149,10 @@
   },
   {
     "type": "start",
-    "text": "root main",
-    "rootName": "main",
+    "text": "root generator",
+    "rootName": "generator",
     "connections": {
-      "1:380": "root:main"
+      "1:380": "root:generator"
     },
     "id": "1:373"
   },
@@ -573,5 +585,14 @@
       "53:524": "Connector line"
     },
     "id": "58:916"
+  },
+  {
+    "type": "start",
+    "text": "root runner",
+    "rootName": "runner",
+    "connections": {
+      "58:953": "root:runner"
+    },
+    "id": "58:945"
   }
 ]
