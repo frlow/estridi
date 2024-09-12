@@ -21,8 +21,8 @@ export const figmaExampleTE = {
               "id": "I1:67;8:324",
               "overriddenFields": [
                 "lineIndentations",
-                "openTypeFlags",
                 "lineHeightPercentFontSize",
+                "openTypeFlags",
                 "characterStyleOverrides",
                 "letterSpacing",
                 "styleOverrideTable",
@@ -96,7 +96,8 @@ export const figmaExampleTE = {
                     "vertical": "SCALE",
                     "horizontal": "SCALE"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 },
                 {
                   "id": "I1:67;8:323",
@@ -131,7 +132,8 @@ export const figmaExampleTE = {
                     "vertical": "SCALE",
                     "horizontal": "SCALE"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 }
               ],
               "blendMode": "PASS_THROUGH",
@@ -183,7 +185,8 @@ export const figmaExampleTE = {
               "layoutGrow": 0,
               "layoutSizingHorizontal": "FIXED",
               "layoutSizingVertical": "FIXED",
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:67;8:324",
@@ -252,7 +255,8 @@ export const figmaExampleTE = {
               "lineIndentations": [
                 0
               ],
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:67;8:325",
@@ -292,7 +296,8 @@ export const figmaExampleTE = {
               "layoutGrow": 0,
               "layoutSizingHorizontal": "FIXED",
               "layoutSizingVertical": "FIXED",
-              "effects": []
+              "effects": [],
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -369,7 +374,8 @@ export const figmaExampleTE = {
           },
           "layoutSizingHorizontal": "HUG",
           "layoutSizingVertical": "HUG",
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:68",
@@ -467,7 +473,8 @@ export const figmaExampleTE = {
                             "vertical": "SCALE",
                             "horizontal": "SCALE"
                           },
-                          "effects": []
+                          "effects": [],
+                          "interactions": []
                         },
                         {
                           "id": "I1:68;8:180;8:164",
@@ -501,7 +508,8 @@ export const figmaExampleTE = {
                             "vertical": "SCALE",
                             "horizontal": "SCALE"
                           },
-                          "effects": []
+                          "effects": [],
+                          "interactions": []
                         }
                       ],
                       "blendMode": "PASS_THROUGH",
@@ -548,7 +556,8 @@ export const figmaExampleTE = {
                         "vertical": "TOP",
                         "horizontal": "LEFT"
                       },
-                      "effects": []
+                      "effects": [],
+                      "interactions": []
                     },
                     {
                       "id": "I1:68;8:180;8:165",
@@ -589,7 +598,8 @@ export const figmaExampleTE = {
                         "vertical": "TOP",
                         "horizontal": "LEFT"
                       },
-                      "effects": []
+                      "effects": [],
+                      "interactions": []
                     }
                   ],
                   "blendMode": "PASS_THROUGH",
@@ -623,7 +633,8 @@ export const figmaExampleTE = {
                     "vertical": "TOP",
                     "horizontal": "LEFT"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 },
                 {
                   "id": "I1:68;8:180;8:166",
@@ -684,7 +695,8 @@ export const figmaExampleTE = {
                   "lineIndentations": [
                     0
                   ],
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 },
                 {
                   "id": "I1:68;8:180;8:167",
@@ -735,7 +747,8 @@ export const figmaExampleTE = {
                     "vertical": "TOP",
                     "horizontal": "LEFT"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 },
                 {
                   "id": "I1:68;8:180;8:168",
@@ -796,7 +809,8 @@ export const figmaExampleTE = {
                   "lineIndentations": [
                     0
                   ],
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 }
               ],
               "blendMode": "PASS_THROUGH",
@@ -854,7 +868,8 @@ export const figmaExampleTE = {
                 "vertical": "SCALE",
                 "horizontal": "SCALE"
               },
-              "effects": []
+              "effects": [],
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -912,7 +927,8 @@ export const figmaExampleTE = {
             "vertical": "TOP",
             "horizontal": "LEFT"
           },
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:69",
@@ -1044,7 +1060,8 @@ export const figmaExampleTE = {
                         "vertical": "SCALE",
                         "horizontal": "SCALE"
                       },
-                      "effects": []
+                      "effects": [],
+                      "interactions": []
                     },
                     {
                       "id": "I1:70;8:173",
@@ -1078,7 +1095,8 @@ export const figmaExampleTE = {
                         "vertical": "SCALE",
                         "horizontal": "SCALE"
                       },
-                      "effects": []
+                      "effects": [],
+                      "interactions": []
                     }
                   ],
                   "blendMode": "PASS_THROUGH",
@@ -1125,7 +1143,8 @@ export const figmaExampleTE = {
                     "vertical": "TOP",
                     "horizontal": "LEFT"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 },
                 {
                   "id": "I1:70;8:174",
@@ -1166,7 +1185,8 @@ export const figmaExampleTE = {
                     "vertical": "TOP",
                     "horizontal": "LEFT"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 }
               ],
               "blendMode": "PASS_THROUGH",
@@ -1200,7 +1220,8 @@ export const figmaExampleTE = {
                 "vertical": "TOP",
                 "horizontal": "LEFT"
               },
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:70;8:175",
@@ -1261,7 +1282,8 @@ export const figmaExampleTE = {
               "lineIndentations": [
                 0
               ],
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:70;8:176",
@@ -1312,7 +1334,8 @@ export const figmaExampleTE = {
                 "vertical": "TOP",
                 "horizontal": "LEFT"
               },
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:70;8:177",
@@ -1373,7 +1396,8 @@ export const figmaExampleTE = {
               "lineIndentations": [
                 0
               ],
-              "effects": []
+              "effects": [],
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -1431,7 +1455,8 @@ export const figmaExampleTE = {
             "vertical": "TOP",
             "horizontal": "LEFT"
           },
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:71",
@@ -1562,7 +1587,8 @@ export const figmaExampleTE = {
                 "startingAngle": 0,
                 "endingAngle": 6.2831854820251465,
                 "innerRadius": 0
-              }
+              },
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -1618,7 +1644,8 @@ export const figmaExampleTE = {
             "vertical": "TOP",
             "horizontal": "LEFT"
           },
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:73",
@@ -1645,12 +1672,12 @@ export const figmaExampleTE = {
             {
               "id": "I1:73;8:194",
               "overriddenFields": [
-                "openTypeFlags",
-                "lineHeightPercentFontSize",
                 "fontPostScriptName",
                 "lineHeightPercent",
                 "lineHeightPx",
                 "fontSize",
+                "lineHeightPercentFontSize",
+                "openTypeFlags",
                 "fills",
                 "italic",
                 "fontWeight",
@@ -1714,7 +1741,8 @@ export const figmaExampleTE = {
                 "vertical": "SCALE",
                 "horizontal": "SCALE"
               },
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:73;8:194",
@@ -1782,7 +1810,8 @@ export const figmaExampleTE = {
               "lineIndentations": [
                 0
               ],
-              "effects": []
+              "effects": [],
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -1840,7 +1869,8 @@ export const figmaExampleTE = {
             "vertical": "TOP",
             "horizontal": "LEFT"
           },
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:74",
@@ -1861,8 +1891,8 @@ export const figmaExampleTE = {
               "overriddenFields": [
                 "fontSize",
                 "lineIndentations",
-                "openTypeFlags",
                 "lineHeightPercentFontSize",
+                "openTypeFlags",
                 "characterStyleOverrides",
                 "letterSpacing",
                 "styleOverrideTable",
@@ -1929,7 +1959,8 @@ export const figmaExampleTE = {
                 "vertical": "SCALE",
                 "horizontal": "SCALE"
               },
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:74;8:110",
@@ -1984,7 +2015,8 @@ export const figmaExampleTE = {
                 "vertical": "SCALE",
                 "horizontal": "SCALE"
               },
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:74;8:111",
@@ -2048,7 +2080,8 @@ export const figmaExampleTE = {
               "lineIndentations": [
                 0
               ],
-              "effects": []
+              "effects": [],
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -2104,7 +2137,8 @@ export const figmaExampleTE = {
             "vertical": "TOP",
             "horizontal": "LEFT"
           },
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:75",
@@ -2227,7 +2261,8 @@ export const figmaExampleTE = {
               "layoutGrow": 0,
               "layoutSizingHorizontal": "FIXED",
               "layoutSizingVertical": "FIXED",
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:76;8:308",
@@ -2294,7 +2329,8 @@ export const figmaExampleTE = {
               "lineIndentations": [
                 0
               ],
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:76;8:309",
@@ -2334,7 +2370,8 @@ export const figmaExampleTE = {
               "layoutGrow": 0,
               "layoutSizingHorizontal": "FIXED",
               "layoutSizingVertical": "FIXED",
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:76;8:310",
@@ -2393,7 +2430,8 @@ export const figmaExampleTE = {
                     "vertical": "SCALE",
                     "horizontal": "SCALE"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 },
                 {
                   "id": "I1:76;8:312",
@@ -2437,7 +2475,8 @@ export const figmaExampleTE = {
                     "vertical": "SCALE",
                     "horizontal": "SCALE"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 },
                 {
                   "id": "I1:76;8:313",
@@ -2477,7 +2516,8 @@ export const figmaExampleTE = {
                     "vertical": "SCALE",
                     "horizontal": "SCALE"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 }
               ],
               "blendMode": "PASS_THROUGH",
@@ -2520,7 +2560,8 @@ export const figmaExampleTE = {
               "layoutGrow": 0,
               "layoutSizingHorizontal": "FIXED",
               "layoutSizingVertical": "FIXED",
-              "effects": []
+              "effects": [],
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -2599,7 +2640,8 @@ export const figmaExampleTE = {
           },
           "layoutSizingHorizontal": "FIXED",
           "layoutSizingVertical": "HUG",
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:77",
@@ -2678,7 +2720,8 @@ export const figmaExampleTE = {
                 "startingAngle": 0,
                 "endingAngle": 6.2831854820251465,
                 "innerRadius": 0
-              }
+              },
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -2734,7 +2777,8 @@ export const figmaExampleTE = {
             "vertical": "TOP",
             "horizontal": "LEFT"
           },
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:81",
@@ -2803,8 +2847,8 @@ export const figmaExampleTE = {
               "id": "I1:180;8:343",
               "overriddenFields": [
                 "lineIndentations",
-                "openTypeFlags",
                 "lineHeightPercentFontSize",
+                "openTypeFlags",
                 "characterStyleOverrides",
                 "letterSpacing",
                 "styleOverrideTable",
@@ -2890,7 +2934,8 @@ export const figmaExampleTE = {
                         "vertical": "TOP",
                         "horizontal": "LEFT"
                       },
-                      "effects": []
+                      "effects": [],
+                      "interactions": []
                     },
                     {
                       "id": "I1:180;8:342",
@@ -2931,7 +2976,8 @@ export const figmaExampleTE = {
                         "vertical": "TOP",
                         "horizontal": "LEFT"
                       },
-                      "effects": []
+                      "effects": [],
+                      "interactions": []
                     }
                   ],
                   "blendMode": "PASS_THROUGH",
@@ -2963,7 +3009,8 @@ export const figmaExampleTE = {
                     "vertical": "TOP",
                     "horizontal": "LEFT"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 }
               ],
               "blendMode": "PASS_THROUGH",
@@ -2999,7 +3046,8 @@ export const figmaExampleTE = {
               "layoutGrow": 0,
               "layoutSizingHorizontal": "FIXED",
               "layoutSizingVertical": "FIXED",
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:180;8:343",
@@ -3070,7 +3118,8 @@ export const figmaExampleTE = {
                 0,
                 0
               ],
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:180;8:344",
@@ -3110,7 +3159,8 @@ export const figmaExampleTE = {
               "layoutGrow": 0,
               "layoutSizingHorizontal": "FIXED",
               "layoutSizingVertical": "FIXED",
-              "effects": []
+              "effects": [],
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -3187,7 +3237,8 @@ export const figmaExampleTE = {
           },
           "layoutSizingHorizontal": "HUG",
           "layoutSizingVertical": "HUG",
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:192",
@@ -3325,7 +3376,8 @@ export const figmaExampleTE = {
                     "vertical": "TOP",
                     "horizontal": "LEFT"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 },
                 {
                   "id": "I1:235;8:336",
@@ -3382,7 +3434,8 @@ export const figmaExampleTE = {
                     "vertical": "TOP",
                     "horizontal": "LEFT"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 }
               ],
               "blendMode": "PASS_THROUGH",
@@ -3418,7 +3471,8 @@ export const figmaExampleTE = {
               "layoutGrow": 0,
               "layoutSizingHorizontal": "FIXED",
               "layoutSizingVertical": "FIXED",
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:235;8:337",
@@ -3483,7 +3537,8 @@ export const figmaExampleTE = {
               "lineIndentations": [
                 0
               ],
-              "effects": []
+              "effects": [],
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -3562,7 +3617,8 @@ export const figmaExampleTE = {
           },
           "layoutSizingHorizontal": "FIXED",
           "layoutSizingVertical": "FIXED",
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:265",
@@ -3707,7 +3763,8 @@ export const figmaExampleTE = {
                 "vertical": "SCALE",
                 "horizontal": "SCALE"
               },
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:294;8:119",
@@ -3771,7 +3828,8 @@ export const figmaExampleTE = {
                 "vertical": "SCALE",
                 "horizontal": "SCALE"
               },
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:294;8:120",
@@ -3832,7 +3890,8 @@ export const figmaExampleTE = {
               "lineIndentations": [
                 0
               ],
-              "effects": []
+              "effects": [],
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -3888,7 +3947,8 @@ export const figmaExampleTE = {
             "vertical": "TOP",
             "horizontal": "LEFT"
           },
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:308",
@@ -3977,7 +4037,8 @@ export const figmaExampleTE = {
                 "vertical": "SCALE",
                 "horizontal": "SCALE"
               },
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:308;8:119",
@@ -4041,7 +4102,8 @@ export const figmaExampleTE = {
                 "vertical": "SCALE",
                 "horizontal": "SCALE"
               },
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:308;8:120",
@@ -4102,7 +4164,8 @@ export const figmaExampleTE = {
               "lineIndentations": [
                 0
               ],
-              "effects": []
+              "effects": [],
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -4158,7 +4221,8 @@ export const figmaExampleTE = {
             "vertical": "TOP",
             "horizontal": "LEFT"
           },
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:322",
@@ -4227,8 +4291,8 @@ export const figmaExampleTE = {
               "id": "I1:326;8:343",
               "overriddenFields": [
                 "lineIndentations",
-                "openTypeFlags",
                 "lineHeightPercentFontSize",
+                "openTypeFlags",
                 "characterStyleOverrides",
                 "letterSpacing",
                 "styleOverrideTable",
@@ -4314,7 +4378,8 @@ export const figmaExampleTE = {
                         "vertical": "TOP",
                         "horizontal": "LEFT"
                       },
-                      "effects": []
+                      "effects": [],
+                      "interactions": []
                     },
                     {
                       "id": "I1:326;8:342",
@@ -4355,7 +4420,8 @@ export const figmaExampleTE = {
                         "vertical": "TOP",
                         "horizontal": "LEFT"
                       },
-                      "effects": []
+                      "effects": [],
+                      "interactions": []
                     }
                   ],
                   "blendMode": "PASS_THROUGH",
@@ -4387,7 +4453,8 @@ export const figmaExampleTE = {
                     "vertical": "TOP",
                     "horizontal": "LEFT"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 }
               ],
               "blendMode": "PASS_THROUGH",
@@ -4423,7 +4490,8 @@ export const figmaExampleTE = {
               "layoutGrow": 0,
               "layoutSizingHorizontal": "FIXED",
               "layoutSizingVertical": "FIXED",
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:326;8:343",
@@ -4492,7 +4560,8 @@ export const figmaExampleTE = {
               "lineIndentations": [
                 0
               ],
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:326;8:344",
@@ -4532,7 +4601,8 @@ export const figmaExampleTE = {
               "layoutGrow": 0,
               "layoutSizingHorizontal": "FIXED",
               "layoutSizingVertical": "FIXED",
-              "effects": []
+              "effects": [],
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -4609,7 +4679,8 @@ export const figmaExampleTE = {
           },
           "layoutSizingHorizontal": "HUG",
           "layoutSizingVertical": "HUG",
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:338",
@@ -4622,8 +4693,8 @@ export const figmaExampleTE = {
               "id": "I1:338;8:343",
               "overriddenFields": [
                 "lineIndentations",
-                "openTypeFlags",
                 "lineHeightPercentFontSize",
+                "openTypeFlags",
                 "characterStyleOverrides",
                 "letterSpacing",
                 "styleOverrideTable",
@@ -4709,7 +4780,8 @@ export const figmaExampleTE = {
                         "vertical": "TOP",
                         "horizontal": "LEFT"
                       },
-                      "effects": []
+                      "effects": [],
+                      "interactions": []
                     },
                     {
                       "id": "I1:338;8:342",
@@ -4750,7 +4822,8 @@ export const figmaExampleTE = {
                         "vertical": "TOP",
                         "horizontal": "LEFT"
                       },
-                      "effects": []
+                      "effects": [],
+                      "interactions": []
                     }
                   ],
                   "blendMode": "PASS_THROUGH",
@@ -4782,7 +4855,8 @@ export const figmaExampleTE = {
                     "vertical": "TOP",
                     "horizontal": "LEFT"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 }
               ],
               "blendMode": "PASS_THROUGH",
@@ -4818,7 +4892,8 @@ export const figmaExampleTE = {
               "layoutGrow": 0,
               "layoutSizingHorizontal": "FIXED",
               "layoutSizingVertical": "FIXED",
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:338;8:343",
@@ -4887,7 +4962,8 @@ export const figmaExampleTE = {
               "lineIndentations": [
                 0
               ],
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:338;8:344",
@@ -4927,7 +5003,8 @@ export const figmaExampleTE = {
               "layoutGrow": 0,
               "layoutSizingHorizontal": "FIXED",
               "layoutSizingVertical": "FIXED",
-              "effects": []
+              "effects": [],
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -5004,7 +5081,8 @@ export const figmaExampleTE = {
           },
           "layoutSizingHorizontal": "HUG",
           "layoutSizingVertical": "HUG",
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:79",
@@ -5243,7 +5321,8 @@ export const figmaExampleTE = {
                 "startingAngle": 0,
                 "endingAngle": 6.2831854820251465,
                 "innerRadius": 0
-              }
+              },
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -5299,7 +5378,8 @@ export const figmaExampleTE = {
             "vertical": "TOP",
             "horizontal": "LEFT"
           },
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:365",
@@ -5312,8 +5392,8 @@ export const figmaExampleTE = {
               "id": "I1:365;8:343",
               "overriddenFields": [
                 "lineIndentations",
-                "openTypeFlags",
                 "lineHeightPercentFontSize",
+                "openTypeFlags",
                 "characterStyleOverrides",
                 "letterSpacing",
                 "styleOverrideTable",
@@ -5399,7 +5479,8 @@ export const figmaExampleTE = {
                         "vertical": "TOP",
                         "horizontal": "LEFT"
                       },
-                      "effects": []
+                      "effects": [],
+                      "interactions": []
                     },
                     {
                       "id": "I1:365;8:342",
@@ -5440,7 +5521,8 @@ export const figmaExampleTE = {
                         "vertical": "TOP",
                         "horizontal": "LEFT"
                       },
-                      "effects": []
+                      "effects": [],
+                      "interactions": []
                     }
                   ],
                   "blendMode": "PASS_THROUGH",
@@ -5472,7 +5554,8 @@ export const figmaExampleTE = {
                     "vertical": "TOP",
                     "horizontal": "LEFT"
                   },
-                  "effects": []
+                  "effects": [],
+                  "interactions": []
                 }
               ],
               "blendMode": "PASS_THROUGH",
@@ -5508,7 +5591,8 @@ export const figmaExampleTE = {
               "layoutGrow": 0,
               "layoutSizingHorizontal": "FIXED",
               "layoutSizingVertical": "FIXED",
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:365;8:343",
@@ -5577,7 +5661,8 @@ export const figmaExampleTE = {
               "lineIndentations": [
                 0
               ],
-              "effects": []
+              "effects": [],
+              "interactions": []
             },
             {
               "id": "I1:365;8:344",
@@ -5617,7 +5702,8 @@ export const figmaExampleTE = {
               "layoutGrow": 0,
               "layoutSizingHorizontal": "FIXED",
               "layoutSizingVertical": "FIXED",
-              "effects": []
+              "effects": [],
+              "interactions": []
             }
           ],
           "blendMode": "PASS_THROUGH",
@@ -5694,7 +5780,8 @@ export const figmaExampleTE = {
           },
           "layoutSizingHorizontal": "HUG",
           "layoutSizingVertical": "HUG",
-          "effects": []
+          "effects": [],
+          "interactions": []
         },
         {
           "id": "1:377",
@@ -6127,6 +6214,593 @@ export const figmaExampleTE = {
           ],
           "strokeWeight": 1,
           "strokeAlign": "INSIDE"
+        },
+        {
+          "id": "26:135",
+          "name": "01. Start",
+          "type": "INSTANCE",
+          "scrollBehavior": "SCROLLS",
+          "componentId": "1:35",
+          "componentProperties": {
+            "Prop": {
+              "value": "start",
+              "type": "VARIANT",
+              "boundVariables": {}
+            }
+          },
+          "overrides": [],
+          "children": [
+            {
+              "id": "I26:135;8:104",
+              "name": "Ellipse",
+              "type": "ELLIPSE",
+              "scrollBehavior": "SCROLLS",
+              "blendMode": "PASS_THROUGH",
+              "fills": [
+                {
+                  "blendMode": "NORMAL",
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.5137255191802979,
+                    "g": 0.7333333492279053,
+                    "b": 0.8980392217636108,
+                    "a": 1
+                  }
+                }
+              ],
+              "strokes": [
+                {
+                  "blendMode": "NORMAL",
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0,
+                    "g": 0,
+                    "b": 0,
+                    "a": 1
+                  }
+                }
+              ],
+              "strokeWeight": 2.0792429447174072,
+              "strokeAlign": "INSIDE",
+              "absoluteBoundingBox": {
+                "x": -1296,
+                "y": 1264,
+                "width": 70.69425964355469,
+                "height": 70.69425964355469
+              },
+              "absoluteRenderBounds": {
+                "x": -1296,
+                "y": 1264,
+                "width": 70.6942138671875,
+                "height": 70.6942138671875
+              },
+              "preserveRatio": true,
+              "constraints": {
+                "vertical": "SCALE",
+                "horizontal": "SCALE"
+              },
+              "effects": [],
+              "arcData": {
+                "startingAngle": 0,
+                "endingAngle": 6.2831854820251465,
+                "innerRadius": 0
+              },
+              "interactions": []
+            }
+          ],
+          "blendMode": "PASS_THROUGH",
+          "clipsContent": false,
+          "background": [
+            {
+              "blendMode": "NORMAL",
+              "visible": false,
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1,
+                "a": 1
+              }
+            }
+          ],
+          "fills": [
+            {
+              "blendMode": "NORMAL",
+              "visible": false,
+              "type": "SOLID",
+              "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1,
+                "a": 1
+              }
+            }
+          ],
+          "strokes": [],
+          "strokeWeight": 1.0396214723587036,
+          "strokeAlign": "INSIDE",
+          "backgroundColor": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0
+          },
+          "absoluteBoundingBox": {
+            "x": -1296,
+            "y": 1264,
+            "width": 70.69425964355469,
+            "height": 70.69425964355469
+          },
+          "absoluteRenderBounds": {
+            "x": -1296,
+            "y": 1264,
+            "width": 70.69425964355469,
+            "height": 70.69425964355469
+          },
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          },
+          "effects": [],
+          "interactions": []
+        },
+        {
+          "id": "26:143",
+          "name": "3. Script",
+          "type": "INSTANCE",
+          "scrollBehavior": "SCROLLS",
+          "componentId": "1:173",
+          "overrides": [
+            {
+              "id": "I26:143;8:343",
+              "overriddenFields": [
+                "lineIndentations",
+                "lineHeightPercentFontSize",
+                "openTypeFlags",
+                "characterStyleOverrides",
+                "letterSpacing",
+                "styleOverrideTable",
+                "characters",
+                "fills",
+                "italic",
+                "fontWeight",
+                "lineHeightPercent",
+                "lineHeightPx",
+                "fontPostScriptName",
+                "lineHeightUnit",
+                "fontFamily",
+                "lineTypes",
+                "hyperlink"
+              ]
+            }
+          ],
+          "children": [
+            {
+              "id": "I26:143;8:339",
+              "name": "Group 12",
+              "type": "GROUP",
+              "scrollBehavior": "SCROLLS",
+              "children": [
+                {
+                  "id": "I26:143;8:340",
+                  "name": "Script",
+                  "type": "GROUP",
+                  "scrollBehavior": "SCROLLS",
+                  "children": [
+                    {
+                      "id": "I26:143;8:341",
+                      "name": "Vector 9",
+                      "type": "VECTOR",
+                      "scrollBehavior": "SCROLLS",
+                      "blendMode": "PASS_THROUGH",
+                      "fills": [
+                        {
+                          "blendMode": "NORMAL",
+                          "type": "SOLID",
+                          "color": {
+                            "r": 1,
+                            "g": 1,
+                            "b": 1,
+                            "a": 1
+                          }
+                        }
+                      ],
+                      "fillOverrideTable": {
+                        "1": null,
+                        "2": null,
+                        "3": null
+                      },
+                      "strokes": [
+                        {
+                          "blendMode": "NORMAL",
+                          "type": "SOLID",
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 1
+                          }
+                        }
+                      ],
+                      "strokeWeight": 2,
+                      "strokeAlign": "CENTER",
+                      "strokeJoin": "ROUND",
+                      "absoluteBoundingBox": {
+                        "x": -995.5,
+                        "y": 1267,
+                        "width": 23,
+                        "height": 29
+                      },
+                      "absoluteRenderBounds": {
+                        "x": -996.5,
+                        "y": 1266,
+                        "width": 25,
+                        "height": 31
+                      },
+                      "preserveRatio": true,
+                      "constraints": {
+                        "vertical": "TOP",
+                        "horizontal": "LEFT"
+                      },
+                      "effects": [],
+                      "interactions": []
+                    },
+                    {
+                      "id": "I26:143;8:342",
+                      "name": "Vector 11",
+                      "type": "VECTOR",
+                      "scrollBehavior": "SCROLLS",
+                      "blendMode": "PASS_THROUGH",
+                      "fills": [],
+                      "strokes": [
+                        {
+                          "blendMode": "NORMAL",
+                          "type": "SOLID",
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 1
+                          }
+                        }
+                      ],
+                      "strokeWeight": 2,
+                      "strokeAlign": "CENTER",
+                      "strokeJoin": "ROUND",
+                      "strokeCap": "ROUND",
+                      "absoluteBoundingBox": {
+                        "x": -992,
+                        "y": 1274,
+                        "width": 15.5,
+                        "height": 16
+                      },
+                      "absoluteRenderBounds": {
+                        "x": -993,
+                        "y": 1273,
+                        "width": 17.5,
+                        "height": 18
+                      },
+                      "constraints": {
+                        "vertical": "TOP",
+                        "horizontal": "LEFT"
+                      },
+                      "effects": [],
+                      "interactions": []
+                    }
+                  ],
+                  "blendMode": "PASS_THROUGH",
+                  "clipsContent": false,
+                  "background": [],
+                  "fills": [],
+                  "strokes": [],
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "backgroundColor": {
+                    "r": 0,
+                    "g": 0,
+                    "b": 0,
+                    "a": 0
+                  },
+                  "absoluteBoundingBox": {
+                    "x": -995.5,
+                    "y": 1267,
+                    "width": 23,
+                    "height": 29
+                  },
+                  "absoluteRenderBounds": {
+                    "x": -996.5,
+                    "y": 1266,
+                    "width": 25,
+                    "height": 31
+                  },
+                  "constraints": {
+                    "vertical": "TOP",
+                    "horizontal": "LEFT"
+                  },
+                  "effects": [],
+                  "interactions": []
+                }
+              ],
+              "blendMode": "PASS_THROUGH",
+              "clipsContent": false,
+              "background": [],
+              "fills": [],
+              "strokes": [],
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "backgroundColor": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 0
+              },
+              "absoluteBoundingBox": {
+                "x": -995.5,
+                "y": 1267,
+                "width": 23,
+                "height": 29
+              },
+              "absoluteRenderBounds": {
+                "x": -996.5,
+                "y": 1266,
+                "width": 25,
+                "height": 31
+              },
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              },
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "layoutSizingHorizontal": "FIXED",
+              "layoutSizingVertical": "FIXED",
+              "effects": [],
+              "interactions": []
+            },
+            {
+              "id": "I26:143;8:343",
+              "name": "script",
+              "type": "TEXT",
+              "scrollBehavior": "SCROLLS",
+              "blendMode": "PASS_THROUGH",
+              "fills": [
+                {
+                  "opacity": 0.800000011920929,
+                  "blendMode": "NORMAL",
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0,
+                    "g": 0,
+                    "b": 0,
+                    "a": 1
+                  }
+                }
+              ],
+              "strokes": [],
+              "strokeWeight": 1,
+              "strokeAlign": "OUTSIDE",
+              "absoluteBoundingBox": {
+                "x": -1042,
+                "y": 1301,
+                "width": 116,
+                "height": 24
+              },
+              "absoluteRenderBounds": {
+                "x": -1041.155029296875,
+                "y": 1306.897705078125,
+                "width": 114.38531494140625,
+                "height": 15.556884765625
+              },
+              "constraints": {
+                "vertical": "CENTER",
+                "horizontal": "CENTER"
+              },
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "layoutSizingHorizontal": "HUG",
+              "layoutSizingVertical": "HUG",
+              "characters": "Something else",
+              "style": {
+                "fontFamily": "Inter",
+                "fontPostScriptName": null,
+                "fontWeight": 500,
+                "hyperlink": {},
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "fontSize": 16,
+                "textAlignHorizontal": "CENTER",
+                "textAlignVertical": "CENTER",
+                "letterSpacing": -0.17600000381469727,
+                "lineHeightPx": 24,
+                "lineHeightPercent": 123.94366455078125,
+                "lineHeightPercentFontSize": 150,
+                "lineHeightUnit": "FONT_SIZE_%"
+              },
+              "layoutVersion": 4,
+              "characterStyleOverrides": [],
+              "styleOverrideTable": {},
+              "lineTypes": [
+                "NONE"
+              ],
+              "lineIndentations": [
+                0
+              ],
+              "effects": [],
+              "interactions": []
+            },
+            {
+              "id": "I26:143;8:344",
+              "name": "min-width-hack",
+              "type": "VECTOR",
+              "scrollBehavior": "SCROLLS",
+              "blendMode": "PASS_THROUGH",
+              "fills": [],
+              "strokes": [
+                {
+                  "opacity": 0,
+                  "blendMode": "NORMAL",
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0,
+                    "g": 0,
+                    "b": 0,
+                    "a": 1
+                  }
+                }
+              ],
+              "strokeWeight": 1,
+              "strokeAlign": "CENTER",
+              "strokeJoin": "ROUND",
+              "absoluteBoundingBox": {
+                "x": -1060,
+                "y": 1330,
+                "width": 152,
+                "height": 1
+              },
+              "absoluteRenderBounds": null,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              },
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "layoutSizingHorizontal": "FIXED",
+              "layoutSizingVertical": "FIXED",
+              "effects": [],
+              "interactions": []
+            }
+          ],
+          "blendMode": "PASS_THROUGH",
+          "clipsContent": false,
+          "background": [
+            {
+              "blendMode": "NORMAL",
+              "type": "SOLID",
+              "color": {
+                "r": 0.5137255191802979,
+                "g": 0.7333333492279053,
+                "b": 0.8980392217636108,
+                "a": 1
+              }
+            }
+          ],
+          "fills": [
+            {
+              "blendMode": "NORMAL",
+              "type": "SOLID",
+              "color": {
+                "r": 0.5137255191802979,
+                "g": 0.7333333492279053,
+                "b": 0.8980392217636108,
+                "a": 1
+              }
+            }
+          ],
+          "strokes": [
+            {
+              "blendMode": "NORMAL",
+              "type": "SOLID",
+              "color": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 1
+              }
+            }
+          ],
+          "cornerRadius": 1,
+          "cornerSmoothing": 0,
+          "strokeWeight": 2,
+          "strokeAlign": "INSIDE",
+          "backgroundColor": {
+            "r": 0.5137255191802979,
+            "g": 0.7333333492279053,
+            "b": 0.8980392217636108,
+            "a": 1
+          },
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 5,
+          "counterAxisAlignItems": "CENTER",
+          "paddingLeft": 24,
+          "paddingRight": 24,
+          "paddingTop": 20,
+          "paddingBottom": 20,
+          "layoutWrap": "NO_WRAP",
+          "absoluteBoundingBox": {
+            "x": -1084,
+            "y": 1247,
+            "width": 200,
+            "height": 104
+          },
+          "absoluteRenderBounds": {
+            "x": -1084,
+            "y": 1247,
+            "width": 200,
+            "height": 104
+          },
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          },
+          "layoutSizingHorizontal": "HUG",
+          "layoutSizingVertical": "HUG",
+          "effects": [],
+          "interactions": []
+        },
+        {
+          "id": "26:156",
+          "name": "root:other",
+          "type": "CONNECTOR",
+          "scrollBehavior": "SCROLLS",
+          "blendMode": "PASS_THROUGH",
+          "absoluteBoundingBox": {
+            "x": -1219.3057861328125,
+            "y": 1278.5,
+            "width": 128.8057403564453,
+            "height": 41
+          },
+          "absoluteRenderBounds": {
+            "x": -1221.3057861328125,
+            "y": 1278.5,
+            "width": 132.8057861328125,
+            "height": 41
+          },
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          },
+          "effects": [],
+          "characters": "root:other",
+          "textBackground": {
+            "cornerRadius": 3,
+            "cornerSmoothing": 0,
+            "fills": []
+          },
+          "connectorStart": {
+            "endpointNodeId": "26:135",
+            "magnet": "RIGHT"
+          },
+          "connectorEnd": {
+            "endpointNodeId": "26:143",
+            "magnet": "LEFT"
+          },
+          "connectorStartStrokeCap": "NONE",
+          "connectorEndStrokeCap": "LINE_ARROW",
+          "connectorLineType": "ELBOWED",
+          "strokes": [
+            {
+              "blendMode": "NORMAL",
+              "type": "SOLID",
+              "color": {
+                "r": 0.7019608020782471,
+                "g": 0.7019608020782471,
+                "b": 0.7019608020782471,
+                "a": 1
+              }
+            }
+          ],
+          "strokeWeight": 4,
+          "strokeAlign": "CENTER",
+          "strokeJoin": "BEVEL"
         }
       ],
       "backgroundColor": {

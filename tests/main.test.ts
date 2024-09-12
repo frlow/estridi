@@ -18,17 +18,32 @@ describe('main', () => {
   describe('subprocess: Parse Nodes, 22:2180', t('22:2180'))
   describe('subprocess: Parse Tables, 22:2197', t('22:2197'))
   describe('message: Show parsed nodes and tables, 39:2363', t('39:2363'))
-  describe('script: Write scraped json file only nodes connected to root, 50:315', t('50:315'))
-  describe('message: Show gateway keys, 51:342', t('51:342'))
-  describe('message: Show service call keys, 51:352', t('51:352'))
-  describe('message: Show action keys, 51:362', t('51:362'))
-  describe('message: Show test node keys, 51:372', t('51:372'))
-  describe('message: Show table keys, 51:382', t('51:382'))
+  describe('message: Show using default root, 57:599', t('57:599'))
+  describe('message: Document must contain exactly one root, 57:503', t('57:503'))
+  describe('message: Show using defined root, 57:567', t('57:567'))
+  describe('message: Root node not found, 57:466', t('57:466'))
+  describe('message: Target from parameter, 58:734', t('58:734'))
+  describe('message: No target, 58:707', t('58:707'))
+  describe('message: Target from config, 58:724', t('58:724'))
+  describe('message: Show filtered nodes connected to root, 58:877', t('58:877'))
+  describe('script: Write data file, 50:315', t('50:315'))
+  describe('message: Done No target, 58:803', t('58:803'))
+  describe('script: Write Test file for selected target, 53:434', t('53:434'))
+  describe('script: Write Handles file, 53:465', t('53:465'))
+  describe('script: Leave handles file unchanged, 53:478', t('53:478'))
+  describe('message: Done Tests written, 58:916', t('58:916'))
 })
 
 export type GatewayKey =
   | '22:2092: Errors loading config'
   | '22:2142: Errors loading data'
+  | '57:430: Config specifies root node'
+  | '57:489: Is there exactly one root'
+  | '57:452: Does root exist'
+  | '58:675: Target as parameter'
+  | '58:656: Target in config file'
+  | '58:781: Is target set'
+  | '53:456: Does handles file exist'
 export type ServiceCallKey =
   | '1:380: Config file'
   | '22:2042: Load Data'
@@ -42,15 +57,24 @@ export type TestNodeKey =
   | '22:2180: Parse Nodes'
   | '22:2197: Parse Tables'
   | '39:2363: Show parsed nodes and tables'
-  | '50:315: Write scraped json file only nodes connected to root'
-  | '51:342: Show gateway keys'
-  | '51:352: Show service call keys'
-  | '51:362: Show action keys'
-  | '51:372: Show test node keys'
-  | '51:382: Show table keys'
+  | '57:599: Show using default root'
+  | '57:503: Document must contain exactly one root'
+  | '57:567: Show using defined root'
+  | '57:466: Root node not found'
+  | '58:734: Target from parameter'
+  | '58:707: No target'
+  | '58:724: Target from config'
+  | '58:877: Show filtered nodes connected to root'
+  | '50:315: Write data file'
+  | '58:803: Done No target'
+  | '53:434: Write Test file for selected target'
+  | '53:465: Write Handles file'
+  | '53:478: Leave handles file unchanged'
+  | '58:916: Done Tests written'
 export type TableKeys =
   | '1:966: Node types'
   | '16:1764: Source types'
+  | '51:412: Generation targets'
 
 export type MainHandles = Handles<
   State,

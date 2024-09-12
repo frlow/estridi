@@ -74,10 +74,18 @@
     "id": "1:454"
   },
   {
-    "type": "script",
-    "text": "Write scraped json file only nodes connected to root",
+    "type": "connector",
+    "text": "",
     "connections": {
-      "51:342": "Connector line"
+      "58:916": "Connector line"
+    },
+    "id": "53:503"
+  },
+  {
+    "type": "script",
+    "text": "Write data file",
+    "connections": {
+      "58:781": "Connector line"
     },
     "id": "50:315"
   },
@@ -86,15 +94,6 @@
     "text": "",
     "connections": {},
     "id": "I50:315;8:340"
-  },
-  {
-    "type": "subprocess",
-    "text": "Generate Tests",
-    "connections": {
-      "22:2261": "Connector line"
-    },
-    "id": "22:2278",
-    "linked": "47:2388"
   },
   {
     "type": "subprocess",
@@ -319,7 +318,7 @@
     "type": "message",
     "text": "Show parsed nodes and tables",
     "connections": {
-      "22:2278": "Connector line"
+      "57:378": "Connector line"
     },
     "id": "39:2363"
   },
@@ -327,46 +326,252 @@
     "type": "start",
     "text": "Generate Tests",
     "connections": {
-      "50:315": "Generate Tests"
+      "58:877": "Generate Tests"
     },
     "id": "47:2388"
   },
   {
-    "type": "message",
-    "text": "Show gateway keys",
-    "connections": {
-      "51:352": "Connector line"
-    },
-    "id": "51:342"
+    "type": "table",
+    "text": "Generation targets",
+    "headers": [
+      ".Generation targets",
+      "Test file name"
+    ],
+    "content": [
+      [
+        "playwright",
+        "spec"
+      ],
+      [
+        "vitest",
+        "test"
+      ]
+    ],
+    "id": "51:412"
   },
   {
-    "type": "message",
-    "text": "Show service call keys",
+    "type": "script",
+    "text": "Write Test file for selected target",
     "connections": {
-      "51:362": "Connector line"
+      "53:456": "Connector line"
     },
-    "id": "51:352"
+    "id": "53:434"
   },
   {
-    "type": "message",
-    "text": "Show action keys",
-    "connections": {
-      "51:372": "Connector line"
-    },
-    "id": "51:362"
-  },
-  {
-    "type": "message",
-    "text": "Show test node keys",
-    "connections": {
-      "51:382": "Connector line"
-    },
-    "id": "51:372"
-  },
-  {
-    "type": "message",
-    "text": "Show table keys",
+    "type": "script",
+    "text": "",
     "connections": {},
-    "id": "51:382"
+    "id": "I53:434;8:340"
+  },
+  {
+    "type": "gateway",
+    "text": "Does handles file exist",
+    "connections": {
+      "53:478": "yes",
+      "53:465": "no"
+    },
+    "id": "53:456"
+  },
+  {
+    "type": "script",
+    "text": "Write Handles file",
+    "connections": {
+      "53:503": "Connector line"
+    },
+    "id": "53:465"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I53:465;8:340"
+  },
+  {
+    "type": "script",
+    "text": "Leave handles file unchanged",
+    "connections": {
+      "53:503": "Connector line"
+    },
+    "id": "53:478"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I53:478;8:340"
+  },
+  {
+    "type": "end",
+    "text": "end",
+    "connections": {},
+    "id": "53:524"
+  },
+  {
+    "type": "subprocess",
+    "text": "Validate config",
+    "connections": {
+      "22:2261": "Connector line"
+    },
+    "id": "57:378",
+    "linked": "57:410"
+  },
+  {
+    "type": "start",
+    "text": "Validate config",
+    "connections": {
+      "57:430": "Validate config"
+    },
+    "id": "57:410"
+  },
+  {
+    "type": "gateway",
+    "text": "Config specifies root node",
+    "connections": {
+      "57:452": "yes",
+      "57:489": "no"
+    },
+    "id": "57:430"
+  },
+  {
+    "type": "gateway",
+    "text": "Does root exist",
+    "connections": {
+      "57:466": "no",
+      "57:567": "yes"
+    },
+    "id": "57:452"
+  },
+  {
+    "type": "message",
+    "text": "Root node not found",
+    "connections": {},
+    "id": "57:466"
+  },
+  {
+    "type": "gateway",
+    "text": "Is there exactly one root",
+    "connections": {
+      "57:503": "no",
+      "57:599": "yes"
+    },
+    "id": "57:489"
+  },
+  {
+    "type": "message",
+    "text": "Document must contain exactly one root",
+    "connections": {},
+    "id": "57:503"
+  },
+  {
+    "type": "connector",
+    "text": "",
+    "connections": {
+      "58:675": "Connector line"
+    },
+    "id": "57:527"
+  },
+  {
+    "type": "message",
+    "text": "Show using defined root",
+    "connections": {
+      "57:527": "Connector line"
+    },
+    "id": "57:567"
+  },
+  {
+    "type": "message",
+    "text": "Show using default root",
+    "connections": {
+      "57:527": "Connector line"
+    },
+    "id": "57:599"
+  },
+  {
+    "type": "subprocess",
+    "text": "Generate Tests",
+    "connections": {},
+    "id": "57:623",
+    "linked": "47:2388"
+  },
+  {
+    "type": "gateway",
+    "text": "Target in config file",
+    "connections": {
+      "58:724": "Connector line",
+      "58:707": "Connector line"
+    },
+    "id": "58:656"
+  },
+  {
+    "type": "gateway",
+    "text": "Target as parameter",
+    "connections": {
+      "58:656": "no",
+      "58:734": "yes"
+    },
+    "id": "58:675"
+  },
+  {
+    "type": "message",
+    "text": "No target",
+    "connections": {
+      "58:744": "Connector line"
+    },
+    "id": "58:707"
+  },
+  {
+    "type": "message",
+    "text": "Target from config",
+    "connections": {
+      "58:744": "Connector line"
+    },
+    "id": "58:724"
+  },
+  {
+    "type": "message",
+    "text": "Target from parameter",
+    "connections": {
+      "58:744": "Connector line"
+    },
+    "id": "58:734"
+  },
+  {
+    "type": "connector",
+    "text": "",
+    "connections": {
+      "57:623": "Connector line"
+    },
+    "id": "58:744"
+  },
+  {
+    "type": "gateway",
+    "text": "Is target set",
+    "connections": {
+      "53:434": "Connector line",
+      "58:803": "Connector line"
+    },
+    "id": "58:781"
+  },
+  {
+    "type": "message",
+    "text": "Done No target",
+    "connections": {},
+    "id": "58:803"
+  },
+  {
+    "type": "message",
+    "text": "Show filtered nodes connected to root",
+    "connections": {
+      "50:315": "Connector line"
+    },
+    "id": "58:877"
+  },
+  {
+    "type": "message",
+    "text": "Done Tests written",
+    "connections": {
+      "53:524": "Connector line"
+    },
+    "id": "58:916"
   }
 ]

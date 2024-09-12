@@ -1,9 +1,9 @@
 import {process} from "./processors";
 import {loadFigmaDocument} from "./processors/figma";
 import {filterScraped} from "./common";
-import {Scraped} from "./scraped";
 import * as fs from "fs";
 import {generateTestFiles} from "./generators";
+import * as path from "path";
 
 export * from './scraped.js'
 
@@ -46,18 +46,18 @@ export type LogEvents =
     "parsedUserAction" |
     "parsedTable" |
     "allParsed" |
-    "gatewayKeys" |
-    "serviceCallKeys" |
-    "actionKeys" |
-    "testNodeKeys" |
-    "tableKeys" |
     "figmaNodes"
 export type EstridiLog = {
   tag: LogEvents,
   data: any
 }[]
 
-const writeScrapedFile = (scraped: Scraped) => fs.writeFileSync("scraped.json", JSON.stringify(scraped, null, 2), 'utf8')
+export type WriteFileFunc = typeof writeFile
+const writeFile = (content: any, fileName: string) => {
+  const toWrite = typeof content === "string" ? content : JSON.stringify(content, null, 2)
+  fs.mkdirSync(path.parse(fileName).dir, {recursive: true})
+  fs.writeFileSync(fileName, toWrite, 'utf8')
+}
 
 export type LogFunc = (tag: LogEvents, data: any) => void
 export const estridi = () => {
@@ -78,8 +78,7 @@ export const estridi = () => {
     const processed = await process(config, data, log)
     log("allParsed", processed)
     const filtered = filterScraped(processed, config.roots)
-    ret.writeScrapedFile(filtered)
-    const testFiles = generateTestFiles(config, filtered, log)
+    generateTestFiles(config, filtered, log, ret.writeFile)
   }
 
   const loadData = async (config: EstridiConfig): Promise<any> => {
@@ -92,11 +91,11 @@ export const estridi = () => {
     getLog: (tag: LogEvents) => _log.findLast(l => l.tag === tag)?.data,
     getAllLog: (tag: LogEvents) => _log.filter(l => l.tag === tag)?.map(l => l.data),
     log: _log,
-    loadConfig,
-    loadData,
     loadFigmaDocument,
     generate,
-    writeScrapedFile
+    loadData,
+    loadConfig,
+    writeFile
   }
   return ret
 }

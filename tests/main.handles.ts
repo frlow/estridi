@@ -12,7 +12,7 @@ export const handles: MainHandles = {
     }
   },
   handleStart: async ({state}) => {
-    state.estridi.writeScrapedFile = vi.fn()
+    state.estridi.writeFile = vi.fn()
     await state.estridi.generate()
   },
   handleServiceCall: async ({key, state, gateways, variant}) => {
@@ -126,129 +126,19 @@ export const handles: MainHandles = {
         })
         break
       case "39:2363: Show parsed nodes and tables": {
-        expect(state.estridi.getLog("allParsed").length).toEqual(111) // Amount of nodes in the example data
+        expect(state.estridi.getLog("allParsed").length).toEqual(121) // Amount of nodes in the example data
         break
       }
-      case "50:315: Write scraped json file only nodes connected to root":
-        expect(state.estridi.writeScrapedFile).toHaveBeenCalledWith([
-          {
-            "id": "1:72",
-            "isRoot": true,
-            "next": "1:67",
-            "text": "main",
-            "type": "start",
-          },
-          {
-            "id": "1:67",
-            "next": "1:73",
-            "text": "Get Data From Backend",
-            "type": "serviceCall",
-          },
-          {
-            "id": "1:73",
-            "options": {
-              "1:338": "no",
-              "1:74": "yes",
-            },
-            "text": "Any errors from backend",
-            "type": "gateway",
-          },
-          {
-            "id": "1:74",
-            "next": undefined,
-            "type": "other",
-          },
-          {
-            "id": "1:338",
-            "next": "1:235",
-            "text": "Show Data",
-            "type": "script",
-          },
-          {
-            "actions": {
-              "1:326": "Cancel Clicked",
-              "1:76": "Next Clicked",
-            },
-            "id": "1:235",
-            "next": "1:77",
-            "text": "action",
-            "type": "userAction",
-          },
-          {
-            "id": "1:77",
-            "isRoot": undefined,
-            "next": undefined,
-            "text": "start",
-            "type": "start",
-          },
-          {
-            "id": "1:76",
-            "link": "1:358",
-            "next": undefined,
-            "text": "Next Page",
-            "type": "subprocess",
-          },
-          {
-            "id": "1:358",
-            "isRoot": false,
-            "next": "1:365",
-            "text": "Next Page",
-            "type": "start",
-          },
-          {
-            "id": "1:365",
-            "next": undefined,
-            "text": "Show Done",
-            "type": "script",
-          },
-          {
-            "id": "1:326",
-            "next": undefined,
-            "text": "Clear Page",
-            "type": "script",
-          },
-          {
-            "id": "9:415",
-            "rows": [
-              [
-                ".My Table",
-                "First",
-                "Second",
-              ],
-              [
-                "Line 1",
-                "AAAA",
-                "BBBB",
-              ],
-              [
-                "Line 2",
-                "CCCC",
-                "DDDD",
-              ],
-            ],
-            "type": "table",
-            text: "My Table"
-          }
-        ])
-        break
-      case "51:342: Show gateway keys":
-        expect(state.estridi.getLog("gatewayKeys")).toStrictEqual(["1:73: Any errors from backend"])
-        break
-      case "51:352: Show service call keys":
-        expect(state.estridi.getLog("serviceCallKeys")).toStrictEqual(["1:67: Get Data From Backend",])
-        break
-      case "51:362: Show action keys":
-        expect(state.estridi.getLog("actionKeys")).toStrictEqual(['1:235: action'])
-        break
-      case "51:372: Show test node keys":
-        expect(state.estridi.getLog("testNodeKeys")).toStrictEqual([
-          "1:338: Show Data",
-          "1:365: Show Done",
-          "1:326: Clear Page"
-        ])
-        break
-      case "51:382: Show table keys":
-        expect(state.estridi.getLog("tableKeys")).toStrictEqual(['9:415: My Table'])
+      case "53:434: Write Test file":
+        const generator = variant.data.generator
+        switch (generator.Id) {
+          case "playwright":
+            expect(state.estridi.writeFile).toHaveBeenCalledWith("soudhufsd", `tests/test.${generator["Test file name"]}.ts`)
+            break
+          default:
+            debugger
+            throw "Not implemented!"
+        }
         break
       default:
         debugger
@@ -272,7 +162,6 @@ export const handles: MainHandles = {
         return true
       }),
   variants: ({getTable, matchId}) => {
-    // const nodes = getTable("1:966: Node types").values.map(n => ({data: {node: n}, name: n.Id}))
     const sources = getTable("16:1764: Source types").values.map(s => ({data: {source: s}, name: s.Id}))
     const tables = getTable("16:1764: Source types").values.map(s => ({data: {source: s, tables: true}, name: s.Id}))
     const temp: any[] = []
@@ -282,10 +171,13 @@ export const handles: MainHandles = {
       }
     }
     const sourcesAndNodes = temp.map(t => ({data: t, name: `${t.source.Id} ${t.node.Id}`}))
+    const generators = getTable("51:412: Generation targets").values.map(v => ({name: v.Id, data: {generator: v}}))
+
     if (matchId("22:2180: Parse Nodes"))
       return sourcesAndNodes
     // .filter(n => n.name === "Figma TE other")
     if (matchId("22:2167: Show loaded data")) return sources
     if (matchId("22:2197: Parse Tables")) return tables
+    if (matchId("53:434: Write Test file")) return generators
   }
 }
