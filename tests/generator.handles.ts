@@ -5,7 +5,7 @@ import {getFigmaDocument} from "./serviceCalls/figmaServiceCalls";
 import {figmaExampleTE} from "./serviceCalls/data/figmaExamples";
 import {expectedDataFile, expectedHandlesFile} from "./serviceCalls/data/testFiles";
 
-export type State = { estridi: Estridi, parameters: EstridiParameters }
+export type State = { estridi: Estridi, parameters: EstridiParameters, writtenFiles: string[] }
 export const handles: GeneratorHandles = {
   handleSetup: async (args) => {
     return {} as State
@@ -14,10 +14,7 @@ export const handles: GeneratorHandles = {
     state.estridi.writeFile = vi.fn().mockImplementation((content, fileName) => {
       const a = 0 // debugging here!
     })
-    state.estridi.fileExists = vi.fn().mockImplementation(() => {
-      return !!variant.data?.fileExists
-    })
-    await state.estridi.generate()
+    state.writtenFiles = await state.estridi.generate()
   },
   handleServiceCall: async ({key, state, gateways, variant}) => {
     switch (key) {
@@ -33,6 +30,9 @@ export const handles: GeneratorHandles = {
       }
       case "1:380: Config file":
         state.estridi = estridi(state.parameters)
+        state.estridi.fileExists = vi.fn().mockImplementation(() => {
+          return gateways["53:456: Does handles file exist"] !== "no"
+        })
         state.estridi.loadConfig = () => {
           if (variant.data?.source) return {
             logging: "verbose",
@@ -231,6 +231,19 @@ export const handles: GeneratorHandles = {
         expect(state.estridi.writeFile).toHaveBeenNthCalledWith(2, expectedHandlesFile(generator["Test file name"]), `tests/main.handles.ts`)
         break
       }
+      case "53:478: Leave handles file unchanged": {
+        expect(state.estridi.writeFile).not.toHaveBeenCalledWith(expect.any(String), `tests/main.handles.ts`)
+        break
+      }
+      case "58:916: Done Tests written": {
+        const generator = variant.data.generator
+        expect(state.writtenFiles).toStrictEqual([
+          "tests/main.data.ts",
+          "tests/main.handles.ts",
+          `tests/main.${generator["Test file name"]}.ts`,
+        ])
+        break
+      }
       default:
         debugger
         throw `${key} not implemented`
@@ -274,6 +287,7 @@ export const handles: GeneratorHandles = {
     if (matchId("22:2197: Parse Tables")) return tables
     if (matchId("53:434: Write Test file for selected target")) return generators
     if (matchId("53:465: Write Handles file")) return generators
+    if (matchId("58:916: Done Tests written")) return generators
     if (matchId("58:877: Show filtered nodes connected to root")) return [{
       name: "Filtered nodes",
       data: {parameters: {rootName: "other"}}
@@ -282,7 +296,8 @@ export const handles: GeneratorHandles = {
     discouragedNodes: [
       "58:1027: Target not valid",
       "57:466: Root node not found",
-      "57:599: Show using default root"
+      "57:599: Show using default root",
+      "53:478: Leave handles file unchanged"
     ]
   }
 }
