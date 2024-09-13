@@ -90,9 +90,6 @@ export const estridi = (params: EstridiParameters) => {
   const _log: EstridiLog = []
   const generate = async () => {
     const config = ret.loadConfig()
-    // const log: LogFunc = (tag, data) => {
-    //   if (config.logging === "verbose") _log.push({data, tag})
-    // }
     if (!config) return undefined
     ret.log("loadedConfig", config)
     const data = await ret.loadData(config)
@@ -122,9 +119,7 @@ export const estridi = (params: EstridiParameters) => {
   }
 
   const ret = {
-    // getLog: (tag: LogEvents) => _log.findLast(l => l.tag === tag)?.data,
-    // getAllLog: (tag: LogEvents) => _log.filter(l => l.tag === tag)?.map(l => l.data),
-    log: (key: LogEvents, content: any)=>{},
+    log: (key: LogEvents, content: any)=>{}, // Override this to use logging.
     loadFigmaDocument,
     generate,
     loadData,
