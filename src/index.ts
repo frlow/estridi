@@ -90,28 +90,28 @@ export const estridi = (params: EstridiParameters) => {
   const _log: EstridiLog = []
   const generate = async () => {
     const config = ret.loadConfig()
-    const log: LogFunc = (tag, data) => {
-      if (config.logging === "verbose") _log.push({data, tag})
-    }
+    // const log: LogFunc = (tag, data) => {
+    //   if (config.logging === "verbose") _log.push({data, tag})
+    // }
     if (!config) return undefined
-    log("loadedConfig", config)
+    ret.log("loadedConfig", config)
     const data = await ret.loadData(config)
     if (!data) {
-      log("couldNotLoadData", null)
+      ret.log("couldNotLoadData", null)
       return undefined
     }
-    log("loadedData", data)
-    const processed = await process(config, data, log)
-    log("allParsed", processed)
+    ret.log("loadedData", data)
+    const processed = await process(config, data, ret.log)
+    ret.log("allParsed", processed)
 
     const validatedParams = validateParams(params, processed)
     if (validatedParams.error) {
-      log("parameterError", validatedParams.error)
+      ret.log("parameterError", validatedParams.error)
       return
     }
-    log("parametersUsed", validatedParams)
+    ret.log("parametersUsed", validatedParams)
     const filtered = filterScraped(processed, validatedParams.rootName!)
-    log("filteredNodes", filtered)
+    ret.log("filteredNodes", filtered)
     return generateTestFiles(config, filtered, ret, validatedParams.target!, validatedParams.rootName)
   }
 
@@ -122,9 +122,9 @@ export const estridi = (params: EstridiParameters) => {
   }
 
   const ret = {
-    getLog: (tag: LogEvents) => _log.findLast(l => l.tag === tag)?.data,
-    getAllLog: (tag: LogEvents) => _log.filter(l => l.tag === tag)?.map(l => l.data),
-    log: _log,
+    // getLog: (tag: LogEvents) => _log.findLast(l => l.tag === tag)?.data,
+    // getAllLog: (tag: LogEvents) => _log.filter(l => l.tag === tag)?.map(l => l.data),
+    log: (key: LogEvents, content: any)=>{},
     loadFigmaDocument,
     generate,
     loadData,

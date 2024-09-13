@@ -128,3 +128,41 @@ export const handles: MainHandles = {
   }
 }
 `
+
+export const expectedVitestFile = `import {describe, test} from 'vitest'
+import {createTester, Handles} from 'estridi'
+import {handles, State} from './main.handles.js'
+import {scraped} from './main.data.js'
+const {testNode, getVariants} = createTester(scraped, handles)
+const t = (id: string) => () => getVariants(id).forEach(v => test(v.name, () => testNode(id, {variant: v})))
+
+describe('main', () => {
+  describe('1:338: Show Data', t('1:338'))
+  describe('1:365: Show Done', t('1:365'))
+  describe('1:326: Clear Page', t('1:326'))
+})
+
+export type GatewayKey =
+    | '1:73: Any errors from backend'
+export type ServiceCallKey =
+    | '1:67: Get Data From Backend'
+export type ActionKey =
+    | '1:235: action - Next Clicked'
+    | '1:235: action - Cancel Clicked'
+export type TestNodeKey =
+    | '1:338: Show Data'
+    | '1:365: Show Done'
+    | '1:326: Clear Page'
+export type TableKeys =
+    | '9:415: My Table'
+
+export type MainHandles = Handles<
+    State,
+    GatewayKey,
+    ServiceCallKey,
+    TestNodeKey,
+    ActionKey,
+    {},
+    TableKeys
+>
+`

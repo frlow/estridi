@@ -1,91 +1,5 @@
 [
   {
-    "type": "end",
-    "text": "end",
-    "connections": {},
-    "id": "1:275"
-  },
-  {
-    "type": "input",
-    "text": "UnvalidatedPayment",
-    "connections": {},
-    "id": "1:282"
-  },
-  {
-    "type": "input",
-    "text": "",
-    "connections": {},
-    "id": "I1:282;8:175"
-  },
-  {
-    "type": "script",
-    "text": "Show Done",
-    "connections": {},
-    "id": "1:296"
-  },
-  {
-    "type": "script",
-    "text": "",
-    "connections": {},
-    "id": "I1:296;8:340"
-  },
-  {
-    "type": "message",
-    "text": "Show server error",
-    "connections": {},
-    "id": "1:308"
-  },
-  {
-    "type": "serviceCall",
-    "inputs": [],
-    "text": "Get Data From Backend",
-    "connections": {},
-    "id": "1:317"
-  },
-  {
-    "type": "gateway",
-    "text": "Any errors from backend",
-    "connections": {},
-    "id": "1:328"
-  },
-  {
-    "type": "userAction",
-    "text": "action",
-    "actions": [],
-    "connections": {},
-    "id": "1:336"
-  },
-  {
-    "type": "signalListen",
-    "text": "Next Clicked",
-    "connections": {},
-    "id": "1:346"
-  },
-  {
-    "type": "subprocess",
-    "text": "Next Page",
-    "connections": {},
-    "id": "1:355"
-  },
-  {
-    "type": "connector",
-    "text": "",
-    "connections": {},
-    "id": "1:454"
-  },
-  {
-    "type": "script",
-    "text": "Something",
-    "connections": {},
-    "id": "58:953"
-  },
-  {
-    "type": "script",
-    "text": "",
-    "connections": {},
-    "id": "I58:953;8:340"
-  },
-  {
     "type": "connector",
     "text": "",
     "connections": {
@@ -501,7 +415,9 @@
   {
     "type": "subprocess",
     "text": "Generate Tests",
-    "connections": {},
+    "connections": {
+      "78:1983": "Connector line"
+    },
     "id": "57:623",
     "linked": "47:2388"
   },
@@ -555,15 +471,6 @@
     "id": "58:916"
   },
   {
-    "type": "start",
-    "text": "root runner",
-    "rootName": "runner",
-    "connections": {
-      "58:953": "root:runner"
-    },
-    "id": "58:945"
-  },
-  {
     "type": "gateway",
     "text": "Is target valid",
     "connections": {
@@ -586,5 +493,402 @@
       "1:380": "Connector line"
     },
     "id": "58:1051"
+  },
+  {
+    "type": "end",
+    "text": "end",
+    "connections": {},
+    "id": "78:1983"
+  },
+  {
+    "type": "connector",
+    "text": "",
+    "connections": {
+      "78:2000": "Connector line"
+    },
+    "id": "76:1350"
+  },
+  {
+    "type": "gateway",
+    "text": "Node has variant",
+    "connections": {
+      "76:1304": "yes",
+      "78:2000": "no"
+    },
+    "id": "76:1261"
+  },
+  {
+    "type": "subprocess",
+    "text": "Relevant path",
+    "connections": {},
+    "id": "76:1211",
+    "linked": "76:1229"
+  },
+  {
+    "type": "script",
+    "text": "Return Variants for Id",
+    "connections": {},
+    "id": "76:1189"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I76:1189;8:340"
+  },
+  {
+    "type": "serviceCall",
+    "inputs": [],
+    "text": "Load scraped data",
+    "connections": {
+      "76:1110": "Connector line"
+    },
+    "id": "76:1168"
+  },
+  {
+    "type": "end",
+    "text": "end",
+    "connections": {},
+    "id": "76:1121"
+  },
+  {
+    "type": "userAction",
+    "text": "action",
+    "actions": [
+      "76:1143",
+      "76:1153"
+    ],
+    "connections": {
+      "76:1121": "Connector line"
+    },
+    "id": "76:1110"
+  },
+  {
+    "type": "start",
+    "text": "root runner",
+    "rootName": "runner",
+    "connections": {
+      "76:1168": "root:runner"
+    },
+    "id": "58:945"
+  },
+  {
+    "type": "signalListen",
+    "text": "Get variants",
+    "connections": {
+      "76:1189": "Connector line"
+    },
+    "id": "76:1143"
+  },
+  {
+    "type": "signalListen",
+    "text": "Test node",
+    "connections": {
+      "76:1211": "Connector line"
+    },
+    "id": "76:1153"
+  },
+  {
+    "type": "start",
+    "text": "Relevant path",
+    "connections": {
+      "76:1241": "Relevant path"
+    },
+    "id": "76:1229"
+  },
+  {
+    "type": "message",
+    "text": "Filter all paths containing node",
+    "connections": {
+      "76:1261": "Connector line"
+    },
+    "id": "76:1241"
+  },
+  {
+    "type": "gateway",
+    "text": "Variant has via",
+    "connections": {
+      "76:1322": "yes",
+      "76:1350": "no"
+    },
+    "id": "76:1304"
+  },
+  {
+    "type": "message",
+    "text": "Filter paths containing all via nodes",
+    "connections": {
+      "76:1350": "Connector line"
+    },
+    "id": "76:1322"
+  },
+  {
+    "type": "gateway",
+    "text": "Any discouraged nodes",
+    "connections": {
+      "76:1417": "no",
+      "77:1572": "Connector line"
+    },
+    "id": "76:1372"
+  },
+  {
+    "type": "connector",
+    "text": "",
+    "connections": {
+      "76:1484": "Connector line"
+    },
+    "id": "76:1417"
+  },
+  {
+    "type": "message",
+    "text": "Use shortest path",
+    "connections": {
+      "77:1692": "Connector line"
+    },
+    "id": "76:1484"
+  },
+  {
+    "type": "gateway",
+    "text": "Any suggested paths left",
+    "connections": {
+      "77:1609": "Connector line",
+      "77:1635": "Connector line"
+    },
+    "id": "77:1572"
+  },
+  {
+    "type": "message",
+    "text": "Filter discouraged paths",
+    "connections": {
+      "76:1417": "Connector line"
+    },
+    "id": "77:1609"
+  },
+  {
+    "type": "message",
+    "text": "Don t filter discouraged paths",
+    "connections": {
+      "76:1417": "Connector line"
+    },
+    "id": "77:1635"
+  },
+  {
+    "type": "end",
+    "text": "end",
+    "connections": {},
+    "id": "77:1675"
+  },
+  {
+    "type": "subprocess",
+    "text": "Process path",
+    "connections": {
+      "77:1675": "Connector line"
+    },
+    "id": "77:1692",
+    "linked": "77:1724"
+  },
+  {
+    "type": "start",
+    "text": "Process path",
+    "connections": {
+      "78:1739": "Process path"
+    },
+    "id": "77:1724"
+  },
+  {
+    "type": "message",
+    "text": "Show args testLib args getTable gateways variant",
+    "connections": {
+      "78:1749": "Connector line"
+    },
+    "id": "78:1739"
+  },
+  {
+    "type": "script",
+    "text": "Call setup args",
+    "connections": {
+      "78:1766": "Connector line"
+    },
+    "id": "78:1749"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I78:1749;8:340"
+  },
+  {
+    "type": "script",
+    "text": "Call serviceCalls args serviceCallKey state",
+    "connections": {
+      "78:1798": "Connector line"
+    },
+    "id": "78:1766"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I78:1766;8:340"
+  },
+  {
+    "type": "script",
+    "text": "Call start args state",
+    "connections": {
+      "78:1843": "Connector line"
+    },
+    "id": "78:1798"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I78:1798;8:340"
+  },
+  {
+    "type": "script",
+    "text": "Call actions before tested node args actionKey state",
+    "connections": {
+      "78:1892": "Connector line"
+    },
+    "id": "78:1843"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I78:1843;8:340"
+  },
+  {
+    "type": "script",
+    "text": "Call testNode args testNodeKey state",
+    "connections": {
+      "78:1958": "Connector line"
+    },
+    "id": "78:1865"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I78:1865;8:340"
+  },
+  {
+    "type": "gateway",
+    "text": "Variant has extra action",
+    "connections": {
+      "78:1923": "yes",
+      "78:1915": "no"
+    },
+    "id": "78:1892"
+  },
+  {
+    "type": "connector",
+    "text": "",
+    "connections": {
+      "78:1865": "Connector line"
+    },
+    "id": "78:1915"
+  },
+  {
+    "type": "script",
+    "text": "Call extraAction args state",
+    "connections": {
+      "78:1915": "Connector line"
+    },
+    "id": "78:1923"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I78:1923;8:340"
+  },
+  {
+    "type": "end",
+    "text": "end",
+    "connections": {},
+    "id": "78:1958"
+  },
+  {
+    "type": "connector",
+    "text": "",
+    "connections": {
+      "76:1372": "Connector line"
+    },
+    "id": "78:2000"
+  },
+  {
+    "type": "end",
+    "text": "end",
+    "connections": {},
+    "id": "1:275"
+  },
+  {
+    "type": "input",
+    "text": "UnvalidatedPayment",
+    "connections": {},
+    "id": "1:282"
+  },
+  {
+    "type": "input",
+    "text": "",
+    "connections": {},
+    "id": "I1:282;8:175"
+  },
+  {
+    "type": "script",
+    "text": "Show Done",
+    "connections": {},
+    "id": "1:296"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I1:296;8:340"
+  },
+  {
+    "type": "message",
+    "text": "Show server error",
+    "connections": {},
+    "id": "1:308"
+  },
+  {
+    "type": "serviceCall",
+    "inputs": [],
+    "text": "Get Data From Backend",
+    "connections": {},
+    "id": "1:317"
+  },
+  {
+    "type": "gateway",
+    "text": "Any errors from backend",
+    "connections": {},
+    "id": "1:328"
+  },
+  {
+    "type": "userAction",
+    "text": "action",
+    "actions": [],
+    "connections": {},
+    "id": "1:336"
+  },
+  {
+    "type": "signalListen",
+    "text": "Next Clicked",
+    "connections": {},
+    "id": "1:346"
+  },
+  {
+    "type": "subprocess",
+    "text": "Next Page",
+    "connections": {},
+    "id": "1:355"
+  },
+  {
+    "type": "connector",
+    "text": "",
+    "connections": {},
+    "id": "1:454"
   }
 ]

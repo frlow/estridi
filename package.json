@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "estridi": "pnpm dlx estridi",
+    "estridi": "estridi",
     "tsc": "tsc"
   },
   "dependencies": {
     "figma-api": "^1.11.0",
-    "estridi": "^0.4.6",
+    "estridi": "^0.4.7",
     "vitest": "^2.0.5"
   },
   "devDependencies": {

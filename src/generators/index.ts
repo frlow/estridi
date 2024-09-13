@@ -19,7 +19,8 @@ export type GenerationKeys = {
   actionKeys: string[],
   scriptKeys: string[],
   tableKeys: string[],
-  name: string
+  name: string,
+  importSource?: string
 }
 
 export const getKeysString = (keys: string[]) => {

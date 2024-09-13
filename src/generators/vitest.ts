@@ -5,7 +5,7 @@ import {createTester, Handles} from 'estridi'
 import {handles, State} from './${keys.name}.handles.js'
 import {scraped} from './${keys.name}.data.js'
 const {testNode, getVariants} = createTester(scraped, handles)
-const t = (id: string) => () => getVariants(id).forEach(v => test(v.name, () => testNode(id, {v})))
+const t = (id: string) => () => getVariants(id).forEach(v => test(v.name, () => testNode(id, {variant: v})))
 
 describe('${keys.name}', () => {
 ${keys.scriptKeys.map(key => `  describe('${key}', t('${key.split(": ")[0]}'))`).join("\n")}
@@ -14,7 +14,7 @@ ${keys.scriptKeys.map(key => `  describe('${key}', t('${key.split(": ")[0]}'))`)
 export type GatewayKey =
 ${getKeysString(keys.gatewayKeys)}
 export type ServiceCallKey =
-${getKeysString(keys.gatewayKeys)}
+${getKeysString(keys.serviceCallKeys)}
 export type ActionKey =
 ${getKeysString(keys.actionKeys)}
 export type TestNodeKey =

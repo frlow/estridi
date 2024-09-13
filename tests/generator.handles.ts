@@ -1,23 +1,27 @@
 import type {GeneratorHandles} from './generator.test.js'
-import {estridi, Estridi, EstridiConfig, EstridiParameters, EstridiTargets} from '../src'
+import {estridi, Estridi, EstridiConfig, EstridiParameters, EstridiTargets, LogEvents} from '../src'
 import {expect, vi} from "vitest";
 import {getFigmaDocument} from "./serviceCalls/figmaServiceCalls";
 import {figmaExampleTE} from "./serviceCalls/data/figmaExamples";
-import {expectedDataFile, expectedHandlesFile} from "./serviceCalls/data/testFiles";
-import * as fs from "fs";
-import path from "path";
+import {expectedDataFile, expectedHandlesFile, expectedVitestFile} from "./serviceCalls/data/testFiles";
 
-export type State = { estridi: Estridi, parameters: EstridiParameters, writtenFiles: string[] }
+export type State = {
+  estridi: Estridi,
+  parameters: EstridiParameters,
+  writtenFiles: string[],
+  log: { key: LogEvents, data: any }[],
+  getLog: (key: LogEvents) => any
+}
 export const handles: GeneratorHandles = {
   handleSetup: async (args) => {
-    return {} as State
+    return {
+      log: []
+    } as State
   },
   handleStart: async ({state, variant}) => {
-    state.estridi.writeFile = vi.fn().mockImplementation((content, fileName) => {
-      fs.mkdirSync("demo/tests", {recursive: true})
-      fs.writeFileSync(path.join("demo", fileName), content, 'utf8')
-      const a = 0 // debugging here!
-    })
+    state.getLog = key => state.log.findLast(l => l.key === key)!.data
+    state.estridi.writeFile = vi.fn()
+    state.estridi.log = (key, content) => state.log.push({data: content, key})
     state.writtenFiles = await state.estridi.generate()
   },
   handleServiceCall: async ({key, state, gateways, variant}) => {
@@ -78,13 +82,13 @@ export const handles: GeneratorHandles = {
   handleTestNode: async ({state, key, variant, getTable}) => {
     switch (key) {
       case "22:2100: Could not load config":
-        expect(state.estridi.log).toStrictEqual([])
+        expect(state.log).toStrictEqual([])
         break
       case "22:2150: Could not load data":
-        expect(state.estridi.getLog("couldNotLoadData")).toStrictEqual(null)
+        expect(state.getLog("couldNotLoadData")).toStrictEqual(null)
         break
       case "22:2121: Show loaded config": {
-        expect(state.estridi.getLog("loadedConfig")).toStrictEqual({
+        expect(state.getLog("loadedConfig")).toStrictEqual({
           "logging": "verbose",
           "type": "figma",
           "variant": "TE",
@@ -93,7 +97,7 @@ export const handles: GeneratorHandles = {
       }
       case "22:2167: Show loaded data": {
         if (variant.data.source.Family === "figma" && variant.data.source.Variant === "TE")
-          expect(state.estridi.getLog("loadedData")).toStrictEqual(figmaExampleTE)
+          expect(state.getLog("loadedData")).toStrictEqual(figmaExampleTE)
         else
           debugger
         break
@@ -101,8 +105,8 @@ export const handles: GeneratorHandles = {
       case "22:2180: Parse Nodes": {
         const type: string = variant.data.node.Alias || variant.data.node.Id
         const logName = `parsed${type[0].toUpperCase()}${type.substring(1)}`
-        let node = state.estridi.getLog(logName as any)
-        if (type === "other") node = state.estridi.log.find(l => l.tag === "parsedOther" && l.data.next).data
+        let node = state.getLog(logName as any)
+        if (type === "other") node = state.log.find(l => l.key === "parsedOther" && l.data.next).data
         const props = Object.entries(variant.data.node).filter(e => e[1] === "x").map(e => e[0])
         expect(node.id).toBeTruthy()
         for (const prop of props)
@@ -140,7 +144,7 @@ export const handles: GeneratorHandles = {
         break
       }
       case "22:2197: Parse Tables":
-        expect(state.estridi.getLog("parsedTable")).toStrictEqual({
+        expect(state.getLog("parsedTable")).toStrictEqual({
           "id": "TableId",
           "rows": [
             [".My Table", "Column1", "Column2",],
@@ -152,32 +156,32 @@ export const handles: GeneratorHandles = {
         })
         break
       case "39:2363: Show parsed nodes and tables": {
-        expect(state.estridi.getLog("allParsed").length).toEqual(121) // Amount of nodes in the example data
+        expect(state.getLog("allParsed").length).toEqual(121) // Amount of nodes in the example data
         break
       }
       case "57:503: Document must contain exactly one root":
-        expect(state.estridi.getLog("parameterError")).toEqual("Root name must be set if more than one root exists")
+        expect(state.getLog("parameterError")).toEqual("Root name must be set if more than one root exists")
         break
       case "57:466: Root node not found":
-        expect(state.estridi.getLog("parameterError")).toEqual("Root node not found")
+        expect(state.getLog("parameterError")).toEqual("Root node not found")
         break
       case "57:599: Show using default root":
-        expect(state.estridi.getLog("parametersUsed").rootName).toEqual("main")
+        expect(state.getLog("parametersUsed").rootName).toEqual("main")
         break
       case "57:567: Show using defined root":
-        expect(state.estridi.getLog("parametersUsed").rootName).toEqual("main")
+        expect(state.getLog("parametersUsed").rootName).toEqual("main")
         break
       case "58:707: Default target playwright":
-        expect(state.estridi.getLog("parametersUsed").target).toEqual("playwright")
+        expect(state.getLog("parametersUsed").target).toEqual("playwright")
         break
       case "58:1027: Target not valid":
-        expect(state.estridi.getLog("parameterError")).toEqual("Target not valid")
+        expect(state.getLog("parameterError")).toEqual("Target not valid")
         break
       case "58:734: Show target":
-        expect(state.estridi.getLog("parametersUsed").target).toEqual("vitest")
+        expect(state.getLog("parametersUsed").target).toEqual("vitest")
         break
       case "58:877: Show filtered nodes connected to root":
-        expect(state.estridi.getLog("filteredNodes")).toStrictEqual([
+        expect(state.getLog("filteredNodes")).toStrictEqual([
           {
             "id": "26:135",
             "isRoot": true,
@@ -221,8 +225,8 @@ export const handles: GeneratorHandles = {
       case "53:434: Write Test file for selected target": {
         const generator = variant.data.generator
         switch (generator.Id) {
-          case "playwright":
-            expect(state.estridi.writeFile).toHaveBeenNthCalledWith(3, "soudhufsd", `tests/test.${generator["Test file name"]}.ts`)
+          case "vitest":
+            expect(state.estridi.writeFile).toHaveBeenNthCalledWith(3, expectedVitestFile, `tests/main.${generator["Test file name"]}.ts`)
             break
           default:
             debugger
