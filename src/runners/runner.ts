@@ -34,7 +34,7 @@ export type Variant<T> = {
   data?: any,
   skipped?: boolean,
   customTest?: (config: any, id: string) => Promise<void>,
-  extraAction?: (config: any)=>Promise<void>
+  extraAction?: (config: any) => Promise<void>
 }
 
 export type Handles<
@@ -79,6 +79,9 @@ export type Handles<
     matchId: (key: TNodeKey) => boolean
     getTable: (id: TTableKeys) => Table
   }) => Variant<TTableKeys | TActionKey | TNodeKey | TServiceCallKey | TGWKey>[] | undefined
+  config?: {
+    discouragedNodes?: (TActionKey | TNodeKey | TServiceCallKey | TGWKey)[]
+  }
 }
 
 const getGateways = (pathToTest: any[]) =>
@@ -128,7 +131,12 @@ const getRealKey = (key: string) => key.split(': ')[0]
 type Config = { args: any, handles: Handles, allPaths: string[][], scraped: any }
 const findRelevantPath = (ids: string[], config: Config) => {
   const relevantPaths = config.allPaths
-    .filter((path) => ids.every((id) => path.includes(id)))
+    .filter((path) => ids.every((id) => {
+      const discouraged = (config.handles.config?.discouragedNodes || []).map(d => getRealKey(d)).filter(d => !ids.includes(d))
+      if(path.some(p=>discouraged.includes(p)))
+        return false
+      return path.includes(id)
+    }))
     .map((path) =>
       path.map((id) => config.scraped.find((s: any) => s.id === id))
     )
@@ -180,7 +188,7 @@ export const runTest = async (
         { ...args, key: `${node!.id}: ${node!.text}` })
     else if (node!.id === id) {
       // Handle Node Test
-      if(config.args.variant.extraAction)
+      if (config.args.variant.extraAction)
         await config.args.variant.extraAction(config)
       await handleTestNode(
         { ...args, key: `${node!.id}: ${node!.text}`, path: pathToTest.map((n: any) => n.text) }

@@ -1,4 +1,4 @@
-import { GenerationResult, Scraped, scrapedFile, testedNodeTypes } from '../common.js'
+import { GenerationResult, Scraped, testedNodeTypes } from '../common.js'
 import { getTestData } from '../utils/testData.js'
 import * as path from 'node:path'
 import { generateTestKeys } from './testKeys.js'

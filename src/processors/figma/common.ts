@@ -21,7 +21,7 @@ export const processFigmaDocument = (document: any, getNodeMetadata: (node: any)
   return mappedNodes
 }
 
-export const sanitizeText = (text: string)=>text.replaceAll(allowedRegex, ' ')
+export const sanitizeText = (text: string) => text.replaceAll(allowedRegex, ' ')
   .replace(/\n/g, ' ')
   .replace(/ +/g, ' ')
   .trim()
@@ -37,10 +37,12 @@ export function getConnections(node: any) {
 
 export const getTableMetadata = (node: any) => {
   if (node.type !== 'TABLE') return undefined
-  const rows: string[][] = Object.values(node.children.reduce((acc: Record<string, string[]>, cur: any) => ({
-    ...acc,
-    [cur.absoluteBoundingBox.y]: [...(acc[cur.absoluteBoundingBox.y] || []), cur.characters]
-  }), {}))
+  const rows: string[][] = Object.values(node.children.reduce((acc: Record<string, string[]>, cur: any) => {
+    return {
+      ...acc,
+      [cur.absoluteBoundingBox.y + 10000000]: [...(acc[cur.absoluteBoundingBox.y + 10000000] || []), cur.characters]
+    }
+  }, {}))
   const headers = rows[0]
   const corner = rows[0][0]
   if (!corner.startsWith('.')) return undefined
@@ -75,7 +77,6 @@ export const isInside = (host: Points, child: Points) => {
   if (compare(child.x1, child.y1)) return true
   return false
 }
-
 
 
 export type NodeMetadata = {
