@@ -526,7 +526,7 @@
   },
   {
     "type": "script",
-    "text": "Return Variants for Id",
+    "text": "Return Variants for node",
     "connections": {},
     "id": "76:1189"
   },
@@ -576,7 +576,7 @@
     "type": "signalListen",
     "text": "Get variants",
     "connections": {
-      "76:1189": "Connector line"
+      "94:2102": "Connector line"
     },
     "id": "76:1143"
   },
@@ -690,7 +690,7 @@
     "type": "start",
     "text": "Process path",
     "connections": {
-      "78:1739": "Process path"
+      "87:2067": "Process path"
     },
     "id": "77:1724"
   },
@@ -816,6 +816,48 @@
       "76:1372": "Connector line"
     },
     "id": "78:2000"
+  },
+  {
+    "type": "gateway",
+    "text": "Variant has custom test",
+    "connections": {
+      "78:1739": "no",
+      "87:2080": "yes"
+    },
+    "id": "87:2067"
+  },
+  {
+    "type": "script",
+    "text": "Call custom test",
+    "connections": {},
+    "id": "87:2080"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I87:2080;8:340"
+  },
+  {
+    "type": "gateway",
+    "text": "Node has any variants",
+    "connections": {
+      "76:1189": "yes",
+      "94:2126": "no"
+    },
+    "id": "94:2102"
+  },
+  {
+    "type": "script",
+    "text": "Return default variant",
+    "connections": {},
+    "id": "94:2126"
+  },
+  {
+    "type": "script",
+    "text": "",
+    "connections": {},
+    "id": "I94:2126;8:340"
   },
   {
     "type": "end",
