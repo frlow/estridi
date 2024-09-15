@@ -132,15 +132,15 @@ type Config = { args: any, handles: Handles, allPaths: string[][], scraped: any 
 const findRelevantPath = (ids: string[], config: Config) => {
   const relevantPaths = config.allPaths
     .filter((path) => ids.every((id) => {
-      const discouraged = (config.handles.config?.discouragedNodes || []).map(d => getRealKey(d)).filter(d => !ids.includes(d))
-      if(path.some(p=>discouraged.includes(p)))
-        return false
-      return path.includes(id)
+      return path.includes(id);
     }))
-    .map((path) =>
-      path.map((id) => config.scraped.find((s: any) => s.id === id))
-    )
-  return relevantPaths.reduce((acc, cur) => cur.length < acc.length ? cur : acc, relevantPaths[0])
+    .map((path) => path.map((id) => config.scraped.find((s: any) => s.id === id)));
+  const discouragedIds = (config.handles.config?.discouragedNodes || []).map(d=>getRealKey(d))
+  const encouraged = relevantPaths.filter(rp=>!rp.some(p=>{
+    return discouragedIds.includes(p.id)
+  }))
+  const temp = encouraged.length > 0 ? encouraged : relevantPaths
+  return temp.reduce((acc, cur) => cur.length < acc.length ? cur : acc, temp[0]);
 }
 
 export const runTest = async (
