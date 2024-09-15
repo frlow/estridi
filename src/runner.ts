@@ -63,7 +63,7 @@ export type Handles<
   }) => string[][]
   variants?: (args: {
     id: string,
-    scraped: Scraped,
+    // scraped: Scraped,
     matchId: (key: TNodeKey) => boolean
     getTable: (id: TTableKeys) => Table
   }) => Variant<TTableKeys | TActionKey | TNodeKey | TServiceCallKey | TGWKey>[] | undefined
@@ -72,28 +72,28 @@ export type Handles<
   }
 }
 
+function getTable(id: any, scraped: Scraped): Table {
+  debugger
+  throw "Not implemented"
+}
 
 export const createTester = <THandles extends Handles>(scraped: Scraped, handles: THandles) => {
-  const relevantPath = []
-
-  function runTest({handles, args, relevantPath}: { args: any; handles: THandles; relevantPath: any[] }, id: string) {
+  function runTest({handles, args}: { args: any; handles: THandles }, id: string) {
+    const relevantPath = []
     debugger
     throw "Not implemented!"
   }
 
-  const testNode = (id: string, args?: any) => runTest({relevantPath, args, handles}, id)
-
-  function getTable(id: string, scraped: Scraped): Table {
-    debugger
-    throw "Not implemented!"
-  }
+  const testNode = (id: string, args?: any) => runTest({args, handles}, id)
 
   const getVariants: (id: string) => Variant<any>[] = (id) =>
       handles.variants ? handles.variants({
-        scraped,
         id,
+        getTable: (key: string) => getTable(key, scraped),
         matchId: (key: string) => key.includes(id),
-        getTable: (id: string) => getTable(id, scraped)
       }) || [{name: id}] : [{name: id}]
   return {testNode, getVariants}
 }
+
+// TODO: matchId
+// TODO: getTable

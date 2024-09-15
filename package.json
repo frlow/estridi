@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "figma-api": "^1.11.0",
-    "estridi": "^0.4.8",
+    "estridi": "^0.4.9",
     "vitest": "^2.0.5"
   },
   "devDependencies": {

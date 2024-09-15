@@ -13,9 +13,7 @@ export type RootsConfig = string[] | boolean | undefined
 export const estridiTargets = ['playwright', 'vitest'] as const
 export type EstridiTargets = typeof estridiTargets[number]
 
-export type BaseConfig = {
-  logging: "normal" | "verbose"
-}
+export type BaseConfig = {}
 
 export type EstridiParameters = { target?: EstridiTargets, rootName?: string }
 
@@ -23,7 +21,7 @@ export type FigmaConfig = {
   token: string
   fileId: string
   type: "figma"
-  variant: "TE" | "Open"
+  variant: "TE"
 } & BaseConfig
 
 export type EstridiConfig = FigmaConfig

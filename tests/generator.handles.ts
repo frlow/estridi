@@ -43,13 +43,11 @@ export const handles: GeneratorHandles = {
         })
         state.estridi.loadConfig = () => {
           if (variant.data?.source) return {
-            logging: "verbose",
             type: variant.data?.source?.Family,
             variant: variant.data?.source?.Variant
           } as EstridiConfig
           else if (gateways["22:2092: Errors loading config"] === "yes") return undefined
           return {
-            logging: "verbose",
             type: "figma",
             variant: "TE"
           } as EstridiConfig
@@ -89,7 +87,6 @@ export const handles: GeneratorHandles = {
         break
       case "22:2121: Show loaded config": {
         expect(state.getLog("loadedConfig")).toStrictEqual({
-          "logging": "verbose",
           "type": "figma",
           "variant": "TE",
         })

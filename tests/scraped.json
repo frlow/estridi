@@ -568,7 +568,7 @@
     "text": "root runner",
     "rootName": "runner",
     "connections": {
-      "76:1168": "root:runner"
+      "104:2156": "root:runner"
     },
     "id": "58:945"
   },
@@ -858,6 +858,15 @@
     "text": "",
     "connections": {},
     "id": "I94:2126;8:340"
+  },
+  {
+    "type": "serviceCall",
+    "inputs": [],
+    "text": "Load handles",
+    "connections": {
+      "76:1168": "Connector line"
+    },
+    "id": "104:2156"
   },
   {
     "type": "end",

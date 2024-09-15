@@ -37,6 +37,7 @@ export type GatewayKey =
   | '87:2067: Variant has custom test'
   | '78:1892: Variant has extra action'
 export type ServiceCallKey =
+  | '104:2156: Load handles'
   | '76:1168: Load scraped data'
 export type ActionKey =
   | '76:1153: Test node'
