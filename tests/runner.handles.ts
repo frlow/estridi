@@ -12,7 +12,8 @@ export type State = {
   variants: Variant<any>[],
   tester: ReturnType<typeof createTester>,
   testHandles: Handles,
-  log: { eventType: LogEventType, msg: any }[]
+  log: { eventType: LogEventType, msg: any }[],
+  error: Error
 }
 export const handles: RunnerHandles = {
   handleSetup: async () => {
@@ -53,6 +54,8 @@ export const handles: RunnerHandles = {
           state.variant = {name: "MyVariant"}
         if (gateways["76:1304: Variant has via"] === "yes")
           state.variant.via = ["40:171"]
+        if (gateways["110:2342: Any path containing all via nodes"] === "no")
+          state.variant.via = ["dummy1", "dummy2"]
         if (gateways["76:1372: Any discouraged nodes"] === "no")
           state.testHandles.config.discouragedNodes = undefined
         else if (gateways["77:1572: Any suggested paths left"] === "no")
@@ -68,11 +71,14 @@ export const handles: RunnerHandles = {
         throw `${key} not implemented`
     }
   },
-  handleAction: async ({state, key}) => {
+  handleAction: async ({state, key, gateways}) => {
     switch (key) {
-      case "76:1153: Test node":
-        await state.tester.testNode("1:365", {variant: state.variant})
+      case "76:1153: Test node": {
+        let id = "1:365"
+        if (gateways["110:2290: Any paths containing node"] === "no") id = "dummy"
+        await state.tester.testNode(id, {libArg: "dummy", variant: state.variant}).catch(e => state.error = e)
         break
+      }
       case "76:1143: Get variants":
         state.variants = state.tester.getVariants("MyNode")
         break
@@ -146,11 +152,50 @@ export const handles: RunnerHandles = {
         expect(state.variant.customTest).toHaveBeenCalled()
         break
       }
+      case "110:2303: No paths containing node":
+        expect(state.error).toStrictEqual("No paths containing node: dummy")
+        break
+      case "110:2327: No paths containing all via nodes":
+        expect(state.error).toStrictEqual("No paths containing all via nodes: dummy1, dummy2")
+        break
+      case  "78:1739: Show args testLib args getTable gateways variant":
+        const testArgs = state.log.find(l => l.eventType === "testArgs").msg
+        expect(Object.keys(testArgs)).toStrictEqual([
+          "variant",
+          "libArg",
+          "getTable",
+          "gateways"
+        ])
+        expect(testArgs.variant).toStrictEqual({name: "MyVariant"})
+        expect(testArgs.libArg).toStrictEqual("dummy")
+        expect(testArgs.gateways).toStrictEqual({
+          "1:73: Any errors from backend": "no",
+          "40:145: Shorter or longer": "shorter",
+        })
+        const table = testArgs.getTable("9:415: My Table")
+        expect(table.values).toStrictEqual([
+          {
+            "Id": "Line 1",
+            "First": "AAAA",
+            "Second": "BBBB",
+          },
+          {
+            "Id": "Line 2",
+            "First": "CCCC",
+            "Second": "DDDD",
+          },
+        ])
+        break
       default:
         debugger
         throw `${key} not implemented`
     }
   },
+  variants: ({matchId}) => {
+    if (matchId("78:1739: Show args testLib args getTable gateways variant"))
+      return [{name: "78:1739", via: ["76:1304: Variant has via"]}]
+  },
+
   config: {
     discouragedNodes: [
       "87:2080: Call custom test",

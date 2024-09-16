@@ -17,7 +17,7 @@ describe('runner', () => {
   describe('message: No paths containing node, 110:2303', t('110:2303'))
   describe('message: Filter all paths containing node, 76:1241', t('76:1241'))
   describe('message: Don t filter nodes by via, 108:2187', t('108:2187'))
-  describe('message: No paths containing node, 110:2327', t('110:2327'))
+  describe('message: No paths containing all via nodes, 110:2327', t('110:2327'))
   describe('message: Filter paths containing all via nodes, 76:1322', t('76:1322'))
   describe('message: Don t filter discouraged, 108:2237', t('108:2237'))
   describe('message: Include discouraged paths, 77:1635', t('77:1635'))
@@ -56,7 +56,7 @@ export type TestNodeKey =
   | '110:2303: No paths containing node'
   | '76:1241: Filter all paths containing node'
   | '108:2187: Don t filter nodes by via'
-  | '110:2327: No paths containing node'
+  | '110:2327: No paths containing all via nodes'
   | '76:1322: Filter paths containing all via nodes'
   | '108:2237: Don t filter discouraged'
   | '77:1635: Include discouraged paths'

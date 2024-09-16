@@ -909,7 +909,7 @@
   },
   {
     "type": "message",
-    "text": "No paths containing node",
+    "text": "No paths containing all via nodes",
     "connections": {},
     "id": "110:2327"
   },

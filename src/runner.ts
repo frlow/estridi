@@ -1,4 +1,4 @@
-import {Scraped, ScrapedStart} from "./scraped";
+import {Scraped, ScrapedGateway, ScrapedStart, ScrapedTable} from "./scraped";
 
 export type HandleArgs<TState, TNodeTestArgs, TTableKeys> = TNodeTestArgs & {
   state: TState,
@@ -71,6 +71,44 @@ export type Handles<
     discouragedNodes?: (TActionKey | TNodeKey | TServiceCallKey | TGWKey)[]
   }
 }
+export const createTable = ({rows, id, text}: ScrapedTable): Table => {
+  const headers = rows[0]
+  const content = rows.slice(1)
+  return {
+    text,
+    id,
+    headers,
+    content,
+    get values() {
+      return content.map(row => headers.slice(1).reduce((acc, cur) => {
+        const index = headers.indexOf(cur)
+        acc[cur] = row[index]
+        return acc
+      }, {Id: row[0]} as Record<string, string>))
+    },
+    get signature() {
+      function hashCode(str: string) {
+        let hash = 0
+        for (let i = 0, len = str.length; i < len; i++) {
+          let chr = str.charCodeAt(i)
+          hash = (hash << 5) - hash + chr
+          hash |= 0 // Convert to 32bit integer
+        }
+        return Math.abs(hash).toString().substring(0, 4).padStart(4, '0')
+      }
+
+      return (
+          '\n' +
+          [
+            headers.map((h) => hashCode(h)).join('|'),
+            ...content.map((line) => line.map((v) => hashCode(v)).join('|'))
+          ].join('\n') +
+          '\n'
+      )
+    }
+  }
+}
+
 const getRealKey = (key: string) => key.split(': ')[0]
 export type LogEventType =
     | "allPaths"
@@ -78,13 +116,18 @@ export type LogEventType =
     | "viaFilteredNodes"
     | "discouragedFilterNodes"
     | "shortestPath"
+    | "testArgs"
 export type LogFunc = (eventType: LogEventType, msg: any) => void
 export const createTester = <THandles extends Handles>(scraped: Scraped, handles: THandles, log?: LogFunc) => {
 
 
   async function runTest({handles, args}: { args: any; handles: THandles }, id: string) {
+    const variant: Variant<any> = args.variant || {name: id}
+    const getNode = (id: string) => scraped.find(n => n.id === id)
+    const getTable = (key: string) =>
+        createTable(scraped.find((n) => n.type === 'table' && `${n.id}: ${n.text}` === key) as ScrapedTable)
+
     function findRelevantPath() {
-      const getNode = (id: string) => scraped.find(n => n.id === id)
       const rootId = scraped.find((n: ScrapedStart) => n.isRoot).id
       const getNext = (node: any): string[] => [
         node.next,
@@ -105,10 +148,11 @@ export const createTester = <THandles extends Handles>(scraped: Scraped, handles
       }
       log && log("allPaths", paths)
       const pathsWithNode = paths.filter(p => p.includes(id))
+      if (pathsWithNode.length === 0) throw `No paths containing node: ${id}`
       log && log("pathContainingNode", pathsWithNode)
-      const variant: Variant<any> = args.variant || {name: id}
       const via = variant?.via || []
       const viaFiltered = pathsWithNode.filter(p => via.every(v => p.includes(v)))
+      if (viaFiltered.length === 0) throw `No paths containing all via nodes: ${via.join(", ")}`
       log && log("viaFilteredNodes", viaFiltered)
       const discouraged = (handles.config?.discouragedNodes || []).map(d => getRealKey(d))
       const encouragedPaths = viaFiltered.filter(p => discouraged.every(d => !p.includes(d)))
@@ -119,7 +163,19 @@ export const createTester = <THandles extends Handles>(scraped: Scraped, handles
       return shortestPath
     }
 
+    if (variant.customTest) {
+      await variant.customTest({args}, id)
+      // return
+    }
     const relevantPath = findRelevantPath()
+    const gateways = relevantPath.reduce((acc, cur, i, arr) => {
+      const gw = getNode(cur) as ScrapedGateway
+      if (gw.options)
+        acc[`${gw.id}: ${gw.text}`] = gw.options[arr[i + 1]]
+      return acc
+    }, {})
+    const testArgs = {variant, ...args, getTable, gateways}
+    log && log("testArgs", testArgs)
   }
 
   function getTable(key: string) {
