@@ -13,11 +13,16 @@ const t = (id: string) => () => {
 describe('runner', () => {
   describe('script: Return default variant, 94:2126', t('94:2126'))
   describe('script: Return Variants for node, 76:1189', t('76:1189'))
+  describe('message: List all paths, 109:2256', t('109:2256'))
+  describe('message: No paths containing node, 110:2303', t('110:2303'))
   describe('message: Filter all paths containing node, 76:1241', t('76:1241'))
+  describe('message: Don t filter nodes by via, 108:2187', t('108:2187'))
+  describe('message: No paths containing node, 110:2327', t('110:2327'))
   describe('message: Filter paths containing all via nodes, 76:1322', t('76:1322'))
-  describe('message: Don t filter discouraged paths, 77:1635', t('77:1635'))
+  describe('message: Don t filter discouraged, 108:2237', t('108:2237'))
+  describe('message: Include discouraged paths, 77:1635', t('77:1635'))
+  describe('message: Filter encouraged paths, 77:1609', t('77:1609'))
   describe('message: Use shortest path, 76:1484', t('76:1484'))
-  describe('message: Filter discouraged paths, 77:1609', t('77:1609'))
   describe('script: Call custom test, 87:2080', t('87:2080'))
   describe('message: Show args testLib args getTable gateways variant, 78:1739', t('78:1739'))
   describe('script: Call setup args, 78:1749', t('78:1749'))
@@ -30,8 +35,10 @@ describe('runner', () => {
 
 export type GatewayKey =
   | '94:2102: Node has any variants'
+  | '110:2290: Any paths containing node'
   | '76:1261: Node has variant'
   | '76:1304: Variant has via'
+  | '110:2342: Any path containing all via nodes'
   | '76:1372: Any discouraged nodes'
   | '77:1572: Any suggested paths left'
   | '87:2067: Variant has custom test'
@@ -45,11 +52,16 @@ export type ActionKey =
 export type TestNodeKey =
   | '94:2126: Return default variant'
   | '76:1189: Return Variants for node'
+  | '109:2256: List all paths'
+  | '110:2303: No paths containing node'
   | '76:1241: Filter all paths containing node'
+  | '108:2187: Don t filter nodes by via'
+  | '110:2327: No paths containing node'
   | '76:1322: Filter paths containing all via nodes'
-  | '77:1635: Don t filter discouraged paths'
+  | '108:2237: Don t filter discouraged'
+  | '77:1635: Include discouraged paths'
+  | '77:1609: Filter encouraged paths'
   | '76:1484: Use shortest path'
-  | '77:1609: Filter discouraged paths'
   | '87:2080: Call custom test'
   | '78:1739: Show args testLib args getTable gateways variant'
   | '78:1749: Call setup args'

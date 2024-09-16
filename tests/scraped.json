@@ -501,19 +501,11 @@
     "id": "78:1983"
   },
   {
-    "type": "connector",
-    "text": "",
-    "connections": {
-      "78:2000": "Connector line"
-    },
-    "id": "76:1350"
-  },
-  {
     "type": "gateway",
     "text": "Node has variant",
     "connections": {
       "76:1304": "yes",
-      "78:2000": "no"
+      "108:2202": "no"
     },
     "id": "76:1261"
   },
@@ -592,7 +584,7 @@
     "type": "start",
     "text": "Relevant path",
     "connections": {
-      "76:1241": "Relevant path"
+      "109:2256": "Relevant path"
     },
     "id": "76:1229"
   },
@@ -608,8 +600,8 @@
     "type": "gateway",
     "text": "Variant has via",
     "connections": {
-      "76:1322": "yes",
-      "76:1350": "no"
+      "108:2202": "no",
+      "110:2342": "yes"
     },
     "id": "76:1304"
   },
@@ -617,7 +609,7 @@
     "type": "message",
     "text": "Filter paths containing all via nodes",
     "connections": {
-      "76:1350": "Connector line"
+      "78:2000": "Connector line"
     },
     "id": "76:1322"
   },
@@ -625,8 +617,8 @@
     "type": "gateway",
     "text": "Any discouraged nodes",
     "connections": {
-      "76:1417": "no",
-      "77:1572": "Connector line"
+      "77:1572": "yes",
+      "108:2237": "no"
     },
     "id": "76:1372"
   },
@@ -650,14 +642,14 @@
     "type": "gateway",
     "text": "Any suggested paths left",
     "connections": {
-      "77:1609": "Connector line",
-      "77:1635": "Connector line"
+      "77:1609": "yes",
+      "77:1635": "no"
     },
     "id": "77:1572"
   },
   {
     "type": "message",
-    "text": "Filter discouraged paths",
+    "text": "Filter encouraged paths",
     "connections": {
       "76:1417": "Connector line"
     },
@@ -665,7 +657,7 @@
   },
   {
     "type": "message",
-    "text": "Don t filter discouraged paths",
+    "text": "Include discouraged paths",
     "connections": {
       "76:1417": "Connector line"
     },
@@ -867,6 +859,68 @@
       "76:1168": "Connector line"
     },
     "id": "104:2156"
+  },
+  {
+    "type": "message",
+    "text": "Don t filter nodes by via",
+    "connections": {
+      "78:2000": "Connector line"
+    },
+    "id": "108:2187"
+  },
+  {
+    "type": "connector",
+    "text": "",
+    "connections": {
+      "108:2187": "Connector line"
+    },
+    "id": "108:2202"
+  },
+  {
+    "type": "message",
+    "text": "Don t filter discouraged",
+    "connections": {
+      "76:1417": "Connector line"
+    },
+    "id": "108:2237"
+  },
+  {
+    "type": "message",
+    "text": "List all paths",
+    "connections": {
+      "110:2290": "Connector line"
+    },
+    "id": "109:2256"
+  },
+  {
+    "type": "gateway",
+    "text": "Any paths containing node",
+    "connections": {
+      "76:1241": "yes",
+      "110:2303": "no"
+    },
+    "id": "110:2290"
+  },
+  {
+    "type": "message",
+    "text": "No paths containing node",
+    "connections": {},
+    "id": "110:2303"
+  },
+  {
+    "type": "message",
+    "text": "No paths containing node",
+    "connections": {},
+    "id": "110:2327"
+  },
+  {
+    "type": "gateway",
+    "text": "Any path containing all via nodes",
+    "connections": {
+      "76:1322": "yes",
+      "110:2327": "no"
+    },
+    "id": "110:2342"
   },
   {
     "type": "end",
