@@ -4,6 +4,11 @@
     "target": "ESNext",
     "moduleResolution": "Bundler",
     "noEmit": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "estridi": [
+//        "./src/runner.ts"
+      ]
+    }
   }
 }

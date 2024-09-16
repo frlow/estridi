@@ -24,13 +24,14 @@ export type GenerationKeys = {
 }
 
 export const getKeysString = (keys: string[]) => {
-  if(keys.length===0) return "N/A"
+  if(keys.length===0) return "    | 'N/A'"
   return keys.map(key=>`    | '${key}'`).join("\n")
 }
 
 export const generateTestFiles = (config: EstridiConfig, scraped: Scraped, estridi: Estridi, target: EstridiTargets, name: string) => {
   const writtenFiles: string[] = []
-  estridi.writeFile(`export const scraped = ${JSON.stringify(scraped, null, 2)}`, `tests/${name}.data.ts`)
+  estridi.writeFile(`import type {Scraped} from 'estridi
+export const scraped: Scraped = ${JSON.stringify(scraped, null, 2)}`, `tests/${name}.data.ts`)
   writtenFiles.push(`tests/${name}.data.ts`)
   const testFileName =
       target === "playwright" ? `${name}.spec.ts` :

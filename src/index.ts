@@ -29,9 +29,12 @@ export type EstridiConfig = FigmaConfig
 export type Estridi = ReturnType<typeof estridi>
 
 const loadConfig = (): EstridiConfig => {
-  throw "Not implemented"
+  throw "loadConfig must be overridden"
 }
-
+export type WriteFileFunc = typeof writeFile
+const writeFile = (content: any, fileName: string): void => {
+  throw "writeFile must be overridden"
+}
 
 export type LogEvents =
     "couldNotLoadData" |
@@ -56,12 +59,7 @@ export type EstridiLog = {
   data: any
 }[]
 
-export type WriteFileFunc = typeof writeFile
-const writeFile = (content: any, fileName: string) => {
-  const toWrite = typeof content === "string" ? content : JSON.stringify(content, null, 2)
-  fs.mkdirSync(path.parse(fileName).dir, {recursive: true})
-  fs.writeFileSync(fileName, toWrite, 'utf8')
-}
+
 
 const validateParams = (params: EstridiParameters, scraped: Scraped): {
   rootName?: string,

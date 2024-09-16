@@ -50,7 +50,7 @@ const getNodeMetadata = (node: Node, log: LogFunc): ScrapedNode => {
     case "table": {
       const rows: string[][] = Object.values((node as any).children.reduce((acc: Record<string, string[]>, cur: any) => ({
         ...acc,
-        [cur.absoluteBoundingBox.y]: [...(acc[cur.absoluteBoundingBox.y] || []), cur.characters]
+        [cur.absoluteBoundingBox.y + 1000000]: [...(acc[cur.absoluteBoundingBox.y + 1000000] || []), cur.characters]
       }), {}))
       const text = rows[0][0].substring(1)
       const table: ScrapedTable = {type: "table", rows, id: node.id, text}

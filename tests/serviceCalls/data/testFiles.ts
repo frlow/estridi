@@ -1,4 +1,5 @@
-export const expectedDataFile = `export const scraped = [
+export const expectedDataFile = `import type {Scraped} from 'estridi
+export const scraped: Scraped = [
   {
     "type": "start",
     "id": "1:72",
