@@ -105,7 +105,7 @@ export const estridi = (params: EstridiParameters) => {
     ret.log("parametersUsed", validatedParams)
     const filtered = filterScraped(processed, validatedParams.rootName!)
     ret.log("filteredNodes", filtered)
-    return generateTestFiles(config, filtered, ret, validatedParams.target!, validatedParams.rootName)
+    return generateTestFiles(filtered, ret, validatedParams.target!, validatedParams.rootName)
   }
 
   const loadData = async (config: EstridiConfig): Promise<any> => {

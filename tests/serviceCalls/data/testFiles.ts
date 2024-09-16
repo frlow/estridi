@@ -23,8 +23,9 @@ export const scraped: Scraped = [
     }
   },
   {
-    "type": "other",
-    "id": "1:74"
+    "type": "script",
+    "id": "1:74",
+    "text": "Show server error"
   },
   {
     "type": "script",
@@ -177,6 +178,7 @@ export type ActionKey =
     | '1:235: action - Next Clicked'
     | '1:235: action - Cancel Clicked'
 export type TestNodeKey =
+    | '1:74: Show server error'
     | '1:338: Show Data'
     | '1:365: Show Done'
     | '40:158: Longer 1'
@@ -194,6 +196,7 @@ const {testNode, getVariants} = createTester(scraped, handles)
 const t = (id: string) => () => getVariants(id).forEach(v => test(v.name, () => testNode(id, {variant: v})))
 
 describe('main', () => {
+  describe('1:74: Show server error', t('1:74'))
   describe('1:338: Show Data', t('1:338'))
   describe('1:365: Show Done', t('1:365'))
   describe('40:158: Longer 1', t('40:158'))
@@ -222,6 +225,7 @@ const {testNode, getVariants} = createTester(scraped, handles)
 const t = (id: string) => () => getVariants(id).forEach(v => test(v.name, ({ context, page }) => testNode(id, {context, page, variant: v})))
 
 test.describe('main', () => {
+  test.describe('1:74: Show server error', t('1:74'))
   test.describe('1:338: Show Data', t('1:338'))
   test.describe('1:365: Show Done', t('1:365'))
   test.describe('40:158: Longer 1', t('40:158'))
