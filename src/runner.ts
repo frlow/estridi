@@ -1,4 +1,5 @@
 import {Scraped, ScrapedGateway, ScrapedNode, ScrapedStart, ScrapedTable, ScrapedUserAction} from "./scraped";
+export * from './scraped.js'
 
 export type HandleArgs<TState, TNodeTestArgs, TTableKeys> = TNodeTestArgs & {
   state: TState,

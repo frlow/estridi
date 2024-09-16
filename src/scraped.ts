@@ -41,7 +41,7 @@ export type ScrapedStart = {
   type: ScrapedNodeType<"start" | "root">,
   text: string,
   next?: string
-  isRoot: boolean
+  isRoot?: boolean
 } & BaseNode
 
 export type ScrapedGateway = {
