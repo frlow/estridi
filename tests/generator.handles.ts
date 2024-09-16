@@ -3,7 +3,12 @@ import {estridi, Estridi, EstridiConfig, EstridiParameters, EstridiTargets, LogE
 import {expect, vi} from "vitest";
 import {getFigmaDocument} from "./serviceCalls/figmaServiceCalls";
 import {figmaExampleTE} from "./serviceCalls/data/figmaExamples";
-import {expectedDataFile, expectedHandlesFile, expectedVitestFile} from "./serviceCalls/data/testFiles";
+import {
+  expectedDataFile,
+  expectedHandlesFile,
+  expectedPlaywrightFile,
+  expectedVitestFile
+} from "./serviceCalls/data/testFiles";
 
 export type State = {
   estridi: Estridi,
@@ -224,6 +229,9 @@ export const handles: GeneratorHandles = {
         switch (generator.Id) {
           case "vitest":
             expect(state.estridi.writeFile).toHaveBeenNthCalledWith(3, expectedVitestFile, `tests/main.${generator["Test file name"]}.ts`)
+            break
+          case "playwright":
+            expect(state.estridi.writeFile).toHaveBeenNthCalledWith(3, expectedPlaywrightFile, `tests/main.${generator["Test file name"]}.ts`)
             break
           default:
             debugger

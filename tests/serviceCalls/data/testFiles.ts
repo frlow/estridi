@@ -167,6 +167,24 @@ export const handles: MainHandles = {
 }
 `
 
+const keyBlock = `export type GatewayKey =
+    | '1:73: Any errors from backend'
+    | '40:145: Shorter or longer'
+export type ServiceCallKey =
+    | '1:67: Get Data From Backend'
+export type ActionKey =
+    | '1:235: action - Next Clicked'
+    | '1:235: action - Cancel Clicked'
+export type TestNodeKey =
+    | '1:338: Show Data'
+    | '1:365: Show Done'
+    | '40:158: Longer 1'
+    | '40:171: Longer 2'
+    | '40:184: Shorter 1'
+    | '1:326: Clear Page'
+export type TableKeys =
+    | '9:415: My Table'`
+
 export const expectedVitestFile = `import {describe, test} from 'vitest'
 import {createTester, Handles} from 'estridi'
 import {handles, State} from './main.handles.js'
@@ -183,23 +201,7 @@ describe('main', () => {
   describe('1:326: Clear Page', t('1:326'))
 })
 
-export type GatewayKey =
-    | '1:73: Any errors from backend'
-    | '40:145: Shorter or longer'
-export type ServiceCallKey =
-    | '1:67: Get Data From Backend'
-export type ActionKey =
-    | '1:235: action - Next Clicked'
-    | '1:235: action - Cancel Clicked'
-export type TestNodeKey =
-    | '1:338: Show Data'
-    | '1:365: Show Done'
-    | '40:158: Longer 1'
-    | '40:171: Longer 2'
-    | '40:184: Shorter 1'
-    | '1:326: Clear Page'
-export type TableKeys =
-    | '9:415: My Table'
+${keyBlock}
 
 export type MainHandles = Handles<
     State,
@@ -208,6 +210,34 @@ export type MainHandles = Handles<
     TestNodeKey,
     ActionKey,
     {},
+    TableKeys
+>
+`
+export const expectedPlaywrightFile = `import { test, Page, BrowserContext } from '@playwright/test'
+import {createTester, Handles} from 'estridi'
+import {handles, State} from './main.handles.js'
+import {scraped} from './main.data.js'
+const {testNode, getVariants} = createTester(scraped, handles)
+const t = (id: string) => () => getVariants(id).forEach(v => test(v.name, ({ context, page }) => testNode(id, {context, page, variant: v})))
+
+test.describe('main', () => {
+  test.describe('1:338: Show Data', t('1:338'))
+  test.describe('1:365: Show Done', t('1:365'))
+  test.describe('40:158: Longer 1', t('40:158'))
+  test.describe('40:171: Longer 2', t('40:171'))
+  test.describe('40:184: Shorter 1', t('40:184'))
+  test.describe('1:326: Clear Page', t('1:326'))
+})
+
+${keyBlock}
+
+export type MainHandles = Handles<
+    State,
+    GatewayKey,
+    ServiceCallKey,
+    TestNodeKey,
+    ActionKey,
+    { page: Page; context: BrowserContext },
     TableKeys
 >
 `
