@@ -1,4 +1,4 @@
-import {Scraped, ScrapedGateway, ScrapedStart, ScrapedTable} from "./scraped";
+import {Scraped, ScrapedGateway, ScrapedNode, ScrapedStart, ScrapedTable, ScrapedUserAction} from "./scraped";
 
 export type HandleArgs<TState, TNodeTestArgs, TTableKeys> = TNodeTestArgs & {
   state: TState,
@@ -118,6 +118,7 @@ export type LogEventType =
     | "shortestPath"
     | "testArgs"
 export type LogFunc = (eventType: LogEventType, msg: any) => void
+export const getKey = (node: ScrapedNode) => `${node.id}: ${node.text}`
 export const createTester = <THandles extends Handles>(scraped: Scraped, handles: THandles, log?: LogFunc) => {
 
 
@@ -165,17 +166,32 @@ export const createTester = <THandles extends Handles>(scraped: Scraped, handles
 
     if (variant.customTest) {
       await variant.customTest({args}, id)
-      // return
+      return
     }
     const relevantPath = findRelevantPath()
-    const gateways = relevantPath.reduce((acc, cur, i, arr) => {
-      const gw = getNode(cur) as ScrapedGateway
-      if (gw.options)
-        acc[`${gw.id}: ${gw.text}`] = gw.options[arr[i + 1]]
+    const nodePath = relevantPath.map(id => scraped.find(n => n.id === id))
+    const gateways = nodePath.reduce((acc, cur: ScrapedGateway, i, arr) => {
+      if (cur.options)
+        acc[`${cur.id}: ${cur.text}`] = cur.options[arr[i + 1].id]
       return acc
     }, {})
     const testArgs = {variant, ...args, getTable, gateways}
     log && log("testArgs", testArgs)
+    await handles.handleSetup(testArgs)
+    const serviceCalls = nodePath.filter(n => n.type === "serviceCall")
+    for (const serviceCall of serviceCalls)
+      await handles.handleServiceCall({...testArgs, key: getKey(serviceCall)})
+    await handles.handleStart(testArgs)
+    const testNode = nodePath.find(n => n.id === id)
+    const actions = nodePath.filter((n, i, arr) => i < arr.indexOf(testNode) && n.type === "userAction") as ScrapedUserAction[]
+    for (const action of actions) {
+      const next = nodePath[nodePath.indexOf(action) + 1]
+      const actionTaken = action.actions[next.id]
+      const key = `${action.id}: ${action.text} - ${actionTaken}`
+      await handles.handleAction({...testArgs, key})
+    }
+    if (variant.extraAction) await variant.extraAction(testArgs)
+    await handles.handleTestNode({...testArgs, key: getKey(testNode)})
   }
 
   function getTable(key: string) {

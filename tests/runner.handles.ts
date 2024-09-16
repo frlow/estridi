@@ -13,7 +13,8 @@ export type State = {
   tester: ReturnType<typeof createTester>,
   testHandles: Handles,
   log: { eventType: LogEventType, msg: any }[],
-  error: Error
+  error: Error,
+  callMock: ReturnType<typeof vi.fn>
 }
 export const handles: RunnerHandles = {
   handleSetup: async () => {
@@ -40,12 +41,13 @@ export const handles: RunnerHandles = {
         break
       }
       case "104:2156: Load handles": {
+        state.callMock = vi.fn()
         state.testHandles = {
-          handleAction: vi.fn(),
-          handleSetup: vi.fn(),
-          handleStart: vi.fn(),
-          handleServiceCall: vi.fn(),
-          handleTestNode: vi.fn(),
+          handleAction: args => state.callMock("action", args),
+          handleSetup: args => state.callMock("setup", args),
+          handleStart: args => state.callMock("start", args),
+          handleServiceCall: args => state.callMock("serviceCall", args),
+          handleTestNode: args => state.callMock("testNode", args),
           config: {}
         }
         if (gateways["94:2102: Node has any variants"] === "yes")
@@ -64,6 +66,12 @@ export const handles: RunnerHandles = {
           state.testHandles.config.discouragedNodes = ["40:184: Shorter 1"]
         if (gateways["87:2067: Variant has custom test"] === "yes")
           state.variant = {...state.variant, name: "Custom test", customTest: vi.fn()}
+        if (gateways["78:1892: Variant has extra action"] === "yes")
+          state.variant = {
+            ...state.variant,
+            name: "Custom test",
+            extraAction: args => state.callMock("extraAction", args)
+          }
         break
       }
       default:
@@ -77,6 +85,7 @@ export const handles: RunnerHandles = {
         let id = "1:365"
         if (gateways["110:2290: Any paths containing node"] === "no") id = "dummy"
         await state.tester.testNode(id, {libArg: "dummy", variant: state.variant}).catch(e => state.error = e)
+        // libArg is just an example of args from a testing library, page, context from playwright etc.
         break
       }
       case "76:1143: Get variants":
@@ -88,6 +97,11 @@ export const handles: RunnerHandles = {
     }
   },
   handleTestNode: async ({state, key}) => {
+    const expectedArgs = {
+      "libArg": "dummy",
+      gateways: expect.any(Object),
+      getTable: expect.any(Function)
+    }
     switch (key) {
       case "76:1189: Return Variants for node":
         expect(state.variants).toStrictEqual([{name: "MyVariant"}])
@@ -148,7 +162,7 @@ export const handles: RunnerHandles = {
         break
       }
       case "87:2080: Call custom test": {
-        expect(state.testHandles.handleSetup).not.toHaveBeenCalled()
+        expect(state.callMock).not.toHaveBeenCalled()
         expect(state.variant.customTest).toHaveBeenCalled()
         break
       }
@@ -166,11 +180,11 @@ export const handles: RunnerHandles = {
           "getTable",
           "gateways"
         ])
-        expect(testArgs.variant).toStrictEqual({name: "MyVariant"})
+        expect(testArgs.variant).toStrictEqual({name: "MyVariant", "via": ["40:171"],})
         expect(testArgs.libArg).toStrictEqual("dummy")
         expect(testArgs.gateways).toStrictEqual({
           "1:73: Any errors from backend": "no",
-          "40:145: Shorter or longer": "shorter",
+          "40:145: Shorter or longer": "longer",
         })
         const table = testArgs.getTable("9:415: My Table")
         expect(table.values).toStrictEqual([
@@ -186,6 +200,41 @@ export const handles: RunnerHandles = {
           },
         ])
         break
+      case "78:1749: Call setup args": {
+        expect(state.callMock).toHaveBeenNthCalledWith(1, "setup", expectedArgs)
+        break
+      }
+      case "78:1766: Call serviceCalls args serviceCallKey state": {
+        expect(state.callMock).toHaveBeenNthCalledWith(2, "serviceCall", {
+          ...expectedArgs,
+          key: "1:67: Get Data From Backend"
+        })
+        break
+      }
+      case "78:1798: Call start args state": {
+        expect(state.callMock).toHaveBeenNthCalledWith(3, "start", expectedArgs)
+        break
+      }
+      case "78:1843: Call actions before tested node args actionKey state": {
+        expect(state.callMock).toHaveBeenNthCalledWith(4, "action", {
+          ...expectedArgs,
+          key: "1:235: action - Next Clicked"
+        })
+        break
+      }
+      case "78:1865: Call testNode args testNodeKey state": {
+        expect(state.callMock).toHaveBeenNthCalledWith(5, "testNode", {...expectedArgs, key: "1:365: Show Done",})
+        break
+      }
+      case "78:1923: Call extraAction args state": {
+        expect(state.callMock).toHaveBeenNthCalledWith(5, "extraAction", {...expectedArgs, variant: expect.anything()})
+        expect(state.callMock).toHaveBeenNthCalledWith(6, "testNode", {
+          ...expectedArgs,
+          key: "1:365: Show Done",
+          variant: expect.anything()
+        })
+        break
+      }
       default:
         debugger
         throw `${key} not implemented`
@@ -194,14 +243,14 @@ export const handles: RunnerHandles = {
   variants: ({matchId}) => {
     if (matchId("78:1739: Show args testLib args getTable gateways variant"))
       return [{name: "78:1739", via: ["76:1304: Variant has via"]}]
+    if (matchId("78:1739: Show args testLib args getTable gateways variant"))
+      return [{name: "78:1739", via: ["76:1322: Filter paths containing all via nodes"]}]
   },
 
   config: {
     discouragedNodes: [
       "87:2080: Call custom test",
-      "76:1322: Filter paths containing all via nodes",
-      "77:1609: Filter encouraged paths",
-      "77:1635: Include discouraged paths"
+      "110:2327: No paths containing all via nodes"
     ]
   }
 }

@@ -62,7 +62,45 @@ export const expectedDataFile = `export const scraped = [
   {
     "type": "script",
     "id": "1:365",
-    "text": "Show Done"
+    "text": "Show Done",
+    "next": "40:145"
+  },
+  {
+    "type": "gateway",
+    "id": "40:145",
+    "text": "Shorter or longer",
+    "options": {
+      "40:158": "longer",
+      "40:184": "shorter"
+    }
+  },
+  {
+    "type": "script",
+    "id": "40:158",
+    "text": "Longer 1",
+    "next": "40:171"
+  },
+  {
+    "type": "script",
+    "id": "40:171",
+    "text": "Longer 2",
+    "next": "40:220"
+  },
+  {
+    "type": "other",
+    "id": "40:220",
+    "next": "40:237"
+  },
+  {
+    "type": "start",
+    "id": "40:237",
+    "text": "start"
+  },
+  {
+    "type": "script",
+    "id": "40:184",
+    "text": "Shorter 1",
+    "next": "40:220"
   },
   {
     "type": "script",
@@ -139,11 +177,15 @@ const t = (id: string) => () => getVariants(id).forEach(v => test(v.name, () => 
 describe('main', () => {
   describe('1:338: Show Data', t('1:338'))
   describe('1:365: Show Done', t('1:365'))
+  describe('40:158: Longer 1', t('40:158'))
+  describe('40:171: Longer 2', t('40:171'))
+  describe('40:184: Shorter 1', t('40:184'))
   describe('1:326: Clear Page', t('1:326'))
 })
 
 export type GatewayKey =
     | '1:73: Any errors from backend'
+    | '40:145: Shorter or longer'
 export type ServiceCallKey =
     | '1:67: Get Data From Backend'
 export type ActionKey =
@@ -152,6 +194,9 @@ export type ActionKey =
 export type TestNodeKey =
     | '1:338: Show Data'
     | '1:365: Show Done'
+    | '40:158: Longer 1'
+    | '40:171: Longer 2'
+    | '40:184: Shorter 1'
     | '1:326: Clear Page'
 export type TableKeys =
     | '9:415: My Table'

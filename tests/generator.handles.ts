@@ -217,7 +217,7 @@ export const handles: GeneratorHandles = {
         ])
         break
       case "50:315: Write data file":
-        expect(state.estridi.writeFile).toHaveBeenCalledWith(expectedDataFile, "tests/main.data.ts")
+        expect(state.estridi.writeFile).toHaveBeenNthCalledWith(1, expectedDataFile, "tests/main.data.ts")
         break
       case "53:434: Write Test file for selected target": {
         const generator = variant.data.generator
@@ -295,13 +295,13 @@ export const handles: GeneratorHandles = {
     if (matchId("58:916: Done Tests written")) return generators
     if (matchId("58:877: Show filtered nodes connected to root")) return [{
       name: "Filtered nodes",
-      data: {parameters: {rootName: "other"}}
+      data: {parameters: {rootName: "other"}},
+      via: ["57:567: Show using defined root"]
     }]
   }, config: {
     discouragedNodes: [
       "58:1027: Target not valid",
       "57:466: Root node not found",
-      "57:599: Show using default root",
       "53:478: Leave handles file unchanged"
     ]
   }

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "vitest run",
     "estridi": "estridi",
     "tsc": "tsc",
     "examples": "tsx examples.ts"

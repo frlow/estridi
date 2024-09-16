@@ -16,6 +16,7 @@ export type ScrapedOther = {
   type: ScrapedNodeType<"other">,
   next?: string
   data?: any
+  text?: string
 } & BaseNode
 
 export type ScrapedTable = {
