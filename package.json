@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "estridi": "estridi",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "examples": "tsx examples.ts"
   },
   "dependencies": {
     "figma-api": "^1.11.0",
     "estridi": "^0.4.9",
-    "vitest": "^2.0.5"
+    "vitest": "^2.0.5",
+    "tsx": "^4.19.1"
   },
   "devDependencies": {
     "typescript": "^5.6.2"

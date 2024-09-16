@@ -1,10 +1,9 @@
-import { test} from "vitest";
-import {estridi} from "../src";
-import * as fs from "fs";
+import fs from "fs";
+import {estridi} from "./src";
 import path from "path";
-import {figmaExampleTE} from "./serviceCalls/data/figmaExamples";
+import {figmaExampleTE} from "./tests/serviceCalls/data/figmaExamples";
 
-test.skip("dump figma document", async () => {
+const load = async ()=>{
   const config = JSON.parse(fs.readFileSync("estridi.json", 'utf8'))
   const instance = estridi({target: "vitest", rootName: "main"})
   const data = await instance.loadFigmaDocument({fileId: "hERI5lpQhUIlONvwsE03d1", token: config.token})
@@ -17,4 +16,6 @@ test.skip("dump figma document", async () => {
   instance.loadConfig = ()=>({type: "figma", token: "-", fileId: "-", variant: "TE", logging: "verbose"})
   instance.loadFigmaDocument = async()=>figmaExampleTE as any
   await instance.generate()
-})
+
+}
+load().then()
