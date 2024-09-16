@@ -30,7 +30,7 @@ export const getKeysString = (keys: string[]) => {
 
 export const generateTestFiles = (config: EstridiConfig, scraped: Scraped, estridi: Estridi, target: EstridiTargets, name: string) => {
   const writtenFiles: string[] = []
-  estridi.writeFile(`import type {Scraped} from 'estridi
+  estridi.writeFile(`import type {Scraped} from 'estridi'
 export const scraped: Scraped = ${JSON.stringify(scraped, null, 2)}`, `tests/${name}.data.ts`)
   writtenFiles.push(`tests/${name}.data.ts`)
   const testFileName =

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsx src/cli.ts -r generator",
+    "start": "tsx src/cli.ts -r generator -t vitest",
     "test": "vitest run",
     "estridi": "estridi",
     "tsc": "tsc",
