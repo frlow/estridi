@@ -1,4 +1,5 @@
 import {Scraped, ScrapedGateway, ScrapedNode, ScrapedStart, ScrapedTable, ScrapedUserAction} from "./scraped";
+
 export * from './scraped.js'
 
 export type HandleArgs<TState, TNodeTestArgs, TTableKeys> = TNodeTestArgs & {
@@ -153,7 +154,7 @@ export const createTester = <THandles extends Handles>(scraped: Scraped, handles
       if (pathsWithNode.length === 0) throw `No paths containing node: ${id}`
       log && log("pathContainingNode", pathsWithNode)
       const via = variant?.via || []
-      const viaFiltered = pathsWithNode.filter(p => via.every(v => p.includes(v)))
+      const viaFiltered = pathsWithNode.filter(p => via.every(v => p.includes(getRealKey(v))))
       if (viaFiltered.length === 0) throw `No paths containing all via nodes: ${via.join(", ")}`
       log && log("viaFilteredNodes", viaFiltered)
       const discouraged = (handles.config?.discouragedNodes || []).map(d => getRealKey(d))
@@ -178,27 +179,24 @@ export const createTester = <THandles extends Handles>(scraped: Scraped, handles
     }, {})
     const testArgs = {variant, ...args, getTable, gateways}
     log && log("testArgs", testArgs)
-    await handles.handleSetup(testArgs)
+    const state = await handles.handleSetup(testArgs)
     const serviceCalls = nodePath.filter(n => n.type === "serviceCall")
     for (const serviceCall of serviceCalls)
-      await handles.handleServiceCall({...testArgs, key: getKey(serviceCall)})
-    await handles.handleStart(testArgs)
+      await handles.handleServiceCall({...testArgs, key: getKey(serviceCall), state})
+    await handles.handleStart({...testArgs, state})
     const testNode = nodePath.find(n => n.id === id)
     const actions = nodePath.filter((n, i, arr) => i < arr.indexOf(testNode) && n.type === "userAction") as ScrapedUserAction[]
     for (const action of actions) {
       const next = nodePath[nodePath.indexOf(action) + 1]
       const actionTaken = action.actions[next.id]
       const key = `${action.id}: ${action.text} - ${actionTaken}`
-      await handles.handleAction({...testArgs, key})
+      await handles.handleAction({...testArgs, key, state})
     }
-    if (variant.extraAction) await variant.extraAction(testArgs)
-    await handles.handleTestNode({...testArgs, key: getKey(testNode)})
+    if (variant.extraAction) await variant.extraAction({...testArgs, state})
+    await handles.handleTestNode({...testArgs, key: getKey(testNode), state})
   }
 
-  function getTable(key: string) {
-    return undefined;
-  }
-
+  const getTable = (key: string) => createTable(scraped.find((n: any) => n.type === 'table' && `${n.id}: ${n.text}` === key) as ScrapedTable)
   const testNode = (id: string, args?: any) => runTest({args, handles}, id)
 
   const getVariants: (id: string) => Variant<any>[] = (id) =>

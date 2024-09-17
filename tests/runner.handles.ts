@@ -81,14 +81,14 @@ export const handles: RunnerHandles = {
   },
   handleAction: async ({state, key, gateways}) => {
     switch (key) {
-      case "76:1153: Test node": {
+      case "76:1110: action - Test node": {
         let id = "1:365"
         if (gateways["110:2290: Any paths containing node"] === "no") id = "dummy"
         await state.tester.testNode(id, {libArg: "dummy", variant: state.variant}).catch(e => state.error = e)
         // libArg is just an example of args from a testing library, page, context from playwright etc.
         break
       }
-      case "76:1143: Get variants":
+      case "76:1110: action - Get variants":
         state.variants = state.tester.getVariants("MyNode")
         break
       default:

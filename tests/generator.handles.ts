@@ -1,4 +1,4 @@
-import type {GeneratorHandles} from './generator.test.js'
+import type {GeneratorHandles, TestNodeKey} from './generator.test.js'
 import {estridi, Estridi, EstridiConfig, EstridiParameters, EstridiTargets, LogEvents} from '../src'
 import {expect, vi} from "vitest";
 import {getFigmaDocument} from "./serviceCalls/figmaServiceCalls";
@@ -98,9 +98,11 @@ export const handles: GeneratorHandles = {
         break
       }
       case "22:2167: Show loaded data": {
-        if (variant.data.source.Family === "figma" && variant.data.source.Variant === "TE")
-          expect(state.getLog("loadedData")).toStrictEqual(figmaExampleTE)
-        else
+        if (variant.data.source.Family === "figma" && variant.data.source.Variant === "TE") {
+          const loadedData = state.getLog("loadedData")
+          const expected = figmaExampleTE
+          expect(loadedData).toStrictEqual(expected)
+        } else
           debugger
         break
       }
@@ -279,7 +281,11 @@ export const handles: GeneratorHandles = {
         return true
       }),
   variants: ({getTable, matchId}) => {
-    const sources = getTable("16:1764: Source types").values.map(s => ({data: {source: s}, name: s.Id}))
+    const sources = getTable("16:1764: Source types").values.map(s => ({
+      data: {source: s},
+      name: s.Id,
+      via: ["57:567: Show using defined root"] as TestNodeKey[]
+    }))
     const tables = getTable("16:1764: Source types").values.map(s => ({data: {source: s, tables: true}, name: s.Id}))
     const temp: any[] = []
     for (const source of getTable("16:1764: Source types").values) {
@@ -295,7 +301,6 @@ export const handles: GeneratorHandles = {
 
     if (matchId("22:2180: Parse Nodes"))
       return sourcesAndNodes
-    // .filter(n => n.name === "Figma TE other")
     if (matchId("22:2167: Show loaded data")) return sources
     if (matchId("22:2197: Parse Tables")) return tables
     if (matchId("53:434: Write Test file for selected target")) return generators
