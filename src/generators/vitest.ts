@@ -1,8 +1,8 @@
 import {getKeysBlock, getTestableNodes} from "./index";
 import {Scraped} from "../scraped";
 
-export const generateVitestTest = (name: string, scraped: Scraped) => `import {describe, test} from 'vitest'
-import {createTester, Handles} from 'estridi'
+export const generateVitestTest = (name: string, scraped: Scraped, importSource: string) => `import {describe, test} from 'vitest'
+import {createTester, Handles} from '${importSource}'
 import {handles, State} from './${name}.handles.js'
 import {scraped} from './${name}.data.js'
 const {testNode, getVariants} = createTester(scraped, handles)

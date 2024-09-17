@@ -4,16 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsx src/cli.ts -r generator -t vitest && tsx src/cli.ts -r runner -t vitest && tsx fixLocalTests.ts",
+    "start": "tsx src/cli.ts -r generator -t vitest -i '../src/runner.js' && tsx src/cli.ts -r runner -t vitest -i '../src/runner.js'",
     "test": "vitest run",
-    "estridi": "estridi",
     "tsc": "tsc",
     "examples": "tsx examples.ts"
   },
   "dependencies": {
     "commander": "^12.1.0",
     "figma-api": "^1.11.0",
-    "estridi": "^0.4.9",
     "vitest": "^2.0.5",
     "tsx": "^4.19.1"
   },

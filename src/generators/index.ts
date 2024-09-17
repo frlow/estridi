@@ -18,9 +18,9 @@ export const getActionKeys = (scrapedActions: ScrapedUserAction[]): string => {
       .join("\n")
 }
 
-export const generateTestFiles = (scraped: Scraped, estridi: Estridi, target: EstridiTargets, name: string) => {
+export const generateTestFiles = (scraped: Scraped, estridi: Estridi, target: EstridiTargets, name: string, importSource: string = "estridi") => {
   const writtenFiles: string[] = []
-  estridi.writeFile(`import type {Scraped} from 'estridi'
+  estridi.writeFile(`import type {Scraped} from '${importSource}'
 export const scraped: Scraped = ${JSON.stringify(scraped, null, 2)}`, `tests/${name}.data.ts`)
   writtenFiles.push(`tests/${name}.data.ts`)
   const testFileName =
@@ -33,8 +33,8 @@ export const scraped: Scraped = ${JSON.stringify(scraped, null, 2)}`, `tests/${n
     writtenFiles.push(`tests/${name}.handles.ts`)
   }
   const testFile =
-      target === "playwright" ? generatePlaywrightTest(name, scraped) :
-          target === "vitest" ? generateVitestTest(name, scraped) :
+      target === "playwright" ? generatePlaywrightTest(name, scraped, importSource) :
+          target === "vitest" ? generateVitestTest(name, scraped, importSource) :
               "ERROR"
   estridi.writeFile(testFile, `tests/${testFileName}`)
   writtenFiles.push(`tests/${testFileName}`)

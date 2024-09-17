@@ -8,6 +8,7 @@ import path from "path";
 program
     .option('-t, --target <string>')
     .option('-r, --root-name <string>')
+    .option('-i, --import-source <string>')
 
 program.parse();
 const options = program.opts()

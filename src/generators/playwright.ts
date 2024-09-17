@@ -1,8 +1,8 @@
 import {getKeysBlock, getTestableNodes} from "./index";
 import {Scraped} from "../scraped";
 
-export const generatePlaywrightTest = (name: string, scraped: Scraped) => `import { test, Page, BrowserContext } from '@playwright/test'
-import {createTester, Handles} from 'estridi'
+export const generatePlaywrightTest = (name: string, scraped: Scraped, importSource: string) => `import { test, Page, BrowserContext } from '@playwright/test'
+import {createTester, Handles} from '${importSource}'
 import {handles, State} from './${name}.handles.js'
 import {scraped} from './${name}.data.js'
 const {testNode, getVariants} = createTester(scraped, handles)
