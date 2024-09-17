@@ -113,8 +113,8 @@ export const handles: RunnerHandles = {
         const paths = state.log.find(l => l.eventType === "allPaths").msg
         const expected = [
           ["1:72", "1:67", "1:73", "1:338", "1:235", "1:326"],
-          ["1:72", "1:67", "1:73", "1:338", "1:235", "1:76", "1:358", "1:365", "40:145", "40:184", "40:220", "40:237"],
-          ["1:72", "1:67", "1:73", "1:338", "1:235", "1:76", "1:358", "1:365", "40:145", "40:158", "40:171", "40:220", "40:237"],
+          ["1:72", "1:67", "1:73", "1:338", "1:235", "1:76", "1:358", "1:365", "40:145", "40:184", "40:220", "47:198", "40:237"],
+          ["1:72", "1:67", "1:73", "1:338", "1:235", "1:76", "1:358", "1:365", "40:145", "40:158", "40:171", "40:220", "47:198", "40:237"],
           ["1:72", "1:67", "1:73", "1:338", "1:235", "1:77"],
           ["1:72", "1:67", "1:73", "1:74"]
         ]
@@ -222,7 +222,7 @@ export const handles: RunnerHandles = {
         })
         break
       }
-      case "78:1865: Call testNode args testNodeKey state": {
+      case "78:1865: Call testNode args testNodeKey state Including scripts messages and unlinked subprocesses": {
         expect(state.callMock).toHaveBeenNthCalledWith(5, "testNode", {...expectedArgs, key: "1:365: Show Done",})
         break
       }

@@ -30,7 +30,7 @@ describe('runner', () => {
   describe('script: Call start args state, 78:1798', t('78:1798'))
   describe('script: Call actions before tested node args actionKey state, 78:1843', t('78:1843'))
   describe('script: Call extraAction args state, 78:1923', t('78:1923'))
-  describe('script: Call testNode args testNodeKey state, 78:1865', t('78:1865'))
+  describe('script: Call testNode args testNodeKey state Including scripts messages and unlinked subprocesses, 78:1865', t('78:1865'))
 })
 
 export type GatewayKey =
@@ -69,7 +69,7 @@ export type TestNodeKey =
   | '78:1798: Call start args state'
   | '78:1843: Call actions before tested node args actionKey state'
   | '78:1923: Call extraAction args state'
-  | '78:1865: Call testNode args testNodeKey state'
+  | '78:1865: Call testNode args testNodeKey state Including scripts messages and unlinked subprocesses'
 export type TableKeys =
   | '1:966: Node types'
   | '16:1764: Source types'

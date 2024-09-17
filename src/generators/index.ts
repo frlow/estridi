@@ -1,31 +1,21 @@
-import {
-  Estridi,
-  EstridiConfig,
-  EstridiTargets,
-  Scraped,
-  ScrapedGateway,
-  ScrapedScript,
-  ScrapedServiceCall,
-  ScrapedTable,
-  ScrapedUserAction,
-} from "../index";
+import {Estridi, EstridiTargets, Scraped, ScrapedNode, ScrapedUserAction,} from "../index";
 import {handlesContent} from "./handles";
 import {generatePlaywrightTest} from "./playwright";
 import {generateVitestTest} from "./vitest";
 
-export type GenerationKeys = {
-  gatewayKeys: string[],
-  serviceCallKeys: string[],
-  actionKeys: string[],
-  scriptKeys: string[],
-  tableKeys: string[],
-  name: string,
-  importSource?: string
+export const getKeysString = (scrapedNodes: ScrapedNode[]): string => {
+  if (scrapedNodes.length === 0) return "    | 'N/A'"
+  return scrapedNodes.map(node => `    | '${node.id}: ${node.text}'`).join("\n")
 }
 
-export const getKeysString = (keys: string[]) => {
-  if(keys.length===0) return "    | 'N/A'"
-  return keys.map(key=>`    | '${key}'`).join("\n")
+export const getTestableNodes = (scraped: Scraped) => scraped.filter(n => n.type === "script" || (n.type === "subprocess" && !n.link))
+
+export const getActionKeys = (scrapedActions: ScrapedUserAction[]): string => {
+  if (scrapedActions.length === 0) return "    | 'N/A'"
+  return scrapedActions.flatMap(userAction =>
+      Object.values(userAction.actions).map(action =>
+          `    | '${userAction.id}: ${userAction.text} - ${action}'`))
+      .join("\n")
 }
 
 export const generateTestFiles = (scraped: Scraped, estridi: Estridi, target: EstridiTargets, name: string) => {
@@ -42,22 +32,22 @@ export const scraped: Scraped = ${JSON.stringify(scraped, null, 2)}`, `tests/${n
     estridi.writeFile(handles, `tests/${name}.handles.ts`)
     writtenFiles.push(`tests/${name}.handles.ts`)
   }
-  const gatewayKeys = scraped.filter(s => s.type === "gateway").map((g: ScrapedGateway) =>
-      `${g.id}: ${g.text}`)
-  const serviceCallKeys = scraped.filter(s => s.type === "serviceCall").map((sc: ScrapedServiceCall) =>
-      `${sc.id}: ${sc.text}`)
-  const actionKeys = scraped.filter(s => s.type === "userAction").flatMap((ua: ScrapedUserAction) =>
-      Object.values(ua.actions).map(a=>`${ua.id}: ${ua.text} - ${a}`))
-  const scriptKeys = scraped.filter(s => s.type === "script").map((s: ScrapedScript) =>
-      `${s.id}: ${s.text}`)
-  const tableKeys = scraped.filter(s => s.type === "table").map((t: ScrapedTable) =>
-      `${t.id}: ${t.text}`)
-  const keys = {actionKeys, gatewayKeys, scriptKeys, serviceCallKeys, tableKeys, name}
   const testFile =
-      target === "playwright" ? generatePlaywrightTest(keys) :
-          target === "vitest" ? generateVitestTest(keys) :
+      target === "playwright" ? generatePlaywrightTest(name, scraped) :
+          target === "vitest" ? generateVitestTest(name, scraped) :
               "ERROR"
   estridi.writeFile(testFile, `tests/${testFileName}`)
   writtenFiles.push(`tests/${testFileName}`)
   return writtenFiles
 }
+
+export const getKeysBlock = (scraped: Scraped) => `export type GatewayKey =
+${getKeysString(scraped.filter(n => n.type === "gateway"))}
+export type ServiceCallKey =
+${getKeysString(scraped.filter(n => n.type === "serviceCall"))}
+export type ActionKey =
+${getActionKeys(scraped.filter(n => n.type === "userAction"))}
+export type TestNodeKey =
+${getKeysString(getTestableNodes(scraped))}
+export type TableKeys =
+${getKeysString(scraped.filter(n => n.type === "table"))}`

@@ -158,7 +158,7 @@ export const handles: GeneratorHandles = {
         })
         break
       case "39:2363: Show parsed nodes and tables": {
-        expect(state.getLog("allParsed").length).toEqual(156) // Amount of nodes in the example data
+        expect(state.getLog("allParsed").length).toEqual(165) // Amount of nodes in the example data
         break
       }
       case "57:503: Document must contain exactly one root":

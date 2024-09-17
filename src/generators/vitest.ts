@@ -1,28 +1,20 @@
-import {GenerationKeys, getKeysString} from "./index";
+import {getKeysBlock, getTestableNodes} from "./index";
+import {Scraped} from "../scraped";
 
-export const generateVitestTest = (keys: GenerationKeys) => `import {describe, test} from 'vitest'
+export const generateVitestTest = (name: string, scraped: Scraped) => `import {describe, test} from 'vitest'
 import {createTester, Handles} from 'estridi'
-import {handles, State} from './${keys.name}.handles.js'
-import {scraped} from './${keys.name}.data.js'
+import {handles, State} from './${name}.handles.js'
+import {scraped} from './${name}.data.js'
 const {testNode, getVariants} = createTester(scraped, handles)
 const t = (id: string) => () => getVariants(id).forEach(v => test(v.name, () => testNode(id, {variant: v})))
 
-describe('${keys.name}', () => {
-${keys.scriptKeys.map(key => `  describe('${key}', t('${key.split(": ")[0]}'))`).join("\n")}
+describe('${name}', () => {
+${getTestableNodes(scraped).map(node => `  describe('${node.text}', t('${node.id}'))`).join("\n")}
 })
 
-export type GatewayKey =
-${getKeysString(keys.gatewayKeys)}
-export type ServiceCallKey =
-${getKeysString(keys.serviceCallKeys)}
-export type ActionKey =
-${getKeysString(keys.actionKeys)}
-export type TestNodeKey =
-${getKeysString(keys.scriptKeys)}
-export type TableKeys =
-${getKeysString(keys.tableKeys)}
+${getKeysBlock(scraped)}
 
-export type ${keys.name[0].toUpperCase() + keys.name.slice(1)}Handles = Handles<
+export type ${name[0].toUpperCase() + name.slice(1)}Handles = Handles<
     State,
     GatewayKey,
     ServiceCallKey,
