@@ -48,7 +48,15 @@ export const getFigmaDocument = (variant: any): FigmaDocument => {
           connectorNode({start: "SignalListenId", id: "ConnectorId2", end: "ActionId"}),
         ])
       case "other":
-        return getBaseFigmaNode([{id: "AnyId"}, connectorNode({start: "AnyId", end: "NextId"})])
+        return getBaseFigmaNode([teNodes.other({id: "AnyId", text: textExample}), connectorNode({
+          start: "AnyId",
+          end: "NextId"
+        })])
+      case "end":
+        return getBaseFigmaNode([
+          teNodes.start({id: "EndId"}),
+          connectorNode({start: "AnyId", end: "EndId", text: textExample})
+        ])
       default:
         debugger
     }

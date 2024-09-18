@@ -79,6 +79,15 @@ const getNodeMetadata = (node: Node, log: LogFunc): ScrapedNode => {
       return serviceCall
     }
     case "start": {
+      if ((node as any).connections.length === 0) {
+        const end: ScrapedStart = {
+          type: "end",
+          id: node.id,
+          text: "end"
+        }
+        log("parsedEnd", end)
+        return end
+      }
       const connection = (node as any).connections[0]
       const isRoot = connection?.text?.startsWith("root:")
       const start: ScrapedStart = {
@@ -120,7 +129,12 @@ const getNodeMetadata = (node: Node, log: LogFunc): ScrapedNode => {
       }
     }
     default: {
-      const other: ScrapedOther = {type: "other", id: node.id, next: getNext(node)}
+      const other: ScrapedOther = {
+        type: "other",
+        id: node.id,
+        next: getNext(node),
+        text: findText(node)
+      }
       log("parsedOther", other)
       return other
     }

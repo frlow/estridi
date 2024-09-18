@@ -81,13 +81,16 @@ export const handles: RunnerHandles = {
         throw `${key} not implemented`
     }
   },
-  handleAction: async ({state, key, gateways}) => {
+  handleAction: async ({state, key, gateways, variant}) => {
     switch (key) {
       case "76:1110: action - Test node": {
         let id = "1:365"
         if (gateways["110:2290: Any paths containing node"] === "no") id = "dummy"
-        const variants = state.tester.getVariants(id)
-        await state.tester.testNode(id, {libArg: "dummy", variant: variants[0]}).catch(e => state.error = e)
+        else if (gateways["136:809: Any paths containing end"] === "no") id = "1:74"
+        else if (variant.name === "pathsWithEnd")
+          id = "1:338"
+        const testVariant = state.tester.getVariants(id)[0]
+        await state.tester.testNode(id, {libArg: "dummy", variant: testVariant}).catch(e => state.error = e)
         // libArg is just an example of args from a testing library, page, context from playwright etc.
         break
       }
@@ -245,22 +248,25 @@ export const handles: RunnerHandles = {
         })
         break
       }
+      case "136:823: Only paths with end": {
+        const allPaths = state.log.find(l => l.eventType === "discouragedFilterNodes").msg
+        const pathsWithEndNode = state.log.find(l => l.eventType === "pathsWithEndNode").msg
+        expect(pathsWithEndNode.length).toEqual(3)
+        expect(pathsWithEndNode.length).toBeLessThan(allPaths.length)
+        break
+      }
+      case "136:833: Keep paths without end": {
+        const allPaths = state.log.find(l => l.eventType === "discouragedFilterNodes").msg
+        const pathsWithEndNode = state.log.find(l => l.eventType === "pathsWithEndNode").msg
+        expect(pathsWithEndNode.length).toEqual(allPaths.length)
+        break
+      }
       default:
         debugger
         throw `${key} not implemented`
     }
   },
-  // variants: ({matchId}) => {
-  //   if (matchId("78:1739: Show args testLib args getTable gateways variant"))
-  //     return [{name: "78:1739", via: ["76:1304: Variant has via"]}]
-  //   if (matchId("78:1739: Show args testLib args getTable gateways variant"))
-  //     return [{name: "78:1739", via: ["76:1322: Filter paths containing all via nodes"]}]
-  // },
-
-  config: {
-    discouragedNodes: [
-      "87:2080: Call custom test",
-      "110:2327: No paths containing all via nodes"
-    ]
-  }
+  variants: ({matchId}) => {
+    if (matchId("136:823: Only paths with end")) return [{"name": "pathsWithEnd"}]
+  },
 }

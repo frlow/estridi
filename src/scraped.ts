@@ -7,6 +7,7 @@ export type ScrapedNodeTypes =
     | "serviceCall"
     | "start"
     | "root"
+    | "end"
     | "gateway"
     | "subprocess"
     | "userAction"
@@ -38,7 +39,7 @@ export type ScrapedServiceCall = {
 } & BaseNode
 
 export type ScrapedStart = {
-  type: ScrapedNodeType<"start" | "root">,
+  type: ScrapedNodeType<"start" | "root" | "end">,
   text: string,
   next?: string
   isRoot?: boolean

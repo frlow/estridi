@@ -91,9 +91,9 @@ export const scraped: Scraped = [
     "link": "57:410"
   },
   {
-    "type": "start",
+    "type": "end",
     "id": "22:2261",
-    "text": "start"
+    "text": "end"
   },
   {
     "type": "start",
@@ -134,7 +134,8 @@ export const scraped: Scraped = [
   {
     "type": "other",
     "id": "57:527",
-    "next": "58:675"
+    "next": "58:675",
+    "text": ""
   },
   {
     "type": "gateway",
@@ -154,7 +155,8 @@ export const scraped: Scraped = [
   {
     "type": "other",
     "id": "58:744",
-    "next": "57:623"
+    "next": "57:623",
+    "text": ""
   },
   {
     "type": "subprocess",
@@ -164,9 +166,9 @@ export const scraped: Scraped = [
     "link": "47:2388"
   },
   {
-    "type": "start",
+    "type": "end",
     "id": "78:1983",
-    "text": "start"
+    "text": "end"
   },
   {
     "type": "start",
@@ -211,7 +213,8 @@ export const scraped: Scraped = [
   {
     "type": "other",
     "id": "53:503",
-    "next": "58:916"
+    "next": "58:916",
+    "text": ""
   },
   {
     "type": "script",
@@ -220,9 +223,9 @@ export const scraped: Scraped = [
     "next": "53:524"
   },
   {
-    "type": "start",
+    "type": "end",
     "id": "53:524",
-    "text": "start"
+    "text": "end"
   },
   {
     "type": "script",
@@ -365,8 +368,18 @@ export const scraped: Scraped = [
       ],
       [
         "other",
-        "",
         "x",
+        "x",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "end",
+        "x",
+        "",
         "",
         "",
         "",

@@ -30,9 +30,9 @@ export const scraped: Scraped = [
     }
   },
   {
-    "type": "start",
+    "type": "end",
     "id": "76:1121",
-    "text": "start"
+    "text": "end"
   },
   {
     "type": "gateway",
@@ -108,7 +108,8 @@ export const scraped: Scraped = [
   {
     "type": "other",
     "id": "108:2202",
-    "next": "108:2187"
+    "next": "108:2187",
+    "text": ""
   },
   {
     "type": "script",
@@ -119,7 +120,8 @@ export const scraped: Scraped = [
   {
     "type": "other",
     "id": "78:2000",
-    "next": "76:1372"
+    "next": "76:1372",
+    "text": ""
   },
   {
     "type": "gateway",
@@ -148,7 +150,29 @@ export const scraped: Scraped = [
   {
     "type": "other",
     "id": "76:1417",
-    "next": "76:1484"
+    "next": "136:809",
+    "text": ""
+  },
+  {
+    "type": "gateway",
+    "id": "136:809",
+    "text": "Any paths containing end",
+    "options": {
+      "136:833": "no",
+      "136:823": "yes"
+    }
+  },
+  {
+    "type": "script",
+    "id": "136:833",
+    "text": "Keep paths without end",
+    "next": "136:851"
+  },
+  {
+    "type": "other",
+    "id": "136:851",
+    "next": "76:1484",
+    "text": ""
   },
   {
     "type": "script",
@@ -164,9 +188,9 @@ export const scraped: Scraped = [
     "link": "77:1724"
   },
   {
-    "type": "start",
+    "type": "end",
     "id": "77:1675",
-    "text": "start"
+    "text": "end"
   },
   {
     "type": "start",
@@ -232,7 +256,8 @@ export const scraped: Scraped = [
   {
     "type": "other",
     "id": "78:1915",
-    "next": "78:1865"
+    "next": "78:1865",
+    "text": ""
   },
   {
     "type": "script",
@@ -241,14 +266,20 @@ export const scraped: Scraped = [
     "next": "78:1958"
   },
   {
-    "type": "start",
+    "type": "end",
     "id": "78:1958",
-    "text": "start"
+    "text": "end"
   },
   {
     "type": "script",
     "id": "87:2080",
     "text": "Call custom test"
+  },
+  {
+    "type": "script",
+    "id": "136:823",
+    "text": "Only paths with end",
+    "next": "136:851"
   },
   {
     "type": "script",
@@ -382,8 +413,18 @@ export const scraped: Scraped = [
       ],
       [
         "other",
-        "",
         "x",
+        "x",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "end",
+        "x",
+        "",
         "",
         "",
         "",

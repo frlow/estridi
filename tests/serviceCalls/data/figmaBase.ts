@@ -106,7 +106,16 @@ export const teNodes = {
       "width": 10,
       "height": 10
     }
-  })
+  }), other: ({text, id}: { text?: string, id?: string }) => ({
+    "id": id || "ScriptId",
+    "children": [
+      {
+        "type": "TEXT",
+        name: "text",
+        "characters": text || "Other"
+      },
+    ],
+  }),
 }
 
 export const connectorNode = ({id, end, start, text, dotted}: {

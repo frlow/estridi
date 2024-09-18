@@ -45,6 +45,7 @@ export type LogEvents =
     "parsedOther" |
     "parsedRoot" |
     "parsedStart" |
+    "parsedEnd" |
     "parsedGateway" |
     "parsedSubprocess" |
     "parsedUserAction" |

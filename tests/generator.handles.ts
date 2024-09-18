@@ -120,6 +120,8 @@ export const handles: GeneratorHandles = {
                 expect(node.text).toEqual("test")
               else if (node.type === "subprocess")
                 expect(node.text).toEqual("Next")
+              else if (node.type === "end")
+                expect(node.text).toEqual("end")
               else
                 expect(node.text).toEqual("Some text")
               break
@@ -279,11 +281,12 @@ export const handles: GeneratorHandles = {
     //   data: {parameters: {rootName: "other"}},
     //   via: ["57:567: Show using defined root"]
     // }]
-  }, config: {
-    discouragedNodes: [
-      "58:1027: Target not valid",
-      "57:466: Root node not found",
-      "53:478: Leave handles file unchanged"
-    ]
-  }
+  },
+  // config: {
+  //   discouragedNodes: [
+  //     "58:1027: Target not valid",
+  //     "57:466: Root node not found",
+  //     "53:478: Leave handles file unchanged"
+  //   ]
+  // }
 }

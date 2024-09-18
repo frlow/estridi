@@ -117,6 +117,7 @@ export type LogEventType =
     | "pathContainingNode"
     | "viaFilteredNodes"
     | "discouragedFilterNodes"
+    | "pathsWithEndNode"
     | "shortestPath"
     | "testArgs"
 export type LogFunc = (eventType: LogEventType, msg: any) => void
@@ -161,7 +162,13 @@ export const createTester = <THandles extends Handles>(scraped: Scraped, handles
       const encouragedPaths = viaFiltered.filter(p => discouraged.every(d => !p.includes(d)))
       const encouragedFiltered = encouragedPaths.length > 0 ? encouragedPaths : viaFiltered
       log && log("discouragedFilterNodes", encouragedFiltered)
-      const shortestPath = encouragedFiltered.toSorted((a, b) => a.length > b.length ? 0 : 1)[0]
+      const pathsWithEndNode = encouragedFiltered
+          .map(path => path.map(id => getNode(id)))
+          .filter(path => path.some(n => n.type === "end"))
+          .map(path => path.map(n => n.id))
+      const pathsWithEndNodeFiltered = pathsWithEndNode.length > 0 ? pathsWithEndNode : encouragedFiltered
+      log && log("pathsWithEndNode", pathsWithEndNodeFiltered)
+      const shortestPath = pathsWithEndNodeFiltered.toSorted((a, b) => a.length > b.length ? 0 : 1)[0]
       log && log("shortestPath", shortestPath)
       return shortestPath
     }
