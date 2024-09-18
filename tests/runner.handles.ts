@@ -8,7 +8,7 @@ import {filterScraped} from "../src/common";
 
 export type State = {
   testScraped: Scraped,
-  variant: Variant<any>,
+  // variant: Variant<any>,
   variants: Variant<any>[],
   tester: ReturnType<typeof createTester>,
   testHandles: Handles,
@@ -53,11 +53,11 @@ export const handles: RunnerHandles = {
         if (gateways["94:2102: Node has any variants"] === "yes")
           state.testHandles.variants = () => ([{name: "MyVariant"}])
         if (gateways["76:1261: Node has variant"] === "yes")
-          state.variant = {name: "MyVariant"}
+          state.testHandles.variants = () => ([{name: "MyVariant"}])
         if (gateways["76:1304: Variant has via"] === "yes")
-          state.variant.via = ["40:171"]
+          state.testHandles.variants = () => ([{name: "MyVariant", via: ["40:171"]}])
         if (gateways["110:2342: Any path containing all via nodes"] === "no")
-          state.variant.via = ["dummy1", "dummy2"]
+          state.testHandles.variants = () => ([{name: "MyVariant", via: ["dummy1", "dummy2"]}])
         if (gateways["76:1372: Any discouraged nodes"] === "no")
           state.testHandles.config.discouragedNodes = undefined
         else if (gateways["77:1572: Any suggested paths left"] === "no")
@@ -65,13 +65,15 @@ export const handles: RunnerHandles = {
         else if (gateways["77:1572: Any suggested paths left"] === "yes")
           state.testHandles.config.discouragedNodes = ["40:184: Shorter 1"]
         if (gateways["87:2067: Variant has custom test"] === "yes")
-          state.variant = {...state.variant, name: "Custom test", customTest: vi.fn()}
-        if (gateways["78:1892: Variant has extra action"] === "yes")
-          state.variant = {
-            ...state.variant,
+          state.testHandles.variants = () => ([{
             name: "Custom test",
+            customTest: args => state.callMock("customTest", args)
+          }])
+        if (gateways["78:1892: Variant has extra action"] === "yes")
+          state.testHandles.variants = () => ([{
+            name: "Extra action",
             extraAction: args => state.callMock("extraAction", args)
-          }
+          }])
         break
       }
       default:
@@ -84,7 +86,8 @@ export const handles: RunnerHandles = {
       case "76:1110: action - Test node": {
         let id = "1:365"
         if (gateways["110:2290: Any paths containing node"] === "no") id = "dummy"
-        await state.tester.testNode(id, {libArg: "dummy", variant: state.variant}).catch(e => state.error = e)
+        const variants = state.tester.getVariants(id)
+        await state.tester.testNode(id, {libArg: "dummy", variant: variants[0]}).catch(e => state.error = e)
         // libArg is just an example of args from a testing library, page, context from playwright etc.
         break
       }
@@ -100,7 +103,8 @@ export const handles: RunnerHandles = {
     const expectedArgs = {
       "libArg": "dummy",
       gateways: expect.any(Object),
-      getTable: expect.any(Function)
+      getTable: expect.any(Function),
+      // variant: expect.anything()
     }
     switch (key) {
       case "76:1189: Return Variants for node":
@@ -162,8 +166,8 @@ export const handles: RunnerHandles = {
         break
       }
       case "87:2080: Call custom test": {
-        expect(state.callMock).not.toHaveBeenCalled()
-        expect(state.variant.customTest).toHaveBeenCalled()
+        expect(state.callMock).not.toHaveBeenCalledWith("setup", expect.anything())
+        expect(state.callMock).toHaveBeenCalledWith("customTest", expect.anything())
         break
       }
       case "110:2303: No paths containing node":
@@ -180,11 +184,11 @@ export const handles: RunnerHandles = {
           "getTable",
           "gateways"
         ])
-        expect(testArgs.variant).toStrictEqual({name: "MyVariant", "via": ["40:171"],})
+        expect(testArgs.variant).toStrictEqual({name: "1:365"})
         expect(testArgs.libArg).toStrictEqual("dummy")
         expect(testArgs.gateways).toStrictEqual({
           "1:73: Any errors from backend": "no",
-          "40:145: Shorter or longer": "longer",
+          "40:145: Shorter or longer": "shorter",
         })
         const table = testArgs.getTable("9:415: My Table")
         expect(table.values).toStrictEqual([
@@ -201,29 +205,35 @@ export const handles: RunnerHandles = {
         ])
         break
       case "78:1749: Call setup args": {
-        expect(state.callMock).toHaveBeenNthCalledWith(1, "setup", expectedArgs)
+        expect(state.callMock).toHaveBeenNthCalledWith(1, "setup", {...expectedArgs, variant: expect.anything()})
         break
       }
       case "78:1766: Call serviceCalls args serviceCallKey state": {
         expect(state.callMock).toHaveBeenNthCalledWith(2, "serviceCall", {
           ...expectedArgs,
+          variant: expect.anything(),
           key: "1:67: Get Data From Backend"
         })
         break
       }
       case "78:1798: Call start args state": {
-        expect(state.callMock).toHaveBeenNthCalledWith(3, "start", expectedArgs)
+        expect(state.callMock).toHaveBeenNthCalledWith(3, "start", {...expectedArgs, variant: expect.anything(),})
         break
       }
       case "78:1843: Call actions before tested node args actionKey state": {
         expect(state.callMock).toHaveBeenNthCalledWith(4, "action", {
           ...expectedArgs,
+          variant: expect.anything(),
           key: "1:235: action - Next Clicked"
         })
         break
       }
       case "78:1865: Call testNode args testNodeKey state Including scripts messages and unlinked subprocesses": {
-        expect(state.callMock).toHaveBeenNthCalledWith(5, "testNode", {...expectedArgs, key: "1:365: Show Done",})
+        expect(state.callMock).toHaveBeenNthCalledWith(5, "testNode", {
+          ...expectedArgs,
+          key: "1:365: Show Done",
+          variant: expect.anything(),
+        })
         break
       }
       case "78:1923: Call extraAction args state": {
@@ -240,12 +250,12 @@ export const handles: RunnerHandles = {
         throw `${key} not implemented`
     }
   },
-  variants: ({matchId}) => {
-    if (matchId("78:1739: Show args testLib args getTable gateways variant"))
-      return [{name: "78:1739", via: ["76:1304: Variant has via"]}]
-    if (matchId("78:1739: Show args testLib args getTable gateways variant"))
-      return [{name: "78:1739", via: ["76:1322: Filter paths containing all via nodes"]}]
-  },
+  // variants: ({matchId}) => {
+  //   if (matchId("78:1739: Show args testLib args getTable gateways variant"))
+  //     return [{name: "78:1739", via: ["76:1304: Variant has via"]}]
+  //   if (matchId("78:1739: Show args testLib args getTable gateways variant"))
+  //     return [{name: "78:1739", via: ["76:1322: Filter paths containing all via nodes"]}]
+  // },
 
   config: {
     discouragedNodes: [
