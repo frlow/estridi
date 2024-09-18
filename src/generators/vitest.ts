@@ -1,7 +1,11 @@
-import {getKeysBlock, getTestableNodes} from "./index";
-import {Scraped} from "../scraped";
+import { getKeysBlock, getTestableNodes } from './index'
+import { Scraped } from '../scraped'
 
-export const generateVitestTest = (name: string, scraped: Scraped, importSource: string) => `import {describe, test} from 'vitest'
+export const generateVitestTest = (
+  name: string,
+  scraped: Scraped,
+  importSource: string,
+) => `import {describe, test} from 'vitest'
 import {createTester, Handles} from '${importSource}'
 import {handles, State} from './${name}.handles.js'
 import {scraped} from './${name}.data.js'
@@ -9,7 +13,9 @@ const {testNode, getVariants} = createTester(scraped, handles)
 const t = (id: string) => () => getVariants(id).forEach(v => test(v.name, () => testNode(id, {variant: v})))
 
 describe('${name}', () => {
-${getTestableNodes(scraped).map(node => `  describe('${node.text}', t('${node.id}'))`).join("\n")}
+${getTestableNodes(scraped)
+  .map((node) => `  describe('${node.text}', t('${node.id}'))`)
+  .join('\n')}
 })
 
 ${getKeysBlock(scraped)}

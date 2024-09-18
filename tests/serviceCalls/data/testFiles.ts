@@ -140,7 +140,9 @@ export const scraped: Scraped = [
   }
 ]`
 
-export const expectedHandlesFile = (fileType: string) => `import type { MainHandles } from './main.${fileType}.ts'
+export const expectedHandlesFile = (
+  fileType: string,
+) => `import type { MainHandles } from './main.${fileType}.ts'
 
 export type State = {}
 export const handles: MainHandles = {

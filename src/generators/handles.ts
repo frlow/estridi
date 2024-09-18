@@ -1,4 +1,7 @@
-export const handlesContent = (name: string, testFileName: string) => `import type { ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles } from './${testFileName}'
+export const handlesContent = (
+  name: string,
+  testFileName: string,
+) => `import type { ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles } from './${testFileName}'
 
 export type State = {}
 export const handles: ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles = {
@@ -34,7 +37,10 @@ export const handles: ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles
 }
 `
 
-export const handlesKeys = (name: string, argsType: string) => `export type ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles = Handles<
+export const handlesKeys = (
+  name: string,
+  argsType: string,
+) => `export type ${name.charAt(0).toUpperCase()}${name.substring(1)}Handles = Handles<
   State,
   GatewayKey,
   ServiceCallKey,
