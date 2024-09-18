@@ -44,9 +44,9 @@ export const scraped: Scraped = [
     }
   },
   {
-    "type": "start",
+    "type": "end",
     "id": "1:77",
-    "text": "start"
+    "text": "end"
   },
   {
     "type": "subprocess",
@@ -91,7 +91,8 @@ export const scraped: Scraped = [
   {
     "type": "other",
     "id": "40:220",
-    "next": "47:198"
+    "next": "47:198",
+    "text": ""
   },
   {
     "type": "subprocess",
@@ -100,9 +101,9 @@ export const scraped: Scraped = [
     "next": "40:237"
   },
   {
-    "type": "start",
+    "type": "end",
     "id": "40:237",
-    "text": "start"
+    "text": "end"
   },
   {
     "type": "script",
