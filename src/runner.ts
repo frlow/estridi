@@ -140,6 +140,8 @@ export const createTester = <THandles extends Handles>(scraped: Scraped, handles
         node.link
       ].filter(n => n)
       const toProcess: string[][] = [[rootId]]
+
+      // Find all paths
       const paths: string[][] = []
       while (toProcess.length > 0) {
         const currentPath = toProcess.pop()
@@ -151,23 +153,35 @@ export const createTester = <THandles extends Handles>(scraped: Scraped, handles
         }
       }
       log && log("allPaths", paths)
+
+      // Find all paths containing current id
       const pathsWithNode = paths.filter(p => p.includes(id))
       if (pathsWithNode.length === 0) throw `No paths containing node: ${id}`
       log && log("pathContainingNode", pathsWithNode)
+
+      // Find all paths containing all via nodes from variant
       const via = variant?.via || []
       const viaFiltered = pathsWithNode.filter(p => via.every(v => p.includes(getRealKey(v))))
       if (viaFiltered.length === 0) throw `No paths containing all via nodes: ${via.join(", ")}`
       log && log("viaFilteredNodes", viaFiltered)
+
+      // Find all paths that does not include any of the discouraged nodes
+      // If no such paths exist include discouraged nodes
       const discouraged = (handles.config?.discouragedNodes || []).map(d => getRealKey(d))
       const encouragedPaths = viaFiltered.filter(p => discouraged.every(d => !p.includes(d)))
       const encouragedFiltered = encouragedPaths.length > 0 ? encouragedPaths : viaFiltered
       log && log("discouragedFilterNodes", encouragedFiltered)
+
+      // Filter paths containing end nodes
+      // If no such paths exist include paths without end nodes
       const pathsWithEndNode = encouragedFiltered
           .map(path => path.map(id => getNode(id)))
           .filter(path => path.some(n => n.type === "end"))
           .map(path => path.map(n => n.id))
       const pathsWithEndNodeFiltered = pathsWithEndNode.length > 0 ? pathsWithEndNode : encouragedFiltered
       log && log("pathsWithEndNode", pathsWithEndNodeFiltered)
+
+      // Find the shortest path remaining
       const shortestPath = pathsWithEndNodeFiltered.toSorted((a, b) => a.length > b.length ? 0 : 1)[0]
       log && log("shortestPath", shortestPath)
       return shortestPath
@@ -214,6 +228,3 @@ export const createTester = <THandles extends Handles>(scraped: Scraped, handles
       }) || [{name: id}] : [{name: id}]
   return {testNode, getVariants}
 }
-
-// TODO: matchId
-// TODO: getTable

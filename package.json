@@ -1,13 +1,14 @@
 {
-  "name": "estridi-remake",
-  "version": "1.0.0",
+  "name": "estridi",
+  "version": "1.0.0-beta1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "tsx src/cli.ts -r generator -t vitest -i '../src/runner.js' && tsx src/cli.ts -r runner -t vitest -i '../src/runner.js'",
     "test": "vitest run",
     "tsc": "tsc",
-    "examples": "tsx examples.ts"
+    "examples": "tsx examples.ts",
+    "publish": "npm publish --tag beta"
   },
   "dependencies": {
     "commander": "^12.1.0",
