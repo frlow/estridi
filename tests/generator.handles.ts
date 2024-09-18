@@ -7,7 +7,8 @@ import {
   expectedDataFile,
   expectedHandlesFile,
   expectedPlaywrightFile,
-  expectedVitestFile
+  expectedVitestFile,
+  expectedWriterFile
 } from "./serviceCalls/data/testFiles";
 
 export type State = {
@@ -189,8 +190,8 @@ export const handles: GeneratorHandles = {
       case "58:877: Show filtered nodes connected to root": {
         const allNodes = state.getLog("allParsed")
         const filteredNodes = state.getLog("filteredNodes")
-        expect(allNodes.length===165)
-        expect(filteredNodes.length===19)
+        expect(allNodes.length === 165)
+        expect(filteredNodes.length === 19)
         break
       }
       case "50:315: Write data file":
@@ -204,6 +205,9 @@ export const handles: GeneratorHandles = {
             break
           case "playwright":
             expect(state.estridi.writeFile).toHaveBeenNthCalledWith(3, expectedPlaywrightFile, `tests/main.${generator["Test file name"]}.ts`)
+            break
+          case "writer":
+            expect(state.estridi.writeFile).toHaveBeenNthCalledWith(3, expectedWriterFile, `tests/main.${generator["Test file name"]}.ts`)
             break
           default:
             debugger
@@ -273,20 +277,9 @@ export const handles: GeneratorHandles = {
       return sourcesAndNodes
     if (matchId("22:2167: Show loaded data")) return sources
     if (matchId("22:2197: Parse Tables")) return tables
-    if (matchId("53:434: Write Test file for selected target")) return generators
+    if (matchId("53:434: Write Test file for selected target"))
+      return generators
     if (matchId("53:465: Write Handles file")) return generators
     if (matchId("58:916: Done Tests written")) return generators
-    // if (matchId("58:877: Show filtered nodes connected to root")) return [{
-    //   name: "Filtered nodes",
-    //   data: {parameters: {rootName: "other"}},
-    //   via: ["57:567: Show using defined root"]
-    // }]
   },
-  // config: {
-  //   discouragedNodes: [
-  //     "58:1027: Target not valid",
-  //     "57:466: Root node not found",
-  //     "53:478: Leave handles file unchanged"
-  //   ]
-  // }
 }

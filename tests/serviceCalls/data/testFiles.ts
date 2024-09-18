@@ -256,3 +256,48 @@ export type MainHandles = Handles<
     TableKeys
 >
 `
+
+export const expectedWriterFile = `import {createTester, Handles} from 'estridi'
+import {handles, State} from './main.handles.js'
+import {scraped} from './main.data.js'
+const {testNode, getVariants} = createTester(scraped, handles)
+const t = (id: string) => getVariants(id).forEach(v => testNode(id, {variant: v}))
+
+// Show server error
+t('1:74')
+
+// Show Data
+t('1:338')
+
+// Show Done
+t('1:365')
+
+// Longer 1
+t('40:158')
+
+// Longer 2
+t('40:171')
+
+// Unlinked
+t('47:198')
+
+// Shorter 1
+t('40:184')
+
+// Clear Page
+t('1:326')
+
+handles.handleSetup({variant:{name: "end"}})
+
+${keyBlock}
+
+export type MainHandles = Handles<
+    State,
+    GatewayKey,
+    ServiceCallKey,
+    TestNodeKey,
+    ActionKey,
+    {},
+    TableKeys
+>
+`

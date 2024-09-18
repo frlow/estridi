@@ -2,6 +2,7 @@ import {Estridi, EstridiTargets, Scraped, ScrapedNode, ScrapedUserAction,} from 
 import {handlesContent} from "./handles";
 import {generatePlaywrightTest} from "./playwright";
 import {generateVitestTest} from "./vitest";
+import {generateWriterScript} from "./writer";
 
 export const getKeysString = (scrapedNodes: ScrapedNode[]): string => {
   if (scrapedNodes.length === 0) return "    | 'N/A'"
@@ -25,8 +26,9 @@ export const scraped: Scraped = ${JSON.stringify(scraped, null, 2)}`, `tests/${n
   writtenFiles.push(`tests/${name}.data.ts`)
   const testFileName =
       target === "playwright" ? `${name}.spec.ts` :
-          target === "vitest" ? `${name}.test.ts` :
-              `${name}.error.ts`
+      target === "vitest" ? `${name}.test.ts` :
+      target === "writer" ? `${name}.writer.ts` :
+      `${name}.error.ts`
   if (!estridi.fileExists(`tests/${name}.handles.ts`)) {
     const handles = handlesContent(name, testFileName)
     estridi.writeFile(handles, `tests/${name}.handles.ts`)
@@ -34,7 +36,9 @@ export const scraped: Scraped = ${JSON.stringify(scraped, null, 2)}`, `tests/${n
   }
   const testFile =
       target === "playwright" ? generatePlaywrightTest(name, scraped, importSource) :
-          target === "vitest" ? generateVitestTest(name, scraped, importSource) :
+      target === "vitest" ? generateVitestTest(name, scraped, importSource) :
+      target === "writer" ? generateWriterScript(name, scraped, importSource) :
+
               "ERROR"
   estridi.writeFile(testFile, `tests/${testFileName}`)
   writtenFiles.push(`tests/${testFileName}`)

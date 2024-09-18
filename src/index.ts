@@ -3,14 +3,13 @@ import {loadFigmaDocument} from "./processors/figma";
 import {filterScraped} from "./common";
 import * as fs from "fs";
 import {generateTestFiles} from "./generators";
-import * as path from "path";
 import {Scraped, ScrapedStart} from "./scraped";
 
 export * from './scraped.js'
 
 export type RootsConfig = string[] | boolean | undefined
 
-export const estridiTargets = ['playwright', 'vitest'] as const
+export const estridiTargets = ['playwright', 'vitest', 'writer'] as const
 export type EstridiTargets = typeof estridiTargets[number]
 
 export type BaseConfig = {}
@@ -59,7 +58,6 @@ export type EstridiLog = {
   tag: LogEvents,
   data: any
 }[]
-
 
 
 const validateParams = (params: EstridiParameters, scraped: Scraped): {
@@ -116,7 +114,8 @@ export const estridi = (params: EstridiParameters) => {
   }
 
   const ret = {
-    log: (key: LogEvents, content: any)=>{}, // Override this to use logging.
+    log: (key: LogEvents, content: any) => {
+    }, // Override this to use logging.
     loadFigmaDocument,
     generate,
     loadData,

@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "tsx src/cli.ts -r generator -t vitest -i '../src/runner.js' && tsx src/cli.ts -r runner -t vitest -i '../src/runner.js'",
+    "writer": "tsx src/cli.ts -r generator -t writer -i '../src/runner.js'",
+    "writer:run": "tsx tests/generator.writer.ts",
     "test": "vitest run",
     "tsc": "tsc",
     "examples": "tsx examples.ts",
