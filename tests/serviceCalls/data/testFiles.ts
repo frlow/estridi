@@ -278,7 +278,7 @@ const run = async () => {
   await t('40:184') // Shorter 1
   await t('1:326') // Clear Page
 
-  await handles.handleSetup({ variant: { name: 'end' } })
+  await handles.handleSetup({ variant: { name: 'end' } } as any)
 }
 
 run().then()

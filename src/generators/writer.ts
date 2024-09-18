@@ -19,7 +19,7 @@ ${getTestableNodes(scraped)
   .map((node) => `  await t('${node.id}') // ${node.text}`)
   .join('\n')}
 
-  await handles.handleSetup({ variant: { name: 'end' } })
+  await handles.handleSetup({ variant: { name: 'end' } } as any)
 }
 
 run().then()
