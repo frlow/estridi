@@ -9,13 +9,21 @@ export const generateWriterScript = (
 import {handles, State} from './${name}.handles.js'
 import {scraped} from './${name}.data.js'
 const {testNode, getVariants} = createTester(scraped, handles)
-const t = (id: string) => getVariants(id).forEach(v => testNode(id, {variant: v}))
+async function t(id: string) {
+  for (const v of getVariants(id))
+    await testNode(id, { variant: v })
+}
 
+const run = async () => {
 ${getTestableNodes(scraped)
-  .map((node) => `// ${node.text}\nt('${node.id}')`)
-  .join('\n\n')}
+  .map((node) => `  await t('${node.id}') // ${node.text}`)
+  .join('\n')}
 
-handles.handleSetup({variant:{name: "end"}})
+  await handles.handleSetup({ variant: { name: 'end' } })
+}
+
+run().then()
+
 
 ${getKeysBlock(scraped)}
 

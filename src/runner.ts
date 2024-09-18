@@ -9,10 +9,16 @@ import {
 
 export * from './scraped.js'
 
-export type HandleArgs<TState, TNodeTestArgs, TTableKeys> = TNodeTestArgs & {
+export type HandleArgs<
+  TState,
+  TNodeTestArgs,
+  TTableKeys,
+  TGWKey extends string,
+> = TNodeTestArgs & {
   state: TState
   getTable: (key: TTableKeys) => Table
   variant: Variant<any>
+  gateways: Record<TGWKey, string>
 }
 
 export type Variant<T> = {
@@ -42,30 +48,28 @@ export type Handles<
   TTableKeys extends string = any,
 > = {
   handleSetup: (
-    args: TNodeTestArgs & { variant: Variant<any> },
-  ) => Promise<TState>
-  handleStart: (
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys> & {
+    args: TNodeTestArgs & {
+      variant: Variant<any>
       gateways: Record<TGWKey, string>
     },
+  ) => Promise<TState>
+  handleStart: (
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey>,
   ) => Promise<void>
   handleServiceCall: (
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys> & {
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey> & {
       key: TServiceCallKey
-      gateways: Record<TGWKey, string>
       inputs: string
     },
   ) => Promise<void>
   handleAction: (
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys> & {
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey> & {
       key: TActionKey
-      gateways: Record<TGWKey, string>
     },
   ) => Promise<void>
   handleTestNode: (
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys> & {
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey> & {
       key: TNodeKey
-      gateways: Record<TGWKey, string>
       path: string[]
     },
   ) => Promise<void>

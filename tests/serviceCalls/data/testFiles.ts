@@ -263,33 +263,26 @@ export const expectedWriterFile = `import {createTester, Handles} from 'estridi'
 import {handles, State} from './main.handles.js'
 import {scraped} from './main.data.js'
 const {testNode, getVariants} = createTester(scraped, handles)
-const t = (id: string) => getVariants(id).forEach(v => testNode(id, {variant: v}))
+async function t(id: string) {
+  for (const v of getVariants(id))
+    await testNode(id, { variant: v })
+}
 
-// Show server error
-t('1:74')
+const run = async () => {
+  await t('1:74') // Show server error
+  await t('1:338') // Show Data
+  await t('1:365') // Show Done
+  await t('40:158') // Longer 1
+  await t('40:171') // Longer 2
+  await t('47:198') // Unlinked
+  await t('40:184') // Shorter 1
+  await t('1:326') // Clear Page
 
-// Show Data
-t('1:338')
+  await handles.handleSetup({ variant: { name: 'end' } })
+}
 
-// Show Done
-t('1:365')
+run().then()
 
-// Longer 1
-t('40:158')
-
-// Longer 2
-t('40:171')
-
-// Unlinked
-t('47:198')
-
-// Shorter 1
-t('40:184')
-
-// Clear Page
-t('1:326')
-
-handles.handleSetup({variant:{name: "end"}})
 
 ${keyBlock}
 

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "tsx src/cli.ts -r generator -t vitest -i '../src/runner.js' && tsx src/cli.ts -r runner -t vitest -i '../src/runner.js'",
     "writer": "tsx src/cli.ts -r generator -t writer -i '../src/runner.js' -d demo",
-    "writer:run": "tsx tests/generator.writer.ts",
+    "writer:run": "tsx demo/generator.writer.ts",
     "test": "vitest run",
     "tsc": "tsc",
     "prettier": "prettier -w **/*",
