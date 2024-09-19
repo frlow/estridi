@@ -33,3 +33,5 @@ jobs:
       - run: pnpm i
       - run: pnpm test
       - run: pnpm build
+      - run: npm publish
+        continue-on-error: true
