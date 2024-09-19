@@ -2,3 +2,4 @@ node_modules/
 estridi.json
 .idea/
 demo/
+dist/

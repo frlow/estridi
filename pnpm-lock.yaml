@@ -21,6 +21,9 @@ importers:
         specifier: ^2.0.5
         version: 2.0.5(@types/node@22.5.5)
     devDependencies:
+      '@types/node':
+        specifier: ^22.5.5
+        version: 22.5.5
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -948,7 +951,6 @@ snapshots:
   '@types/node@22.5.5':
     dependencies:
       undici-types: 6.19.8
-    optional: true
 
   '@vitest/expect@2.0.5':
     dependencies:
@@ -1213,8 +1215,7 @@ snapshots:
 
   typescript@5.6.2: {}
 
-  undici-types@6.19.8:
-    optional: true
+  undici-types@6.19.8: {}
 
   vite-node@2.0.5(@types/node@22.5.5):
     dependencies:
