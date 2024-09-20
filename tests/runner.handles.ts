@@ -222,10 +222,12 @@ export const handles: RunnerHandles = {
         const shortest = state.log.find(
           (l) => l.eventType === 'shortestPath',
         ).msg
-        const paths: string[][] = state.log
+        const shortestPath = state.log
           .find((l) => l.eventType === 'pathContainingNode')
-          .msg.toSorted((a, b) => (a.length > b.length ? 1 : -1))
-        expect(paths[0]).toStrictEqual(shortest)
+          .msg.reduce((acc, cur) =>
+            !acc || cur.length<acc.length ? cur : acc
+          ,undefined)
+        expect(shortestPath).toStrictEqual(shortest)
         break
       }
       case '87:2080: Call custom test': {

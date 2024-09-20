@@ -225,9 +225,9 @@ export const createTester = <THandles extends Handles>(
       log && log('pathsWithEndNode', pathsWithEndNodeFiltered)
 
       // Find the shortest path remaining
-      const shortestPath = pathsWithEndNodeFiltered.toSorted((a, b) =>
-        a.length > b.length ? 0 : 1,
-      )[0]
+      const shortestPath = pathsWithEndNodeFiltered.reduce((acc, cur) =>
+        !acc || cur.length<acc.length ? cur : acc
+      ,undefined)
       log && log('shortestPath', shortestPath)
       return shortestPath
     }
