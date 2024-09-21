@@ -4,7 +4,7 @@ import {
   ScrapedNode,
   ScrapedStart,
   ScrapedTable,
-  ScrapedUserAction,
+  ScrapedUserAction
 } from './scraped'
 
 export * from './scraped.js'
@@ -51,33 +51,33 @@ export type Handles<
     args: TNodeTestArgs & {
       variant: Variant<any>
       gateways: Record<TGWKey, string>
-    },
+    }
   ) => Promise<TState>
   handleStart: (
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey>,
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey>
   ) => Promise<void>
   handleServiceCall: (
     args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey> & {
       key: TServiceCallKey
       inputs: string
-    },
+    }
   ) => Promise<void>
   handleAction: (
     args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey> & {
       key: TActionKey
-    },
+    }
   ) => Promise<void>
   handleTestNode: (
     args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey> & {
       key: TNodeKey
       path: string[]
-    },
+    }
   ) => Promise<void>
   filterPaths?: (args: {
     allPaths: string[][]
     scraped: Scraped
     getGateways: (
-      currentPath: string[],
+      currentPath: string[]
     ) => { text: string; id: string; value: string }[]
   }) => string[][]
   variants?: (args: {
@@ -85,6 +85,7 @@ export type Handles<
     // scraped: Scraped,
     matchId: (key: TNodeKey) => boolean
     getTable: (id: TTableKeys) => Table
+    autoVariants: (id: string) => Variant<TTableKeys | TActionKey | TNodeKey | TServiceCallKey | TGWKey>[]
   }) =>
     | Variant<TTableKeys | TActionKey | TNodeKey | TServiceCallKey | TGWKey>[]
     | undefined
@@ -108,8 +109,8 @@ export const createTable = ({ rows, id, text }: ScrapedTable): Table => {
             acc[cur] = row[index]
             return acc
           },
-          { Id: row[0] } as Record<string, string>,
-        ),
+          { Id: row[0] } as Record<string, string>
+        )
       )
     },
     get signature() {
@@ -127,11 +128,11 @@ export const createTable = ({ rows, id, text }: ScrapedTable): Table => {
         '\n' +
         [
           headers.map((h) => hashCode(h)).join('|'),
-          ...content.map((line) => line.map((v) => hashCode(v)).join('|')),
+          ...content.map((line) => line.map((v) => hashCode(v)).join('|'))
         ].join('\n') +
         '\n'
       )
-    },
+    }
   }
 }
 
@@ -149,94 +150,100 @@ export const getKey = (node: ScrapedNode) => `${node.id}: ${node.text}`
 export const createTester = <THandles extends Handles>(
   scraped: Scraped,
   handles: THandles,
-  log?: LogFunc,
+  log?: LogFunc
 ) => {
+  const getNode = (id: string) => scraped.find((n) => n.id === id)
+
+  function findRelevantPath(id: string, via: string[]) {
+    const possiblePaths = findPossiblePaths(id, via)
+    // Find the shortest path remaining
+    const shortestPath = possiblePaths.reduce((acc, cur) =>
+        !acc || cur.length < acc.length ? cur : acc
+      , undefined)
+    log && log('shortestPath', shortestPath)
+    return shortestPath
+  }
+
+  function findPossiblePaths(id: string, via: string[]) {
+    const rootId = scraped.find((n: ScrapedStart) => n.isRoot).id
+    const getNext = (node: any): string[] =>
+      [
+        node.next,
+        ...Object.keys(node.options || {}),
+        ...Object.keys(node.actions || {}),
+        node.link
+      ].filter((n) => n)
+    const toProcess: string[][] = [[rootId]]
+
+    // Find all paths
+    const paths: string[][] = []
+    while (toProcess.length > 0) {
+      const currentPath = toProcess.pop()
+      const currentNode = getNode(currentPath[currentPath.length - 1])
+      const currentNext = getNext(currentNode)
+      if (currentNext.length === 0) paths.push(currentPath)
+      else {
+        toProcess.push(...currentNext.map((c) => [...currentPath, c]))
+      }
+    }
+    log && log('allPaths', paths)
+
+    // Find all paths containing current id
+    const pathsWithNode = paths.filter((p) => p.includes(id))
+    if (pathsWithNode.length === 0) throw `No paths containing node: ${id}`
+    log && log('pathContainingNode', pathsWithNode)
+
+    // Find all paths containing all via nodes from variant
+    // const via = variant?.via || []
+    const viaFiltered = pathsWithNode.filter((p) =>
+      via.every((v) => p.includes(getRealKey(v)))
+    )
+    if (viaFiltered.length === 0)
+      throw `No paths containing all via nodes: ${via.join(', ')}`
+    log && log('viaFilteredNodes', viaFiltered)
+
+    // Find all paths that does not include any of the discouraged nodes
+    // If no such paths exist include discouraged nodes
+    const discouraged = (handles.config?.discouragedNodes || []).map((d) =>
+      getRealKey(d)
+    )
+    const encouragedPaths = viaFiltered.filter((p) =>
+      discouraged.every((d) => !p.includes(d))
+    )
+    const encouragedFiltered =
+      encouragedPaths.length > 0 ? encouragedPaths : viaFiltered
+    log && log('discouragedFilterNodes', encouragedFiltered)
+
+    // Filter paths containing end nodes
+    // If no such paths exist include paths without end nodes
+    const pathsWithEndNode = encouragedFiltered
+      .map((path) => path.map((id) => getNode(id)))
+      .filter((path) => path.some((n) => n.type === 'end'))
+      .map((path) => path.map((n) => n.id))
+    const pathsWithEndNodeFiltered =
+      pathsWithEndNode.length > 0 ? pathsWithEndNode : encouragedFiltered
+    log && log('pathsWithEndNode', pathsWithEndNodeFiltered)
+    return pathsWithEndNodeFiltered
+  }
+
   async function runTest(
     { handles, args }: { args: any; handles: THandles },
-    id: string,
+    id: string
   ) {
     const variant: Variant<any> = args.variant || { name: id }
-    const getNode = (id: string) => scraped.find((n) => n.id === id)
     const getTable = (key: string) =>
       createTable(
         scraped.find(
-          (n) => n.type === 'table' && `${n.id}: ${n.text}` === key,
-        ) as ScrapedTable,
+          (n) => n.type === 'table' && `${n.id}: ${n.text}` === key
+        ) as ScrapedTable
       )
 
-    function findRelevantPath() {
-      const rootId = scraped.find((n: ScrapedStart) => n.isRoot).id
-      const getNext = (node: any): string[] =>
-        [
-          node.next,
-          ...Object.keys(node.options || {}),
-          ...Object.keys(node.actions || {}),
-          node.link,
-        ].filter((n) => n)
-      const toProcess: string[][] = [[rootId]]
-
-      // Find all paths
-      const paths: string[][] = []
-      while (toProcess.length > 0) {
-        const currentPath = toProcess.pop()
-        const currentNode = getNode(currentPath[currentPath.length - 1])
-        const currentNext = getNext(currentNode)
-        if (currentNext.length === 0) paths.push(currentPath)
-        else {
-          toProcess.push(...currentNext.map((c) => [...currentPath, c]))
-        }
-      }
-      log && log('allPaths', paths)
-
-      // Find all paths containing current id
-      const pathsWithNode = paths.filter((p) => p.includes(id))
-      if (pathsWithNode.length === 0) throw `No paths containing node: ${id}`
-      log && log('pathContainingNode', pathsWithNode)
-
-      // Find all paths containing all via nodes from variant
-      const via = variant?.via || []
-      const viaFiltered = pathsWithNode.filter((p) =>
-        via.every((v) => p.includes(getRealKey(v))),
-      )
-      if (viaFiltered.length === 0)
-        throw `No paths containing all via nodes: ${via.join(', ')}`
-      log && log('viaFilteredNodes', viaFiltered)
-
-      // Find all paths that does not include any of the discouraged nodes
-      // If no such paths exist include discouraged nodes
-      const discouraged = (handles.config?.discouragedNodes || []).map((d) =>
-        getRealKey(d),
-      )
-      const encouragedPaths = viaFiltered.filter((p) =>
-        discouraged.every((d) => !p.includes(d)),
-      )
-      const encouragedFiltered =
-        encouragedPaths.length > 0 ? encouragedPaths : viaFiltered
-      log && log('discouragedFilterNodes', encouragedFiltered)
-
-      // Filter paths containing end nodes
-      // If no such paths exist include paths without end nodes
-      const pathsWithEndNode = encouragedFiltered
-        .map((path) => path.map((id) => getNode(id)))
-        .filter((path) => path.some((n) => n.type === 'end'))
-        .map((path) => path.map((n) => n.id))
-      const pathsWithEndNodeFiltered =
-        pathsWithEndNode.length > 0 ? pathsWithEndNode : encouragedFiltered
-      log && log('pathsWithEndNode', pathsWithEndNodeFiltered)
-
-      // Find the shortest path remaining
-      const shortestPath = pathsWithEndNodeFiltered.reduce((acc, cur) =>
-        !acc || cur.length<acc.length ? cur : acc
-      ,undefined)
-      log && log('shortestPath', shortestPath)
-      return shortestPath
-    }
 
     if (variant.customTest) {
       await variant.customTest({ args }, id)
       return
     }
-    const relevantPath = findRelevantPath()
+    const relevantPath = findRelevantPath(id, variant?.via || [])
     const nodePath = relevantPath.map((id) => scraped.find((n) => n.id === id))
     const gateways = nodePath.reduce((acc, cur: ScrapedGateway, i, arr) => {
       if (cur.options)
@@ -251,12 +258,12 @@ export const createTester = <THandles extends Handles>(
       await handles.handleServiceCall({
         ...testArgs,
         key: getKey(serviceCall),
-        state,
+        state
       })
     await handles.handleStart({ ...testArgs, state })
     const testNode = nodePath.find((n) => n.id === id)
     const actions = nodePath.filter(
-      (n, i, arr) => i < arr.indexOf(testNode) && n.type === 'userAction',
+      (n, i, arr) => i < arr.indexOf(testNode) && n.type === 'userAction'
     ) as ScrapedUserAction[]
     for (const action of actions) {
       const next = nodePath[nodePath.indexOf(action) + 1]
@@ -271,18 +278,28 @@ export const createTester = <THandles extends Handles>(
   const getTable = (key: string) =>
     createTable(
       scraped.find(
-        (n: any) => n.type === 'table' && `${n.id}: ${n.text}` === key,
-      ) as ScrapedTable,
+        (n: any) => n.type === 'table' && `${n.id}: ${n.text}` === key
+      ) as ScrapedTable
     )
   const testNode = (id: string, args?: any) => runTest({ args, handles }, id)
 
-  const getVariants: (id: string) => Variant<any>[] = (id) =>
-    handles.variants
+  const getVariants: (id: string) => Variant<any>[] = (id) => {
+    const autoVariants = (id: string): Variant<any>[] => {
+      const paths = Object.keys(findPossiblePaths(id, [])
+        .map(path => path.slice(0, path.indexOf(id)).join(','))
+        .reduce((acc, cur) => ({ ...acc, [cur]: true }), {})).map(path => path.split(','))
+      return paths.map((path, i) => ({ name: `Auto: ${i}`, via: path }))
+    }
+    //
+    return handles.variants
       ? handles.variants({
-          id,
-          getTable: (key: string) => getTable(key),
-          matchId: (key: string) => key.includes(id),
-        }) || [{ name: id }]
+      id,
+      getTable: (key: string) => getTable(key),
+      matchId: (key: string) => key.includes(id),
+      autoVariants
+    }) || [{ name: id }]
       : [{ name: id }]
+  }
+
   return { testNode, getVariants }
 }
