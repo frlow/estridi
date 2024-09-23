@@ -1,6 +1,6 @@
 {
   "name": "estridi",
-  "version": "1.0.0-beta001",
+  "version": "1.0.0-beta002",
   "description": "",
   "bin": "./dist/esm/cli.js",
   "type": "module",

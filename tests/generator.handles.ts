@@ -31,7 +31,7 @@ export const handles: GeneratorHandles = {
     } as State
   },
   handleStart: async ({ state, variant }) => {
-    state.getLog = (key) => state.log.findLast((l) => l.key === key)!.data
+    state.getLog = (key) => state.log.reverse().find((l) => l.key === key)!.data
     state.estridi.writeFile = vi.fn()
     state.estridi.log = (key, content) => state.log.push({ data: content, key })
     await state.estridi.generate()

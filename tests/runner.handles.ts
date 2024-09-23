@@ -27,8 +27,8 @@ export const handles: RunnerHandles = {
       (eventType, msg) =>
         state.log.push({
           eventType,
-          msg,
-        }),
+          msg
+        })
     )
   },
   handleServiceCall: async ({ key, state, gateways }) => {
@@ -37,7 +37,7 @@ export const handles: RunnerHandles = {
         const processed = await processFigma(
           { variant: 'TE' } as FigmaConfig,
           figmaExampleTE as any,
-          () => null,
+          () => null
         )
         state.testScraped = filterScraped(processed, 'main')
         break
@@ -50,7 +50,7 @@ export const handles: RunnerHandles = {
           handleStart: (args) => state.callMock('start', args),
           handleServiceCall: (args) => state.callMock('serviceCall', args),
           handleTestNode: (args) => state.callMock('testNode', args),
-          config: {},
+          config: {}
         }
         if (gateways['94:2102: Node has any variants'] === 'yes')
           state.testHandles.variants = () => [{ name: 'MyVariant' }]
@@ -58,11 +58,11 @@ export const handles: RunnerHandles = {
           state.testHandles.variants = () => [{ name: 'MyVariant' }]
         if (gateways['76:1304: Variant has via'] === 'yes')
           state.testHandles.variants = () => [
-            { name: 'MyVariant', via: ['40:171'] },
+            { name: 'MyVariant', via: ['40:171'] }
           ]
         if (gateways['110:2342: Any path containing all via nodes'] === 'no')
           state.testHandles.variants = () => [
-            { name: 'MyVariant', via: ['dummy1', 'dummy2'] },
+            { name: 'MyVariant', via: ['dummy1', 'dummy2'] }
           ]
         if (gateways['76:1372: Any discouraged nodes'] === 'no')
           state.testHandles.config.discouragedNodes = undefined
@@ -74,15 +74,15 @@ export const handles: RunnerHandles = {
           state.testHandles.variants = () => [
             {
               name: 'Custom test',
-              customTest: (args) => state.callMock('customTest', args),
-            },
+              customTest: (args) => state.callMock('customTest', args)
+            }
           ]
         if (gateways['78:1892: Variant has extra action'] === 'yes')
           state.testHandles.variants = () => [
             {
               name: 'Extra action',
-              extraAction: (args) => state.callMock('extraAction', args),
-            },
+              extraAction: (args) => state.callMock('extraAction', args)
+            }
           ]
         break
       }
@@ -119,7 +119,7 @@ export const handles: RunnerHandles = {
     const expectedArgs = {
       libArg: 'dummy',
       gateways: expect.any(Object),
-      getTable: expect.any(Function),
+      getTable: expect.any(Function)
       // variant: expect.anything()
     }
     switch (key) {
@@ -146,7 +146,7 @@ export const handles: RunnerHandles = {
             '40:184',
             '40:220',
             '47:198',
-            '40:237',
+            '40:237'
           ],
           [
             '1:72',
@@ -162,17 +162,17 @@ export const handles: RunnerHandles = {
             '40:171',
             '40:220',
             '47:198',
-            '40:237',
+            '40:237'
           ],
           ['1:72', '1:67', '1:73', '1:338', '1:235', '1:77'],
-          ['1:72', '1:67', '1:73', '1:74'],
+          ['1:72', '1:67', '1:73', '1:74']
         ]
         expect(paths).toStrictEqual(expected)
         break
       }
       case '76:1241: Filter all paths containing node': {
         const pathsWithNode = state.log.find(
-          (l) => l.eventType === 'pathContainingNode',
+          (l) => l.eventType === 'pathContainingNode'
         ).msg
         expect(pathsWithNode.length).toStrictEqual(2)
         expect(pathsWithNode[0]).toContain('1:365')
@@ -181,7 +181,7 @@ export const handles: RunnerHandles = {
       }
       case '76:1322: Filter paths containing all via nodes': {
         const via = state.log.find(
-          (l) => l.eventType === 'viaFilteredNodes',
+          (l) => l.eventType === 'viaFilteredNodes'
         ).msg
         expect(via.length).toEqual(1)
         expect(via[0]).toContain('40:171')
@@ -189,20 +189,20 @@ export const handles: RunnerHandles = {
       }
       case '108:2187: Don t filter nodes by via': {
         const via = state.log.find(
-          (l) => l.eventType === 'viaFilteredNodes',
+          (l) => l.eventType === 'viaFilteredNodes'
         ).msg
         const paths = state.log.find(
-          (l) => l.eventType === 'pathContainingNode',
+          (l) => l.eventType === 'pathContainingNode'
         ).msg
         expect(via).toStrictEqual(paths)
         break
       }
       case '77:1609: Filter encouraged paths': {
         const discouraged = state.log.find(
-          (l) => l.eventType === 'discouragedFilterNodes',
+          (l) => l.eventType === 'discouragedFilterNodes'
         ).msg
         const paths = state.log.find(
-          (l) => l.eventType === 'pathContainingNode',
+          (l) => l.eventType === 'pathContainingNode'
         ).msg
         expect(discouraged.length).toStrictEqual(paths.length - 1)
         break
@@ -210,32 +210,34 @@ export const handles: RunnerHandles = {
       case '108:2237: Don t filter discouraged':
       case '77:1635: Include discouraged paths': {
         const discouraged = state.log.find(
-          (l) => l.eventType === 'discouragedFilterNodes',
+          (l) => l.eventType === 'discouragedFilterNodes'
         ).msg
         const paths = state.log.find(
-          (l) => l.eventType === 'pathContainingNode',
+          (l) => l.eventType === 'pathContainingNode'
         ).msg
         expect(discouraged).toStrictEqual(paths)
         break
       }
       case '76:1484: Use shortest path': {
         const shortest = state.log.find(
-          (l) => l.eventType === 'shortestPath',
+          (l) => l.eventType === 'shortestPath'
         ).msg
-        const paths: string[][] = state.log
+        const shortestPath = state.log
           .find((l) => l.eventType === 'pathContainingNode')
-          .msg.toSorted((a, b) => (a.length > b.length ? 1 : -1))
-        expect(paths[0]).toStrictEqual(shortest)
+          .msg.reduce((acc, cur) =>
+              !acc || cur.length < acc.length ? cur : acc
+            , undefined)
+        expect(shortestPath).toStrictEqual(shortest)
         break
       }
       case '87:2080: Call custom test': {
         expect(state.callMock).not.toHaveBeenCalledWith(
           'setup',
-          expect.anything(),
+          expect.anything()
         )
         expect(state.callMock).toHaveBeenCalledWith(
           'customTest',
-          expect.anything(),
+          expect.anything()
         )
         break
       }
@@ -244,7 +246,7 @@ export const handles: RunnerHandles = {
         break
       case '110:2327: No paths containing all via nodes':
         expect(state.error).toStrictEqual(
-          'No paths containing all via nodes: dummy1, dummy2',
+          'No paths containing all via nodes: dummy1, dummy2'
         )
         break
       case '78:1739: Show args testLib args getTable gateways variant':
@@ -253,32 +255,32 @@ export const handles: RunnerHandles = {
           'variant',
           'libArg',
           'getTable',
-          'gateways',
+          'gateways'
         ])
         expect(testArgs.variant).toStrictEqual({ name: '1:365' })
         expect(testArgs.libArg).toStrictEqual('dummy')
         expect(testArgs.gateways).toStrictEqual({
           '1:73: Any errors from backend': 'no',
-          '40:145: Shorter or longer': 'shorter',
+          '40:145: Shorter or longer': 'shorter'
         })
         const table = testArgs.getTable('9:415: My Table')
         expect(table.values).toStrictEqual([
           {
             Id: 'Line 1',
             First: 'AAAA',
-            Second: 'BBBB',
+            Second: 'BBBB'
           },
           {
             Id: 'Line 2',
             First: 'CCCC',
-            Second: 'DDDD',
-          },
+            Second: 'DDDD'
+          }
         ])
         break
       case '78:1749: Call setup args': {
         expect(state.callMock).toHaveBeenNthCalledWith(1, 'setup', {
           ...expectedArgs,
-          variant: expect.anything(),
+          variant: expect.anything()
         })
         break
       }
@@ -286,14 +288,14 @@ export const handles: RunnerHandles = {
         expect(state.callMock).toHaveBeenNthCalledWith(2, 'serviceCall', {
           ...expectedArgs,
           variant: expect.anything(),
-          key: '1:67: Get Data From Backend',
+          key: '1:67: Get Data From Backend'
         })
         break
       }
       case '78:1798: Call start args state': {
         expect(state.callMock).toHaveBeenNthCalledWith(3, 'start', {
           ...expectedArgs,
-          variant: expect.anything(),
+          variant: expect.anything()
         })
         break
       }
@@ -301,7 +303,7 @@ export const handles: RunnerHandles = {
         expect(state.callMock).toHaveBeenNthCalledWith(4, 'action', {
           ...expectedArgs,
           variant: expect.anything(),
-          key: '1:235: action - Next Clicked',
+          key: '1:235: action - Next Clicked'
         })
         break
       }
@@ -309,28 +311,28 @@ export const handles: RunnerHandles = {
         expect(state.callMock).toHaveBeenNthCalledWith(5, 'testNode', {
           ...expectedArgs,
           key: '1:365: Show Done',
-          variant: expect.anything(),
+          variant: expect.anything()
         })
         break
       }
       case '78:1923: Call extraAction args state': {
         expect(state.callMock).toHaveBeenNthCalledWith(5, 'extraAction', {
           ...expectedArgs,
-          variant: expect.anything(),
+          variant: expect.anything()
         })
         expect(state.callMock).toHaveBeenNthCalledWith(6, 'testNode', {
           ...expectedArgs,
           key: '1:365: Show Done',
-          variant: expect.anything(),
+          variant: expect.anything()
         })
         break
       }
       case '136:823: Only paths with end': {
         const allPaths = state.log.find(
-          (l) => l.eventType === 'discouragedFilterNodes',
+          (l) => l.eventType === 'discouragedFilterNodes'
         ).msg
         const pathsWithEndNode = state.log.find(
-          (l) => l.eventType === 'pathsWithEndNode',
+          (l) => l.eventType === 'pathsWithEndNode'
         ).msg
         expect(pathsWithEndNode.length).toEqual(3)
         expect(pathsWithEndNode.length).toBeLessThan(allPaths.length)
@@ -338,10 +340,10 @@ export const handles: RunnerHandles = {
       }
       case '136:833: Keep paths without end': {
         const allPaths = state.log.find(
-          (l) => l.eventType === 'discouragedFilterNodes',
+          (l) => l.eventType === 'discouragedFilterNodes'
         ).msg
         const pathsWithEndNode = state.log.find(
-          (l) => l.eventType === 'pathsWithEndNode',
+          (l) => l.eventType === 'pathsWithEndNode'
         ).msg
         expect(pathsWithEndNode.length).toEqual(allPaths.length)
         break
@@ -351,8 +353,9 @@ export const handles: RunnerHandles = {
         throw `${key} not implemented`
     }
   },
-  variants: ({ matchId }) => {
+  variants: ({ matchId, autoVariants, id }) => {
     if (matchId('136:823: Only paths with end'))
       return [{ name: 'pathsWithEnd' }]
-  },
+    // return autoVariants(id)
+  }
 }
