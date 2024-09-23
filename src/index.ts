@@ -1,8 +1,8 @@
-import { process } from './processors'
-import { loadFigmaDocument } from './processors/figma'
-import { filterScraped } from './common'
-import { generateTestFiles } from './generators'
-import { Scraped, ScrapedStart } from './scraped'
+import { process } from './processors/index.js'
+import { loadFigmaDocument } from './processors/figma/index.js'
+import { filterScraped } from './common.js'
+import { generateTestFiles } from './generators/index.js'
+import { Scraped, ScrapedStart } from './scraped.js'
 
 export * from './scraped.js'
 

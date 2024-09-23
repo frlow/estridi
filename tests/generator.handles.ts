@@ -6,17 +6,17 @@ import {
   EstridiParameters,
   EstridiTargets,
   LogEvents,
-} from '../src'
+} from '../src/index.js'
 import { expect, vi } from 'vitest'
-import { getFigmaDocument } from './serviceCalls/figmaServiceCalls'
-import { figmaExampleTE } from './serviceCalls/data/figmaExamples'
+import { getFigmaDocument } from './serviceCalls/figmaServiceCalls.js'
+import { figmaExampleTE } from './serviceCalls/data/figmaExamples.js'
 import {
   expectedDataFile,
   expectedHandlesFile,
   expectedPlaywrightFile,
   expectedVitestFile,
   expectedWriterFile,
-} from './serviceCalls/data/testFiles'
+} from './serviceCalls/data/testFiles.js'
 
 export type State = {
   estridi: Estridi

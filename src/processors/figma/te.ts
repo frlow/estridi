@@ -1,5 +1,5 @@
 import { Node } from 'figma-api'
-import {
+import type {
   LogFunc,
   Scraped,
   ScrapedGateway,
@@ -12,9 +12,9 @@ import {
   ScrapedSubprocess,
   ScrapedTable,
   ScrapedUserAction,
-} from '../../index'
-import { ProcessedNodes } from './index'
-import { isNodeInside, sanitizeText } from '../index'
+} from '../../index.js'
+import { ProcessedNodes } from './index.js'
+import { isNodeInside, sanitizeText } from '../index.js'
 
 const findText = (node: any) => {
   const children: any[] = node.children || []

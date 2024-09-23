@@ -4,11 +4,11 @@ import {
   Scraped,
   ScrapedNode,
   ScrapedUserAction,
-} from '../index'
-import { handlesContent } from './handles'
-import { generatePlaywrightTest } from './playwright'
-import { generateVitestTest } from './vitest'
-import { generateWriterScript } from './writer'
+} from '../index.js'
+import { handlesContent } from './handles.js'
+import { generatePlaywrightTest } from './playwright.js'
+import { generateVitestTest } from './vitest.js'
+import { generateWriterScript } from './writer.js'
 
 export const getKeysString = (scrapedNodes: ScrapedNode[]): string => {
   if (scrapedNodes.length === 0) return "    | 'N/A'"

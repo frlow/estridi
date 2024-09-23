@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { program } from 'commander'
-import { estridi } from './index'
+import { estridi } from './index.js'
 import fs from 'fs'
 import path from 'path'
 

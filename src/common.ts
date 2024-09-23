@@ -1,4 +1,4 @@
-import { Scraped, ScrapedNode, ScrapedStart } from './scraped'
+import { Scraped, ScrapedNode, ScrapedStart } from './scraped.js'
 
 export const filterScraped = (scraped: Scraped, rootName: string): Scraped => {
   const processNode = (node: any) => {

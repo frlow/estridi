@@ -1,5 +1,5 @@
-import { getKeysBlock, getTestableNodes } from './index'
-import { Scraped } from '../scraped'
+import { getKeysBlock, getTestableNodes } from './index.js'
+import { Scraped } from '../scraped.js'
 
 export const generatePlaywrightTest = (
   name: string,

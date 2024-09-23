@@ -1,5 +1,5 @@
 import { Node } from 'figma-api'
-import { FigmaDocument } from '../../../src/processors/figma'
+import { FigmaDocument } from '../../../src/processors/figma/index.js'
 
 export const getBaseFigmaNode = (children: Node<any>[]): FigmaDocument => ({
   id: '0:0',

@@ -1,7 +1,7 @@
-import { FigmaConfig, LogFunc } from '../../index'
+import { FigmaConfig, LogFunc } from '../../index.js'
 import * as Figma from 'figma-api'
 import { Node } from 'figma-api'
-import { processTeFigma } from './te'
+import { processTeFigma } from './te.js'
 
 export const processNode = (node: any, acc: ProcessedNodes) => {
   if (acc[node.id]) return

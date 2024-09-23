@@ -1,11 +1,11 @@
-import { FigmaDocument } from '../../src/processors/figma'
+import { FigmaDocument } from '../../src/processors/figma/index.js'
 import {
   connectorNode,
   getBaseFigmaNode,
   table,
   teNodes,
-} from './data/figmaBase'
-import { figmaExampleTE } from './data/figmaExamples'
+} from './data/figmaBase.js'
+import { figmaExampleTE } from './data/figmaExamples.js'
 
 export const getFigmaDocument = (variant: any): FigmaDocument => {
   if (variant.data?.source?.Variant === 'TE' && variant.data?.node) {

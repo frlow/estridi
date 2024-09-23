@@ -1,5 +1,5 @@
-import { EstridiConfig, LogFunc, Scraped } from '../index'
-import { processFigma } from './figma'
+import { EstridiConfig, LogFunc, Scraped } from '../index.js'
+import { processFigma } from './figma/index.js'
 
 export const allowedRegex = /[^a-zA-Z0-9åäöÅÄÖ ]/g
 export const sanitizeText = (text: string) =>
