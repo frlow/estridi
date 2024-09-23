@@ -20,7 +20,7 @@ export const handles: RunnerHandles = {
   handleSetup: async () => {
     return { log: [] } as State
   },
-  handleStart: async ({ state }) => {
+  handleStart: async ({ state, currentPath, testNodeId }) => {
     state.tester = createTester(
       state.testScraped,
       state.testHandles,
@@ -120,6 +120,8 @@ export const handles: RunnerHandles = {
       libArg: 'dummy',
       gateways: expect.any(Object),
       getTable: expect.any(Function),
+      currentPath: expect.any(Array),
+      testNodeId: expect.any(String),
       // variant: expect.anything()
     }
     switch (key) {
@@ -257,6 +259,8 @@ export const handles: RunnerHandles = {
           'libArg',
           'getTable',
           'gateways',
+          'currentPath',
+          'testNodeId',
         ])
         expect(testArgs.variant).toStrictEqual({ name: '1:365' })
         expect(testArgs.libArg).toStrictEqual('dummy')

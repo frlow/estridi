@@ -14,11 +14,14 @@ export type HandleArgs<
   TNodeTestArgs,
   TTableKeys,
   TGWKey extends string,
+  TNodeKey extends string,
 > = TNodeTestArgs & {
   state: TState
   getTable: (key: TTableKeys) => Table
   variant: Variant<any>
   gateways: Record<TGWKey, string>
+  testNodeId: TNodeKey
+  currentPath: string[]
 }
 
 export type Variant<T> = {
@@ -51,24 +54,26 @@ export type Handles<
     args: TNodeTestArgs & {
       variant: Variant<any>
       gateways: Record<TGWKey, string>
+      testNodeId: TNodeKey
+      currentPath: string[]
     },
   ) => Promise<TState>
   handleStart: (
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey>,
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey, TNodeKey>,
   ) => Promise<void>
   handleServiceCall: (
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey> & {
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey, TNodeKey> & {
       key: TServiceCallKey
       inputs: string
     },
   ) => Promise<void>
   handleAction: (
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey> & {
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey, TNodeKey> & {
       key: TActionKey
     },
   ) => Promise<void>
   handleTestNode: (
-    args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey> & {
+    args: HandleArgs<TState, TNodeTestArgs, TTableKeys, TGWKey, TNodeKey> & {
       key: TNodeKey
       path: string[]
     },
@@ -254,7 +259,14 @@ export const createTester = <THandles extends Handles>(
         acc[`${cur.id}: ${cur.text}`] = cur.options[arr[i + 1].id]
       return acc
     }, {})
-    const testArgs = { variant, ...args, getTable, gateways }
+    const testArgs = {
+      variant,
+      ...args,
+      getTable,
+      gateways,
+      currentPath: relevantPath,
+      testNodeId: id,
+    }
     log && log('testArgs', testArgs)
     const state = await handles.handleSetup(testArgs)
     const serviceCalls = nodePath.filter((n) => n.type === 'serviceCall')
