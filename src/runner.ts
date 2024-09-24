@@ -78,13 +78,10 @@ export type Handles<
       path: string[]
     },
   ) => Promise<void>
-  filterPaths?: (args: {
-    allPaths: string[][]
-    scraped: Scraped
-    getGateways: (
-      currentPath: string[],
-    ) => { text: string; id: string; value: string }[]
-  }) => string[][]
+  filterPath?: (args: {
+    hasConflict: (path: string[], gatewayText: string) => boolean
+    path: string[]
+  }) => boolean
   variants?: (args: {
     id: string
     // scraped: Scraped,
@@ -198,8 +195,23 @@ export const createTester = <THandles extends Handles>(
     }
     log && log('allPaths', paths)
 
+    // Filter paths using filterPaths function
+    const hasConflict = (path: string[], gatewayText: string): boolean => {
+      const gateways = path
+        .map((id) => getNode(id))
+        .filter((node) => node.type === 'gateway' && node.text === gatewayText)
+      if (gateways.length === 0) return false
+      const values = gateways.map(
+        (gw: ScrapedGateway) => gw.options[path[path.indexOf(gw.id) + 1]],
+      )
+      return values.some((value) => value !== values[0])
+    }
+    const manuallyFilteredPaths = handles.filterPath
+      ? paths.filter((p) => handles.filterPath({ path: p, hasConflict }))
+      : paths
+
     // Find all paths containing current id
-    const pathsWithNode = paths.filter((p) => p.includes(id))
+    const pathsWithNode = manuallyFilteredPaths.filter((p) => p.includes(id))
     if (pathsWithNode.length === 0) throw `No paths containing node: ${id}`
     log && log('pathContainingNode', pathsWithNode)
 

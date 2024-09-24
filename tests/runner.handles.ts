@@ -51,6 +51,11 @@ export const handles: RunnerHandles = {
           handleServiceCall: (args) => state.callMock('serviceCall', args),
           handleTestNode: (args) => state.callMock('testNode', args),
           config: {},
+          filterPath: (args) => {
+            if (args.hasConflict(args.path, 'A or B')) return false
+            // More filters
+            return true
+          },
         }
         if (gateways['94:2102: Node has any variants'] === 'yes')
           state.testHandles.variants = () => [{ name: 'MyVariant' }]
@@ -142,7 +147,7 @@ export const handles: RunnerHandles = {
         const pathsWithNode = state.log.find(
           (l) => l.eventType === 'pathContainingNode',
         ).msg
-        expect(pathsWithNode.length).toStrictEqual(8)
+        expect(pathsWithNode.length).toStrictEqual(4)
         expect(pathsWithNode[0]).toContain('1:365')
         expect(pathsWithNode[1]).toContain('1:365')
         break
@@ -304,7 +309,6 @@ export const handles: RunnerHandles = {
         const pathsWithEndNode = state.log.find(
           (l) => l.eventType === 'pathsWithEndNode',
         ).msg
-        expect(pathsWithEndNode.length).toBeGreaterThan(5)
         expect(pathsWithEndNode.length).toBeLessThan(allPaths.length)
         break
       }
@@ -318,6 +322,26 @@ export const handles: RunnerHandles = {
         expect(pathsWithEndNode.length).toEqual(allPaths.length)
         break
       }
+      case '170:822: Filter paths by filterPaths function':
+        const aOrBGatewayPaths = state.log
+          .find((l) => l.eventType === 'pathContainingNode')
+          .msg.map((p) =>
+            p
+              .map((id) => state.testScraped.find((s) => s.id === id))
+              .map((node, i, arr) => {
+                let option = undefined
+                if (arr[i + 1] && node.options) {
+                  option = node.options[arr[i + 1].id]
+                }
+                return { ...node, option }
+              })
+              .filter((node) => node.option && node.text === 'A or B'),
+          )
+        for (const gateways of aOrBGatewayPaths) {
+          const first = gateways[0].option
+          gateways.forEach((gw) => expect(gw.option).toEqual(first))
+        }
+        break
       default:
         debugger
         throw `${key} not implemented`

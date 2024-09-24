@@ -5463,14 +5463,14 @@ export const figmaExampleTE = {
                       "strokeAlign": "CENTER",
                       "strokeJoin": "ROUND",
                       "absoluteBoundingBox": {
-                        "x": -911.5,
-                        "y": 720,
+                        "x": 2552.5,
+                        "y": 747,
                         "width": 23,
                         "height": 29
                       },
                       "absoluteRenderBounds": {
-                        "x": -912.5,
-                        "y": 718.9999389648438,
+                        "x": 2551.5,
+                        "y": 745.9999389648438,
                         "width": 25,
                         "height": 31.00006103515625
                       },
@@ -5506,14 +5506,14 @@ export const figmaExampleTE = {
                       "strokeJoin": "ROUND",
                       "strokeCap": "ROUND",
                       "absoluteBoundingBox": {
-                        "x": -908,
-                        "y": 727,
+                        "x": 2556,
+                        "y": 754,
                         "width": 15.5,
                         "height": 16
                       },
                       "absoluteRenderBounds": {
-                        "x": -909,
-                        "y": 726,
+                        "x": 2555,
+                        "y": 753,
                         "width": 17.5,
                         "height": 18
                       },
@@ -5539,14 +5539,14 @@ export const figmaExampleTE = {
                     "a": 0
                   },
                   "absoluteBoundingBox": {
-                    "x": -911.5,
-                    "y": 720,
+                    "x": 2552.5,
+                    "y": 747,
                     "width": 23,
                     "height": 29
                   },
                   "absoluteRenderBounds": {
-                    "x": -912.5,
-                    "y": 718.9999389648438,
+                    "x": 2551.5,
+                    "y": 745.9999389648438,
                     "width": 25,
                     "height": 31.00006103515625
                   },
@@ -5572,14 +5572,14 @@ export const figmaExampleTE = {
                 "a": 0
               },
               "absoluteBoundingBox": {
-                "x": -911.5,
-                "y": 720,
+                "x": 2552.5,
+                "y": 747,
                 "width": 23,
                 "height": 29
               },
               "absoluteRenderBounds": {
-                "x": -912.5,
-                "y": 718.9999389648438,
+                "x": 2551.5,
+                "y": 745.9999389648438,
                 "width": 25,
                 "height": 31.00006103515625
               },
@@ -5617,15 +5617,15 @@ export const figmaExampleTE = {
               "strokeWeight": 1,
               "strokeAlign": "OUTSIDE",
               "absoluteBoundingBox": {
-                "x": -943,
-                "y": 754,
+                "x": 2521,
+                "y": 781,
                 "width": 86,
                 "height": 24
               },
               "absoluteRenderBounds": {
-                "x": -941.9153442382812,
-                "y": 760.2045288085938,
-                "width": 83.90594482421875,
+                "x": 2522.084716796875,
+                "y": 787.2045288085938,
+                "width": 83.906005859375,
                 "height": 11.9886474609375
               },
               "constraints": {
@@ -5688,8 +5688,8 @@ export const figmaExampleTE = {
               "strokeAlign": "CENTER",
               "strokeJoin": "ROUND",
               "absoluteBoundingBox": {
-                "x": -976,
-                "y": 783,
+                "x": 2488,
+                "y": 810,
                 "width": 152,
                 "height": 1
               },
@@ -5763,14 +5763,14 @@ export const figmaExampleTE = {
           "paddingBottom": 20,
           "layoutWrap": "NO_WRAP",
           "absoluteBoundingBox": {
-            "x": -1000,
-            "y": 700,
+            "x": 2464,
+            "y": 727,
             "width": 200,
             "height": 104
           },
           "absoluteRenderBounds": {
-            "x": -1000,
-            "y": 700,
+            "x": 2464,
+            "y": 727,
             "width": 200,
             "height": 104
           },
@@ -5782,62 +5782,6 @@ export const figmaExampleTE = {
           "layoutSizingVertical": "HUG",
           "effects": [],
           "interactions": []
-        },
-        {
-          "id": "1:377",
-          "name": "Next Page",
-          "type": "CONNECTOR",
-          "scrollBehavior": "SCROLLS",
-          "blendMode": "PASS_THROUGH",
-          "absoluteBoundingBox": {
-            "x": -1187.3057861328125,
-            "y": 731.5,
-            "width": 180.8057403564453,
-            "height": 41
-          },
-          "absoluteRenderBounds": {
-            "x": -1189.3057861328125,
-            "y": 731.5,
-            "width": 184.80572509765625,
-            "height": 41
-          },
-          "constraints": {
-            "vertical": "TOP",
-            "horizontal": "LEFT"
-          },
-          "effects": [],
-          "characters": "Next Page",
-          "textBackground": {
-            "cornerRadius": 3,
-            "cornerSmoothing": 0,
-            "fills": []
-          },
-          "connectorStart": {
-            "endpointNodeId": "1:358",
-            "magnet": "RIGHT"
-          },
-          "connectorEnd": {
-            "endpointNodeId": "1:365",
-            "magnet": "LEFT"
-          },
-          "connectorStartStrokeCap": "NONE",
-          "connectorEndStrokeCap": "LINE_ARROW",
-          "connectorLineType": "ELBOWED",
-          "strokes": [
-            {
-              "blendMode": "NORMAL",
-              "type": "SOLID",
-              "color": {
-                "r": 0.7019608020782471,
-                "g": 0.7019608020782471,
-                "b": 0.7019608020782471,
-                "a": 1
-              }
-            }
-          ],
-          "strokeWeight": 4,
-          "strokeAlign": "CENTER",
-          "strokeJoin": "BEVEL"
         },
         {
           "id": "1:411",
@@ -7028,36 +6972,36 @@ export const figmaExampleTE = {
           "interactions": []
         },
         {
-          "id": "40:154",
-          "name": "Connector line",
+          "id": "1:377",
+          "name": "Next Page",
           "type": "CONNECTOR",
           "scrollBehavior": "SCROLLS",
           "blendMode": "PASS_THROUGH",
           "absoluteBoundingBox": {
-            "x": -794,
-            "y": 752.3471069335938,
-            "width": 122.5,
-            "height": 0
+            "x": -1187.3057861328125,
+            "y": 731.8471069335938,
+            "width": 515.8057250976562,
+            "height": 41
           },
           "absoluteRenderBounds": {
-            "x": -796,
-            "y": 737.6192016601562,
-            "width": 126.5,
-            "height": 29.455810546875
+            "x": -1189.3057861328125,
+            "y": 731.8471069335938,
+            "width": 519.8057250976562,
+            "height": 41
           },
           "constraints": {
             "vertical": "TOP",
             "horizontal": "LEFT"
           },
           "effects": [],
-          "characters": "",
+          "characters": "Next Page",
           "textBackground": {
-            "cornerRadius": 6,
+            "cornerRadius": 3,
             "cornerSmoothing": 0,
             "fills": []
           },
           "connectorStart": {
-            "endpointNodeId": "1:365",
+            "endpointNodeId": "1:358",
             "magnet": "RIGHT"
           },
           "connectorEnd": {
@@ -8736,14 +8680,14 @@ export const figmaExampleTE = {
               "strokeWeight": 5.1981072425842285,
               "strokeAlign": "INSIDE",
               "absoluteBoundingBox": {
-                "x": 2366,
-                "y": 744,
+                "x": 2874,
+                "y": 748,
                 "width": 74.85274505615234,
                 "height": 70.69425964355469
               },
               "absoluteRenderBounds": {
-                "x": 2366,
-                "y": 744,
+                "x": 2874,
+                "y": 748,
                 "width": 74.852783203125,
                 "height": 70.69427490234375
               },
@@ -8799,14 +8743,14 @@ export const figmaExampleTE = {
             "a": 0
           },
           "absoluteBoundingBox": {
-            "x": 2366,
-            "y": 744,
+            "x": 2874,
+            "y": 748,
             "width": 74.85274505615234,
             "height": 70.69425964355469
           },
           "absoluteRenderBounds": {
-            "x": 2366,
-            "y": 744,
+            "x": 2874,
+            "y": 748,
             "width": 74.852783203125,
             "height": 70.69427490234375
           },
@@ -11888,14 +11832,14 @@ export const figmaExampleTE = {
           "blendMode": "PASS_THROUGH",
           "absoluteBoundingBox": {
             "x": 2295,
-            "y": 779.3471069335938,
-            "width": 64.5,
+            "y": 779,
+            "width": 162.5,
             "height": 0
           },
           "absoluteRenderBounds": {
             "x": 2293,
-            "y": 764.6192016601562,
-            "width": 68.5,
+            "y": 764.2720947265625,
+            "width": 166.5,
             "height": 29.455810546875
           },
           "constraints": {
@@ -11914,7 +11858,7 @@ export const figmaExampleTE = {
             "magnet": "RIGHT"
           },
           "connectorEnd": {
-            "endpointNodeId": "40:237",
+            "endpointNodeId": "1:365",
             "magnet": "LEFT"
           },
           "connectorStartStrokeCap": "NONE",
@@ -12654,6 +12598,62 @@ export const figmaExampleTE = {
           "connectorEnd": {
             "endpointNodeId": "58:291",
             "magnet": "TOP"
+          },
+          "connectorStartStrokeCap": "NONE",
+          "connectorEndStrokeCap": "LINE_ARROW",
+          "connectorLineType": "ELBOWED",
+          "strokes": [
+            {
+              "blendMode": "NORMAL",
+              "type": "SOLID",
+              "color": {
+                "r": 0.7019608020782471,
+                "g": 0.7019608020782471,
+                "b": 0.7019608020782471,
+                "a": 1
+              }
+            }
+          ],
+          "strokeWeight": 4,
+          "strokeAlign": "CENTER",
+          "strokeJoin": "BEVEL"
+        },
+        {
+          "id": "60:359",
+          "name": "Connector line",
+          "type": "CONNECTOR",
+          "scrollBehavior": "SCROLLS",
+          "blendMode": "PASS_THROUGH",
+          "absoluteBoundingBox": {
+            "x": 2670,
+            "y": 779,
+            "width": 197.5,
+            "height": 4.347129821777344
+          },
+          "absoluteRenderBounds": {
+            "x": 2668,
+            "y": 768.6192016601562,
+            "width": 201.5,
+            "height": 29.45587158203125
+          },
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          },
+          "effects": [],
+          "characters": "",
+          "textBackground": {
+            "cornerRadius": 6,
+            "cornerSmoothing": 0,
+            "fills": []
+          },
+          "connectorStart": {
+            "endpointNodeId": "1:365",
+            "magnet": "RIGHT"
+          },
+          "connectorEnd": {
+            "endpointNodeId": "40:237",
+            "magnet": "LEFT"
           },
           "connectorStartStrokeCap": "NONE",
           "connectorEndStrokeCap": "LINE_ARROW",

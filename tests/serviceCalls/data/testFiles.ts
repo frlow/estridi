@@ -58,14 +58,8 @@ export const scraped: Scraped = [
     "type": "start",
     "id": "1:358",
     "text": "Next Page",
-    "next": "1:365",
+    "next": "40:145",
     "isRoot": false
-  },
-  {
-    "type": "script",
-    "id": "1:365",
-    "text": "Show Done",
-    "next": "40:145"
   },
   {
     "type": "gateway",
@@ -145,8 +139,14 @@ export const scraped: Scraped = [
   {
     "type": "other",
     "id": "58:291",
-    "next": "40:237",
+    "next": "1:365",
     "text": ""
+  },
+  {
+    "type": "script",
+    "id": "1:365",
+    "text": "Show Done",
+    "next": "40:237"
   },
   {
     "type": "end",
@@ -251,13 +251,13 @@ export type ActionKey =
 export type TestNodeKey =
     | '1:74: Show server error'
     | '1:338: Show Data'
-    | '1:365: Show Done'
     | '40:158: Longer 1'
     | '40:171: Longer 2'
     | '47:198: Unlinked'
     | '58:229: A 1'
     | '58:242: A 2'
     | '58:327: Here to make this path longer'
+    | '1:365: Show Done'
     | '58:256: B 2'
     | '58:255: B 1'
     | '40:184: Shorter 1'
@@ -275,13 +275,13 @@ const t = (id: string) => () => getVariants(id).forEach(v => test(v.name, () => 
 describe('main', () => {
   describe('Show server error', t('1:74'))
   describe('Show Data', t('1:338'))
-  describe('Show Done', t('1:365'))
   describe('Longer 1', t('40:158'))
   describe('Longer 2', t('40:171'))
   describe('Unlinked', t('47:198'))
   describe('A 1', t('58:229'))
   describe('A 2', t('58:242'))
   describe('Here to make this path longer', t('58:327'))
+  describe('Show Done', t('1:365'))
   describe('B 2', t('58:256'))
   describe('B 1', t('58:255'))
   describe('Shorter 1', t('40:184'))
@@ -310,13 +310,13 @@ const t = (id: string) => () => getVariants(id).forEach(v => test(v.name, ({ con
 test.describe('main', () => {
   test.describe('Show server error', t('1:74'))
   test.describe('Show Data', t('1:338'))
-  test.describe('Show Done', t('1:365'))
   test.describe('Longer 1', t('40:158'))
   test.describe('Longer 2', t('40:171'))
   test.describe('Unlinked', t('47:198'))
   test.describe('A 1', t('58:229'))
   test.describe('A 2', t('58:242'))
   test.describe('Here to make this path longer', t('58:327'))
+  test.describe('Show Done', t('1:365'))
   test.describe('B 2', t('58:256'))
   test.describe('B 1', t('58:255'))
   test.describe('Shorter 1', t('40:184'))
@@ -348,13 +348,13 @@ async function t(id: string) {
 const run = async () => {
   await t('1:74') // Show server error
   await t('1:338') // Show Data
-  await t('1:365') // Show Done
   await t('40:158') // Longer 1
   await t('40:171') // Longer 2
   await t('47:198') // Unlinked
   await t('58:229') // A 1
   await t('58:242') // A 2
   await t('58:327') // Here to make this path longer
+  await t('1:365') // Show Done
   await t('58:256') // B 2
   await t('58:255') // B 1
   await t('40:184') // Shorter 1

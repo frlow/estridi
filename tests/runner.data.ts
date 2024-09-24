@@ -77,9 +77,20 @@ export const scraped: Scraped = [
     "id": "110:2290",
     "text": "Any paths containing node",
     "options": {
-      "76:1241": "yes",
-      "110:2303": "no"
+      "110:2303": "no",
+      "170:822": "yes"
     }
+  },
+  {
+    "type": "script",
+    "id": "110:2303",
+    "text": "No paths containing node"
+  },
+  {
+    "type": "script",
+    "id": "170:822",
+    "text": "Filter paths by filterPaths function",
+    "next": "76:1241"
   },
   {
     "type": "script",
@@ -312,11 +323,6 @@ export const scraped: Scraped = [
     "type": "script",
     "id": "110:2327",
     "text": "No paths containing all via nodes"
-  },
-  {
-    "type": "script",
-    "id": "110:2303",
-    "text": "No paths containing node"
   },
   {
     "type": "table",

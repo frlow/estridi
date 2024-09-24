@@ -9,6 +9,8 @@ describe('runner', () => {
   describe('Return Variants for node', t('76:1189'))
   describe('Return default variant', t('94:2126'))
   describe('List all paths', t('109:2256'))
+  describe('No paths containing node', t('110:2303'))
+  describe('Filter paths by filterPaths function', t('170:822'))
   describe('Filter all paths containing node', t('76:1241'))
   describe('Don t filter nodes by via', t('108:2187'))
   describe('Filter encouraged paths', t('77:1609'))
@@ -27,7 +29,6 @@ describe('runner', () => {
   describe('Don t filter discouraged', t('108:2237'))
   describe('Filter paths containing all via nodes', t('76:1322'))
   describe('No paths containing all via nodes', t('110:2327'))
-  describe('No paths containing node', t('110:2303'))
 })
 
 export type GatewayKey =
@@ -51,6 +52,8 @@ export type TestNodeKey =
     | '76:1189: Return Variants for node'
     | '94:2126: Return default variant'
     | '109:2256: List all paths'
+    | '110:2303: No paths containing node'
+    | '170:822: Filter paths by filterPaths function'
     | '76:1241: Filter all paths containing node'
     | '108:2187: Don t filter nodes by via'
     | '77:1609: Filter encouraged paths'
@@ -69,7 +72,6 @@ export type TestNodeKey =
     | '108:2237: Don t filter discouraged'
     | '76:1322: Filter paths containing all via nodes'
     | '110:2327: No paths containing all via nodes'
-    | '110:2303: No paths containing node'
 export type TableKeys =
     | '1:966: Node types'
     | '16:1764: Source types'
