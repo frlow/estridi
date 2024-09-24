@@ -277,22 +277,7 @@ export const handles: GeneratorHandles = {
         throw `${key} not implemented`
     }
   },
-  filterPaths: ({ getGateways, allPaths }) =>
-    allPaths.filter((p) => {
-      const gateways = getGateways(p)
-      const gatewayHasConflictingValues = (text: string) => {
-        const matchingGateways = gateways.filter((g: any) => g.text === text)
-        return (
-          matchingGateways.length > 1 &&
-          !matchingGateways.every(
-            (g: any) => g.value === matchingGateways[0]!.value,
-          )
-        )
-      }
-      if (gatewayHasConflictingValues('Source type')) return false
-      // More conditions below
-      return true
-    }),
+  filterPath: (args) => !args.hasConflict(args.path, 'Source type'),
   variants: ({ getTable, matchId }) => {
     const sources = getTable('16:1764: Source types').values.map((s) => ({
       data: { source: s },
