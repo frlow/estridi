@@ -31,6 +31,7 @@ const getType = (node: Node): ScrapedNodeTypes => {
     return cornerText.startsWith('.') ? 'table' : 'other'
   }
   if (node.name?.replace('02.', '').trim() === 'Message') return 'script'
+  if (node.name?.replace('06.', '').trim() === 'Signal send') return 'script'
   if (node.name?.replace('3.', '').trim() === 'Script') return 'script'
   if (node.name?.replace('4.', '').trim() === 'Service call')
     return 'serviceCall'

@@ -301,6 +301,16 @@ export const scraped: Scraped = [
         "script"
       ],
       [
+        "signalSend",
+        "x",
+        "x",
+        "",
+        "",
+        "",
+        "",
+        "script"
+      ],
+      [
         "serviceCall",
         "x",
         "x",

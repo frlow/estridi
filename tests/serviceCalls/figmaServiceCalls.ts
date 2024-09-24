@@ -12,10 +12,11 @@ export const getFigmaDocument = (variant: any): FigmaDocument => {
     const type = variant.data?.node.Id
     const textExample = 'Some text'
     switch (type) {
-      case 'script':
       case 'message':
+      case 'signalSend':
+      case 'script':
         return getBaseFigmaNode([
-          teNodes.script({ text: textExample }),
+          teNodes.script({ text: textExample, type }),
           connectorNode({ start: 'ScriptId' }),
         ])
       case 'serviceCall':

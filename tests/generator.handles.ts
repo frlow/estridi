@@ -306,6 +306,7 @@ export const handles: GeneratorHandles = {
     )
 
     if (matchId('22:2180: Parse Nodes')) return sourcesAndNodes
+    // .filter((n) => n.name === 'Figma TE signalSend')
     if (matchId('22:2167: Show loaded data')) return sources
     if (matchId('22:2197: Parse Tables')) return tables
     if (matchId('53:434: Write Test file for selected target'))

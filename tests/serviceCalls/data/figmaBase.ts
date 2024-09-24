@@ -23,22 +23,44 @@ export const getBaseFigmaNode = (children: Node<any>[]): FigmaDocument => ({
 })
 
 export const teNodes = {
-  script: ({ text, id }: { text?: string; id?: string }) => ({
-    id: id || 'ScriptId',
-    name: '3. Script',
-    type: 'INSTANCE',
-    children: [
-      {
-        type: 'TEXT',
-        characters: 'Wrong text',
-      },
-      {
-        type: 'TEXT',
-        name: 'text',
-        characters: text || 'Script',
-      },
-    ],
-  }),
+  script: ({
+    text,
+    id,
+    type,
+  }: {
+    text?: string
+    id?: string
+    type: 'script' | 'message' | 'signalSend'
+  }) => {
+    let typeName: string
+    switch (type) {
+      case 'script':
+        typeName = '3. Script'
+        break
+      case 'message':
+        typeName = '02. Message'
+        break
+      case 'signalSend':
+        typeName = '06. Signal send'
+        break
+    }
+    return {
+      id: id || 'ScriptId',
+      name: typeName,
+      type: 'INSTANCE',
+      children: [
+        {
+          type: 'TEXT',
+          characters: 'Wrong text',
+        },
+        {
+          type: 'TEXT',
+          name: 'text',
+          characters: text || 'Script',
+        },
+      ],
+    }
+  },
   serviceCall: ({ text, id }: { text?: string; id?: string }) => ({
     id: id || 'ServiceCallId',
     name: '4. Service call',
