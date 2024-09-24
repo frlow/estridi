@@ -98,12 +98,72 @@ export const scraped: Scraped = [
     "type": "subprocess",
     "id": "47:198",
     "text": "Unlinked",
-    "next": "40:237"
+    "next": "58:203"
+  },
+  {
+    "type": "gateway",
+    "id": "58:203",
+    "text": "A or B",
+    "options": {
+      "58:229": "A",
+      "58:255": "B"
+    }
+  },
+  {
+    "type": "script",
+    "id": "58:229",
+    "text": "A 1",
+    "next": "58:221"
+  },
+  {
+    "type": "other",
+    "id": "58:221",
+    "next": "58:212",
+    "text": ""
+  },
+  {
+    "type": "gateway",
+    "id": "58:212",
+    "text": "A or B",
+    "options": {
+      "58:242": "A",
+      "58:256": "B"
+    }
+  },
+  {
+    "type": "script",
+    "id": "58:242",
+    "text": "A 2",
+    "next": "58:327"
+  },
+  {
+    "type": "script",
+    "id": "58:327",
+    "text": "Here to make this path longer",
+    "next": "58:291"
+  },
+  {
+    "type": "other",
+    "id": "58:291",
+    "next": "40:237",
+    "text": ""
   },
   {
     "type": "end",
     "id": "40:237",
     "text": "end"
+  },
+  {
+    "type": "script",
+    "id": "58:256",
+    "text": "B 2",
+    "next": "58:291"
+  },
+  {
+    "type": "script",
+    "id": "58:255",
+    "text": "B 1",
+    "next": "58:221"
   },
   {
     "type": "script",
@@ -181,6 +241,8 @@ export const handles: MainHandles = {
 const keyBlock = `export type GatewayKey =
     | '1:73: Any errors from backend'
     | '40:145: Shorter or longer'
+    | '58:203: A or B'
+    | '58:212: A or B'
 export type ServiceCallKey =
     | '1:67: Get Data From Backend'
 export type ActionKey =
@@ -193,6 +255,11 @@ export type TestNodeKey =
     | '40:158: Longer 1'
     | '40:171: Longer 2'
     | '47:198: Unlinked'
+    | '58:229: A 1'
+    | '58:242: A 2'
+    | '58:327: Here to make this path longer'
+    | '58:256: B 2'
+    | '58:255: B 1'
     | '40:184: Shorter 1'
     | '1:326: Clear Page'
 export type TableKeys =
@@ -212,6 +279,11 @@ describe('main', () => {
   describe('Longer 1', t('40:158'))
   describe('Longer 2', t('40:171'))
   describe('Unlinked', t('47:198'))
+  describe('A 1', t('58:229'))
+  describe('A 2', t('58:242'))
+  describe('Here to make this path longer', t('58:327'))
+  describe('B 2', t('58:256'))
+  describe('B 1', t('58:255'))
   describe('Shorter 1', t('40:184'))
   describe('Clear Page', t('1:326'))
 })
@@ -242,6 +314,11 @@ test.describe('main', () => {
   test.describe('Longer 1', t('40:158'))
   test.describe('Longer 2', t('40:171'))
   test.describe('Unlinked', t('47:198'))
+  test.describe('A 1', t('58:229'))
+  test.describe('A 2', t('58:242'))
+  test.describe('Here to make this path longer', t('58:327'))
+  test.describe('B 2', t('58:256'))
+  test.describe('B 1', t('58:255'))
   test.describe('Shorter 1', t('40:184'))
   test.describe('Clear Page', t('1:326'))
 })
@@ -275,6 +352,11 @@ const run = async () => {
   await t('40:158') // Longer 1
   await t('40:171') // Longer 2
   await t('47:198') // Unlinked
+  await t('58:229') // A 1
+  await t('58:242') // A 2
+  await t('58:327') // Here to make this path longer
+  await t('58:256') // B 2
+  await t('58:255') // B 1
   await t('40:184') // Shorter 1
   await t('1:326') // Clear Page
 

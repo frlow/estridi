@@ -20,14 +20,14 @@ const load = async () => {
   //   fs.mkdirSync("demo/tests", {recursive: true})
   //   fs.writeFileSync(`demo/${fileName}`, content, 'utf8')
   // }
-  instance.loadConfig = () => ({
-    type: 'figma',
-    token: '-',
-    fileId: '-',
-    variant: 'TE',
-    logging: 'verbose',
-  })
-  instance.loadFigmaDocument = async () => figmaExampleTE as any
-  await instance.generate()
+  // instance.loadConfig = () => ({
+  //   type: 'figma',
+  //   token: '-',
+  //   fileId: '-',
+  //   variant: 'TE',
+  //   logging: 'verbose',
+  // })
+  // instance.loadFigmaDocument = async () => figmaExampleTE as any
+  // await instance.generate()
 }
 load().then()
