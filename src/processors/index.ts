@@ -1,5 +1,12 @@
-import { EstridiConfig, LogFunc, Scraped } from '../index.js'
+import {
+  EstridiConfig,
+  isDrawIoConfig,
+  isFigmaConfig,
+  LogFunc,
+  Scraped,
+} from '../index.js'
 import { processFigma } from './figma/index.js'
+import { processDrawIo } from './drawio/index.js'
 
 export const allowedRegex = /[^a-zA-Z0-9åäöÅÄÖ ]/g
 export const sanitizeText = (text: string) =>
@@ -15,9 +22,10 @@ export const process = async (
   log: LogFunc,
 ): Promise<Scraped> => {
   // Passing estridi object to simplify mocking.
-  if (config.type === 'figma') return await processFigma(config, data, log)
+  if (isFigmaConfig(config)) return await processFigma(data, log)
+  else if (isDrawIoConfig(config)) return await processDrawIo(data, log)
   debugger
-  throw `type: ${config.type} not implemented yet`
+  throw `cannot find configuration type`
 }
 
 type Points = { x0: number; x1: number; y0: number; y1: number }

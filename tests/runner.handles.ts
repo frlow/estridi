@@ -34,11 +34,7 @@ export const handles: RunnerHandles = {
   handleServiceCall: async ({ key, state, gateways }) => {
     switch (key) {
       case '76:1168: Load scraped data': {
-        const processed = await processFigma(
-          { variant: 'TE' } as FigmaConfig,
-          figmaExampleTE as any,
-          () => null,
-        )
+        const processed = await processFigma(figmaExampleTE as any, () => null)
         state.testScraped = filterScraped(processed, 'main')
         break
       }

@@ -1,12 +1,11 @@
 import { process } from './processors/index.js'
 import { loadFigmaDocument } from './processors/figma/index.js'
+import { loadDrawIoDocument } from './processors/drawio/index.js'
 import { filterScraped } from './common.js'
 import { generateTestFiles } from './generators/index.js'
 import { Scraped, ScrapedStart } from './scraped.js'
 
 export * from './scraped.js'
-
-export type RootsConfig = string[] | boolean | undefined
 
 export const estridiTargets = ['playwright', 'vitest', 'writer'] as const
 export type EstridiTargets = (typeof estridiTargets)[number]
@@ -22,11 +21,13 @@ export type EstridiParameters = {
 export type FigmaConfig = {
   token: string
   fileId: string
-  type: 'figma'
-  variant: 'TE'
 } & BaseConfig
 
-export type EstridiConfig = FigmaConfig
+export type DrawIoConfig = {
+  drawIoFile: string
+} & BaseConfig
+
+export type EstridiConfig = FigmaConfig | DrawIoConfig
 
 export type Estridi = ReturnType<typeof estridi>
 
@@ -123,7 +124,10 @@ export const estridi = (params: EstridiParameters) => {
   }
 
   const loadData = async (config: EstridiConfig): Promise<any> => {
-    if (config.type === 'figma') return ret.loadFigmaDocument(config)
+    if (isFigmaConfig(config))
+      return ret.loadFigmaDocument(config as FigmaConfig)
+    else if (isDrawIoConfig(config))
+      return ret.loadDrawIoDocument(config as DrawIoConfig)
     debugger
     throw 'not implemented'
   }
@@ -131,6 +135,7 @@ export const estridi = (params: EstridiParameters) => {
   const ret = {
     log: (key: LogEvents, content: any) => {}, // Override this to use logging.
     loadFigmaDocument,
+    loadDrawIoDocument,
     generate,
     loadData,
     loadConfig,
@@ -139,3 +144,8 @@ export const estridi = (params: EstridiParameters) => {
   }
   return ret
 }
+
+export const isFigmaConfig = (config: EstridiConfig) =>
+  !!(config as FigmaConfig).token
+export const isDrawIoConfig = (config: EstridiConfig) =>
+  !!(config as DrawIoConfig).drawIoFile

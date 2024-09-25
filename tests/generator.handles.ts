@@ -1,10 +1,11 @@
 import type { GeneratorHandles, TestNodeKey } from './generator.test.js'
 import {
+  DrawIoConfig,
   estridi,
   Estridi,
-  EstridiConfig,
   EstridiParameters,
   EstridiTargets,
+  FigmaConfig,
   LogEvents,
 } from '../src/index.js'
 import { expect, vi } from 'vitest'
@@ -17,6 +18,7 @@ import {
   expectedVitestFile,
   expectedWriterFile,
 } from './serviceCalls/data/testFiles.js'
+import { loadDrawIoDocument } from '../src/processors/drawio/index.js'
 
 export type State = {
   estridi: Estridi
@@ -62,17 +64,15 @@ export const handles: GeneratorHandles = {
           return gateways['53:456: Does handles file exist'] !== 'no'
         })
         state.estridi.loadConfig = () => {
-          if (variant.data?.source)
-            return {
-              type: variant.data?.source?.Family,
-              variant: variant.data?.source?.Variant,
-            } as EstridiConfig
+          if (variant.data?.source?.Family === 'figma')
+            return { token: 'someToken' } as FigmaConfig
+          else if (variant.data?.source?.Family === 'drawIo')
+            return { drawIoFile: 'someFile' } as DrawIoConfig
           else if (gateways['22:2092: Errors loading config'] === 'yes')
             return undefined
           return {
-            type: 'figma',
-            variant: 'TE',
-          } as EstridiConfig
+            token: 'someToken',
+          } as FigmaConfig
         }
         break
       case '22:2042: Load Data': {
@@ -88,6 +88,10 @@ export const handles: GeneratorHandles = {
           }
           return ret
         }
+        state.estridi.loadDrawIoDocument = async () =>
+          loadDrawIoDocument({
+            drawIoFile: 'tests/serviceCalls/data/drawio.drawio',
+          })
         break
       }
       default:
@@ -112,20 +116,17 @@ export const handles: GeneratorHandles = {
         break
       case '22:2121: Show loaded config': {
         expect(state.getLog('loadedConfig')).toStrictEqual({
-          type: 'figma',
-          variant: 'TE',
+          token: 'someToken',
         })
         break
       }
       case '22:2167: Show loaded data': {
-        if (
-          variant.data.source.Family === 'figma' &&
-          variant.data.source.Variant === 'TE'
-        ) {
-          const loadedData = state.getLog('loadedData')
-          const expected = figmaExampleTE
-          expect(loadedData).toStrictEqual(expected)
-        } else debugger
+        const loadedData = state.getLog('loadedData')
+        if (variant.data.source.Id === 'Figma TE')
+          expect(loadedData).toStrictEqual(figmaExampleTE)
+        else if (variant.data.source.Id === 'DrawIo TE')
+          expect(loadedData.length).toBeGreaterThan(0)
+        else debugger
         break
       }
       case '22:2180: Parse Nodes': {

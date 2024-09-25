@@ -1,4 +1,4 @@
-import { FigmaConfig, LogFunc } from '../../index.js'
+import { FigmaConfig, LogFunc, Scraped } from '../../index.js'
 import * as Figma from 'figma-api'
 import { Node } from 'figma-api'
 import { processTeFigma } from './te.js'
@@ -14,10 +14,7 @@ export type FigmaDocument = Figma.Node<'DOCUMENT'>
 export const loadFigmaDocument = async ({
   fileId,
   token,
-}: {
-  fileId: string
-  token: string
-}): Promise<FigmaDocument> => {
+}: FigmaConfig): Promise<FigmaDocument> => {
   if (!fileId || !token) throw 'token and fileId must be set'
   const api = new Figma.Api({
     personalAccessToken: token,
@@ -41,19 +38,23 @@ const mapConnections = (nodes: ProcessedNodes): ProcessedNodes => {
   return temp
 }
 
+const discoverVariant = (nodes: ProcessedNodes): 'TE' => {
+  return 'TE'
+}
+
 export type ProcessedNodes = Record<string, Node<any>>
 export const processFigma = async (
-  config: FigmaConfig,
   data: FigmaDocument,
   log: LogFunc,
-) => {
+): Promise<Scraped> => {
   const nodes: ProcessedNodes = {}
   processNode(data, nodes)
+  const variant = discoverVariant(nodes)
   const nodesWithConnections = mapConnections(nodes)
-  switch (config.variant) {
+  switch (variant) {
     case 'TE':
       return await processTeFigma(nodesWithConnections, log)
     default:
-      throw `${config.variant} not implemented yet`
+      throw `${variant} not implemented yet`
   }
 }

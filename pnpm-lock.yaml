@@ -11,6 +11,9 @@ importers:
       commander:
         specifier: ^12.1.0
         version: 12.1.0
+      fast-xml-parser:
+        specifier: ^4.5.0
+        version: 4.5.0
       figma-api:
         specifier: ^1.11.0
         version: 1.11.0
@@ -594,6 +597,10 @@ packages:
   estree-walker@3.0.3:
     resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==}
 
+  fast-xml-parser@4.5.0:
+    resolution: {integrity: sha512-/PlTQCI96+fZMAOLMZK4CWG1ItCbfZ/0jx7UIJFChPNrx7tcEgerUgWbeieCM9MfHInUDyK8DWYZ+YrywDJuTg==}
+    hasBin: true
+
   figma-api@1.11.0:
     resolution: {integrity: sha512-inGRug909pPeLqcCcjMwXGnxcJjMVeAXk/kLLjlo2y/IjYURgX56u7HUqUrmASmSUqQB9BVuz/PlK9KRDWkiPA==}
 
@@ -773,6 +780,9 @@ packages:
   strip-ansi@7.1.0:
     resolution: {integrity: sha512-iq6eVVI64nQQTRYq2KtEg2d2uU7LElhTJwsH4YzIHZshxlgZms/wIc4VoDQTlG/IvVIrBKG06CrZnp0qv7hkcQ==}
     engines: {node: '>=12'}
+
+  strnum@1.0.5:
+    resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
 
   supports-color@7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
@@ -1326,6 +1336,10 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.6
 
+  fast-xml-parser@4.5.0:
+    dependencies:
+      strnum: 1.0.5
+
   figma-api@1.11.0:
     dependencies:
       '@types/node': 12.0.2
@@ -1507,6 +1521,8 @@ snapshots:
   strip-ansi@7.1.0:
     dependencies:
       ansi-regex: 6.1.0
+
+  strnum@1.0.5: {}
 
   supports-color@7.2.0:
     dependencies:
