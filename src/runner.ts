@@ -84,7 +84,6 @@ export type Handles<
   }) => boolean
   variants?: (args: {
     id: string
-    // scraped: Scraped,
     matchId: (key: TNodeKey) => boolean
     getTable: (id: TTableKeys) => Table
     autoVariants: (
@@ -187,7 +186,9 @@ export const createTester = <THandles extends Handles>(
     while (toProcess.length > 0) {
       const currentPath = toProcess.pop()
       const currentNode = getNode(currentPath[currentPath.length - 1])
-      const currentNext = getNext(currentNode)
+      const currentNext = getNext(currentNode).filter(
+        (id) => !currentPath.includes(id),
+      )
       if (currentNext.length === 0) paths.push(currentPath)
       else {
         toProcess.push(...currentNext.map((c) => [...currentPath, c]))
@@ -331,5 +332,5 @@ export const createTester = <THandles extends Handles>(
       : [{ name: id }]
   }
 
-  return { testNode, getVariants }
+  return { testNode, getVariants, getTable }
 }
