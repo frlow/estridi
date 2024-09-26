@@ -2,11 +2,8 @@ import { DrawIoConfig, LogFunc, Scraped } from '../../index.js'
 import fs from 'fs'
 import { XMLParser } from 'fast-xml-parser'
 import { processTeDrawIo } from './te.js'
-import { ProcessedNodes } from '../figma/index.js'
 
-export const loadDrawIoDocument = async (
-  config: DrawIoConfig,
-): Promise<any[]> => {
+export const loadDrawIoDocument = (config: DrawIoConfig): any => {
   const content = fs.readFileSync(config.drawIoFile, 'utf8')
   return new XMLParser({ ignoreAttributes: false }).parse(content)
 }

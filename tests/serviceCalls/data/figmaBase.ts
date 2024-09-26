@@ -1,5 +1,6 @@
 import { Node } from 'figma-api'
 import { FigmaDocument } from '../../../src/processors/figma/index.js'
+import { ConnectorGenerator, NodeGenerator } from '../documentGenerator.js'
 
 export const getBaseFigmaNode = (children: Node<any>[]): FigmaDocument => ({
   id: '0:0',
@@ -22,16 +23,8 @@ export const getBaseFigmaNode = (children: Node<any>[]): FigmaDocument => ({
   sharedPluginData: null,
 })
 
-export const teNodes = {
-  script: ({
-    text,
-    id,
-    type,
-  }: {
-    text?: string
-    id?: string
-    type: 'script' | 'message' | 'signalSend'
-  }) => {
+export const figmaTeNodes: NodeGenerator = {
+  script: ({ text, id, type }) => {
     let typeName: string
     switch (type) {
       case 'script':
@@ -61,7 +54,7 @@ export const teNodes = {
       ],
     }
   },
-  serviceCall: ({ text, id }: { text?: string; id?: string }) => ({
+  serviceCall: ({ text, id }) => ({
     id: id || 'ServiceCallId',
     name: '4. Service call',
     children: [
@@ -71,11 +64,11 @@ export const teNodes = {
       },
     ],
   }),
-  start: ({ id }: { id?: string }) => ({
+  start: ({ id }) => ({
     id: id || 'StartId',
     name: '01. Start',
   }),
-  gateway: ({ id, text }: { id?: string; text?: string }) => ({
+  gateway: ({ id, text }) => ({
     id: id || 'GatewayId',
     name: '04. Gateway',
     children: [
@@ -86,7 +79,7 @@ export const teNodes = {
       },
     ],
   }),
-  subprocess: ({ id, text }: { id?: string; text?: string }) => ({
+  subprocess: ({ id, text }) => ({
     id: id || 'SubprocessId',
     name: '2. Subprocess',
     children: [
@@ -97,15 +90,7 @@ export const teNodes = {
       },
     ],
   }),
-  userAction: ({
-    id,
-    text,
-    position,
-  }: {
-    id?: string
-    text?: string
-    position: number
-  }) => ({
+  userAction: ({ id, text, position }) => ({
     id: id || 'UserActionId',
     name: '1. User action',
     children: [
@@ -122,15 +107,7 @@ export const teNodes = {
       height: 100,
     },
   }),
-  signalListen: ({
-    id,
-    text,
-    position,
-  }: {
-    id?: string
-    text?: string
-    position: number
-  }) => ({
+  signalListen: ({ id, text, position }) => ({
     id: id || 'SignalListenId',
     name: '05. Signal listen',
     children: [
@@ -147,7 +124,7 @@ export const teNodes = {
       height: 10,
     },
   }),
-  other: ({ text, id }: { text?: string; id?: string }) => ({
+  other: ({ text, id }) => ({
     id: id || 'ScriptId',
     children: [
       {
@@ -159,32 +136,28 @@ export const teNodes = {
   }),
 }
 
-export const connectorNode = ({
+export const figmaConnectorNode: ConnectorGenerator = ({
   id,
   end,
   start,
   text,
   dotted,
-}: {
-  id?: string
-  start: string
-  end?: string
-  text?: string
-  dotted?: boolean
-}) => ({
-  id: id || 'ConnectorId',
-  type: 'CONNECTOR',
-  name: text || 'Connector Line',
-  connectorStart: {
-    endpointNodeId: start,
+}) => [
+  {
+    id: id || 'ConnectorId',
+    type: 'CONNECTOR',
+    name: text || 'Connector Line',
+    connectorStart: {
+      endpointNodeId: start,
+    },
+    connectorEnd: {
+      endpointNodeId: end || 'NextId',
+    },
+    strokeDashes: dotted ? [] : undefined,
   },
-  connectorEnd: {
-    endpointNodeId: end || 'NextId',
-  },
-  strokeDashes: dotted ? [] : undefined,
-})
+]
 
-export const table = ({
+export const figmaTable = ({
   id,
   children,
 }: {

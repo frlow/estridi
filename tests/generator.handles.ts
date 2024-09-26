@@ -9,7 +9,10 @@ import {
   LogEvents,
 } from '../src/index.js'
 import { expect, vi } from 'vitest'
-import { getFigmaDocument } from './serviceCalls/figmaServiceCalls.js'
+import {
+  getDrawIoDocument,
+  getFigmaDocument,
+} from './serviceCalls/documentGenerator.js'
 import { figmaExampleTE } from './serviceCalls/data/figmaExamples.js'
 import {
   expectedDataFile,
@@ -18,7 +21,6 @@ import {
   expectedVitestFile,
   expectedWriterFile,
 } from './serviceCalls/data/testFiles.js'
-import { loadDrawIoDocument } from '../src/processors/drawio/index.js'
 
 export type State = {
   estridi: Estridi
@@ -78,8 +80,13 @@ export const handles: GeneratorHandles = {
       case '22:2042: Load Data': {
         if (gateways['22:2142: Errors loading data'] === 'yes')
           state.estridi.loadData = async () => undefined
+        const documentConfig = {
+          isTable: variant.data?.tables,
+          type: variant.data?.node?.Id,
+          variant: variant.data?.source?.Variant,
+        }
         state.estridi.loadFigmaDocument = async () => {
-          const ret = structuredClone(getFigmaDocument(variant))
+          const ret = structuredClone(getFigmaDocument(documentConfig))
           if (gateways['57:489: Is there exactly one root'] === 'yes') {
             const otherConnector = (ret as any).children[0].children.find(
               (n) => n.id === '26:156',
@@ -89,9 +96,10 @@ export const handles: GeneratorHandles = {
           return ret
         }
         state.estridi.loadDrawIoDocument = async () =>
-          loadDrawIoDocument({
-            drawIoFile: 'tests/serviceCalls/data/drawio.drawio',
-          })
+          structuredClone(getDrawIoDocument(documentConfig))
+        // loadDrawIoDocument({
+        //   drawIoFile: 'tests/serviceCalls/data/drawio.drawio',
+        // })
         break
       }
       default:
@@ -307,7 +315,7 @@ export const handles: GeneratorHandles = {
     )
 
     if (matchId('22:2180: Parse Nodes')) return sourcesAndNodes
-    // .filter((n) => n.name === 'Figma TE signalSend')
+    // .filter((n) => n.name === 'DrawIo TE script')
     if (matchId('22:2167: Show loaded data')) return sources
     if (matchId('22:2197: Parse Tables')) return tables
     if (matchId('53:434: Write Test file for selected target'))

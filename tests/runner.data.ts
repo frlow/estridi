@@ -463,6 +463,11 @@ export const scraped: Scraped = [
         "Figma TE",
         "figma",
         "TE"
+      ],
+      [
+        "DrawIo TE",
+        "drawIo",
+        "TE"
       ]
     ],
     "id": "16:1764",
