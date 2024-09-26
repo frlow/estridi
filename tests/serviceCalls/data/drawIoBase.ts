@@ -53,6 +53,32 @@ export const drawIoTeNodes: NodeGenerator = {
       '@_value': text || 'Subprocess',
     }
   },
+  userAction({ text, id, position }) {
+    return {
+      '@_id': id || 'UserActionId',
+      '@_type': 'userAction',
+      '@_value': text || 'User Action',
+      mxGeometry: {
+        '@_x': position.toString(),
+        '@_y': '0',
+        '@_width': '100',
+        '@_height': '100',
+      },
+    }
+  },
+  signalListen({ position, id, text }) {
+    return {
+      '@_id': id || 'SignalListenId',
+      '@_type': 'signalListen',
+      '@_value': text || 'Signal Listen',
+      mxGeometry: {
+        '@_x': (position + 5).toString(),
+        '@_y': '50',
+        '@_width': '10',
+        '@_height': '10',
+      },
+    }
+  },
   other({ id, text }) {
     return {
       '@_id': id || 'OtherId',

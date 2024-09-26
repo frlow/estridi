@@ -7,7 +7,9 @@ import {
   ScrapedScript,
   type ScrapedServiceCall,
   ScrapedStart,
+  ScrapedUserAction,
 } from '../../index.js'
+import { isNodeInside } from '../index.js'
 
 // export const drawIoTeStyles = {
 //   start:
@@ -131,6 +133,30 @@ export const processTeDrawIo = async (
           next: getNext(node),
           link: undefined,
         }
+      }
+      case 'userAction': {
+        const isInside = (host: any, child: any) => {
+          const getCoordinates = (node: any) => ({
+            x: parseInt(node.mxGeometry['@_x']),
+            y: parseInt(node.mxGeometry['@_y']),
+            width: parseInt(node.mxGeometry['@_width']),
+            height: parseInt(node.mxGeometry['@_height']),
+          })
+          return isNodeInside(getCoordinates(host), getCoordinates(child))
+        }
+        const actions = rawNodes
+          .filter((n) => n['@_type'] === 'signalListen' && isInside(node, n))
+          .map((a) => ({ text: a['@_value'], next: getNext(a) }))
+          .reduce((acc, cur) => ({ ...acc, [cur.next]: cur.text }), {})
+        const userAction: ScrapedUserAction = {
+          type: 'userAction',
+          id: node['@_id'],
+          text: node['@_value'],
+          next: getNext(node),
+          actions,
+        }
+        log && log('parsedUserAction', userAction)
+        return userAction
       }
       default:
         if (!node['@_id'].includes('Connector')) {
