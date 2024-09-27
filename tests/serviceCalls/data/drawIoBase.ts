@@ -3,8 +3,7 @@ import {
   NodeGenerator,
   TableGenerator,
 } from '../documentGenerator.js'
-import { loadDrawIoDocument } from '../../../src/processors/drawio/index.js'
-// import { drawIoTeStyles } from '../../../src/processors/drawio/te.js'
+import { loadDrawIoDocument } from '../../../src/processors/drawio/index.js' // import { drawIoTeStyles } from '../../../src/processors/drawio/te.js'
 
 export const getBaseDrawIoNode = (children: any[]): any => {
   return {
@@ -14,7 +13,7 @@ export const getBaseDrawIoNode = (children: any[]): any => {
 
 const getExample = () =>
   loadDrawIoDocument({
-    drawIoFile: 'tests/serviceCalls/data/drawio.drawio',
+    drawIoFile: 'drawio.drawio',
   }).mxfile.diagram.mxGraphModel.root.mxCell
 
 export const drawIoTeNodes: NodeGenerator = {
@@ -26,7 +25,6 @@ export const drawIoTeNodes: NodeGenerator = {
     }
   },
   serviceCall({ id, text }) {
-    // const example = getExample()
     return {
       '@_id': id || 'ServiceCallId',
       '@_type': 'serviceCall',
@@ -88,8 +86,24 @@ export const drawIoTeNodes: NodeGenerator = {
 }
 
 export const drawIoTable: TableGenerator = ({ id, children }) => {
-  debugger
-  throw 'Table here!'
+  const tableId = id || 'TableId'
+  const table = {
+    '@_id': tableId,
+    '@_style': 'shape=table;',
+  }
+  const rows = children.map((_, i) => ({
+    '@_id': `${tableId}_row${i}`,
+    '@_style': 'shape=tableRow;',
+    '@_parent': tableId,
+  }))
+  const values = children.flatMap((row, rowIndex) =>
+    row.map((value, colIndex) => ({
+      '@_id': `${tableId}_row${rowIndex}_col${colIndex}`,
+      '@_parent': `${tableId}_row${rowIndex}`,
+      '@_value': value,
+    })),
+  )
+  return [table, ...rows, ...values]
 }
 
 export const drawIoConnector: ConnectorGenerator = ({
@@ -104,6 +118,7 @@ export const drawIoConnector: ConnectorGenerator = ({
     '@_id': _id,
     '@_source': start,
     '@_target': end || 'NextId',
+    '@_style': dotted ? 'dashed' : undefined,
   }
   if (!text) return [connector]
   const textNode = {

@@ -69,6 +69,12 @@ export const scraped: Scraped = [
     "type": "subprocess",
     "id": "22:2180",
     "text": "Parse Nodes",
+    "next": "203:860"
+  },
+  {
+    "type": "script",
+    "id": "203:860",
+    "text": "Dotted lines should be ignored",
     "next": "22:2197"
   },
   {

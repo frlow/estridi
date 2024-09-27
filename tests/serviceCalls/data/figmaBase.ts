@@ -170,10 +170,12 @@ export const figmaTable = ({
       absoluteBoundingBox: { y: i },
     })),
   )
-  return {
-    id: id || 'TableId',
-    name: 'Table',
-    type: 'TABLE',
-    children: mappedChildren,
-  }
+  return [
+    {
+      id: id || 'TableId',
+      name: 'Table',
+      type: 'TABLE',
+      children: mappedChildren,
+    },
+  ]
 }

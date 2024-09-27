@@ -31,7 +31,7 @@ export type NodeGenerator = {
 export type TableGenerator = (args: {
   id?: string
   children: string[][]
-}) => any
+}) => any[]
 
 export type GetDocumentArgs = {
   type?: string
@@ -49,24 +49,26 @@ export type ConnectorGenerator = (args: {
 
 export const getFigmaDocument = (args: GetDocumentArgs): FigmaDocument => {
   const nodeGenerator = args.variant === 'TE' ? figmaTeNodes : undefined
-  return getDocument({
+  const document = getDocument({
     ...args,
     baseNodeFunc: getBaseFigmaNode,
     nodeGenerator,
     tableGenerator: figmaTable,
     connectorGenerator: figmaConnectorNode,
   })
+  return document || figmaExampleTE
 }
 
 export const getDrawIoDocument = (args: GetDocumentArgs): any => {
   const nodeGenerator = args.variant === 'TE' ? drawIoTeNodes : undefined
-  return getDocument({
+  const document = getDocument({
     ...args,
     baseNodeFunc: getBaseDrawIoNode,
     nodeGenerator,
     tableGenerator: drawIoTable,
     connectorGenerator: drawIoConnector,
   })
+  return document || getBaseDrawIoNode([drawIoTeNodes.start({})])
 }
 
 const getDocument = ({
@@ -174,13 +176,23 @@ const getDocument = ({
               text: textExample,
             }),
           ])
+        case 'dotted':
+          return baseNodeFunc([
+            nodeGenerator.serviceCall({}),
+            nodeGenerator.script({ type: 'script' }),
+            ...connectorGenerator({
+              start: 'ServiceCallId',
+              end: 'ScriptId',
+              dotted: true,
+            }),
+          ])
         default:
           debugger
       }
     else debugger
   } else if (isTable) {
     return baseNodeFunc([
-      tableGenerator({
+      ...tableGenerator({
         children: [
           ['.My Table', 'Column1', 'Column2'],
           ['Line1', 'AAAA', 'BBBB'],
@@ -189,5 +201,4 @@ const getDocument = ({
       }),
     ])
   }
-  return figmaExampleTE as any
 }

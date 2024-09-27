@@ -11,6 +11,7 @@ describe('generator', () => {
   describe('Could not load data', t('22:2150'))
   describe('Show loaded data', t('22:2167'))
   describe('Parse Nodes', t('22:2180'))
+  describe('Dotted lines should be ignored', t('203:860'))
   describe('Parse Tables', t('22:2197'))
   describe('Show parsed nodes and tables', t('39:2363'))
   describe('Root node not found', t('57:466'))
@@ -48,6 +49,7 @@ export type TestNodeKey =
     | '22:2150: Could not load data'
     | '22:2167: Show loaded data'
     | '22:2180: Parse Nodes'
+    | '203:860: Dotted lines should be ignored'
     | '22:2197: Parse Tables'
     | '39:2363: Show parsed nodes and tables'
     | '57:466: Root node not found'

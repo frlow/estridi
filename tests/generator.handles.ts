@@ -133,7 +133,9 @@ export const handles: GeneratorHandles = {
         if (variant.data.source.Id === 'Figma TE')
           expect(loadedData).toStrictEqual(figmaExampleTE)
         else if (variant.data.source.Id === 'DrawIo TE')
-          expect(loadedData.length).toBeGreaterThan(0)
+          expect(
+            loadedData.mxfile.diagram.mxGraphModel.root.mxCell.length,
+          ).toBeGreaterThan(0)
         else debugger
         break
       }
@@ -281,6 +283,11 @@ export const handles: GeneratorHandles = {
         )
         break
       }
+      case '203:860: Dotted lines should be ignored': {
+        const serviceCall = state.getLog('parsedServiceCall')
+        expect(serviceCall.next).toBeUndefined()
+        break
+      }
       default:
         debugger
         throw `${key} not implemented`
@@ -317,6 +324,11 @@ export const handles: GeneratorHandles = {
     if (matchId('22:2180: Parse Nodes')) return sourcesAndNodes
     // .filter((n) => n.name === 'DrawIo TE other')
     if (matchId('22:2167: Show loaded data')) return sources
+    if (matchId('203:860: Dotted lines should be ignored'))
+      return sources.map((s) => ({
+        ...s,
+        data: { ...s.data, node: { Id: 'dotted' } },
+      }))
     if (matchId('22:2197: Parse Tables')) return tables
     if (matchId('53:434: Write Test file for selected target'))
       return generators

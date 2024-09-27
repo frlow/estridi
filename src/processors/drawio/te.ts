@@ -7,6 +7,7 @@ import {
   ScrapedScript,
   type ScrapedServiceCall,
   ScrapedStart,
+  ScrapedTable,
   ScrapedUserAction,
 } from '../../index.js'
 import { isNodeInside } from '../index.js'
@@ -64,6 +65,31 @@ export const processTeDrawIo = async (
     return connection?.target
   }
   const getNodeMetadata = (node: any): ScrapedNode => {
+    if (node['@_style'] && node['@_style'].includes('shape=table;')) {
+      const rowIds = rawNodes
+        .filter(
+          (n) =>
+            n['@_style'] &&
+            n['@_style'].includes('shape=tableRow;') &&
+            n['@_parent'] === node['@_id'],
+        )
+        .map((r) => r['@_id'])
+      const values = rowIds.map((rId) =>
+        rawNodes.filter((n) => n['@_parent'] === rId).map((v) => v['@_value']),
+      )
+      const text: string = values[0][0]
+      const isConnected = text.startsWith('.')
+      if (isConnected) {
+        const table: ScrapedTable = {
+          type: 'table',
+          id: node['@_id'],
+          text: text.substring(1),
+          rows: values,
+        }
+        log && log('parsedTable', table)
+        return table
+      }
+    }
     const type = node['@_type']
     switch (type) {
       case 'message':
