@@ -37,6 +37,7 @@ export const processMermaid = async (
           type: current.hasConnections ? 'start' : 'end',
           text: current.label,
           id: current.id,
+          // @ts-ignore
           connections: current.connections,
         }
       if (current.shape === 'subroutine')
@@ -44,6 +45,7 @@ export const processMermaid = async (
           type: 'serviceCall',
           text: current.label,
           id: current.id,
+          // @ts-ignore
           connections: current.connections,
         }
       if (current.shape === 'diamond')
@@ -51,6 +53,7 @@ export const processMermaid = async (
           type: 'gateway',
           text: current.label,
           id: current.id,
+          // @ts-ignore
           connections: current.connections,
         }
       if (current.shape === 'squareRect')
@@ -58,6 +61,7 @@ export const processMermaid = async (
           type: 'script',
           text: current.label,
           id: current.id,
+          // @ts-ignore
           connections: current.connections,
         }
       if (current.shape === 'hexagon') {
@@ -71,11 +75,13 @@ export const processMermaid = async (
           text: current.label,
           id: current.id,
           connections: current.connections,
+          // @ts-ignore
           actions,
         }
       }
       if (current.shape === 'doublecircle')
         return {
+          // @ts-ignore
           type: 'signalListen',
           text: current.label,
           id: current.id,
@@ -89,6 +95,7 @@ export const processMermaid = async (
           type: 'subprocess',
           text: current.label,
           id: current.id,
+          // @ts-ignore
           connections: current.connections,
           linked: linked.id,
         }
