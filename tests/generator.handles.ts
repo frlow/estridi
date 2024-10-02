@@ -7,6 +7,7 @@ import {
   EstridiTargets,
   FigmaConfig,
   LogEvents,
+  MermaidConfig,
 } from '../src/index.js'
 import { expect, vi } from 'vitest'
 import {
@@ -70,6 +71,8 @@ export const handles: GeneratorHandles = {
             return { token: 'someToken' } as FigmaConfig
           else if (variant.data?.source?.Family === 'drawIo')
             return { drawIoFile: 'someFile' } as DrawIoConfig
+          else if (variant.data?.source?.Family === 'mermaid')
+            return { mermaidFile: 'someFile' } as MermaidConfig
           else if (gateways['22:2092: Errors loading config'] === 'yes')
             return undefined
           return {
@@ -97,9 +100,6 @@ export const handles: GeneratorHandles = {
         }
         state.estridi.loadDrawIoDocument = async () =>
           structuredClone(getDrawIoDocument(documentConfig))
-        // loadDrawIoDocument({
-        //   drawIoFile: 'tests/serviceCalls/data/drawio.drawio',
-        // })
         break
       }
       default:

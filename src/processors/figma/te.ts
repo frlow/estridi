@@ -68,7 +68,7 @@ const getNodeMetadata = (node: Node, log: LogFunc): ScrapedNode => {
       )
       const text = rows[0][0].substring(1)
       const table: ScrapedTable = { type: 'table', rows, id: node.id, text }
-      log('parsedTable', table)
+      log && log('parsedTable', table)
       return table
     }
     case 'script': {
@@ -78,7 +78,7 @@ const getNodeMetadata = (node: Node, log: LogFunc): ScrapedNode => {
         text: findText(node),
         next: getNext(node),
       }
-      log('parsedScript', script)
+      log && log('parsedScript', script)
       return script
     }
     case 'serviceCall': {
@@ -88,7 +88,7 @@ const getNodeMetadata = (node: Node, log: LogFunc): ScrapedNode => {
         text: findText(node),
         next: getNext(node),
       }
-      log('parsedServiceCall', serviceCall)
+      log && log('parsedServiceCall', serviceCall)
       return serviceCall
     }
     case 'start': {
@@ -98,7 +98,7 @@ const getNodeMetadata = (node: Node, log: LogFunc): ScrapedNode => {
           id: node.id,
           text: 'end',
         }
-        log('parsedEnd', end)
+        log && log('parsedEnd', end)
         return end
       }
       const connection = (node as any).connections[0]
@@ -110,7 +110,7 @@ const getNodeMetadata = (node: Node, log: LogFunc): ScrapedNode => {
         next: getNext(node),
         isRoot: isRoot,
       }
-      log(isRoot ? 'parsedRoot' : 'parsedStart', start)
+      log && log(isRoot ? 'parsedRoot' : 'parsedStart', start)
       return start
     }
     case 'gateway': {
@@ -123,7 +123,7 @@ const getNodeMetadata = (node: Node, log: LogFunc): ScrapedNode => {
           {},
         ),
       }
-      log('parsedGateway', gateway)
+      log && log('parsedGateway', gateway)
       return gateway
     }
     case 'subprocess': {
@@ -151,7 +151,7 @@ const getNodeMetadata = (node: Node, log: LogFunc): ScrapedNode => {
         next: getNext(node),
         text: findText(node),
       }
-      log('parsedOther', other)
+      log && log('parsedOther', other)
       return other
     }
   }
@@ -168,7 +168,7 @@ const afterProcess = (
     .forEach((sp: ScrapedSubprocess) => {
       const linkNode = ret.find((n) => n.type === 'start' && n.text === sp.text)
       sp.link = linkNode?.id
-      log('parsedSubprocess', sp)
+      log && log('parsedSubprocess', sp)
     })
   ret
     .filter((node) => node.type === 'userAction')
@@ -181,7 +181,7 @@ const afterProcess = (
           isNodeInside(uaNode.absoluteBoundingBox, n.absoluteBoundingBox),
       )
       actions.forEach((a) => (ua.actions[getNext(a)] = findText(a)))
-      log('parsedUserAction', ua)
+      log && log('parsedUserAction', ua)
     })
   return ret
 }

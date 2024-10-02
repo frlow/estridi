@@ -2,11 +2,13 @@ import {
   EstridiConfig,
   isDrawIoConfig,
   isFigmaConfig,
+  isMermaidConfig,
   LogFunc,
   Scraped,
 } from '../index.js'
 import { processFigma } from './figma/index.js'
 import { processDrawIo } from './drawio/index.js'
+import { processMermaid } from './mermaid/index.js'
 
 export const allowedRegex = /[^a-zA-Z0-9åäöÅÄÖ ]/g
 export const sanitizeText = (text: string) =>
@@ -24,6 +26,7 @@ export const process = async (
   // Passing estridi object to simplify mocking.
   if (isFigmaConfig(config)) return await processFigma(data, log)
   else if (isDrawIoConfig(config)) return await processDrawIo(data, log)
+  else if (isMermaidConfig(config)) return await processMermaid(data, log)
   debugger
   throw `cannot find configuration type`
 }

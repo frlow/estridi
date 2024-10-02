@@ -417,6 +417,11 @@ export const scraped: Scraped = [
         "DrawIo TE",
         "drawIo",
         "TE"
+      ],
+      [
+        "#Mermaid",
+        "mermaid",
+        "standard"
       ]
     ],
     "id": "16:1764",

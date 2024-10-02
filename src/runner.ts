@@ -107,16 +107,18 @@ export const createTable = ({ rows, id, text }: ScrapedTable): Table => {
     headers,
     content,
     get values() {
-      return content.map((row) =>
-        headers.slice(1).reduce(
-          (acc, cur) => {
-            const index = headers.indexOf(cur)
-            acc[cur] = row[index]
-            return acc
-          },
-          { Id: row[0] } as Record<string, string>,
-        ),
-      )
+      return content
+        .filter((line) => !line[0].startsWith('#'))
+        .map((row) =>
+          headers.slice(1).reduce(
+            (acc, cur) => {
+              const index = headers.indexOf(cur)
+              acc[cur] = row[index]
+              return acc
+            },
+            { Id: row[0] } as Record<string, string>,
+          ),
+        )
     },
     get signature() {
       function hashCode(str: string) {

@@ -4,13 +4,12 @@ import { loadDrawIoDocument } from './processors/drawio/index.js'
 import { filterScraped } from './common.js'
 import { generateTestFiles } from './generators/index.js'
 import { Scraped, ScrapedStart } from './scraped.js'
+import { loadMermaidDocument } from './processors/mermaid/index.js'
 
 export * from './scraped.js'
 
 export const estridiTargets = ['playwright', 'vitest', 'writer'] as const
 export type EstridiTargets = (typeof estridiTargets)[number]
-
-export type BaseConfig = {}
 
 export type EstridiParameters = {
   target?: EstridiTargets
@@ -21,13 +20,17 @@ export type EstridiParameters = {
 export type FigmaConfig = {
   token: string
   fileId: string
-} & BaseConfig
+}
 
 export type DrawIoConfig = {
   drawIoFile: string
-} & BaseConfig
+}
 
-export type EstridiConfig = FigmaConfig | DrawIoConfig
+export type MermaidConfig = {
+  mermaidFile: string
+}
+
+export type EstridiConfig = FigmaConfig | DrawIoConfig | MermaidConfig
 
 export type Estridi = ReturnType<typeof estridi>
 
@@ -128,6 +131,8 @@ export const estridi = (params: EstridiParameters) => {
       return ret.loadFigmaDocument(config as FigmaConfig)
     else if (isDrawIoConfig(config))
       return ret.loadDrawIoDocument(config as DrawIoConfig)
+    else if (isMermaidConfig(config))
+      return ret.loadMermaidDocument(config as MermaidConfig)
     debugger
     throw 'not implemented'
   }
@@ -136,6 +141,7 @@ export const estridi = (params: EstridiParameters) => {
     log: (key: LogEvents, content: any) => {}, // Override this to use logging.
     loadFigmaDocument,
     loadDrawIoDocument,
+    loadMermaidDocument,
     generate,
     loadData,
     loadConfig,
@@ -149,3 +155,5 @@ export const isFigmaConfig = (config: EstridiConfig) =>
   !!(config as FigmaConfig).token
 export const isDrawIoConfig = (config: EstridiConfig) =>
   !!(config as DrawIoConfig).drawIoFile
+export const isMermaidConfig = (config: EstridiConfig) =>
+  !!(config as MermaidConfig).mermaidFile
