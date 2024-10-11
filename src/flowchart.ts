@@ -24,7 +24,7 @@ const generate = async () => {
       )
     if (n.actions)
       Object.entries(n.actions).forEach(([key, text]) =>
-        lines.push(`    ${n.id}-- ${text} -->${key}`),
+        lines.push(`    ${n.id}-- User does: ${text} -->${key}`),
       )
     if (n.link) lines.push(`    ${n.id}-->${n.link}`)
   })
