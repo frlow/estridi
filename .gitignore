@@ -5,3 +5,5 @@ demo/
 dist/
 coverage/
 drawio.drawio
+flowchart.md
+data/

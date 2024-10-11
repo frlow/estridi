@@ -2,11 +2,16 @@
   "name": "estridi",
   "version": "1.0.0-beta008",
   "description": "",
-  "bin": "./dist/esm/cli.js",
+  "bin": {
+    "estridi":"./dist/esm/cli.js",
+    "estridi-flowchart": "./dist/esm/flowchart.js"
+  },
   "type": "module",
   "scripts": {
     "start": "tsx src/cli.ts -r generator -t vitest -i '../src/runner.js' && tsx src/cli.ts -r runner -t vitest -i '../src/runner.js'",
     "build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && node cjsfix.js",
+    "data": "tsx src/cli.ts -t data -r runner -d data",
+    "flowchart": "tsx src/flowchart.ts ./data/runner.data.ts",
     "test": "vitest run",
     "tsc": "tsc",
     "prettier": "prettier -w **/*",

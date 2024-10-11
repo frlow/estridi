@@ -47,6 +47,7 @@ export const scraped: Scraped = ${JSON.stringify(scraped, null, 2)}`,
     `${name}.data.ts`,
   )
   writtenFiles.push(`${name}.data.ts`)
+  if (target === 'data') return writtenFiles
   const testFileName =
     target === 'playwright'
       ? `${name}.spec.ts`

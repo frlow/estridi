@@ -8,7 +8,12 @@ import { loadMermaidDocument } from './processors/mermaid/index.js'
 
 export * from './scraped.js'
 
-export const estridiTargets = ['playwright', 'vitest', 'writer'] as const
+export const estridiTargets = [
+  'playwright',
+  'vitest',
+  'writer',
+  'data',
+] as const
 export type EstridiTargets = (typeof estridiTargets)[number]
 
 export type EstridiParameters = {
