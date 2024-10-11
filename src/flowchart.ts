@@ -2,13 +2,14 @@
 import path from 'node:path'
 import { Scraped } from './scraped.js'
 import fs from 'fs'
+import * as tsImport from 'ts-import'
 
 const source = process.argv[2]
 const target = process.argv[3] || 'flowchart.md'
 
 const generate = async () => {
-  const { scraped }: { scraped: Scraped } = await import(
-    path.join(process.cwd(), source)
+  const { scraped }: { scraped: Scraped } = await tsImport.load(
+    path.join(process.cwd(), source),
   )
   const lines: string[] = ['```mermaid', 'flowchart LR']
 

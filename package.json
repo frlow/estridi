@@ -1,6 +1,6 @@
 {
   "name": "estridi",
-  "version": "1.0.0-beta009",
+  "version": "1.0.0-beta010",
   "description": "",
   "bin": {
     "estridi":"./dist/esm/cli.js",
@@ -25,7 +25,8 @@
     "tsx": "^4.19.1",
     "fast-xml-parser": "^4.5.0",
     "mermaid": "^11.2.1",
-    "playwright-core": "^1.47.2"
+    "playwright-core": "^1.47.2",
+    "ts-import": "^5.0.0-beta.0"
   },
   "devDependencies": {
     "@types/node": "^22.5.5",
