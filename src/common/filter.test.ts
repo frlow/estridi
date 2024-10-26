@@ -1,0 +1,113 @@
+import { describe, expect, test } from 'vitest'
+import { processFigma } from '../sources/figma.js'
+import { figmaConnectorNode, figmaNodes, getBaseFigmaNode } from '../sources/test/figmaGenerator.js'
+import { filterScraped } from './filter.js'
+
+describe('filter scraped', () => {
+  test('filter', async () => {
+    const scraped = await processFigma(
+      getBaseFigmaNode([
+        figmaNodes.start({ id: '0' }),
+        ...figmaConnectorNode({ id: '0-1', text: 'root:demo', start: '0', end: '1' }),
+        figmaNodes.script({ id: '1', type: 'script', text: 'Some script' }),
+        ...figmaConnectorNode({ id: '1-2', start: '1', end: '2' }),
+        figmaNodes.gateway({ id: '2' }),
+        ...figmaConnectorNode({ id: '2-3', start: '2', end: '3', text: 'A' }),
+        figmaNodes.script({ id: '3', type: 'message', text: 'Show A' }),
+        ...figmaConnectorNode({ id: '3-4', start: '3', end: '4' }),
+        figmaNodes.userAction({ id: '4', position: 0 }),
+        ...figmaConnectorNode({ id: '4-end', start: '4', end: 'end' }),
+        figmaNodes.start({ id: 'end' }),
+        figmaNodes.signalListen({ id: '5', position: 0, text: 'Click Button' }),
+        ...figmaConnectorNode({ id: '5-6', start: '5', end: '6' }),
+        figmaNodes.script({ id: '6', type: 'message', text: 'Clicked Button' }),
+        ...figmaConnectorNode({ id: '6-7', start: '6', end: '7' }),
+        figmaNodes.subprocess({ text: 'Some subprocess', id: '7' }),
+        ...figmaConnectorNode({ id: '7-after', start: '7', end: 'after' }),
+        figmaNodes.script({ id: 'after', type: 'message', text: 'After subprocess' }),
+        figmaNodes.start({ id: '8' }),
+        ...figmaConnectorNode({ id: '8-9', text: 'Some subprocess', start: '8', end: '9' }),
+        figmaNodes.script({ id: '9', type: 'signalSend', text: 'In subprocess' }),
+        figmaNodes.script({ id: 'OtherScriptId', type: 'script' })
+      ])
+    )
+    const filtered = filterScraped(scraped, 'demo')
+
+    expect(filtered).toStrictEqual([
+      {
+        'id': '0',
+        'isRoot': true,
+        'next': '1',
+        'text': 'demo',
+        'type': 'start'
+      },
+      {
+        'id': '1',
+        'next': '2',
+        'text': 'Some script',
+        'type': 'script'
+      },
+      {
+        'id': '2',
+        'options': {
+          '3': 'A'
+        },
+        'text': 'Gateway',
+        'type': 'gateway'
+      },
+      {
+        'id': '3',
+        'next': '4',
+        'text': 'Show A',
+        'type': 'script'
+      },
+      {
+        'actions': {
+          '6': 'Click Button'
+        },
+        'id': '4',
+        'next': 'end',
+        'text': 'action',
+        'type': 'userAction'
+      },
+      {
+        'id': '6',
+        'next': '7',
+        'text': 'Clicked Button',
+        'type': 'script'
+      },
+      {
+        'id': '7',
+        'link': '8',
+        'next': 'after',
+        'tableKey': undefined,
+        'text': 'Some subprocess',
+        'type': 'subprocess'
+      },
+      {
+        'id': '8',
+        'isRoot': false,
+        'next': '9',
+        'text': 'Some subprocess',
+        'type': 'start'
+      },
+      {
+        'id': '9',
+        'next': undefined,
+        'text': 'In subprocess',
+        'type': 'script'
+      },
+      {
+        'id': 'end',
+        'text': 'end',
+        'type': 'end'
+      }, {
+        'id': 'after',
+        'next': undefined,
+        'text': 'After subprocess',
+        'type': 'script'
+      }
+    ])
+    expect(filtered.find(n => n.id === 'OtherScriptId')).toBeUndefined()
+  })
+})

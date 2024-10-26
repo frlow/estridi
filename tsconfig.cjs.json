@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "outDir": "dist/cjs",
+    "noEmit": false,
+    "declaration": true
+  },
+  "include": ["src/runner.ts"],
+  "exclude": ["tests"]
+}
