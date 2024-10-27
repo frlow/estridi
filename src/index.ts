@@ -2,7 +2,7 @@ import { filterScraped } from './common/filter.js'
 import { getRootName } from './common/root.js'
 import { generatePlaywright } from './targets/playwright.js'
 import { loadFigmaDocument, processFigma } from './sources/figma.js'
-import { ar } from 'vitest/dist/chunks/reporters.C4ZHgdxQ.js'
+import { processDrawIo } from './sources/drawio.js'
 
 export type EstridiSourceConfig = {
   getDataFunc: (args: any) => Promise<any>
@@ -15,15 +15,20 @@ export type EstridiTargetConfig = {
 }
 
 export type EstridiTargets = 'playwright'
-export type EstridiSources = 'figma'
+export type EstridiSources = 'figma'|'drawio'
 export const generateEstridiTests = async (args: { config: any, target?: 'playwright', rootName?: string }) => {
   let sourceName: EstridiSources
   if(args?.config?.fileId && args?.config?.token) sourceName = "figma"
+  if(args?.config?.file?.endsWith('.drawio')) sourceName = "drawio"
 
   const sources: Record<EstridiSources, EstridiSourceConfig> = {
     figma: {
       processFunc: processFigma,
       getDataFunc: loadFigmaDocument
+    },
+    drawio:{
+      processFunc: processDrawIo,
+      getDataFunc: ()=>{throw "not implemented"}
     }
   }
   const source = sources[sourceName]
