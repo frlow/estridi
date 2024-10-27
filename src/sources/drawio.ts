@@ -1,4 +1,11 @@
 import { isNodeInside } from '../common/inside.js'
+import fs from 'fs'
+import { XMLParser } from 'fast-xml-parser'
+
+export const loadDrawIoDocument = (config: { drawIoFile: string }): any => {
+  const content = fs.readFileSync(config.drawIoFile, 'utf8')
+  return new XMLParser({ ignoreAttributes: false }).parse(content)
+}
 
 export const drawIoHelper = (rawNodes: any[]) => {
   const getTableMetadata = (node: any) => {
@@ -8,11 +15,11 @@ export const drawIoHelper = (rawNodes: any[]) => {
           (n) =>
             n['@_style'] &&
             n['@_style'].includes('shape=tableRow;') &&
-            n['@_parent'] === node['@_id'],
+            n['@_parent'] === node['@_id']
         )
         .map((r) => r['@_id'])
       const values = rowIds.map((rId) =>
-        rawNodes.filter((n) => n['@_parent'] === rId).map((v) => v['@_value']),
+        rawNodes.filter((n) => n['@_parent'] === rId).map((v) => v['@_value'])
       )
       const text: string = values[0][0]
       const isConnected = text.startsWith('.')
@@ -21,7 +28,7 @@ export const drawIoHelper = (rawNodes: any[]) => {
           type: 'table',
           id: node['@_id'],
           text: text.substring(1),
-          rows: values,
+          rows: values
 
         }
         return table
@@ -31,7 +38,7 @@ export const drawIoHelper = (rawNodes: any[]) => {
   }
 
   const getConnections = (
-    node: any,
+    node: any
   ): { target: string; text: string | undefined }[] => {
     const getConnectionText = (id: string) => {
       const connectionText = rawNodes.find((n) => n['@_parent'] === id)
@@ -39,11 +46,11 @@ export const drawIoHelper = (rawNodes: any[]) => {
     }
     const connectionNodes = rawNodes.filter(
       (n: any) =>
-        n['@_source'] === node['@_id'] && !n['@_style']?.includes('dashed'),
+        n['@_source'] === node['@_id'] && !n['@_style']?.includes('dashed')
     )
     return connectionNodes.map((c: any) => ({
       target: c['@_target'],
-      text: getConnectionText(c['@_id']),
+      text: getConnectionText(c['@_id'])
     }))
   }
   const getNext = (node: any) => {
@@ -62,7 +69,7 @@ const getTableKey = (node: any) => {
 }
 
 export const processDrawIo = async (
-  data: any,
+  data: any
 ): Promise<Scraped> => {
   const rawNodes = data.mxfile.diagram.mxGraphModel.root.mxCell
   const { getNext, getConnections, getTableMetadata } = drawIoHelper(rawNodes)
@@ -78,7 +85,7 @@ export const processDrawIo = async (
           type: 'script',
           id: node['@_id'],
           text: node['@_value'],
-          next: getNext(node),
+          next: getNext(node)
         }
         return script
       }
@@ -96,7 +103,7 @@ export const processDrawIo = async (
           id: node['@_id'],
           text: text?.replace('root:', ''),
           isRoot,
-          next: getNext(node),
+          next: getNext(node)
         }
       }
       case 'serviceCall': {
@@ -104,7 +111,7 @@ export const processDrawIo = async (
           type: 'serviceCall',
           id: node['@_id'],
           text: node['@_value'],
-          next: getNext(node),
+          next: getNext(node)
         }
       }
       case 'gateway': {
@@ -115,8 +122,8 @@ export const processDrawIo = async (
           text: node['@_value'],
           options: connections.reduce(
             (acc, cur) => ({ ...acc, [cur.target]: cur.text }),
-            {},
-          ),
+            {}
+          )
         }
       }
       case 'subprocess': {
@@ -135,7 +142,7 @@ export const processDrawIo = async (
             x: parseInt(node.mxGeometry['@_x']),
             y: parseInt(node.mxGeometry['@_y']),
             width: parseInt(node.mxGeometry['@_width']),
-            height: parseInt(node.mxGeometry['@_height']),
+            height: parseInt(node.mxGeometry['@_height'])
           })
           return isNodeInside(getCoordinates(host), getCoordinates(child))
         }
@@ -148,7 +155,7 @@ export const processDrawIo = async (
           id: node['@_id'],
           text: node['@_value'],
           next: getNext(node),
-          actions,
+          actions
         }
       }
       default:
@@ -159,7 +166,7 @@ export const processDrawIo = async (
           type: 'other',
           id: node['@_id'],
           text: node['@_value'],
-          next: getNext(node),
+          next: getNext(node)
         }
     }
   }

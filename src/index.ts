@@ -3,6 +3,7 @@ import { getRootName } from './common/root.js'
 import { generatePlaywright } from './targets/playwright.js'
 import { loadFigmaDocument, processFigma } from './sources/figma.js'
 import { processDrawIo } from './sources/drawio.js'
+import { getDrawIoDocument } from './sources/test/drawIoGenerator.js'
 
 export type EstridiSourceConfig = {
   getDataFunc: (args: any) => Promise<any>
@@ -28,9 +29,7 @@ export const generateEstridiTests = async (args: { config: any, target?: 'playwr
     },
     drawio: {
       processFunc: processDrawIo,
-      getDataFunc: () => {
-        throw 'not implemented'
-      }
+      getDataFunc: getDrawIoDocument
     }
   }
   const source = sources[sourceName]
