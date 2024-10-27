@@ -22,6 +22,7 @@ export const drawIoHelper = (rawNodes: any[]) => {
           id: node['@_id'],
           text: text.substring(1),
           rows: values,
+
         }
         return table
       }
@@ -51,6 +52,13 @@ export const drawIoHelper = (rawNodes: any[]) => {
   }
 
   return { getConnections, getNext, getTableMetadata }
+}
+
+const getTableKey = (node: any) => {
+  const text = node['@_value']
+  const splitResult = text.split(':')
+  if (splitResult.length !== 2) return undefined
+  return splitResult[1].trim()
 }
 
 export const processDrawIo = async (
@@ -118,6 +126,7 @@ export const processDrawIo = async (
           text: node['@_value'],
           next: getNext(node),
           link: undefined,
+          tableKey: getTableKey(node)
         }
       }
       case 'userAction': {
