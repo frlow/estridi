@@ -693,7 +693,6 @@ test.describe('main', () => {
     await handles.action_signeraClicked(args)
     await handles.test_showError(args)
   })
-
   test('Close recipient summary modal', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',

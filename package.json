@@ -10,7 +10,8 @@
   "type": "module",
   "scripts": {
     "start": "tsx src/cli.ts",
-    "test-data": "tsx testData.ts"
+    "test-data": "tsx testData.ts",
+    "test": "vitest"
   },
   "dependencies": {
     "commander": "^12.1.0",
