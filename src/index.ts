@@ -10,25 +10,27 @@ export type EstridiSourceConfig = {
 }
 
 export type EstridiTargetConfig = {
-  generatorFunc: (name: string, scraped: Scraped)=>Promise<string>
+  generatorFunc: (name: string, scraped: Scraped) => Promise<string>
   getFileName: (name: string) => string
 }
 
 export type EstridiTargets = 'playwright'
-export type EstridiSources = 'figma'|'drawio'
+export type EstridiSources = 'figma' | 'drawio'
 export const generateEstridiTests = async (args: { config: any, target?: 'playwright', rootName?: string }) => {
   let sourceName: EstridiSources
-  if(args?.config?.fileId && args?.config?.token) sourceName = "figma"
-  if(args?.config?.file?.endsWith('.drawio')) sourceName = "drawio"
+  if (args?.config?.fileId && args?.config?.token) sourceName = 'figma'
+  if (args?.config?.file?.endsWith('.drawio')) sourceName = 'drawio'
 
   const sources: Record<EstridiSources, EstridiSourceConfig> = {
     figma: {
       processFunc: processFigma,
       getDataFunc: loadFigmaDocument
     },
-    drawio:{
+    drawio: {
       processFunc: processDrawIo,
-      getDataFunc: ()=>{throw "not implemented"}
+      getDataFunc: () => {
+        throw 'not implemented'
+      }
     }
   }
   const source = sources[sourceName]
