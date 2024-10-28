@@ -80,7 +80,7 @@ export const figmaNodes: NodeGenerator = {
       }
     ]
   }),
-  subprocess: ({ id, text }) => ({
+  subprocess: ({ id, text, position }) => ({
     id: id || 'SubprocessId',
     name: '2. Subprocess',
     children: [
@@ -89,7 +89,13 @@ export const figmaNodes: NodeGenerator = {
         type: 'TEXT',
         characters: text || 'Sub Process'
       }
-    ]
+    ],
+    absoluteBoundingBox: {
+      x: position || 0,
+      y: 0,
+      width: 100,
+      height: 100
+    }
   }),
   userAction: ({ id, text, position }) => ({
     id: id || 'UserActionId',
@@ -135,24 +141,24 @@ export const figmaNodes: NodeGenerator = {
       }
     ]
   }),
-  scriptGroupedText: ({text, id})=>({
-    "id": `group-${id}`,
-    "type": "GROUP",
-    "children": [
+  scriptGroupedText: ({ text, id }) => ({
+    'id': `group-${id}`,
+    'type': 'GROUP',
+    'children': [
       {
-        "name": "02. Message",
-        "id": id,
-        "children": [
+        'name': '02. Message',
+        'id': id,
+        'children': [
           {
-            "name": "text",
-            "type": "TEXT",
-            "characters": "",
+            'name': 'text',
+            'type': 'TEXT',
+            'characters': ''
           }
         ]
       },
       {
-        "type": "TEXT",
-        "characters": text || "Script with grouped text",
+        'type': 'TEXT',
+        'characters': text || 'Script with grouped text'
       }
     ]
   })

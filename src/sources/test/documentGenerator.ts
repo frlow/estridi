@@ -166,7 +166,7 @@ export const getDocument = (
       ])
     case 'subprocess-actions':
       return baseNodeFunc([
-        nodeGenerator.subprocess({ text: 'External function', position: 0 }),
+        nodeGenerator.subprocess({ text: 'External component', position: 0 }),
         nodeGenerator.signalListen({ text: 'Click', position: 0 }),
         ...connectorGenerator({
           start: 'SubprocessId',

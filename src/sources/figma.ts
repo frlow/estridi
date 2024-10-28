@@ -179,7 +179,7 @@ const afterProcess = (
       sp.link = linkNode?.id
     })
   ret
-    .filter((node) => node.type === 'userAction')
+    .filter((node) => ['userAction', 'subprocess'].includes(node.type))
     .forEach((ua: ScrapedUserAction) => {
       const uaNode = nodes[ua.id]
       const actions = Object.values(nodes).filter(
@@ -188,6 +188,12 @@ const afterProcess = (
           n.absoluteBoundingBox &&
           isNodeInside(uaNode.absoluteBoundingBox, n.absoluteBoundingBox)
       )
+      if ((ua.type as any) === 'subprocess' && actions.length > 0) {
+        delete (ua as any).link
+        delete (ua as any).tableKey
+        ua.type = 'userAction'
+        ua.actions = {}
+      }
       actions.forEach((a) => (ua.actions[getNext(a)] = findText(a)))
     })
   return ret

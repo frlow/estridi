@@ -9,7 +9,7 @@
   },
   "type": "module",
   "scripts": {
-    "start": "tsx src/cli.ts",
+    "start": "tsx src/cli.ts -r main",
     "test-data": "tsx testData.ts",
     "test": "vitest"
   },
@@ -32,13 +32,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "exports": {
-    ".": {
-      "import": "./dist/esm/runner.js",
-      "types": "./dist/esm/runner.d.ts",
-      "require": "./dist/cjs/runner.js"
-    }
-  },
   "files": [
     "dist"
   ]
