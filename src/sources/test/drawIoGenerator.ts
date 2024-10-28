@@ -1,4 +1,6 @@
 import { ConnectorGenerator, DocumentType, getDocument, NodeGenerator, TableGenerator } from './documentGenerator.js'
+import { type } from 'node:os'
+import { text } from 'node:stream/consumers'
 
 export const getBaseDrawIoNode = (children: any[]): any => {
   return {
@@ -72,6 +74,9 @@ export const drawIoNodes: NodeGenerator = {
       '@_id': id || 'OtherId',
       '@_value': text || 'Other',
     }
+  },
+  scriptGroupedText(args: { text?: string; id?: string }): any {
+    throw "not implemented"
   },
 }
 

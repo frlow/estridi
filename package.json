@@ -1,6 +1,6 @@
 {
   "name": "estridi",
-  "version": "1.0.0-beta010",
+  "version": "1.0.0-beta100",
   "description": "",
   "bin": {
     "estridi": "./dist/esm/cli.js",
@@ -11,7 +11,8 @@
   "scripts": {
     "start": "tsx src/cli.ts -r main",
     "test-data": "tsx testData.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "build": "tsc -p tsconfig.prod.json"
   },
   "dependencies": {
     "commander": "^12.1.0",

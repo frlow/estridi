@@ -7,7 +7,6 @@ import {
   getTestNames
 } from './codegen/handlesType.js'
 import { findShortestPathToNode } from '../common/shotestPath.js'
-import { GatewayCollection } from './test/playwrightReference.js'
 import { getTestableNodes } from './codegen/misc.js'
 import { createTable } from '../common/table.js'
 

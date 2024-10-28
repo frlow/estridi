@@ -1,10 +1,10 @@
 {
   "extends": "./tsconfig.json",
   "include": ["src"],
-  "exclude": ["tests"],
+  "exclude": ["**/test", "**/*.test.ts"],
   "compilerOptions": {
-    "outDir": "dist/esm",
+    "outDir": "dist",
     "noEmit": false,
-    "declaration": true
+    "declaration": false
   }
 }
