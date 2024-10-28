@@ -1,11 +1,9 @@
 {
   "name": "estridi",
-  "version": "1.0.0-beta100",
+  "version": "1.0.0-beta101",
   "description": "",
   "bin": {
-    "estridi": "./dist/esm/cli.js",
-    "estridi-flowchart": "./dist/esm/flowchart.js",
-    "estridi-neo": "./dist/esm/neoCli.js"
+    "estridi": "./dist/cli.js"
   },
   "type": "module",
   "scripts": {
