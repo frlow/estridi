@@ -26,6 +26,14 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
     'type': 'script'
   })
 
+  const scriptWithGroupedText = (await getDocument('scriptWithGroupedText')).find(node => node.type === 'script')
+  expect(scriptWithGroupedText).toStrictEqual({
+    'id': 'ScriptWithGroupedTextId',
+    'next': 'NextId',
+    'text': 'External',
+    'type': 'script'
+  })
+
   const subprocess = (await getDocument('subprocess')).find(node => node.type === 'subprocess')
   expect(subprocess).toStrictEqual({
     'id': 'SubprocessId',
@@ -84,20 +92,20 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
   })
 
   const other = (await getDocument('other'))
-    .find(node => node.type === 'other' && node.id==="OtherId")
+    .find(node => node.type === 'other' && node.id === 'OtherId')
   expect(other).toStrictEqual({
-    "id": "OtherId",
-    "next": "NextId",
-    "text": "Some text",
-    "type": "other",
+    'id': 'OtherId',
+    'next': 'NextId',
+    'text': 'Some text',
+    'type': 'other'
   })
 
   const dotted = (await getDocument('dotted')).find(node => node.type === 'serviceCall')
   expect(dotted).toStrictEqual({
-    "id": "ServiceCallId",
-    "next": undefined,
-    "text": "Service Call",
-    "type": "serviceCall",
+    'id': 'ServiceCallId',
+    'next': undefined,
+    'text': 'Service Call',
+    'type': 'serviceCall'
   })
 
   const table = (await getDocument('table')).find(node => node.type === 'table')
@@ -122,5 +130,16 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
     ],
     'text': 'My Table',
     'type': 'table'
+  })
+
+  const subprocessWithActions = (await getDocument('subprocess-actions')).find(node => node.type === 'userAction')
+  expect(subprocessWithActions).toStrictEqual({
+    'actions': {
+      'ActionId': 'Click'
+    },
+    'id': 'SubprocessId',
+    'next': 'NextId',
+    'text': 'External component',
+    'type': 'userAction'
   })
 }

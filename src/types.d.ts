@@ -5,6 +5,7 @@ declare global {
     | 'table'
     | 'other'
     | 'script'
+    | 'script-group'
     | 'serviceCall'
     | 'start'
     | 'root'

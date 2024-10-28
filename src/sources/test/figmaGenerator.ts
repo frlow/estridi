@@ -134,6 +134,27 @@ export const figmaNodes: NodeGenerator = {
         characters: text || 'Other'
       }
     ]
+  }),
+  scriptGroupedText: ({text, id})=>({
+    "id": id,
+    "type": "GROUP",
+    "children": [
+      {
+        "name": "02. Message",
+        "id": `${id}-inner`,
+        "children": [
+          {
+            "name": "text",
+            "type": "TEXT",
+            "characters": "",
+          }
+        ]
+      },
+      {
+        "type": "TEXT",
+        "characters": text || "Script with grouped text",
+      }
+    ]
   })
 }
 

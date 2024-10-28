@@ -4,10 +4,11 @@ export type NodeGenerator = {
     id?: string
     type: 'script' | 'message' | 'signalSend'
   }) => any
+  scriptGroupedText: (args: { text?: string; id?: string }) => any
   serviceCall: (args: { text?: string; id?: string }) => any
   start: (args: { id?: string }) => any
   gateway: (args: { id?: string; text?: string }) => any
-  subprocess: (args: { id?: string; text?: string }) => any
+  subprocess: (args: { id?: string; text?: string, position?: number }) => any
   userAction: (args: { id?: string; text?: string; position: number }) => any
   signalListen: (args: { id?: string; text?: string; position: number }) => any
   other: (args: { text?: string; id?: string }) => any
@@ -26,7 +27,22 @@ export type ConnectorGenerator = (args: {
   dotted?: boolean
 }) => any[]
 
-export type DocumentType = "message" | "signalSend" | 'script' | "serviceCall" | "root" | "start" | "gateway" | "subprocess" | "userAction" |"other"|"end" | "dotted" | "table"
+export type DocumentType =
+  | 'message'
+  | 'signalSend'
+  | 'script'
+  | 'scriptWithGroupedText'
+  | 'serviceCall'
+  | 'root'
+  | 'start'
+  | 'gateway'
+  | 'subprocess'
+  | 'subprocess-actions'
+  | 'userAction'
+  | 'other'
+  | 'end'
+  | 'dotted'
+  | 'table'
 
 export const getDocument = (
   {
@@ -147,6 +163,25 @@ export const getDocument = (
             ['Line2', 'CCCC', 'DDDD']
           ]
         })
+      ])
+    case 'subprocess-actions':
+      return baseNodeFunc([
+        nodeGenerator.subprocess({ text: 'External function', position: 0 }),
+        nodeGenerator.signalListen({ text: 'Click', position: 0 }),
+        ...connectorGenerator({
+          start: 'SubprocessId',
+          id: 'ConnectorId1'
+        }),
+        ...connectorGenerator({
+          start: 'SignalListenId',
+          id: 'ConnectorId2',
+          end: 'ActionId'
+        })
+      ])
+    case 'scriptWithGroupedText':
+      return baseNodeFunc([
+        nodeGenerator.scriptGroupedText({ text: 'External', id: 'ScriptWithGroupedTextId' }),
+        ...connectorGenerator({ start: 'ScriptWithGroupedTextId-inner' })
       ])
     default:
       debugger
