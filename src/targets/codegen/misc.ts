@@ -6,3 +6,7 @@ export const validateDuplicates = (names: string[], category: string) => {
 
 export const filterDuplicates = (texts: string[]): string[] =>
   texts.filter((v, i, a) => a.indexOf(v) === i)
+
+export const getTestableNodes = (scraped: Scraped)=>scraped.filter(
+  (n) => n.type === 'script' || (n.type === 'subprocess' && !n.link && n.tableKey)
+)

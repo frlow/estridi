@@ -1,5 +1,5 @@
 import { _, camelize } from '../../common/texts.js'
-import { filterDuplicates, validateDuplicates } from './misc.js'
+import { filterDuplicates, getTestableNodes, validateDuplicates } from './misc.js'
 
 // export const Gateways = [
 //   ${getGatewayNames(scraped)
@@ -50,7 +50,7 @@ export const getGatewayNames = (scraped: Scraped): string[] => {
     .map((node) => node.text)
   validateDuplicates(
     ret.filter((r) => !r.startsWith('*')),
-    'gateway names',
+    'gateway names'
   )
   return filterDuplicates(ret.map((g) => g.replace('*', '')))
 }
@@ -72,20 +72,19 @@ export const getActionNames = (scraped: Scraped): string[] => {
 }
 
 export const getTestNames = (scraped: Scraped): string[] => {
-  const ret = scraped
-    .filter((node) => node.type === 'script')
+  const ret = getTestableNodes(scraped)
     .map((node) => node.text)
   validateDuplicates(
     ret.filter((r) => !r.startsWith('*')),
-    'test names',
+    'test names'
   )
   return filterDuplicates(ret.map((r) => r.replace('*', '')))
 }
 
-export const getServiceCallsCode = (scraped: Scraped)=>{
-  const serviceCallLines = getServiceCallNames(scraped).map(sc=>`${_(1)}await handles.serviceCall_${camelize(sc)}(args)`)
+export const getServiceCallsCode = (scraped: Scraped) => {
+  const serviceCallLines = getServiceCallNames(scraped).map(sc => `${_(1)}await handles.serviceCall_${camelize(sc)}(args)`)
   return `const handleServiceCalls = async (args: TestArgs<any>)=>{
-${serviceCallLines.join("\n")}
+${serviceCallLines.join('\n')}
 }`
 }
 

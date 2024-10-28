@@ -1,4 +1,4 @@
-import { _, camelize } from '../common/texts.js'
+import { _, camelize, sanitizeText } from '../common/texts.js'
 import {
   getActionNames,
   getGatewayNames,
@@ -7,6 +7,9 @@ import {
   getTestNames
 } from './codegen/handlesType.js'
 import { findShortestPathToNode } from '../common/shotestPath.js'
+import { GatewayCollection } from './test/playwrightReference.js'
+import { getTestableNodes } from './codegen/misc.js'
+import { createTable } from '../common/table.js'
 
 const getPathGatewayValuesForPath = (path: ScrapedNode[]) =>
   path
@@ -41,7 +44,7 @@ const getTestName = (name: string): string => {
 }
 
 
-const generateScriptTest = (scraped: Scraped, node: NodeInfo) => {
+const generateScriptTest = (scraped: Scraped, node: ScrapedScript) => {
   const shortestPath = findShortestPathToNode(scraped, node.id)
   const gatewayValues = getPathGatewayValuesForPath(shortestPath)
   const actions = getActionsForPath(shortestPath)
@@ -62,20 +65,50 @@ ${testText}
   })`
 }
 
+const generateSubprocessTableTest = (scraped: Scraped, node: ScrapedSubprocess) => {
+  const table: ScrapedTable = scraped.find(n => n.type === 'table' && n.text === node.tableKey) as ScrapedTable
+  if (!table) return `// table ${node.tableKey} not found!`
+  const shortestPath = findShortestPathToNode(scraped, node.id)
+  const gatewayValues = getPathGatewayValuesForPath(shortestPath)
+  const actions = getActionsForPath(shortestPath)
+  const actionsText = actions.map((a) => `${_(3)}await handles.${a}(args)`).join('\n')
+  const testText = `${_(3)}await handles.test_${camelize(node.text.replace('*', ''))}(args)`
+  const rowTests = createTable(table).values.map(row => {
+    const rowCode = `${_(2)}test("${sanitizeText(row.Id)}", async ({ page, context }) => {
+      const tableRow = ${JSON.stringify(row, null, 2).replace(/"/g, '\'').replace(/\n/g, `\n${_(3)}`)}
+      await testNode({tableRow, page, context})
+    })`
+    return rowCode
+  })
+  const code = `${_(1)}test.describe("${node.text}", ()=>{
+    const testNode = async ({tableRow, context, page}: {tableRow: Record<string,string>, page: Page, context: BrowserContext}) => {
+      const gateways: GatewayCollection = ${JSON.stringify(gatewayValues, null, 2).replace(/"/g, '\'').replace(/\n/g, `\n${_(3)}`)}
+      const state = await handles.setup({ gateways, page, context, tableRow })
+      const args = { gateways, state, page, context, tableRow }
+      await handleServiceCalls(args)
+      await handles.start(args)
+${actionsText}
+${testText}
+    }
+    
+${rowTests.join('\n\n')}
+  })`
+  return code
+}
+
 const generateTest = (scraped: Scraped, node: ScrapedNode): string => {
   if (node.type === 'script') {
     return generateScriptTest(scraped, node)
-    // case 'tableRow':
-    //   return `// table-row: ${node.text}`
+  } else if (node.type === 'subprocess' && node.tableKey) {
+    return generateSubprocessTableTest(scraped, node)
+
   } else {
     debugger
   }
 }
 
 export const generatePlaywright = async (name: string, scraped: Scraped) => {
-  const testableNodes = scraped.filter(
-    (n) => n.type === 'script' || (n.type === 'subprocess' && !n.link && n.tableKey)
-  )
+  const testableNodes = getTestableNodes(scraped)
 
   const handlesTypeCode = generateHandlesTypeCode(scraped, name)
   return `import { BrowserContext, Page, test } from '@playwright/test'

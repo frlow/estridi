@@ -22,7 +22,7 @@ describe('filter scraped', () => {
         ...figmaConnectorNode({ id: '5-6', start: '5', end: '6' }),
         figmaNodes.script({ id: '6', type: 'message', text: 'Clicked Button' }),
         ...figmaConnectorNode({ id: '6-7', start: '6', end: '7' }),
-        figmaNodes.subprocess({ text: 'Some subprocess', id: '7' }),
+        figmaNodes.subprocess({ text: 'Some subprocess', id: '7', position: 500 }),
         ...figmaConnectorNode({ id: '7-after', start: '7', end: 'after' }),
         figmaNodes.script({ id: 'after', type: 'message', text: 'After subprocess' }),
         figmaNodes.start({ id: '8' }),
