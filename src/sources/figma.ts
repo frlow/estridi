@@ -21,7 +21,15 @@ export const loadFigmaDocument = async ({
 const findRawText = (node: any) => {
   const children: any[] = node?.children || []
   children.sort((a) => (a.name === 'text' ? -1 : 1))
-  return children.find((c: any) => c.type === 'TEXT')?.characters || ''
+  const rawText = children.find((c: any) => c.type === 'TEXT')?.characters || ''
+  if (!rawText && (node as any)?.parent?.type === 'GROUP') {
+    const parent = (node as any).parent
+    const children = parent?.children
+    const textNode = children?.find(c => c.type === 'TEXT')
+    return textNode?.characters || ''
+
+  }
+  return rawText
 }
 
 const findText = (node: any) => sanitizeText(findRawText(node))
@@ -39,15 +47,6 @@ const getType = (node: Node): ScrapedNodeTypes => {
   if (node.name?.replace('1.', '').trim() === 'User action') return 'userAction'
   if (node.name?.replace('05.', '').trim() === 'Signal listen')
     return 'signalListen' as any
-  if ((node.type as any) === 'GROUP') {
-    const innerScript = (node as any).children?.find(c => getType(c) === 'script')
-    const innerText = (node as any).children?.find(c => c.type === 'TEXT')
-    if (innerScript && innerText) {
-      const innerScriptTextValue = findText(innerScript)
-      const innerTextValue = innerText.characters
-      if (innerScriptTextValue?.length === 0 && innerTextValue?.length > 0) return 'script-group'
-    }
-  }
   return 'other'
 }
 
@@ -94,18 +93,6 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         next: getNext(node)
       }
       if (isCustomTest(node)) script.customTest = true
-      return script
-    }
-    case 'script-group': {
-      const rawText = (node as any).children?.find(c=>c.type==="TEXT")?.characters
-      const scriptNode = (node as any).children?.find(c=>getType(c)==="script")
-      const script: ScrapedScript = {
-        type: 'script',
-        id: node.id,
-        text: sanitizeText(rawText),
-        next: getNext(scriptNode)
-      }
-      if (rawText.startsWith('_')) script.customTest = true
       return script
     }
     case 'serviceCall': {
@@ -230,6 +217,9 @@ const mapConnections = (nodes: ProcessedNodes): ProcessedNodes => {
   const connections = Object.values(temp).filter((n) => n.type === 'CONNECTOR')
   Object.keys(temp).forEach((key) => {
     const node = temp[key]
+    node.children?.forEach(c => {
+      if (!c.parent) c.parent = node
+    })
     node.connections = connections
       .filter((c) => {
         return c.connectorStart?.endpointNodeId === node.id && !c.strokeDashes

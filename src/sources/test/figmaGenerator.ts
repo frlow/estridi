@@ -136,12 +136,12 @@ export const figmaNodes: NodeGenerator = {
     ]
   }),
   scriptGroupedText: ({text, id})=>({
-    "id": id,
+    "id": `group-${id}`,
     "type": "GROUP",
     "children": [
       {
         "name": "02. Message",
-        "id": `${id}-inner`,
+        "id": id,
         "children": [
           {
             "name": "text",

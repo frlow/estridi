@@ -30,7 +30,7 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
   expect(scriptWithGroupedText).toStrictEqual({
     'id': 'ScriptWithGroupedTextId',
     'next': 'NextId',
-    'text': 'External',
+    'text': 'Grouped Text',
     'type': 'script'
   })
 

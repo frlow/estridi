@@ -180,8 +180,8 @@ export const getDocument = (
       ])
     case 'scriptWithGroupedText':
       return baseNodeFunc([
-        nodeGenerator.scriptGroupedText({ text: 'External', id: 'ScriptWithGroupedTextId' }),
-        ...connectorGenerator({ start: 'ScriptWithGroupedTextId-inner' })
+        nodeGenerator.scriptGroupedText({ text: 'Grouped Text', id: 'ScriptWithGroupedTextId' }),
+        ...connectorGenerator({ start: 'ScriptWithGroupedTextId' })
       ])
     default:
       debugger
