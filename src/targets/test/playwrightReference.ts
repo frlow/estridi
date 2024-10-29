@@ -7,7 +7,7 @@ test.describe('main', () => {
       'Any errors loading data': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
 
@@ -19,7 +19,7 @@ test.describe('main', () => {
       'empty array from getAccounts': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
 
@@ -31,7 +31,7 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
 
@@ -43,7 +43,7 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
 
@@ -55,7 +55,7 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
 
@@ -68,7 +68,7 @@ test.describe('main', () => {
       'Is Konto selected': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -81,7 +81,7 @@ test.describe('main', () => {
       'Is Konto selected': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -94,7 +94,7 @@ test.describe('main', () => {
       'Is Konto selected': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -107,7 +107,7 @@ test.describe('main', () => {
       'Is Konto selected': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -120,7 +120,7 @@ test.describe('main', () => {
       'Is Konto selected': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -133,7 +133,7 @@ test.describe('main', () => {
       'Is Konto selected': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -148,7 +148,7 @@ test.describe('main', () => {
       ' country isEuEesCountry': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -163,7 +163,7 @@ test.describe('main', () => {
       ' country isEuEesCountry': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -178,7 +178,7 @@ test.describe('main', () => {
       ' country isEuEesCountry': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -193,7 +193,7 @@ test.describe('main', () => {
       ' country isEuEesCountry': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -209,7 +209,7 @@ test.describe('main', () => {
       'is country ibanLength 0': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -225,7 +225,7 @@ test.describe('main', () => {
       'is country ibanLength 0': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -241,7 +241,7 @@ test.describe('main', () => {
       'is country ibanLength 0': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -257,7 +257,7 @@ test.describe('main', () => {
       'is country ibanLength 0': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -273,7 +273,7 @@ test.describe('main', () => {
       'is country ibanLength 0': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -289,7 +289,7 @@ test.describe('main', () => {
       'is country ibanLength 0': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -305,7 +305,7 @@ test.describe('main', () => {
       'is country ibanLength 0': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -321,7 +321,7 @@ test.describe('main', () => {
       'is country ibanLength 0': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -337,7 +337,7 @@ test.describe('main', () => {
       'is country ibanLength 0': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -353,7 +353,7 @@ test.describe('main', () => {
       'is country ibanLength 0': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -367,7 +367,7 @@ test.describe('main', () => {
       'Is Konto selected': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -382,7 +382,7 @@ test.describe('main', () => {
         'Is Konto selected': 'yes'
       }
       const state = await handles.setup({ gateways, page, context, tableRow })
-      const args = { gateways, state, page, context, tableRow }
+      const args = { gateways, state, page, context, tableRow } as any
       await handleServiceCalls(args)
       await handles.start(args)
       await handles.action_franFortsattClicked(args)
@@ -486,7 +486,7 @@ test.describe('main', () => {
       'Any validation errors from mottagare': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -501,7 +501,7 @@ test.describe('main', () => {
       'Any validation errors from mottagare': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -516,7 +516,7 @@ test.describe('main', () => {
       'Any validation errors from mottagare': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -532,7 +532,7 @@ test.describe('main', () => {
       ' country isEuEesCountry': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -548,7 +548,7 @@ test.describe('main', () => {
       ' country isEuEesCountry': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -565,7 +565,7 @@ test.describe('main', () => {
       ' country isEuEesCountry': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -583,7 +583,7 @@ test.describe('main', () => {
       'currency code is EUR': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -601,7 +601,7 @@ test.describe('main', () => {
       'currency code is EUR': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -618,7 +618,7 @@ test.describe('main', () => {
       ' country isEuEesCountry': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -636,7 +636,7 @@ test.describe('main', () => {
       'currency code is SEK': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -654,7 +654,7 @@ test.describe('main', () => {
       'currency code is SEK': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -671,7 +671,7 @@ test.describe('main', () => {
       ' country isEuEesCountry': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -688,7 +688,7 @@ test.describe('main', () => {
       ' country isEuEesCountry': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -705,7 +705,7 @@ test.describe('main', () => {
       ' country isEuEesCountry': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -725,7 +725,7 @@ test.describe('main', () => {
       'Both meddelande and referens are shown and empty': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -744,7 +744,7 @@ test.describe('main', () => {
       'Any validation errors from betalning': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     const actions = [
@@ -766,7 +766,7 @@ test.describe('main', () => {
       'Error from validate service': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -787,7 +787,7 @@ test.describe('main', () => {
       'Any errors from sign payee': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -809,7 +809,7 @@ test.describe('main', () => {
       'Any errors from sign payee': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -833,7 +833,7 @@ test.describe('main', () => {
       'Is payee status completed': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -858,7 +858,7 @@ test.describe('main', () => {
       'Any errors from sign payment': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -884,7 +884,7 @@ test.describe('main', () => {
       'Any errors from sign payment': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -910,7 +910,7 @@ test.describe('main', () => {
       'Any errors from sign payment': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -937,7 +937,7 @@ test.describe('main', () => {
       'Any errors from sign payment': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -965,7 +965,7 @@ test.describe('main', () => {
       'Is payment status completed': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -993,7 +993,7 @@ test.describe('main', () => {
       'Is payment status completed': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -1021,7 +1021,7 @@ test.describe('main', () => {
       'Is payment status completed': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -1048,7 +1048,7 @@ test.describe('main', () => {
       'Is payee status completed': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -1073,7 +1073,7 @@ test.describe('main', () => {
       'Is payee status completed': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -1095,7 +1095,7 @@ test.describe('main', () => {
       'Error from validate service': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -1117,7 +1117,7 @@ test.describe('main', () => {
         'Error from validate service': 'yes'
       }
       const state = await handles.setup({ gateways, page, context, tableRow })
-      const args = { gateways, state, page, context, tableRow }
+      const args = { gateways, state, page, context, tableRow } as any
       await handleServiceCalls(args)
       await handles.start(args)
       await handles.action_franFortsattClicked(args)
@@ -1409,7 +1409,7 @@ test.describe('main', () => {
       'More than 3 alerts': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -1430,7 +1430,7 @@ test.describe('main', () => {
       'More than 3 alerts': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -1449,7 +1449,7 @@ test.describe('main', () => {
       'Any validation errors from betalning': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -1466,7 +1466,7 @@ test.describe('main', () => {
       ' country isEuEesCountry': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -1482,7 +1482,7 @@ test.describe('main', () => {
       ' country isEuEesCountry': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -1499,7 +1499,7 @@ test.describe('main', () => {
       ' country isEuEesCountry': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -1516,7 +1516,7 @@ test.describe('main', () => {
       'Any validation errors from mottagare': 'yes'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
@@ -1530,7 +1530,7 @@ test.describe('main', () => {
       'Is Konto selected': 'no'
     }
     const state = await handles.setup({ gateways, page, context })
-    const args = { gateways, state, page, context }
+    const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
