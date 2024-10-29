@@ -148,22 +148,22 @@ export type TestOptions = {
   const serviceCallLines = getServiceCallNames(scraped)
     .map(
       (sc) =>
-        `${_(1)}serviceCall_${camelize(sc)}: (args: TestArgs<TState>) => Promise<void>`
+        `${_(1)}serviceCall_${camelize(sc)}: (args: TestArgs<TState, TPageExtensions>) => Promise<void>`
     )
   const actionsLines = getActionNames(scraped)
     .map(
       (sc) =>
-        `  action_${camelize(sc)}: (args: TestArgs<TState>) => Promise<void>`
+        `  action_${camelize(sc)}: (args: TestArgs<TState, TPageExtensions>) => Promise<void>`
     )
   const testLines = getTestNames(scraped)
     .map(
       (sc) =>
-        `  test_${camelize(sc)}: (args: TestArgs<TState>, options?: TestOptions) => Promise<void>`
+        `  test_${camelize(sc)}: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>`
     )
 
-  const handlesObjectTypeCode = `export type ${name.charAt(0).toUpperCase() + name.substring(1)}<TState={}> = {
-  setup: (args: Omit<TestArgs<TState>, 'state'>) => Promise<TState>
-  start: (args: TestArgs<TState>) => Promise<void>
+  const handlesObjectTypeCode = `export type ${name.charAt(0).toUpperCase() + name.substring(1)}<TState={}, TPageExtensions={}> = {
+  setup: (args: Omit<TestArgs<TState, TPageExtensions>, 'state'>) => Promise<TState>
+  start: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
 ${serviceCallLines.join('\n')}
 ${actionsLines.join('\n')}
 ${testLines.join('\n')}
