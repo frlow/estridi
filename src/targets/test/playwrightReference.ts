@@ -1584,7 +1584,7 @@ const handleServiceCalls = async (args: TestArgs<any>)=>{
 }
 
 export type Main<TState={}> = {
-  setup: (args: { gateways: GatewayCollection, page: Page, context: BrowserContext }) => Promise<TState>
+  setup: (args: Omit<TestArgs<TState>, 'state'>) => Promise<TState>
   start: (args: TestArgs<TState>) => Promise<void>
   serviceCall_imJsonOverviewGetaccountsEsbBankDepositGetaccounts201411: (args: TestArgs<TState>) => Promise<void>
   serviceCall_bankPaymentCrossborderCountries: (args: TestArgs<TState>) => Promise<void>

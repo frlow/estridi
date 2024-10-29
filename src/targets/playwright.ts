@@ -162,7 +162,7 @@ export type TestOptions = {
     )
 
   const handlesObjectTypeCode = `export type ${name.charAt(0).toUpperCase() + name.substring(1)}<TState={}> = {
-  setup: (args: { gateways: GatewayCollection, page: Page, context: BrowserContext }) => Promise<TState>
+  setup: (args: Omit<TestArgs<TState>, 'state'>) => Promise<TState>
   start: (args: TestArgs<TState>) => Promise<void>
 ${serviceCallLines.join('\n')}
 ${actionsLines.join('\n')}
