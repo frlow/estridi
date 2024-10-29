@@ -68,11 +68,26 @@ const getTableKey = (node: any) => {
   return splitResult[1].trim()
 }
 
+const isInside = (host: any, child: any) => {
+  if (!host.mxGeometry) return false
+  const getCoordinates = (node: any) => ({
+    x: parseInt(node.mxGeometry['@_x']),
+    y: parseInt(node.mxGeometry['@_y']),
+    width: parseInt(node.mxGeometry['@_width']),
+    height: parseInt(node.mxGeometry['@_height'])
+  })
+  return isNodeInside(getCoordinates(host), getCoordinates(child))
+}
+
 export const processDrawIo = async (
   data: any
 ): Promise<Scraped> => {
   const rawNodes = data.mxfile.diagram.mxGraphModel.root.mxCell
   const { getNext, getConnections, getTableMetadata } = drawIoHelper(rawNodes)
+  const getActionsInside = (node: any) => rawNodes
+    .filter((n) => n['@_type'] === 'signalListen' && isInside(node, n))
+    .map((a) => ({ text: a['@_value'], next: getNext(a) }))
+    .reduce((acc, cur) => ({ ...acc, [cur.next]: cur.text }), {})
   const getNodeMetadata = (node: any): ScrapedNode => {
     const table = getTableMetadata(node)
     if (table) return table
@@ -127,6 +142,15 @@ export const processDrawIo = async (
         }
       }
       case 'subprocess': {
+        const actions = getActionsInside(node)
+        if (Object.values(actions).length > 0)
+          return {
+            type: 'userAction',
+            id: node['@_id'],
+            text: node['@_value'],
+            next: getNext(node),
+            actions
+          }
         return {
           type: 'subprocess',
           id: node['@_id'],
@@ -137,19 +161,7 @@ export const processDrawIo = async (
         }
       }
       case 'userAction': {
-        const isInside = (host: any, child: any) => {
-          const getCoordinates = (node: any) => ({
-            x: parseInt(node.mxGeometry['@_x']),
-            y: parseInt(node.mxGeometry['@_y']),
-            width: parseInt(node.mxGeometry['@_width']),
-            height: parseInt(node.mxGeometry['@_height'])
-          })
-          return isNodeInside(getCoordinates(host), getCoordinates(child))
-        }
-        const actions = rawNodes
-          .filter((n) => n['@_type'] === 'signalListen' && isInside(node, n))
-          .map((a) => ({ text: a['@_value'], next: getNext(a) }))
-          .reduce((acc, cur) => ({ ...acc, [cur.next]: cur.text }), {})
+        const actions = getActionsInside(node)
         return {
           type: 'userAction',
           id: node['@_id'],

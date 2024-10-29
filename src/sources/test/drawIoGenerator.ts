@@ -1,10 +1,8 @@
 import { ConnectorGenerator, DocumentType, getDocument, NodeGenerator, TableGenerator } from './documentGenerator.js'
-import { type } from 'node:os'
-import { text } from 'node:stream/consumers'
 
 export const getBaseDrawIoNode = (children: any[]): any => {
   return {
-    mxfile: { diagram: { mxGraphModel: { root: { mxCell: children } } } },
+    mxfile: { diagram: { mxGraphModel: { root: { mxCell: children } } } }
   }
 }
 
@@ -13,34 +11,40 @@ export const drawIoNodes: NodeGenerator = {
     return {
       '@_id': id || 'ScriptId',
       '@_type': type,
-      '@_value': text || 'Script',
+      '@_value': text || 'Script'
     }
   },
   serviceCall({ id, text }) {
     return {
       '@_id': id || 'ServiceCallId',
       '@_type': 'serviceCall',
-      '@_value': text || 'Service Call',
+      '@_value': text || 'Service Call'
     }
   },
   start({ id }) {
     return {
       '@_id': id || 'StartId',
-      '@_type': 'start',
+      '@_type': 'start'
     }
   },
   gateway({ id, text }) {
     return {
       '@_id': id || 'GatewayId',
       '@_type': 'gateway',
-      '@_value': text || 'Gateway',
+      '@_value': text || 'Gateway'
     }
   },
-  subprocess({ text, id }) {
+  subprocess({ text, id, position }) {
     return {
       '@_id': id || 'SubprocessId',
       '@_type': 'subprocess',
       '@_value': text || 'Subprocess',
+      mxGeometry: {
+        '@_x': position?.toString() || "0",
+        '@_y': '0',
+        '@_width': '100',
+        '@_height': '100'
+      }
     }
   },
   userAction({ text, id, position }) {
@@ -52,8 +56,8 @@ export const drawIoNodes: NodeGenerator = {
         '@_x': position.toString(),
         '@_y': '0',
         '@_width': '100',
-        '@_height': '100',
-      },
+        '@_height': '100'
+      }
     }
   },
   signalListen({ position, id, text }) {
@@ -65,38 +69,38 @@ export const drawIoNodes: NodeGenerator = {
         '@_x': (position + 5).toString(),
         '@_y': '50',
         '@_width': '10',
-        '@_height': '10',
-      },
+        '@_height': '10'
+      }
     }
   },
   other({ id, text }) {
     return {
       '@_id': id || 'OtherId',
-      '@_value': text || 'Other',
+      '@_value': text || 'Other'
     }
   },
   scriptGroupedText(args: { text?: string; id?: string }): any {
-    throw "not implemented"
-  },
+    return drawIoNodes.script({ ...args, type: 'script' })
+  }
 }
 
 export const drawIoTable: TableGenerator = ({ id, children }) => {
   const tableId = id || 'TableId'
   const table = {
     '@_id': tableId,
-    '@_style': 'shape=table;',
+    '@_style': 'shape=table;'
   }
   const rows = children.map((_, i) => ({
     '@_id': `${tableId}_row${i}`,
     '@_style': 'shape=tableRow;',
-    '@_parent': tableId,
+    '@_parent': tableId
   }))
   const values = children.flatMap((row, rowIndex) =>
     row.map((value, colIndex) => ({
       '@_id': `${tableId}_row${rowIndex}_col${colIndex}`,
       '@_parent': `${tableId}_row${rowIndex}`,
-      '@_value': value,
-    })),
+      '@_value': value
+    }))
   )
   return [table, ...rows, ...values]
 }
@@ -106,20 +110,20 @@ export const drawIoConnector: ConnectorGenerator = ({
                                                       id,
                                                       dotted,
                                                       end,
-                                                      start,
+                                                      start
                                                     }) => {
   const _id = id || 'ConnectorId'
   const connector = {
     '@_id': _id,
     '@_source': start,
     '@_target': end || 'NextId',
-    '@_style': dotted ? 'dashed' : undefined,
+    '@_style': dotted ? 'dashed' : undefined
   }
   if (!text) return [connector]
   const textNode = {
     '@_id': `${_id}Text`,
     '@_value': text,
-    '@_parent': _id,
+    '@_parent': _id
   }
   return [connector, textNode]
 }
