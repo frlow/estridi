@@ -55,7 +55,7 @@ ${actions.map((a) => `      '${a}'`).join(',\n')}
     : actions.map((a) => `    await handles.${a}(args)`).join('\n')
   return `  test('${getTestName(node.text)}', async ({ page, context }) => {
     const gateways: GatewayCollection = ${JSON.stringify(gatewayValues, null, 2).replace(/"/g, '\'').replace(/\n/g, `\n${_(2)}`)}
-    const state = await handles.setup({ gateways, page, context })
+    const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
@@ -82,7 +82,7 @@ const generateSubprocessTableTest = (scraped: Scraped, node: ScrapedSubprocess) 
   const code = `${_(1)}test.describe("${node.text}", ()=>{
     const testNode = async ({tableRow, context, page}: {tableRow: Record<string,string>, page: Page, context: BrowserContext}) => {
       const gateways: GatewayCollection = ${JSON.stringify(gatewayValues, null, 2).replace(/"/g, '\'').replace(/\n/g, `\n${_(3)}`)}
-      const state = await handles.setup({ gateways, page, context, tableRow })
+      const state = await handles.setup({ gateways, page, context, tableRow } as any)
       const args = { gateways, state, page, context, tableRow } as any
       await handleServiceCalls(args)
       await handles.start(args)

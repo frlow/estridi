@@ -11,7 +11,7 @@ describe('playwright', () => {
     const scraped = filterScraped(await processFigma(getFigmaTestData()), 'main')
     const code = await generatePlaywright('main', scraped)
     const filePath = path.join(__dirname, 'test', 'playwrightReference.ts')
-    // fs.writeFileSync(filePath, code, 'utf8')
+    fs.writeFileSync(filePath, code, 'utf8')
     const reference = fs.readFileSync(filePath, 'utf8')
     expect(code).toStrictEqual(reference)
   })
