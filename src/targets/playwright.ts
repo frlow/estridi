@@ -16,7 +16,7 @@ const getPathGatewayValuesForPath = (path: ScrapedNode[]) =>
     .reduce(
       (acc, cur) => ({
         ...acc,
-        [cur.text.replace('*', '')]:
+        [cur.text.replace('*', '').trim()]:
           cur.options[path[path.indexOf(cur) + 1].id]
       }),
       {}

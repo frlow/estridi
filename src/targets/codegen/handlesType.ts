@@ -9,7 +9,7 @@ export const getGatewayNames = (scraped: Scraped): string[] => {
     ret.filter((r) => !r.startsWith('*')),
     'gateway names'
   )
-  return filterDuplicates(ret.map((g) => g.replace('*', '')))
+  return filterDuplicates(ret.map((g) => g.replace('*', '').trim()))
 }
 
 export const getServiceCallNames = (scraped: Scraped): string[] => {
