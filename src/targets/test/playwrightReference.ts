@@ -1560,10 +1560,10 @@ export const Gateways = [
 export type GatewayKey = (typeof Gateways)[number]
 export type GatewayCollection = Partial<Record<GatewayKey, string>>
 
-export type TestArgs<TState> = {
+export type TestArgs<TState, TPageExtensions> = {
   gateways: GatewayCollection
   state: TState
-  page: Page
+  page: Page & TPageExtensions
   context: BrowserContext
   tableRow?: Record<string,string>
 }
