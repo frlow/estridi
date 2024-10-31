@@ -58,7 +58,7 @@ ${actions.map((a) => `      '${a}'`).join(',\n')}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    await handles.start(args)
+    ${node.customTest ? "// manually implement start in test" : `await handles.start(args)`}
 ${actionsText}
 ${testText}
   })`

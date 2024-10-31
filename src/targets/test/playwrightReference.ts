@@ -746,7 +746,7 @@ test.describe('main', () => {
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    await handles.start(args)
+    // manually implement start in test
     const actions = [
       'action_franFortsattClicked',
       'action_mottagareFortsattClicked',
