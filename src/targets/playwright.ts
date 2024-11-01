@@ -70,8 +70,10 @@ const generateSubprocessTableTest = (scraped: Scraped, node: ScrapedSubprocess) 
   const shortestPath = findShortestPathToNode(scraped, node.id)
   const gatewayValues = getPathGatewayValuesForPath(shortestPath)
   const actions = getActionsForPath(shortestPath)
-  const actionsText = actions.map((a) => `${_(3)}await handles.${a}(args)`).join('\n')
-  const testText = `${_(3)}await handles.test_${camelize(node.text.replace('*', ''))}(args)`
+  const actionsText = `${_(3)}const actions = [
+${actions.map((a) => `${_(4)}'${a}'`).join(',\n')}
+${_(3)}]`
+  const testText = `${_(3)}await handles.test_${camelize(node.text.replace('*', ''))}(args, { actions })`
   const rowTests = createTable(table).values.map(row => {
     const rowCode = `${_(2)}test("${sanitizeText(row.Id)}", async ({ page, context }) => {
       const tableRow = ${JSON.stringify(row, null, 2).replace(/"/g, '\'').replace(/\n/g, `\n${_(3)}`)}
@@ -85,7 +87,6 @@ const generateSubprocessTableTest = (scraped: Scraped, node: ScrapedSubprocess) 
       const state = await handles.setup({ gateways, page, context, tableRow } as any)
       const args = { gateways, state, page, context, tableRow } as any
       await handleServiceCalls(args)
-      await handles.start(args)
 ${actionsText}
 ${testText}
     }

@@ -384,10 +384,11 @@ test.describe('main', () => {
       const state = await handles.setup({ gateways, page, context, tableRow } as any)
       const args = { gateways, state, page, context, tableRow } as any
       await handleServiceCalls(args)
-      await handles.start(args)
-      await handles.action_franFortsattClicked(args)
-      await handles.action_mottagareFortsattClicked(args)
-      await handles.test_validateFieldsRecipientData(args)
+      const actions = [
+        'action_franFortsattClicked',
+        'action_mottagareFortsattClicked'
+      ]
+      await handles.test_validateFieldsRecipientData(args, { actions })
     }
     
     test("Land", async ({ page, context }) => {
@@ -1119,11 +1120,12 @@ test.describe('main', () => {
       const state = await handles.setup({ gateways, page, context, tableRow } as any)
       const args = { gateways, state, page, context, tableRow } as any
       await handleServiceCalls(args)
-      await handles.start(args)
-      await handles.action_franFortsattClicked(args)
-      await handles.action_mottagareFortsattClicked(args)
-      await handles.action_signeraMottagreLaggTillButtonClicked(args)
-      await handles.test_validateErrorsErrorsFromValidateService(args)
+      const actions = [
+        'action_franFortsattClicked',
+        'action_mottagareFortsattClicked',
+        'action_signeraMottagreLaggTillButtonClicked'
+      ]
+      await handles.test_validateErrorsErrorsFromValidateService(args, { actions })
     }
     
     test("10", async ({ page, context }) => {
