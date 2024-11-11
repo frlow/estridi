@@ -41,7 +41,6 @@ const getTestName = (name: string): string => {
   if (usedNames[name]) return `${name} ${usedNames[name]}`
   return name
 }
-
 const generateScriptTest = (scraped: Scraped, node: ScrapedScript) => {
   const shortestPath = findShortestPathToNode(scraped, node.id)
   const gatewayValues = getPathGatewayValuesForPath(shortestPath)
@@ -53,6 +52,9 @@ ${actions.map((a) => `      '${a}'`).join(',\n')}
     ]`
     : actions.map((a) => `    await handles.${a}(args)`).join('\n')
   return `  test('${getTestName(node.text)}', async ({ page, context }) => {
+/*
+${node.raw}
+*/
     const gateways: GatewayCollection = ${JSON.stringify(gatewayValues, null, 2).replace(/"/g, '\'').replace(/\n/g, `\n${_(2)}`)}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
