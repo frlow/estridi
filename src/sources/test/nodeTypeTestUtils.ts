@@ -1,11 +1,12 @@
 import { expect } from 'vitest'
-import { DocumentType } from './documentGenerator.js'
+import { GetDocumentFunc } from './documentGenerator.js'
 
-export const testNodeParsing = async (getDocument: (docType: DocumentType) => Promise<Scraped>) => {
+export const testNodeParsing = async (getDocument: GetDocumentFunc) => {
   const script = (await getDocument('script')).find(node => node.type === 'script')
   expect(script).toStrictEqual({
     'id': 'ScriptId',
     'next': 'NextId',
+    raw: 'Some [text]',
     'text': 'Some text',
     'type': 'script'
   })
@@ -14,6 +15,7 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
   expect(message).toStrictEqual({
     'id': 'ScriptId',
     'next': 'NextId',
+    raw: 'Some [text]',
     'text': 'Some text',
     'type': 'script'
   })
@@ -22,6 +24,7 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
   expect(signalSend).toStrictEqual({
     'id': 'ScriptId',
     'next': 'NextId',
+    raw: 'Some [text]',
     'text': 'Some text',
     'type': 'script'
   })
@@ -31,6 +34,7 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
     'id': 'ScriptWithGroupedTextId',
     'next': 'NextId',
     'text': 'Grouped Text',
+    "raw": "Grouped Text",
     'type': 'script'
   })
 
@@ -41,7 +45,17 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
     'next': 'NextId',
     'tableKey': undefined,
     'text': 'Next',
+    raw: 'Next',
     'type': 'subprocess'
+  })
+
+  const serviceCall = (await getDocument('serviceCall')).find(node => node.type === 'serviceCall')
+  expect(serviceCall).toStrictEqual({
+    'id': 'ServiceCallId',
+    'next': 'NextId',
+    'text': 'api get data',
+    'raw': '/api/get-data',
+    'type': 'serviceCall'
   })
 
   const userAction = (await getDocument('userAction')).find(node => node.type === 'userAction')
@@ -52,6 +66,7 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
     'id': 'UserActionId',
     'next': 'NextId',
     'text': 'Some text',
+    raw: 'Some [text]',
     'type': 'userAction'
   })
 
@@ -63,6 +78,7 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
       'YesId': 'yes'
     },
     'text': 'Some text',
+    raw: 'Some [text]',
     'type': 'gateway'
   })
 
@@ -72,6 +88,7 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
     'isRoot': false,
     'next': 'NextId',
     'text': 'Some text',
+    raw: 'Some [text]',
     'type': 'start'
   })
 
@@ -81,6 +98,7 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
     'isRoot': true,
     'next': 'NextId',
     'text': 'test',
+    raw: 'test',
     'type': 'start'
   })
 
@@ -88,7 +106,8 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
   expect(end).toStrictEqual({
     'id': 'EndId',
     'text': 'end',
-    'type': 'end'
+    'type': 'end',
+    raw: 'end'
   })
 
   const other = (await getDocument('other'))
@@ -97,6 +116,7 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
     'id': 'OtherId',
     'next': 'NextId',
     'text': 'Some text',
+    raw: 'Some [text]',
     'type': 'other'
   })
 
@@ -105,12 +125,28 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
     'id': 'ServiceCallId',
     'next': undefined,
     'text': 'Service Call',
+    raw: 'Service Call',
     'type': 'serviceCall'
+  })
+
+  const complexName = (
+    await getDocument('script', {
+      text: `My, complex
+(text) with [more things]`
+    })).find(node => node.type === 'script')
+  expect(complexName).toStrictEqual({
+    'id': 'ScriptId',
+    'next': 'NextId',
+    'text': 'My complex text with more things',
+    'type': 'script',
+    raw: `My, complex
+(text) with [more things]`
   })
 
   const table = (await getDocument('table')).find(node => node.type === 'table')
   expect(table).toStrictEqual({
     'id': 'TableId',
+    raw: "My Table",
     'rows': [
       [
         '.My Table',
@@ -140,6 +176,7 @@ export const testNodeParsing = async (getDocument: (docType: DocumentType) => Pr
     'id': 'SubprocessId',
     'next': 'NextId',
     'text': 'External component',
+    'raw': 'External component',
     'type': 'userAction'
   })
 }

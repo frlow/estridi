@@ -135,17 +135,19 @@ test.describe('main', () => {
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_clearValidationErrorsForKontonummerBanknummer(args)
+    // manually implement start in test
+    const actions = [
+      'action_franFortsattClicked',
+      'action_selectCountry'
+    ]
+    await handles.test_clearValidationErrorsForKontonummerBanknummer(args, { actions })
   })
   test('Show BIC SWIFT NID infotext', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'country isEuEesCountry': 'yes'
+      'Is country US': 'yes'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -155,12 +157,12 @@ test.describe('main', () => {
     await handles.action_selectCountry(args)
     await handles.test_showBicSwiftNidInfotext(args)
   })
-  test('Set Kontonummer field label to BBAN', async ({ page, context }) => {
+  test('*Set Kontonummer field label to BBAN', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'country isEuEesCountry': 'yes'
+      'Is country US': 'yes'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -175,7 +177,7 @@ test.describe('main', () => {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'country isEuEesCountry': 'yes'
+      'Is country US': 'yes'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -190,7 +192,7 @@ test.describe('main', () => {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'country isEuEesCountry': 'yes'
+      'Is country US': 'yes'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -205,7 +207,7 @@ test.describe('main', () => {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'country isEuEesCountry': 'no',
+      'Is country US': 'no',
       'is country ibanLength 0': 'yes'
     }
     const state = await handles.setup({ gateways, page, context } as any)
@@ -216,12 +218,12 @@ test.describe('main', () => {
     await handles.action_selectCountry(args)
     await handles.test_showCountryIbanlengthAndUpdateInfotext(args)
   })
-  test('*Set Kontonummer field label to IBAN', async ({ page, context }) => {
+  test('Set Kontonummer field label to IBAN', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'country isEuEesCountry': 'no',
+      'Is country US': 'no',
       'is country ibanLength 0': 'yes'
     }
     const state = await handles.setup({ gateways, page, context } as any)
@@ -232,13 +234,14 @@ test.describe('main', () => {
     await handles.action_selectCountry(args)
     await handles.test_setKontonummerFieldLabelToIban(args)
   })
-  test('Show BIC SWIF optional infotext', async ({ page, context }) => {
+  test('Show BIC SWIFT optional infotext', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'country isEuEesCountry': 'no',
-      'is country ibanLength 0': 'yes'
+      'Is country US': 'no',
+      'is country ibanLength 0': 'yes',
+      'country isEuEesCountry': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -246,15 +249,16 @@ test.describe('main', () => {
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_selectCountry(args)
-    await handles.test_showBicSwifOptionalInfotext(args)
+    await handles.test_showBicSwiftOptionalInfotext(args)
   })
   test('*Show Banknummer field 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'country isEuEesCountry': 'no',
-      'is country ibanLength 0': 'yes'
+      'Is country US': 'no',
+      'is country ibanLength 0': 'yes',
+      'country isEuEesCountry': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -269,8 +273,9 @@ test.describe('main', () => {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'country isEuEesCountry': 'no',
-      'is country ibanLength 0': 'yes'
+      'Is country US': 'no',
+      'is country ibanLength 0': 'yes',
+      'country isEuEesCountry': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -285,8 +290,9 @@ test.describe('main', () => {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'country isEuEesCountry': 'yes',
-      'is country ibanLength 0': 'yes'
+      'Is country US': 'no',
+      'is country ibanLength 0': 'yes',
+      'country isEuEesCountry': 'yes'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -301,7 +307,7 @@ test.describe('main', () => {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'country isEuEesCountry': 'no',
+      'Is country US': 'no',
       'is country ibanLength 0': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
@@ -312,12 +318,12 @@ test.describe('main', () => {
     await handles.action_selectCountry(args)
     await handles.test_showBicSwiftInfotext(args)
   })
-  test('*Set Kontonummer field label to BBAN', async ({ page, context }) => {
+  test('*Set Kontonummer field label to BBAN 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'country isEuEesCountry': 'no',
+      'Is country US': 'no',
       'is country ibanLength 0': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
@@ -333,7 +339,7 @@ test.describe('main', () => {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'country isEuEesCountry': 'no',
+      'Is country US': 'no',
       'is country ibanLength 0': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
@@ -349,7 +355,7 @@ test.describe('main', () => {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'country isEuEesCountry': 'no',
+      'Is country US': 'no',
       'is country ibanLength 0': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
@@ -450,7 +456,7 @@ test.describe('main', () => {
       const tableRow = {
         'Id': 'BIC/SWIFT',
         'Component type': 'Input field',
-        'Length': '',
+        'Length': '8-11',
         'Placeholder': '',
         'Notes': 'infotext: BIC/SWIFT är en internationell identifieringskod, varje bank har en unik. Kan vara 8 eller 11 tecken.'
       }
@@ -461,7 +467,7 @@ test.describe('main', () => {
       const tableRow = {
         'Id': 'BIC/SWIFT eller Nationellt ID',
         'Component type': 'Input field',
-        'Length': '',
+        'Length': '8-11',
         'Placeholder': '',
         'Notes': 'infotext: BIC/SWIFT är en internationell identifieringskod, varje bank har en unik. Kan vara 8 eller 11 tecken. Nationellt ID är en nationell identifieringskod ska vara 11 tecken.'
       }
@@ -715,7 +721,86 @@ test.describe('main', () => {
     await handles.action_preliminaraAktuellaValutaKurserClicked(args)
     await handles.test_httpsWwwDnbSeSeSvMarketsValutaRentorKurslistaOverforingDaglig(args)
   })
-// table Payment data not found!
+  test.describe("Validate fields Payment data", ()=>{
+    const testNode = async ({tableRow, context, page}: {tableRow: Record<string,string>, page: Page, context: BrowserContext}) => {
+      const gateways: GatewayCollection = {
+        'Any errors loading data': 'no',
+        'empty array from getAccounts': 'no',
+        'Is Konto selected': 'yes',
+        'Any validation errors from mottagare': 'no',
+        'country isEuEesCountry': 'yes'
+      }
+      const state = await handles.setup({ gateways, page, context, tableRow } as any)
+      const args = { gateways, state, page, context, tableRow } as any
+      await handleServiceCalls(args)
+      const actions = [
+        'action_franFortsattClicked',
+        'action_mottagareFortsattClicked',
+        'action_signeraMottagreLaggTillButtonClicked'
+      ]
+      await handles.test_validateFieldsPaymentData(args, { actions })
+    }
+    
+    test("Valuta", async ({ page, context }) => {
+      const tableRow = {
+        'Id': 'Valuta',
+        'Component type': 'DropdownInputSelect',
+        'Properties': 'Required',
+        'Specific requirements': 'Default value “Välj land”'
+      }
+      await testNode({tableRow, page, context})
+    })
+
+    test("Belopp", async ({ page, context }) => {
+      const tableRow = {
+        'Id': 'Belopp',
+        'Component type': 'Input field',
+        'Properties': 'Required\nDecimal [Format: 1-14 integers, 0-2 decimals]',
+        'Specific requirements': ''
+      }
+      await testNode({tableRow, page, context})
+    })
+
+    test("Betala i SEK", async ({ page, context }) => {
+      const tableRow = {
+        'Id': 'Betala i SEK',
+        'Component type': 'Checkbox',
+        'Properties': 'Optional',
+        'Specific requirements': ''
+      }
+      await testNode({tableRow, page, context})
+    })
+
+    test("Avgift", async ({ page, context }) => {
+      const tableRow = {
+        'Id': 'Avgift',
+        'Component type': 'Radio button',
+        'Properties': 'Required if shown',
+        'Specific requirements': 'Preselect “Jag betalar samtliga avgifter”'
+      }
+      await testNode({tableRow, page, context})
+    })
+
+    test("Meddelande till mottagaren", async ({ page, context }) => {
+      const tableRow = {
+        'Id': 'Meddelande till mottagaren',
+        'Component type': 'textarea',
+        'Properties': 'Optional \nString [Format: 1-140 characters]',
+        'Specific requirements': ''
+      }
+      await testNode({tableRow, page, context})
+    })
+
+    test("Betalningsreferens", async ({ page, context }) => {
+      const tableRow = {
+        'Id': 'Betalningsreferens',
+        'Component type': 'Input field',
+        'Properties': 'Optional\nString [Format: 1-35 characters]',
+        'Specific requirements': ''
+      }
+      await testNode({tableRow, page, context})
+    })
+  })
   test('Show meddelande och eller referens måste fyllas i', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -922,6 +1007,33 @@ test.describe('main', () => {
     await handles.action_godkannClicked(args)
     await handles.action_cancelPaymentSigning(args)
     await handles.test_closeSignPaymentModal(args)
+  })
+  test('Go back to payment summary page', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'yes',
+      'Both meddelande and referens are shown and empty': 'no',
+      'Any validation errors from betalning': 'no',
+      'Error from validate service': 'no',
+      'Any errors from sign payee': 'no',
+      'Is payee status completed': 'yes',
+      'Any errors from sign payment': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    await handles.action_signeraMottagreLaggTillButtonClicked(args)
+    await handles.action_signeraClicked(args)
+    await handles.action_payeeSigningCompleted(args)
+    await handles.action_godkannClicked(args)
+    await handles.action_cancelPaymentSigning(args)
+    await handles.test_goBackToPaymentSummaryPage(args)
   })
   test('*Close sign payment modal 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1133,7 +1245,8 @@ test.describe('main', () => {
         'Id': '10',
         'Cause': 'Sessionen har gått ut.',
         'Component': 'alert',
-        'Error message to display': 'Du behöver logga in igen – din session eller behörighet har gått ut.\n(IMPLEMENT)'
+        'Field': '',
+        'Error message to display': 'Du behöver logga in igen – din session eller behörighet har gått ut.'
       }
       await testNode({tableRow, page, context})
     })
@@ -1142,7 +1255,8 @@ test.describe('main', () => {
       const tableRow = {
         'Id': '11 \r\n100-111 \r\n113-121 \r\n124 \r\n126 \r\n130 \r\n131 \r\n132 \r\n133 \r\n134 \r\n135 \r\n143 \r\n145 \r\n146 \r\n149 \r\n150 \r\n152 \r\n155 \r\n157-159 \r\n161 \r\n163',
         'Cause': 'Ska inte hända',
-        'Component': 'Alert',
+        'Component': 'alert',
+        'Field': '',
         'Error message to display': 'Något gick fel - försök gärna igen eller kontakta oss om felet kvarstår'
       }
       await testNode({tableRow, page, context})
@@ -1153,6 +1267,7 @@ test.describe('main', () => {
         'Id': '105',
         'Cause': 'Generellt fel om användarens valda konto',
         'Component': 'field',
+        'Field': 'Frånkonto',
         'Error message to display': 'Kontrollera konto'
       }
       await testNode({tableRow, page, context})
@@ -1162,8 +1277,9 @@ test.describe('main', () => {
       const tableRow = {
         'Id': '112',
         'Cause': 'För företag ska en \'tax code\' anges vid större betalningar. Generellt fel om den',
-        'Component': 'field',
-        'Error message to display': 'Kontrollera betalkod'
+        'Component': 'alert',
+        'Field': '',
+        'Error message to display': 'Kontrollera betalkod\n// Senare field när vi gör Färetag'
       }
       await testNode({tableRow, page, context})
     })
@@ -1173,6 +1289,7 @@ test.describe('main', () => {
         'Id': '122',
         'Cause': 'Generellt fel om mottagarens kontonummer',
         'Component': 'field',
+        'Field': 'Mottagarens konto',
         'Error message to display': 'Kontrollera kontonummer'
       }
       await testNode({tableRow, page, context})
@@ -1183,6 +1300,7 @@ test.describe('main', () => {
         'Id': '123',
         'Cause': 'Generellt fel om mottagarens namn',
         'Component': 'field',
+        'Field': 'Mottagarens namn',
         'Error message to display': 'Kontrollera mottagarens namn'
       }
       await testNode({tableRow, page, context})
@@ -1193,6 +1311,7 @@ test.describe('main', () => {
         'Id': '125',
         'Cause': 'Generellt fel om BIC/SWIFT/NID',
         'Component': 'field',
+        'Field': 'Banknummer',
         'Error message to display': 'Kontrollera bankens identifieringskod'
       }
       await testNode({tableRow, page, context})
@@ -1203,6 +1322,7 @@ test.describe('main', () => {
         'Id': '127',
         'Cause': 'Generellt fel om mottagarens adress 1',
         'Component': 'field',
+        'Field': 'Adress',
         'Error message to display': 'Kontrollera mottagarens adress'
       }
       await testNode({tableRow, page, context})
@@ -1213,6 +1333,7 @@ test.describe('main', () => {
         'Id': '128',
         'Cause': 'Generellt fel om mottagarens adress 2',
         'Component': 'field',
+        'Field': 'Adress',
         'Error message to display': 'Kontrollera mottagarens adress'
       }
       await testNode({tableRow, page, context})
@@ -1223,6 +1344,7 @@ test.describe('main', () => {
         'Id': '129',
         'Cause': 'Generellt fel om mottagarens adress 3',
         'Component': 'field',
+        'Field': 'Adress',
         'Error message to display': 'Kontrollera mottagarens adress'
       }
       await testNode({tableRow, page, context})
@@ -1232,8 +1354,9 @@ test.describe('main', () => {
       const tableRow = {
         'Id': '136',
         'Cause': 'Tax kod saknas vid betalning? Behövs vid belopp X?',
-        'Component': 'field',
-        'Error message to display': 'Ange betalningskod'
+        'Component': '',
+        'Field': '',
+        'Error message to display': 'Ange betalningskod\n// Företag'
       }
       await testNode({tableRow, page, context})
     })
@@ -1243,6 +1366,7 @@ test.describe('main', () => {
         'Id': '137',
         'Cause': 'Format på IBAN stämmer ej',
         'Component': 'field',
+        'Field': 'Mottagarens konto',
         'Error message to display': 'Kontrollera formatet på IBAN'
       }
       await testNode({tableRow, page, context})
@@ -1253,6 +1377,7 @@ test.describe('main', () => {
         'Id': '138',
         'Cause': 'Valt konto är blockerat',
         'Component': 'alert + field',
+        'Field': 'Frånkonto',
         'Error message to display': 'Alert: Vänligen kontakta telefonbanken på 0771-666555 och välj knappval 2. Öppettider för utlandsbetalningar är vardagar 07:30-16:00\n\nField: Kontot kan inte användas för utlandsbetalning'
       }
       await testNode({tableRow, page, context})
@@ -1261,8 +1386,9 @@ test.describe('main', () => {
     test("139", async ({ page, context }) => {
       const tableRow = {
         'Id': '139',
-        'Cause': 'Valt konto har felaktig status, exempelvis att kontot är inaktivt. Generellt, ev misstänk aktivitet men vi vill ej säga det till kunden',
+        'Cause': 'Valt konto har felaktig status, exempelvis att kontot är inaktivt.\nGenerellt, ev misstänk aktivitet men vi vill ej säga det till kunden',
         'Component': 'field',
+        'Field': 'Frånkonto',
         'Error message to display': ' Kontrollera kontonummer'
       }
       await testNode({tableRow, page, context})
@@ -1273,6 +1399,7 @@ test.describe('main', () => {
         'Id': '140',
         'Cause': 'Vet inte när detta inträffar - vad är beloppsgränsen?',
         'Component': 'field',
+        'Field': 'Belopp',
         'Error message to display': 'Maxbelopp per transaktion uppnått, välj ett lägre belopp'
       }
       await testNode({tableRow, page, context})
@@ -1283,6 +1410,7 @@ test.describe('main', () => {
         'Id': '141',
         'Cause': 'Betalningen är för stor för \'personligt\' inställningar/limit',
         'Component': 'field',
+        'Field': 'Belopp',
         'Error message to display': 'Maxbelopp per transaktion uppnått, välj ett lägre belopp'
       }
       await testNode({tableRow, page, context})
@@ -1293,6 +1421,7 @@ test.describe('main', () => {
         'Id': '142',
         'Cause': 'När betalningar senaste sju dagar överskider personlig \'inställningar/limit\'',
         'Component': 'field',
+        'Field': 'Belopp',
         'Error message to display': 'Maxbelopp per 7 dagar uppnått, välj ett lägre belopp'
       }
       await testNode({tableRow, page, context})
@@ -1303,6 +1432,7 @@ test.describe('main', () => {
         'Id': '144',
         'Cause': 'Saknar täckning',
         'Component': 'field',
+        'Field': 'Belopp',
         'Error message to display': 'Tillgängligt saldo för lågt'
       }
       await testNode({tableRow, page, context})
@@ -1313,6 +1443,7 @@ test.describe('main', () => {
         'Id': '147',
         'Cause': 'När mottagerns bank är i annat land än valt land',
         'Component': 'field x3',
+        'Field': 'Land\nMottagarens konto\nBanknummer',
         'Error message to display': 'Country field: Kontrollera val av land\n\nRecipient account number field: Kontrollera IBAN or Kontrollera BBAN\n\nRecipient bank number field: Kontrollera BIC/SWIFT eller National ID'
       }
       await testNode({tableRow, page, context})
@@ -1323,6 +1454,7 @@ test.describe('main', () => {
         'Id': '148',
         'Cause': 'När användaren exempelvis enbart angett IBAN där IBAN + BIC krävs?',
         'Component': 'field',
+        'Field': 'Banknummer',
         'Error message to display': 'Kontrollera bankens identifierngskod\n'
       }
       await testNode({tableRow, page, context})
@@ -1332,7 +1464,8 @@ test.describe('main', () => {
       const tableRow = {
         'Id': '149',
         'Cause': '??????',
-        'Component': 'field',
+        'Component': 'field x2',
+        'Field': 'Banknummer\nValuta',
         'Error message to display': 'Recipient bank field: Kontrollera bankens identifieringskod\n\nCurrency field: För nationell identifieringskod krävs valt lands valuta'
       }
       await testNode({tableRow, page, context})
@@ -1343,6 +1476,7 @@ test.describe('main', () => {
         'Id': '151',
         'Cause': 'Fel kombination av land och valuta',
         'Component': 'field',
+        'Field': 'Valuta',
         'Error message to display': 'Valutan går inte att betala med till det land du har valt'
       }
       await testNode({tableRow, page, context})
@@ -1353,6 +1487,7 @@ test.describe('main', () => {
         'Id': '153',
         'Cause': 'Användaren har inte tillgång till \'utlandstjänsten\' - behöver exempelvis uppdatera KYC',
         'Component': 'alert',
+        'Field': '',
         'Error message to display': 'Du har inte tjänsten för utlandsbetalningar – Vänligen kontakta telefonbanken på 0771-666555 och välj knappval 2. Öppettider för utlandsbetalningar är vardagar 07:30-16:00'
       }
       await testNode({tableRow, page, context})
@@ -1362,8 +1497,9 @@ test.describe('main', () => {
       const tableRow = {
         'Id': '154',
         'Cause': 'Generellt fel om tax code',
-        'Component': 'field',
-        'Error message to display': 'Kontrollera betalningskod'
+        'Component': '',
+        'Field': '',
+        'Error message to display': 'Kontrollera betalningskod\n// Företag'
       }
       await testNode({tableRow, page, context})
     })
@@ -1373,6 +1509,7 @@ test.describe('main', () => {
         'Id': '156',
         'Cause': '????',
         'Component': 'alert',
+        'Field': '',
         'Error message to display': 'Din betalning kunde inte genomföras – försök gärna igen eller kontakta oss om problemet kvarstår'
       }
       await testNode({tableRow, page, context})
@@ -1383,6 +1520,7 @@ test.describe('main', () => {
         'Id': '160',
         'Cause': 'När något är fel hos DnB (de genomför utlandsbetalningar åt LF)',
         'Component': 'alert',
+        'Field': '',
         'Error message to display': 'Tekniken är inte med oss just nu – det går inte att göra utlandsbetalningar, försök igen om en stund'
       }
       await testNode({tableRow, page, context})
@@ -1393,7 +1531,19 @@ test.describe('main', () => {
         'Id': '162',
         'Cause': 'Spärrad mottagare i utlandet exempelvis',
         'Component': 'alert',
+        'Field': '',
         'Error message to display': 'Vi kan inte genomföra din transaktion – Vänligen kontakta telefonbanken på 0771-666555 och välj knappval 2. Öppettider för utlandsbetalningar är vardagar 07:30-16:00'
+      }
+      await testNode({tableRow, page, context})
+    })
+
+    test("Empty response", async ({ page, context }) => {
+      const tableRow = {
+        'Id': 'Empty response',
+        'Cause': 'Server svarar men det finns inget innehll i svaret',
+        'Component': '',
+        'Field': '',
+        'Error message to display': ''
       }
       await testNode({tableRow, page, context})
     })
@@ -1459,7 +1609,7 @@ test.describe('main', () => {
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
     await handles.test_goBackToPayment(args)
   })
-  test('Show avgift section', async ({ page, context }) => {
+  test('*Show avgift section 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1544,8 +1694,9 @@ export const Gateways = [
   'Any errors loading data',
   'empty array from getAccounts',
   'Is Konto selected',
-  'country isEuEesCountry',
+  'Is country US',
   'is country ibanLength 0',
+  'country isEuEesCountry',
   'Any validation errors from mottagare',
   'currency code is EUR',
   'currency code is SEK',
@@ -1575,13 +1726,21 @@ export type TestOptions = {
 }
 
 const handleServiceCalls = async (args: TestArgs<any, any>)=>{
+  // im/json/overview/getaccounts  -> ESB/bank/deposit/getAccounts/201411
   await handles.serviceCall_imJsonOverviewGetaccountsEsbBankDepositGetaccounts201411(args)
+  // bank/payment/crossborder/countries
   await handles.serviceCall_bankPaymentCrossborderCountries(args)
+  // bank/payment/crossborder/currencies
   await handles.serviceCall_bankPaymentCrossborderCurrencies(args)
+  // bank/payment/crossborder/crossborder-payments
   await handles.serviceCall_bankPaymentCrossborderCrossborderPayments(args)
+  // POST: /payee/sign
   await handles.serviceCall_postPayeeSign(args)
+  // POST: /payee/execute
   await handles.serviceCall_postPayeeExecute(args)
+  // POST: /payment/sign
   await handles.serviceCall_postPaymentSign(args)
+  // POST: payment/execute
   await handles.serviceCall_postPaymentExecute(args)
 }
 
@@ -1633,7 +1792,7 @@ export type Main<TState={}, TPageExtensions={}> = {
   test_setBanknummerFieldLabelToBicSwiftEllerNationelltId: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_showCountryIbanlengthAndUpdateInfotext: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_setKontonummerFieldLabelToIban: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showBicSwifOptionalInfotext: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_showBicSwiftOptionalInfotext: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_setBanknummerFieldLabelToBicSwiftOptional: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_hideBanknummerField: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_showBicSwiftInfotext: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
@@ -1661,6 +1820,7 @@ export type Main<TState={}, TPageExtensions={}> = {
   test_showErrorForSignPayment: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_displaySignPaymentModal: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_closeSignPaymentModal: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_goBackToPaymentSummaryPage: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_showErrorForExecutePayment: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_showPaymentdetailsExchangeratePaymentdetailsTransactionamountPaymentdetailsFee: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_initiateRegisterview: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>

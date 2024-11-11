@@ -1,5 +1,5 @@
 import { Node } from 'figma-api'
-import { ConnectorGenerator, DocumentType, getDocument, NodeGenerator } from './documentGenerator.js'
+import { ConnectorGenerator, getDocument, GetDocumentFunc, NodeGenerator } from './documentGenerator.js'
 import { FigmaDocument } from '../figma.js'
 import fs from 'node:fs'
 
@@ -208,13 +208,14 @@ export const figmaTable = ({
   ]
 }
 
-export const getFigmaDocument = (type: DocumentType): FigmaDocument =>
+export const getFigmaDocument: GetDocumentFunc<FigmaDocument> = (type, options) =>
   getDocument({
     type,
     baseNodeFunc: getBaseFigmaNode,
     nodeGenerator: figmaNodes,
     tableGenerator: figmaTable,
-    connectorGenerator: figmaConnectorNode
+    connectorGenerator: figmaConnectorNode,
+    options
   })
 
 export const getFigmaTestData = () => JSON.parse(fs.readFileSync('./testData/figma.json', 'utf8'))

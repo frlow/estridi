@@ -1,4 +1,4 @@
-import { ConnectorGenerator, DocumentType, getDocument, NodeGenerator, TableGenerator } from './documentGenerator.js'
+import { ConnectorGenerator, getDocument, GetDocumentFunc, NodeGenerator, TableGenerator } from './documentGenerator.js'
 
 export const getBaseDrawIoNode = (children: any[]): any => {
   return {
@@ -40,7 +40,7 @@ export const drawIoNodes: NodeGenerator = {
       '@_type': 'subprocess',
       '@_value': text || 'Subprocess',
       mxGeometry: {
-        '@_x': position?.toString() || "0",
+        '@_x': position?.toString() || '0',
         '@_y': '0',
         '@_width': '100',
         '@_height': '100'
@@ -129,11 +129,12 @@ export const drawIoConnector: ConnectorGenerator = ({
 }
 
 
-export const getDrawIoDocument = (type: DocumentType): any =>
+export const getDrawIoDocument: GetDocumentFunc<any> = (type, options) =>
   getDocument({
     type,
     baseNodeFunc: getBaseDrawIoNode,
     nodeGenerator: drawIoNodes,
     tableGenerator: drawIoTable,
-    connectorGenerator: drawIoConnector
+    connectorGenerator: drawIoConnector,
+    options
   })

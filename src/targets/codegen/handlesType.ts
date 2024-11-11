@@ -12,11 +12,11 @@ export const getGatewayNames = (scraped: Scraped): string[] => {
   return filterDuplicates(ret.map((g) => g.replace('*', '').trim()))
 }
 
-export const getServiceCallNames = (scraped: Scraped): string[] => {
+export const getServiceCallNames = (scraped: Scraped): { name: string, raw: string }[] => {
   const ret = scraped
     .filter((node) => node.type === 'serviceCall')
-    .map((node) => node.text)
-  validateDuplicates(ret, 'serviceCall names')
+    .map((node) => ({ name: node.text, raw: node.raw }))
+  validateDuplicates(ret.map(n => n.name), 'serviceCall names')
   return ret
 }
 
@@ -39,7 +39,8 @@ export const getTestNames = (scraped: Scraped): string[] => {
 }
 
 export const getServiceCallsCode = (scraped: Scraped) => {
-  const serviceCallLines = getServiceCallNames(scraped).map(sc => `${_(1)}await handles.serviceCall_${camelize(sc)}(args)`)
+  const serviceCallLines = getServiceCallNames(scraped).map(sc => `${_(1)}// ${sc.raw.replace(/\n/g, ' ')}
+${_(1)}await handles.serviceCall_${camelize(sc.name)}(args)`)
   return `const handleServiceCalls = async (args: TestArgs<any, any>)=>{
 ${serviceCallLines.join('\n')}
 }`

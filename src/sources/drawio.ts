@@ -1,6 +1,7 @@
 import { isNodeInside } from '../common/inside.js'
 import fs from 'fs'
 import { XMLParser } from 'fast-xml-parser'
+import { sanitizeText } from '../common/texts.js'
 
 export const loadDrawIoDocument = (config: { drawIoFile: string }): any => {
   const content = fs.readFileSync(config.drawIoFile, 'utf8')
@@ -28,8 +29,8 @@ export const drawIoHelper = (rawNodes: any[]) => {
           type: 'table',
           id: node['@_id'],
           text: text.substring(1),
-          rows: values
-
+          rows: values,
+          raw: text.substring(1)
         }
         return table
       }
@@ -99,7 +100,8 @@ export const processDrawIo = async (
         const script: ScrapedScript = {
           type: 'script',
           id: node['@_id'],
-          text: node['@_value'],
+          text: sanitizeText(node['@_value']),
+          raw: node['@_value'],
           next: getNext(node)
         }
         return script
@@ -109,14 +111,16 @@ export const processDrawIo = async (
         if (connections.length === 0) return {
           type: 'end',
           id: node['@_id'],
-          text: 'end'
+          text: 'end',
+          raw: 'end'
         }
         const text = connections[0]?.text
         const isRoot = text?.startsWith('root:')
         return {
           type: 'start',
           id: node['@_id'],
-          text: text?.replace('root:', ''),
+          text: sanitizeText(text?.replace('root:', '')),
+          raw: text?.replace('root:', ''),
           isRoot,
           next: getNext(node)
         }
@@ -125,7 +129,8 @@ export const processDrawIo = async (
         return {
           type: 'serviceCall',
           id: node['@_id'],
-          text: node['@_value'],
+          text: sanitizeText(node['@_value']),
+          raw: node['@_value'],
           next: getNext(node)
         }
       }
@@ -134,7 +139,8 @@ export const processDrawIo = async (
         return {
           type: 'gateway',
           id: node['@_id'],
-          text: node['@_value'],
+          text: sanitizeText(node['@_value']),
+          raw: node['@_value'],
           options: connections.reduce(
             (acc, cur) => ({ ...acc, [cur.target]: cur.text }),
             {}
@@ -147,14 +153,16 @@ export const processDrawIo = async (
           return {
             type: 'userAction',
             id: node['@_id'],
-            text: node['@_value'],
+            text: sanitizeText(node['@_value']),
+            raw: node['@_value'],
             next: getNext(node),
             actions
           }
         return {
           type: 'subprocess',
           id: node['@_id'],
-          text: node['@_value'],
+          text: sanitizeText(node['@_value']),
+          raw: node['@_value'],
           next: getNext(node),
           link: undefined,
           tableKey: getTableKey(node)
@@ -165,7 +173,8 @@ export const processDrawIo = async (
         return {
           type: 'userAction',
           id: node['@_id'],
-          text: node['@_value'],
+          text: sanitizeText(node['@_value']),
+          raw: node['@_value'],
           next: getNext(node),
           actions
         }
@@ -177,7 +186,8 @@ export const processDrawIo = async (
         return {
           type: 'other',
           id: node['@_id'],
-          text: node['@_value'],
+          text: sanitizeText(node['@_value']),
+          raw: node['@_value'],
           next: getNext(node)
         }
     }

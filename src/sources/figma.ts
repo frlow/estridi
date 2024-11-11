@@ -1,7 +1,7 @@
 import type { Node } from 'figma-api'
 import * as Figma from 'figma-api'
-import { sanitizeText } from '../common/texts.js'
 import { isNodeInside } from '../common/inside.js'
+import { sanitizeText } from '../common/texts.js'
 
 export type ProcessedNodes = Record<string, Node<any>>
 export type FigmaDocument = Figma.Node<'DOCUMENT'>
@@ -82,7 +82,10 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         )
       )
       const text = rows[0][0].substring(1)
-      const table: ScrapedTable = { type: 'table', rows, id: node.id, text }
+      const table: ScrapedTable = {
+        type: 'table', rows, id: node.id, text,
+        raw: text
+      }
       return table
     }
     case 'script': {
@@ -90,7 +93,8 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         type: 'script',
         id: node.id,
         text: findText(node),
-        next: getNext(node)
+        next: getNext(node),
+        raw: findRawText(node)
       }
       if (isCustomTest(node)) script.customTest = true
       return script
@@ -100,7 +104,8 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         type: 'serviceCall',
         id: node.id,
         text: findText(node),
-        next: getNext(node)
+        next: getNext(node),
+        raw: findRawText(node)
       }
       return serviceCall
     }
@@ -109,7 +114,8 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         const end: ScrapedStart = {
           type: 'end',
           id: node.id,
-          text: 'end'
+          text: 'end',
+          raw: 'end'
         }
         return end
       }
@@ -118,9 +124,10 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
       const start: ScrapedStart = {
         type: 'start',
         id: node.id,
-        text: connection?.text?.replace('root:', '') || 'start',
+        text: sanitizeText(connection?.text?.replace('root:', '') || 'start'),
         next: getNext(node),
-        isRoot: isRoot
+        isRoot: isRoot,
+        raw: connection?.text?.replace('root:', '') || 'start',
       }
       return start
     }
@@ -132,7 +139,8 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         options: ((node as any).connections || []).reduce(
           (acc, cur) => ({ ...acc, [cur.id]: cur.text }),
           {}
-        )
+        ),
+        raw: findRawText(node)
       }
       return gateway
     }
@@ -143,7 +151,8 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         text: findText(node),
         next: getNext(node),
         link: undefined,
-        tableKey: getTableKey(node)
+        tableKey: getTableKey(node),
+        raw: findRawText(node)
       }
     }
     case 'userAction': {
@@ -152,7 +161,8 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         id: node.id,
         text: findText(node),
         next: getNext(node),
-        actions: {}
+        actions: {},
+        raw: findRawText(node)
       }
     }
     default: {
@@ -160,7 +170,8 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         type: 'other',
         id: node.id,
         next: getNext(node),
-        text: findText(node)
+        text: findText(node),
+        raw: findRawText(node)
       }
       return other
     }

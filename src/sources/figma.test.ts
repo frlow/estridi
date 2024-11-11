@@ -11,6 +11,6 @@ describe('Load from figma', () => {
   })
 
   test('test parsing nodes from figma', async () => {
-    await testNodeParsing(async (docType) => await processFigma(getFigmaDocument(docType)))
+    await testNodeParsing(async (...args) => await processFigma(getFigmaDocument(...args)))
   })
 })

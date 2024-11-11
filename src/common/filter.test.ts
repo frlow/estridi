@@ -38,12 +38,14 @@ describe('filter scraped', () => {
         'id': '0',
         'isRoot': true,
         'next': '1',
+        'raw': 'demo',
         'text': 'demo',
         'type': 'start'
       },
       {
         'id': '1',
         'next': '2',
+        'raw': 'Some script',
         'text': 'Some script',
         'type': 'script'
       },
@@ -52,12 +54,14 @@ describe('filter scraped', () => {
         'options': {
           '3': 'A'
         },
+        'raw': 'Gateway',
         'text': 'Gateway',
         'type': 'gateway'
       },
       {
         'id': '3',
         'next': '4',
+        'raw': 'Show A',
         'text': 'Show A',
         'type': 'script'
       },
@@ -67,12 +71,14 @@ describe('filter scraped', () => {
         },
         'id': '4',
         'next': 'end',
+        'raw': 'action',
         'text': 'action',
         'type': 'userAction'
       },
       {
         'id': '6',
         'next': '7',
+        'raw': 'Clicked Button',
         'text': 'Clicked Button',
         'type': 'script'
       },
@@ -80,6 +86,7 @@ describe('filter scraped', () => {
         'id': '7',
         'link': '8',
         'next': 'after',
+        'raw': 'Some subprocess',
         'tableKey': undefined,
         'text': 'Some subprocess',
         'type': 'subprocess'
@@ -88,22 +95,27 @@ describe('filter scraped', () => {
         'id': '8',
         'isRoot': false,
         'next': '9',
+        'raw': 'Some subprocess',
         'text': 'Some subprocess',
         'type': 'start'
       },
       {
         'id': '9',
         'next': undefined,
+        'raw': 'In subprocess',
         'text': 'In subprocess',
         'type': 'script'
       },
       {
         'id': 'end',
+        'raw': 'end',
         'text': 'end',
         'type': 'end'
-      }, {
+      },
+      {
         'id': 'after',
         'next': undefined,
+        'raw': 'After subprocess',
         'text': 'After subprocess',
         'type': 'script'
       }

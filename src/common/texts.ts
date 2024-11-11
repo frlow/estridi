@@ -1,6 +1,6 @@
 export const allowedRegex = /[^a-zA-Z0-9åäöÅÄÖ* ]/g
 export const sanitizeText = (text: string) =>
-  text
+  (text || '')
     .replaceAll(allowedRegex, ' ')
     .replace(/\n/g, ' ')
     .replace(/ +/g, ' ')

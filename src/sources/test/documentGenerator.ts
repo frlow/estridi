@@ -44,32 +44,36 @@ export type DocumentType =
   | 'dotted'
   | 'table'
 
+export type GetDocumentFunc<T = any> = (type: DocumentType, options?: GetDocumentOptions) => T
+export type GetDocumentOptions = { text?: string }
 export const getDocument = (
   {
     type,
     baseNodeFunc,
     nodeGenerator,
     tableGenerator,
-    connectorGenerator
+    connectorGenerator,
+    options
   }: {
     type: DocumentType
     baseNodeFunc: (nodes: any[]) => any
     nodeGenerator: NodeGenerator
     tableGenerator: TableGenerator
-    connectorGenerator: ConnectorGenerator
+    connectorGenerator: ConnectorGenerator,
+    options?: GetDocumentOptions
   }): any => {
-  const textExample = 'Some text'
+  const textExample = 'Some [text]'
   switch (type) {
     case 'message':
     case 'signalSend':
     case 'script':
       return baseNodeFunc([
-        nodeGenerator.script({ text: textExample, type }),
+        nodeGenerator.script({ text: options?.text || textExample, type }),
         ...connectorGenerator({ start: 'ScriptId' })
       ])
     case 'serviceCall':
       return baseNodeFunc([
-        nodeGenerator.serviceCall({ text: textExample }),
+        nodeGenerator.serviceCall({ text: '/api/get-data' }),
         ...connectorGenerator({ start: 'ServiceCallId' })
       ])
     case 'root':

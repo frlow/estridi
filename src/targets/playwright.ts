@@ -42,7 +42,6 @@ const getTestName = (name: string): string => {
   return name
 }
 
-
 const generateScriptTest = (scraped: Scraped, node: ScrapedScript) => {
   const shortestPath = findShortestPathToNode(scraped, node.id)
   const gatewayValues = getPathGatewayValuesForPath(shortestPath)
@@ -58,7 +57,7 @@ ${actions.map((a) => `      '${a}'`).join(',\n')}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    ${node.customTest ? "// manually implement start in test" : `await handles.start(args)`}
+    ${node.customTest ? '// manually implement start in test' : `await handles.start(args)`}
 ${actionsText}
 ${testText}
   })`
@@ -149,7 +148,7 @@ export type TestOptions = {
   const serviceCallLines = getServiceCallNames(scraped)
     .map(
       (sc) =>
-        `${_(1)}serviceCall_${camelize(sc)}: (args: TestArgs<TState, TPageExtensions>) => Promise<void>`
+        `${_(1)}serviceCall_${camelize(sc.name)}: (args: TestArgs<TState, TPageExtensions>) => Promise<void>`
     )
   const actionsLines = getActionNames(scraped)
     .map(
