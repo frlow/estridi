@@ -50,12 +50,21 @@ export const loadScrapedFromSource = async (config: EstridiConfig, rootName?: st
   const data = await source.getDataFunc(config)
   const scraped = await source.processFunc(data)
   const foundRootName = getRootName(scraped, rootName)
-  if (!foundRootName) throw 'Root could not be found'
+  if (!foundRootName) {
+    const roots = scraped
+      .filter((node: ScrapedStart) => node.isRoot)
+    throw `Root could not be found, use one of the following root nodes:
+${roots.map(r => r.raw).join('\n')}`
+  }
   const filtered = filterScraped(scraped, foundRootName)
   return { scraped: filtered, rootName: foundRootName }
 }
 
-export const generateEstridiTests = async (args: { config: EstridiConfig, target?: 'playwright', rootName?: string }) => {
+export const generateEstridiTests = async (args: {
+  config: EstridiConfig,
+  target?: 'playwright',
+  rootName?: string
+}) => {
   const targets: Record<EstridiTargets, EstridiTargetConfig> = {
     playwright: {
       getFileName: (name) => `${name}.spec.ts`,

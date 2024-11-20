@@ -14,12 +14,25 @@ program.parse()
 const options = program.opts()
 
 const run = async () => {
-  const config = JSON.parse(fs.readFileSync('estridi.json', 'utf8'))
-  const { code, fileName } = await generateEstridiTests({ target: options.target, config, rootName: options.rootName })
-  const dir = options.directory || 'tests'
-  fs.mkdirSync(dir, { recursive: true })
-  fs.writeFileSync(path.join(dir, fileName), code, 'utf8')
-  console.log("Done!")
+  try {
+    const config = JSON.parse(fs.readFileSync('estridi.json', 'utf8'))
+    const roots = options.rootName.split(',')
+    for (const rootName of roots) {
+      console.log('Root: ', rootName)
+      const { code, fileName } = await generateEstridiTests({
+        target: options.target,
+        config,
+        rootName: rootName?.trim() || undefined
+      })
+      const dir = options.directory || 'tests'
+      fs.mkdirSync(dir, { recursive: true })
+      fs.writeFileSync(path.join(dir, fileName), code, 'utf8')
+    }
+    console.log('Done!')
+  } catch (e) {
+    console.error(e)
+    process.exit(0)
+  }
 }
 
 run().then()
