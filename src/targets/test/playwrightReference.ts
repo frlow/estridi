@@ -1,6 +1,8 @@
 import { BrowserContext, Page, test } from '@playwright/test'
 import { handles } from './main.js'
 
+
+
 test.describe('main', () => {
   test('Could not load page', async ({ page, context }) => {
     /*
@@ -116,9 +118,9 @@ test.describe('main', () => {
     await handles.action_franFortsattClicked(args)
     await handles.test_openSectionTill(args)
   })
-  test('Display Mottagarens fullstndiga namn Adress', async ({ page, context }) => {
+  test('Display Mottagarens fullständiga namn Adress', async ({ page, context }) => {
     /*
-    Display “Mottagarens fullstndiga namn”     ”Adress”     
+    Display “Mottagarens fullständiga namn”     ”Adress”     
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -130,7 +132,7 @@ test.describe('main', () => {
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
-    await handles.test_displayMottagarensFullstndigaNamnAdress(args)
+    await handles.test_displayMottagarensFullstandigaNamnAdress(args)
   })
   test('Display dropdown Land country name', async ({ page, context }) => {
     /*
@@ -524,9 +526,9 @@ test.describe('main', () => {
       await testNode({tableRow, page, context})
     })
 
-    test("Internationellt kontonummer IBAN", async ({ page, context }) => {
+    test("Kontonummer IBAN", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Internationellt kontonummer (IBAN)',
+        'Id': 'Kontonummer (IBAN)',
         'Component type': 'Input field',
         'Length': '1-35',
         'Placeholder': '',
@@ -2031,7 +2033,7 @@ export type Main<TState={}, TPageExtensions={}> = {
   test_openSectionFran: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_hideButtonFortsatt: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_openSectionTill: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_displayMottagarensFullstndigaNamnAdress: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_displayMottagarensFullstandigaNamnAdress: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_displayDropdownLandCountryName: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_displayKontonummerWithLabelIban: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_clearValidationErrorsForKontonummerBanknummer: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
