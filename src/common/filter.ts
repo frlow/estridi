@@ -16,7 +16,7 @@ export const filterScraped = (scraped: Scraped, rootName: string): Scraped => {
   }
   const acc: Record<string, ScrapedNode> = {}
   const root = scraped.find(
-    (r: ScrapedStart) => r.isRoot && r.text === rootName,
+    (r: ScrapedStart) => r.isRoot && r.raw === rootName,
   )
   processNode(root)
   // const rootNodes = scraped.filter((node: ScrapedStart) => node.isRoot)
