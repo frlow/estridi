@@ -34,7 +34,7 @@ export const testNodeParsing = async (getDocument: GetDocumentFunc) => {
     'id': 'ScriptWithGroupedTextId',
     'next': 'NextId',
     'text': 'Grouped Text',
-    "raw": "Grouped Text",
+    'raw': 'Grouped Text',
     'type': 'script'
   })
 
@@ -146,7 +146,7 @@ export const testNodeParsing = async (getDocument: GetDocumentFunc) => {
   const table = (await getDocument('table')).find(node => node.type === 'table')
   expect(table).toStrictEqual({
     'id': 'TableId',
-    raw: "My Table",
+    raw: 'My Table',
     'rows': [
       [
         '.My Table',
@@ -178,5 +178,16 @@ export const testNodeParsing = async (getDocument: GetDocumentFunc) => {
     'text': 'External component',
     'raw': 'External component',
     'type': 'userAction'
+  })
+
+  const scriptWithNote = (await getDocument('note')).find(node => node.type === 'start')
+  expect(scriptWithNote).toStrictEqual({
+    "id": "StartId",
+    "isRoot": false,
+    "next": "NextId",
+    "raw": "Some [text]",
+    "text": "Some text",
+    "type": "start",
+    note: "Some comment here"
   })
 }

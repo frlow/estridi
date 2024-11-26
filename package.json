@@ -7,7 +7,7 @@
   },
   "type": "module",
   "scripts": {
-    "start": "tsx src/cli.ts -r main",
+    "start": "tsx src/cli.ts -r +",
     "test-data": "tsx testData.ts",
     "test": "vitest",
     "build": "tsc -p tsconfig.prod.json"

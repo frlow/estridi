@@ -12,6 +12,7 @@ export type NodeGenerator = {
   userAction: (args: { id?: string; text?: string; position: number }) => any
   signalListen: (args: { id?: string; text?: string; position: number }) => any
   other: (args: { text?: string; id?: string }) => any
+  note: (args: { text?: string; id?: string }) => any
 }
 
 export type TableGenerator = (args: {
@@ -43,6 +44,7 @@ export type DocumentType =
   | 'end'
   | 'dotted'
   | 'table'
+  | 'note'
 
 export type GetDocumentFunc<T = any> = (type: DocumentType, options?: GetDocumentOptions) => T
 export type GetDocumentOptions = { text?: string }
@@ -186,6 +188,13 @@ export const getDocument = (
       return baseNodeFunc([
         nodeGenerator.scriptGroupedText({ text: 'Grouped Text', id: 'ScriptWithGroupedTextId' }),
         ...connectorGenerator({ start: 'ScriptWithGroupedTextId' })
+      ])
+    case 'note':
+      return baseNodeFunc([
+        nodeGenerator.start({}),
+        ...connectorGenerator({ start: 'NoteId', end: 'StartId', id: 'NoteConnectionId', dotted: true }),
+        ...connectorGenerator({ start: 'StartId', end: 'NextId', id: 'NextConnectorId', text: textExample }),
+        nodeGenerator.note({ text: 'Some comment here' })
       ])
     default:
       debugger

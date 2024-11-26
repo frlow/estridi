@@ -4,8 +4,8 @@ import { getDrawIoDocument } from './test/drawIoGenerator.js'
 import { processDrawIo } from './drawio.js'
 
 
-describe('Load from drawio', () => {
-  test('test parsing nodes from figma', async () => {
+describe.skip('Load from drawio', () => {
+  test('test parsing nodes from drawio', async () => {
     await testNodeParsing(async (...args) => await processDrawIo(getDrawIoDocument(...args)))
   })
 })

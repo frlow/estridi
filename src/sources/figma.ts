@@ -18,7 +18,7 @@ export const loadFigmaDocument = async ({
   return file.document
 }
 
-const findRawText = (node: any) => {
+const findRawText = (node: any): string => {
   const children: any[] = node?.children || []
   children.sort((a) => (a.name === 'text' ? -1 : 1))
   const rawText = children.find((c: any) => c.type === 'TEXT')?.characters || ''
@@ -183,12 +183,16 @@ const afterProcess = (
   nodes: ProcessedNodes
 ): Scraped => {
   const ret = structuredClone(scraped)
+
+  // Map sub process links
   ret
     .filter((node) => node.type === 'subprocess')
     .forEach((sp: ScrapedSubprocess) => {
       const linkNode = ret.find((n) => n.type === 'start' && n.text === sp.text)
       sp.link = linkNode?.id
     })
+
+  // Map actions for userAction and special cases for external subprocesses
   ret
     .filter((node) => ['userAction', 'subprocess'].includes(node.type))
     .forEach((ua: ScrapedUserAction) => {
@@ -207,6 +211,14 @@ const afterProcess = (
       }
       actions.forEach((a) => (ua.actions[getNext(a)] = findText(a)))
     })
+
+  // map notes
+  Object.values(nodes).filter(n => n.name?.replace('5.', '').trim() === 'Note').forEach(note => {
+    const targetId = note.dottedConnections[0] ? note.dottedConnections[0].id : undefined
+    if (!targetId) return
+    const target = ret.find(node => node.id === targetId)
+    target.note = findRawText(note)
+  })
   return ret
 }
 
@@ -240,6 +252,11 @@ const mapConnections = (nodes: ProcessedNodes): ProcessedNodes => {
     node.connections = connections
       .filter((c) => {
         return c.connectorStart?.endpointNodeId === node.id && !c.strokeDashes
+      })
+      .map((c) => ({ id: c.connectorEnd?.endpointNodeId, text: c.name }))
+    node.dottedConnections = connections
+      .filter((c) => {
+        return c.connectorStart?.endpointNodeId === node.id && !!c.strokeDashes
       })
       .map((c) => ({ id: c.connectorEnd?.endpointNodeId, text: c.name }))
   })

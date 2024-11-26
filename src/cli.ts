@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander'
-import { generateEstridiTests } from './index.js'
+import { generateEstridiTests, parseRootNames } from './index.js'
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -13,10 +13,11 @@ program.parse()
 
 const options = program.opts()
 
+
 const run = async () => {
   try {
     const config = JSON.parse(fs.readFileSync('estridi.json', 'utf8'))
-    const roots = options.rootName.split(',')
+    const roots = await parseRootNames(config, options.rootName)
     for (const rootName of roots) {
       console.log('Root: ', rootName)
       const { code, fileName } = await generateEstridiTests({

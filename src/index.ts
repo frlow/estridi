@@ -60,6 +60,14 @@ ${roots.map(r => r.raw).join('\n')}`
   return { scraped: filtered, rootName: foundRootName }
 }
 
+export const parseRootNames = async (config: EstridiConfig, rootName: string|undefined): Promise<string[]> => {
+  if(rootName!=="+") return rootName.split(',')
+  const source = getSource(config)
+  const data = await source.getDataFunc(config)
+  const scraped = await source.processFunc(data)
+  return scraped.filter((n: ScrapedStart) => n.isRoot).map(n => n.raw)
+}
+
 export const generateEstridiTests = async (args: {
   config: EstridiConfig,
   target?: 'playwright',

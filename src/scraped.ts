@@ -1,6 +1,6 @@
 export { loadScrapedFromSource } from './index.js'
 
-export type BaseNode = { id: string, text: string, raw: string }
+export type BaseNode = { id: string, text: string, raw: string, note?: string }
 
 export type ScrapedNodeTypes =
   | 'table'

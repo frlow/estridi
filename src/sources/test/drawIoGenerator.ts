@@ -81,6 +81,9 @@ export const drawIoNodes: NodeGenerator = {
   },
   scriptGroupedText(args: { text?: string; id?: string }): any {
     return drawIoNodes.script({ ...args, type: 'script' })
+  },
+  note({ text, id }): any {
+    throw 'not implemented'
   }
 }
 

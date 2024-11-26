@@ -161,6 +161,16 @@ export const figmaNodes: NodeGenerator = {
         'characters': text || 'Script with grouped text'
       }
     ]
+  }),
+  note: ({text, id})=>({
+    id: id || 'NoteId',
+    name: '5. Note',
+    children: [
+      {
+        type: 'TEXT',
+        characters: text || 'Note'
+      }
+    ]
   })
 }
 
