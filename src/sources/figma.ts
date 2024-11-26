@@ -127,7 +127,7 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         text: sanitizeText(connection?.text?.replace('root:', '') || 'start'),
         next: getNext(node),
         isRoot: isRoot,
-        raw: connection?.text?.replace('root:', '') || 'start',
+        raw: connection?.text?.replace('root:', '') || 'start'
       }
       return start
     }

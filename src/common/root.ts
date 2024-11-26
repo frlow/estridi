@@ -4,6 +4,6 @@ export const getRootName =
       .filter((node: ScrapedStart) => node.isRoot) as ScrapedStart[]
     if (!name && rootNodes.length === 1) return rootNodes[0].raw
     if (name && rootNodes.find(n => n.raw === name))
-      return rootNodes.find(n => n.raw === name).text
+      return rootNodes.find(n => n.raw === name).raw
     return undefined
   }

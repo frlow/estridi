@@ -11,6 +11,7 @@ export function camelize(str: string): string {
     .toLowerCase()
     .replace(/[åä]/g, 'a')
     .replace(/ö/g, 'o')
+    .replace(/[-_]/g, ' ')
     .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) =>
       index === 0 ? match.toLowerCase() : match.toUpperCase()
     )

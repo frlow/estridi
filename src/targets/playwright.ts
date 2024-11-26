@@ -165,7 +165,7 @@ export type TestOptions = {
         `  test_${camelize(sc)}: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>`
     )
 
-  const handlesObjectTypeCode = `export type ${name.charAt(0).toUpperCase() + name.substring(1)}<TState={}, TPageExtensions={}> = {
+  const handlesObjectTypeCode = `export type ${name.charAt(0).toUpperCase() + camelize(name.substring(1))}<TState={}, TPageExtensions={}> = {
   setup: (args: Omit<TestArgs<TState, TPageExtensions>, 'state'>) => Promise<TState>
   start: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
 ${serviceCallLines.join('\n')}

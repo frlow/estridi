@@ -1,6 +1,6 @@
 {
   "name": "estridi",
-  "version": "1.0.0-beta109",
+  "version": "1.0.0-beta110",
   "description": "",
   "bin": {
     "estridi": "./dist/cli.js"
@@ -15,14 +15,11 @@
   "dependencies": {
     "commander": "^12.1.0",
     "figma-api": "^1.11.0",
-    "vitest": "^2.0.5",
-    "tsx": "^4.19.1",
-    "fast-xml-parser": "^4.5.0",
-    "mermaid": "^11.2.1",
-    "playwright-core": "^1.47.2",
-    "ts-import": "^5.0.0-beta.0"
+    "fast-xml-parser": "^4.5.0"
   },
   "devDependencies": {
+    "vitest": "^2.0.5",
+    "tsx": "^4.19.1",
     "@types/node": "^22.5.5",
     "typescript": "^5.6.2",
     "prettier": "^3.3.3",
