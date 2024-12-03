@@ -121,6 +121,7 @@ ${root.note}
 
 export const generatePlaywright = async (name: string, scraped: Scraped) => {
   const testableNodes = getTestableNodes(scraped)
+  testableNodes.sort((a, b) => a.distance > b.distance ? 1 : -1)
 
   const handlesTypeCode = generateHandlesTypeCode(scraped, name)
   return `import { BrowserContext, Page, test } from '@playwright/test'

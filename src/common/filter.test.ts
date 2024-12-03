@@ -35,6 +35,7 @@ describe('filter scraped', () => {
 
     expect(filtered).toStrictEqual([
       {
+        distance: 0,
         'id': '0',
         'isRoot': true,
         'next': '1',
@@ -43,6 +44,7 @@ describe('filter scraped', () => {
         'type': 'start'
       },
       {
+        distance: 1,
         'id': '1',
         'next': '2',
         'raw': 'Some script',
@@ -50,6 +52,7 @@ describe('filter scraped', () => {
         'type': 'script'
       },
       {
+        distance: 2,
         'id': '2',
         'options': {
           '3': 'A'
@@ -59,6 +62,7 @@ describe('filter scraped', () => {
         'type': 'gateway'
       },
       {
+        distance: 3,
         'id': '3',
         'next': '4',
         'raw': 'Show A',
@@ -66,6 +70,7 @@ describe('filter scraped', () => {
         'type': 'script'
       },
       {
+        distance: 4,
         'actions': {
           '6': 'Click Button'
         },
@@ -76,6 +81,7 @@ describe('filter scraped', () => {
         'type': 'userAction'
       },
       {
+        distance: 5,
         'id': '6',
         'next': '7',
         'raw': 'Clicked Button',
@@ -83,6 +89,7 @@ describe('filter scraped', () => {
         'type': 'script'
       },
       {
+        distance: 6,
         'id': '7',
         'link': '8',
         'next': 'after',
@@ -92,6 +99,7 @@ describe('filter scraped', () => {
         'type': 'subprocess'
       },
       {
+        distance: 7,
         'id': '8',
         'isRoot': false,
         'next': '9',
@@ -100,6 +108,7 @@ describe('filter scraped', () => {
         'type': 'start'
       },
       {
+        distance: 8,
         'id': '9',
         'next': undefined,
         'raw': 'In subprocess',
@@ -107,12 +116,14 @@ describe('filter scraped', () => {
         'type': 'script'
       },
       {
+        distance: 5,
         'id': 'end',
         'raw': 'end',
         'text': 'end',
         'type': 'end'
       },
       {
+        distance: 7,
         'id': 'after',
         'next': undefined,
         'raw': 'After subprocess',
