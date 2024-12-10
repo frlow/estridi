@@ -9,6 +9,7 @@ program
   .option('-t, --target <string>')
   .option('-r, --root-name <string>')
   .option('-d, --directory <string>')
+  .option('-u, --utils')
 
 program.parse()
 
@@ -29,14 +30,16 @@ const run = async () => {
     const roots = await parseRootNames(config, options.rootName)
     for (const rootName of roots) {
       console.log('Root: ', rootName)
-      const { code, fileName } = await generateEstridiTests({
+      const filesToWrite = await generateEstridiTests({
         target: options.target,
         config,
-        rootName: rootName?.trim() || undefined
+        rootName: rootName?.trim() || undefined,
+        generateUtils: !!options.utils
       })
       const dir = options.directory || 'tests'
       fs.mkdirSync(dir, { recursive: true })
-      fs.writeFileSync(path.join(dir, fileName), code, 'utf8')
+      for (const fileToWrite of filesToWrite)
+        fs.writeFileSync(path.join(dir, fileToWrite.fileName), fileToWrite.code, 'utf8')
     }
     console.log('Done!')
   } catch (e) {

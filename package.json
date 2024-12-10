@@ -7,10 +7,10 @@
   },
   "type": "module",
   "scripts": {
-    "start": "tsx src/cli.ts -r +",
+    "start": "tsx src/cli.ts -r + -u",
     "test-data": "tsx testData.ts",
     "test": "vitest",
-    "build": "tsc -p tsconfig.prod.json",
+    "build": "tsx ./bundleFiles.ts && tsc -p tsconfig.prod.json",
     "docs": "pnpm --filter docs dev"
   },
   "dependencies": {
