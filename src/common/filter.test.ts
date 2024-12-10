@@ -1,7 +1,9 @@
 import { describe, expect, test } from 'vitest'
 import { processFigma } from '../sources/figma.js'
-import { figmaConnectorNode, figmaNodes, getBaseFigmaNode } from '../sources/test/figmaGenerator.js'
+import { figmaConnectorNode, figmaNodes, getBaseFigmaNode, getFigmaTestData } from '../sources/test/figmaGenerator.js'
 import { filterScraped } from './filter.js'
+import { getPathGatewayValuesForPath, getTestableNodes } from '../targets/codegen/misc.js'
+import { findShortestPathToNode } from './shotestPath.js'
 
 describe('filter scraped', () => {
   test('filter', async () => {
@@ -132,5 +134,27 @@ describe('filter scraped', () => {
       }
     ])
     expect(filtered.find(n => n.id === 'OtherScriptId')).toBeUndefined()
+  })
+  test('find untouched paths', async () => {
+    const scraped = await processFigma(getFigmaTestData())
+    const filtered = filterScraped(scraped, 'wip')
+    const testableNodes = getTestableNodes(filtered)
+    const shortestPaths = testableNodes.map(n => findShortestPathToNode(filtered, n.id))
+    const gateways = shortestPaths.map(path => getPathGatewayValuesForPath(path))
+    const touchedGatewayOptions = Object.keys(gateways.reduce((acc, cur) => {
+      Object.entries(cur).forEach(v => {
+        acc[`${v[0]}:${v[1]}`] = true
+      })
+      return acc
+    }, {}))
+    const allGatewayOptions = Object.keys(filtered.filter((n) => n.type === 'gateway')
+      .reduce((acc, cur) => {
+        Object.values(cur.options).forEach(v => {
+          acc[`${cur.text.replace('*', '').trim()}:${v}`] = true
+        })
+        return acc
+      }, {}))
+    const diff = allGatewayOptions.filter(gw => !touchedGatewayOptions.includes(gw))
+    debugger
   })
 })

@@ -7,33 +7,9 @@ import {
   getTestNames
 } from './codegen/handlesType.js'
 import { findShortestPathToNode } from '../common/shotestPath.js'
-import { getTestableNodes } from './codegen/misc.js'
+import { getActionsForPath, getPathGatewayValuesForPath, getTestableNodes } from './codegen/misc.js'
 import { createTable } from '../common/table.js'
 
-const getPathGatewayValuesForPath = (path: ScrapedNode[]) =>
-  path
-    .filter((n) => n.type === 'gateway')
-    .reduce(
-      (acc, cur) => ({
-        ...acc,
-        [cur.text.replace('*', '').trim()]:
-          cur.options[path[path.indexOf(cur) + 1].id]
-      }),
-      {}
-    )
-
-const getActionsForPath = (path: ScrapedNode[]) => {
-  return path
-    .filter((n) => n.type === 'userAction')
-    .filter((a) => {
-      const nextId = path[path.indexOf(a) + 1].id
-      return a.next !== nextId
-    })
-    .map((a) => {
-      const nextText = a.actions[path[path.indexOf(a) + 1].id]
-      return `action_${camelize(nextText)}`
-    })
-}
 
 const usedNames: Record<string, number> = {}
 const getTestName = (name: string): string => {
@@ -45,12 +21,13 @@ const rawCommentBlock = (raw: string) => `/*
 ${raw}
 */`.replace(/^/gm, _(2))
 
-const generateScriptTest = (scraped: Scraped, node: ScrapedScript) => {
+const generateScriptTest = (scraped: Scraped, node: ScrapedScript | ScrapedServiceCall) => {
+  const _node = { customTest: undefined, ...node }
   const shortestPath = findShortestPathToNode(scraped, node.id)
   const gatewayValues = getPathGatewayValuesForPath(shortestPath)
   const actions = getActionsForPath(shortestPath)
-  const testText = `    await handles.test_${camelize(node.text.replace('*', ''))}(args${node.customTest ? ', { actions }' : ''})`
-  const actionsText = node.customTest
+  const testText = `    await handles.test_${camelize(node.text.replace('*', ''))}(args${_node.customTest ? ', { actions }' : ''})`
+  const actionsText = _node.customTest
     ? `    const actions = [
 ${actions.map((a) => `      '${a}'`).join(',\n')}
     ]`
@@ -61,7 +38,7 @@ ${rawCommentBlock(node.raw)}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    ${node.customTest ? '// manually implement start in test' : `await handles.start(args)`}
+    ${_node.customTest ? '// manually implement start in test' : `await handles.start(args)`}
 ${actionsText}
 ${testText}
   })`
@@ -100,11 +77,10 @@ ${rowTests.join('\n\n')}
 }
 
 const generateTest = (scraped: Scraped, node: ScrapedNode): string => {
-  if (node.type === 'script') {
+  if (node.type === 'script' || node.type === 'serviceCall') {
     return generateScriptTest(scraped, node)
   } else if (node.type === 'subprocess' && node.tableKey) {
     return generateSubprocessTableTest(scraped, node)
-
   } else {
     debugger
   }
