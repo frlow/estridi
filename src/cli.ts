@@ -3,7 +3,7 @@ import { program } from 'commander'
 import { generateEstridiTests, parseRootNames } from './index.js'
 import fs from 'node:fs'
 import path from 'node:path'
-import type { EstridiConfigExtended } from './config.js'
+import 'dotenv/config'
 
 program
   .option('-t, --target <string>')
@@ -15,18 +15,12 @@ program.parse()
 
 const options = program.opts()
 
-const loadConfig = async (): Promise<EstridiConfigExtended> => {
-  if (fs.existsSync('estridi.config.mjs')) {
-    const imported = await import(path.join(process.cwd(), 'estridi.config.mjs'))
-    return imported.default
-  }
-
-  return { config: JSON.parse(fs.readFileSync('estridi.json', 'utf8')) }
-}
+const configPath = 'estridi.json'
 
 const run = async () => {
   try {
-    const { config } = await loadConfig()
+    if (!fs.existsSync(configPath)) throw 'Could not find estridi.json config file'
+    const config: EstridiConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'))
     const roots = await parseRootNames(config, options.rootName)
     for (const rootName of roots) {
       console.log('Root: ', rootName)

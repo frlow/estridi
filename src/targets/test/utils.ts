@@ -19,7 +19,7 @@ export class CallHandler {
     )
   }
 
-  public handleCall: (url_: string, data: any) => void = (url, data) => {
+  public handleCall: (url: string, data: any) => void = (url, data) => {
     this.calls[url] = [...(this.calls[url] || []), data]
     const waitingCallsForUrl = this.waitingCalls.filter(
       (call) => call.url === url
