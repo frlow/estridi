@@ -1,5 +1,5 @@
 ---
-title: Start Playwright tutorial
+title: Setup
 ---
 
 In this tutorial we will create an example application using estridi, Playwright and React with vite.
@@ -64,9 +64,41 @@ Copy the token and fileId from the previous steps
 
 ```
 
+This will generate your tests
+
+## Playwright
+
+Add a playwright config file
+```javascript
+// playwright.config.ts
+import { defineConfig } from '@playwright/test'
+
+export default defineConfig({
+  testDir: './tests',
+  fullyParallel: true,
+  use: {
+    baseURL: 'http://localhost:5173',
+    trace: 'on-first-retry'
+  },
+  webServer: {
+    command: 'npm run dev',
+    url: 'http:/localhost:5173',
+    reuseExistingServer: true
+  }
+})
+```
+
+Run your tests with the following command
+```bash
+npx playwright test
+
+# You might have to run install first:
+npx playwright install
+```
+
+## estridi
+
 In the project directory, run the following commands
 ```bash
 npx estridi
 ```
-
-This will generate your tests

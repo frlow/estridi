@@ -1,0 +1,67 @@
+---
+title: Getting Started
+---
+import { FileTree } from '@astrojs/starlight/components';
+
+Now we are ready to start generating some tests.
+
+In your project start by installing estridi
+```bash
+npm i --save-dev estridi
+```
+
+Estridi requires a configuration file, name it estridi.json
+```json
+{
+  "token": "<my figma user token>",
+  "fileId": "<file id of the FigJam board>"
+}
+```
+Learn how to create figma token [here](https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens)
+
+##### Important!
+Make sure to include estridi.json in your .gitignore file. The user token should not be checked in!
+
+The fileId can be found by right-clicking the tab of the FigJam board and selecting "Copy Link"
+https://www.figma.com/board/MyFileIdGoesHere/My-Board?...
+
+The fileId is this part: "MyFileIdGoesHere"
+
+## Generate your tests
+Generate your first tests using the following command
+```bash
+estridi # base case
+
+estridi -r my-root # specify root node
+estridi -r + # generate for all root nodes
+estridi -t playwright # specify target (default: playwright)
+estridi -d tests # specify directory to write tests do (default: ./tests)
+estridi -u # generate optional utils file
+```
+
+Now if everything is done correctly you should find a *.spec.ts file in tests directory.
+<FileTree>
+- tests
+  - **main.spec.ts**
+</FileTree>
+
+In this spec file, this is where you will find all your generated tests and from here you can also run the tests. If you run estridi again this file will be re-generated so **do not** write any code here. this file is only for running the tests.
+
+## Implementing your tests
+Now we want somewhere to implement our tests. So create a file called main.ts
+
+This will be our "Handles" file, where we handle/implement our tests.
+
+<FileTree>
+  - tests
+    - main.spec.ts
+    - **main.ts**
+</FileTree>
+
+In your main.ts file copy and paste following code below.
+
+```typescript
+import { Main } from './main.spec.js'
+
+export const handles: Main = {}
+```

@@ -1,8 +1,9 @@
 export const partialHandles = <T extends Object>(handles: Partial<T>): T => new Proxy(handles, {
   get(target, name: string) {
     if (target[name]) return target[name]
-    if (name.startsWith('serviceCall')) return async () => {
-    }
+    if (name.startsWith('serviceCall')) return async () => {}
+    if(name==="setup") return async ()=> ({})
+    if(name==="start") return async (args: any)=>args.page.goto("/")
     throw `${name} is not implemented!`
   }
 }) as T
