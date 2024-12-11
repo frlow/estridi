@@ -1,11 +1,5 @@
 import { camelize } from '../../common/texts.js'
 
-export const validateDuplicates = (names: string[], category: string) => {
-  const duplicates = names.filter((name, i, arr) => arr.indexOf(name) !== i)
-  if (duplicates.length === 0) return
-  throw `Duplicate ${category}: \n${duplicates.join('\n')}`
-}
-
 export const filterDuplicates = (texts: string[]): string[] =>
   texts.filter((v, i, a) => a.indexOf(v) === i)
 

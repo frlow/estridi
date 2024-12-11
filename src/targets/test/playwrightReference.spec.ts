@@ -436,9 +436,9 @@ test.describe('main', () => {
     await handles.action_selectCountry(args)
     await handles.test_showCountryIbanlengthAndUpdateInfotext(args)
   })
-  test('*Set Kontonummer field label to BBAN', async ({ page, context }) => {
+  test('Set Kontonummer field label to BBAN', async ({ page, context }) => {
     /*
-    *Set “Kontonummer” field label to BBAN
+    Set “Kontonummer” field label to BBAN
     
     */
     const gateways: GatewayCollection = {
@@ -473,9 +473,9 @@ test.describe('main', () => {
     await handles.action_mottagareFortsattClicked(args)
     await handles.test_openSectionBetalning(args)
   })
-  test('*Set Kontonummer field label to BBAN 1', async ({ page, context }) => {
+  test('Set Kontonummer field label to BBAN 1', async ({ page, context }) => {
     /*
-    *Set “Kontonummer” field label to BBAN
+    Set “Kontonummer” field label to BBAN
     
     */
     const gateways: GatewayCollection = {
@@ -513,9 +513,9 @@ test.describe('main', () => {
     await handles.action_selectCountry(args)
     await handles.test_setKontonummerFieldLabelToIban(args)
   })
-  test('*Show Banknummer field', async ({ page, context }) => {
+  test('Show Banknummer field', async ({ page, context }) => {
     /*
-    *Show “Banknummer” field
+    Show “Banknummer” field
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -552,9 +552,9 @@ test.describe('main', () => {
     await handles.action_mottagareFortsattClicked(args)
     await handles.test_displayCurrencyCodeCurrencyDiscriptionInCurrenciesDropdown(args)
   })
-  test('*Show Banknummer field 1', async ({ page, context }) => {
+  test('Show Banknummer field 1', async ({ page, context }) => {
     /*
-    *Show “Banknummer” field
+    Show “Banknummer” field
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -634,9 +634,9 @@ test.describe('main', () => {
     await handles.action_selectCountry(args)
     await handles.test_setBanknummerFieldLabelToBicSwift(args)
   })
-  test('*Hide Banknummer field', async ({ page, context }) => {
+  test('Hide Banknummer field', async ({ page, context }) => {
     /*
-    *Hide “Banknummer” field
+    Hide “Banknummer” field
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -674,9 +674,9 @@ test.describe('main', () => {
     await handles.action_selectCountry(args)
     await handles.test_showBicSwiftOptionalInfotext(args)
   })
-  test('*Show Banknummer field 2', async ({ page, context }) => {
+  test('Show Banknummer field 2', async ({ page, context }) => {
     /*
-    *Show “Banknummer” field
+    Show “Banknummer” field
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -694,9 +694,9 @@ test.describe('main', () => {
     await handles.action_selectCountry(args)
     await handles.test_showBanknummerField(args)
   })
-  test('*Show avgift section', async ({ page, context }) => {
+  test('Show avgift section', async ({ page, context }) => {
     /*
-    *Show avgift section
+    Show avgift section
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -713,9 +713,9 @@ test.describe('main', () => {
     await handles.action_mottagareFortsattClicked(args)
     await handles.test_showAvgiftSection(args)
   })
-  test('*Hide avgift section', async ({ page, context }) => {
+  test('Hide avgift section', async ({ page, context }) => {
     /*
-    *Hide avgift section
+    Hide avgift section
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -976,9 +976,9 @@ test.describe('main', () => {
     await handles.action_preliminaraAktuellaValutaKurserClicked(args)
     await handles.test_httpsWwwDnbSeSeSvMarketsValutaRentorKurslistaOverforingDaglig(args)
   })
-  test('*Hide betalningsreferens', async ({ page, context }) => {
+  test('Hide betalningsreferens', async ({ page, context }) => {
     /*
-    *Hide betalningsreferens
+    Hide betalningsreferens
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -996,9 +996,9 @@ test.describe('main', () => {
     await handles.action_selectCurrency(args)
     await handles.test_hideBetalningsreferens(args)
   })
-  test('*Hide avgift section 1', async ({ page, context }) => {
+  test('Hide avgift section 1', async ({ page, context }) => {
     /*
-    *Hide avgift section
+    Hide avgift section
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -1062,9 +1062,9 @@ test.describe('main', () => {
     ]
     await handles.test_clearAllAlertsAndValidationErrors(args, { actions })
   })
-  test('*Hide avgift section 2', async ({ page, context }) => {
+  test('Hide avgift section 2', async ({ page, context }) => {
     /*
-    *Hide avgift section
+    Hide avgift section
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -1083,9 +1083,9 @@ test.describe('main', () => {
     await handles.action_selectCurrency(args)
     await handles.test_hideAvgiftSection(args)
   })
-  test('*Show avgift section 1', async ({ page, context }) => {
+  test('Show avgift section 1', async ({ page, context }) => {
     /*
-    *Show avgift section
+    Show avgift section
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -1104,9 +1104,9 @@ test.describe('main', () => {
     await handles.action_selectCurrency(args)
     await handles.test_showAvgiftSection(args)
   })
-  test('*Hide betalningsreferens 1', async ({ page, context }) => {
+  test('Hide betalningsreferens 1', async ({ page, context }) => {
     /*
-    *Hide betalningsreferens
+    Hide betalningsreferens
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -1125,9 +1125,9 @@ test.describe('main', () => {
     await handles.action_selectCurrency(args)
     await handles.test_hideBetalningsreferens(args)
   })
-  test('*Show betalningsreferens', async ({ page, context }) => {
+  test('Show betalningsreferens', async ({ page, context }) => {
     /*
-    *Show betalningsreferens
+    Show betalningsreferens
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -1889,9 +1889,9 @@ test.describe('main', () => {
     await handles.action_godkannClicked(args)
     await handles.test_showErrorForSignPayment(args)
   })
-  test('*Close sign payment modal', async ({ page, context }) => {
+  test('Close sign payment modal', async ({ page, context }) => {
     /*
-    *Close sign payment modal
+    Close sign payment modal
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -1919,9 +1919,9 @@ test.describe('main', () => {
     await handles.action_paymentSigningComplete(args)
     await handles.test_closeSignPaymentModal(args)
   })
-  test('*Close sign payment modal 1', async ({ page, context }) => {
+  test('Close sign payment modal 1', async ({ page, context }) => {
     /*
-    *Close sign payment modal
+    Close sign payment modal
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',

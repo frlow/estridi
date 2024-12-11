@@ -3,6 +3,9 @@ import starlight from '@astrojs/starlight'
 
 // https://astro.build/config
 export default defineConfig({
+  server: {
+    host: true
+  },
   integrations: [
     starlight({
       title: 'estridi',
@@ -12,15 +15,11 @@ export default defineConfig({
       sidebar: [
         {
           label: 'Introduction',
-          items: [
-            // Each item here is one entry in the navigation menu.
-            { label: 'Getting started', slug: 'guides/getting_started' }
-          ]
+          autogenerate: { directory: 'introduction' }
         },
-        {
-          label: 'Reference',
-          autogenerate: { directory: 'reference' }
-        }
+      ],
+      customCss: [
+        "./src/styles/style.css"
       ]
     })
   ]

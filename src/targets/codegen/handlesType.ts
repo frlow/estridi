@@ -1,40 +1,26 @@
 import { _, camelize } from '../../common/texts.js'
-import { filterDuplicates, getTestableNodes, validateDuplicates } from './misc.js'
+import { filterDuplicates, getTestableNodes } from './misc.js'
 
 export const getGatewayNames = (scraped: Scraped): string[] => {
   const ret = scraped
     .filter((node) => node.type === 'gateway')
     .map((node) => node.text)
-  validateDuplicates(
-    ret.filter((r) => !r.startsWith('*')),
-    'gateway names'
-  )
   return filterDuplicates(ret.map((g) => g.replace('*', '').trim()))
 }
 
-export const getServiceCallNames = (scraped: Scraped): { name: string, raw: string }[] => {
-  const ret = scraped
+export const getServiceCallNames = (scraped: Scraped): { name: string, raw: string }[] =>
+  scraped
     .filter((node) => node.type === 'serviceCall')
     .map((node) => ({ name: node.text, raw: node.raw }))
-  validateDuplicates(ret.map(n => n.name), 'serviceCall names')
-  return ret
-}
 
-export const getActionNames = (scraped: Scraped): string[] => {
-  const ret = scraped
+export const getActionNames = (scraped: Scraped): string[] =>
+  scraped
     .filter((node) => node.type === 'userAction')
     .flatMap((a) => Object.values(a.actions))
-  validateDuplicates(ret, 'action names')
-  return ret
-}
 
 export const getTestNames = (scraped: Scraped): string[] => {
   const ret = getTestableNodes(scraped)
     .map((node) => node.text)
-  validateDuplicates(
-    ret.filter((r) => !r.startsWith('*')),
-    'test names'
-  )
   return filterDuplicates(ret.map((r) => r.replace('*', '')))
 }
 
