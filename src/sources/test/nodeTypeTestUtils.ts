@@ -149,7 +149,7 @@ export const testNodeParsing = async (getDocument: GetDocumentFunc) => {
     raw: 'My Table',
     'rows': [
       [
-        '.My Table',
+        'My Table',
         'Column1',
         'Column2'
       ],

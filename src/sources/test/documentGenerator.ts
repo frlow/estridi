@@ -164,7 +164,7 @@ export const getDocument = (
       return baseNodeFunc([
         ...tableGenerator({
           children: [
-            ['.My Table', 'Column1', 'Column2'],
+            ['My Table', 'Column1', 'Column2'],
             ['Line1', 'AAAA', 'BBBB'],
             ['Line2', 'CCCC', 'DDDD']
           ]
