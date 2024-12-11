@@ -20,7 +20,10 @@ export default defineConfig({
       ],
       customCss: [
         "./src/styles/style.css"
-      ]
+      ],
+       components: {
+        Head: "./src/components/Head.astro"
+       }
     })
   ]
 })

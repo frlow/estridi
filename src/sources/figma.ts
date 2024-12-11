@@ -81,7 +81,7 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
           {}
         )
       )
-      const text = rows[0][0].substring(1)
+      const text = rows[0][0]
       const table: ScrapedTable = {
         type: 'table', rows, id: node.id, text,
         raw: text
