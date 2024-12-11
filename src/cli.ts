@@ -3,7 +3,6 @@ import { program } from 'commander'
 import { generateEstridiTests, parseRootNames } from './index.js'
 import fs from 'node:fs'
 import path from 'node:path'
-import 'dotenv/config'
 
 program
   .option('-t, --target <string>')

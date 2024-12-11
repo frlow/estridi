@@ -1,0 +1,41 @@
+---
+title: What is estridi?
+---
+
+Estridi is a test framework that **automatically generate** test cases for you to implement based on S3D flowcharts.
+The purpose of the estridi test framework is to allow test-driven development. By implementing Estridi we will **ensure**
+that the requirements documented in the system design actually gets implemented when building our app.
+
+### How does it work?
+
+Before we can get started it is helpful to understand how the test framework traverse our system design in order to find
+test cases
+
+###### The path
+If we proceed from the picture below, first Estridi identifies a starting node (Learn more on how under "Make your flow testable").
+Then it traverse from left to right identifying testable nodes. The test framwork will also always look for the shortest path to the node we
+want to test.
+
+###### Testable nodes
+- Service calls
+- Scipts
+- Messages
+- Unlinked subflows
+
+In addition to testable nodes we have a few more nodes that you'll have to implement but are not testable.
+
+###### Non testable nodes
+- Actions (needs to be implemented)
+- Gateways (doesn't need to be implemented)
+
+###### Example below
+So if we look at the example picture below we want to the script node called "Show something here".
+To get
+
+
+
+
+
+<div data-lightbox="true">
+  > ![alt text](./flow.png)
+</div>

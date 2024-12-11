@@ -7,7 +7,7 @@ Start by installing estridi
 npm i --save-dev estridi
 ```
 
-Estridi requires a configuration file 
+Estridi requires a configuration file, name it estridi.json
 ```json
 {
   "token": "<my figma user token>",

@@ -12,3 +12,4 @@ output/
 estridi.json
 tests/
 .env
+example/

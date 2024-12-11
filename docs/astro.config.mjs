@@ -12,12 +12,12 @@ export default defineConfig({
       social: {
         // github: 'https://github.com/withastro/starlight',
       },
-      sidebar: [
-        {
-          label: 'Introduction',
-          autogenerate: { directory: 'introduction' }
-        },
-      ],
+      // sidebar: [
+      //   {
+      //     label: 'Introduction',
+      //     autogenerate: { directory: 'introduction' }
+      //   },
+      // ],
       customCss: [
         "./src/styles/style.css"
       ],
