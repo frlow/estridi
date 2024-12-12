@@ -5,7 +5,6 @@ const timeout = 5 * 1000
 
 export default defineConfig({
   testDir: './src/targets/test/',
-  fullyParallel: true,
   reporter: 'line',
   testMatch: '*.spec.ts',
   expect: {

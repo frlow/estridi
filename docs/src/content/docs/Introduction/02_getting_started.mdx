@@ -65,3 +65,40 @@ import { Main } from './main.spec.js'
 
 export const handles: Main = {}
 ```
+
+Then inside your Main handles we need to add two functions.
+
+```typescript
+  setup: async function ({ context, page }) {
+    return {}
+  },
+  start: async function ({ page }) {
+    await page.goto('/index.html')
+  },
+```
+
+##### setup
+For now it is fine this function only returns an empty object.
+
+But in this function you have the option to do stuff before you run your tests.
+For example:
+- Set cookies
+- Mock specific service calls
+##### start
+In our start function we can specify what URL we want to navigate to.
+```javascript
+await page.goto(url)
+```
+
+### Summary
+
+Now you are ready to start implementing your test.
+
+In this section you should have done all these steps:
+- [x] Install estridi
+- [x] Create an estridi config file called estridi.json
+- [x] Generated tests
+- [x] Create a "handles" file where we are going to implement our tests
+- [x] In our handles file, create two functions setup and start
+
+In the next section we will dive deeper into our spec and handles files.

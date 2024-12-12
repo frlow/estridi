@@ -3,23 +3,26 @@
   "version": "1.0.0-beta114",
   "description": "",
   "bin": {
-    "estridi": "./dist/cli.js"
+    "estridi": "./dist/cli.js",
+    "estridi-docs": "./dist/docsCli.js"
   },
   "type": "module",
   "scripts": {
     "start": "tsx src/cli.ts -r + -u",
     "test-data": "tsx testData.ts",
     "test": "vitest",
-    "build": "tsx ./bundleFiles.ts && tsc -p tsconfig.prod.json",
+    "build": "tsx ./bundleFiles.ts && tsc -p tsconfig.prod.json && pnpm --filter docs build",
     "docs": "pnpm --filter docs dev"
   },
   "dependencies": {
     "commander": "^12.1.0",
     "fast-xml-parser": "^4.5.0",
     "figma-api": "^1.11.0",
-    "module-from-string": "^3.3.1"
+    "module-from-string": "^3.3.1",
+    "express": "^5.0.1"
   },
   "devDependencies": {
+    "@types/express": "^5.0.0",
     "@types/node": "^22.5.5",
     "@vitest/coverage-v8": "^2.1.1",
     "@playwright/test": "^1.49.1",
@@ -34,7 +37,8 @@
   "author": "",
   "license": "ISC",
   "files": [
-    "dist"
+    "dist",
+    "docs/dist"
   ],
   "exports": {
     ".": {
