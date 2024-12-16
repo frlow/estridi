@@ -380,81 +380,6 @@ test.describe('main', () => {
     await handles.action_mottagareFortsattClicked(args)
     await handles.test_goBackToPayee(args)
   })
-  test('Show BIC SWIFT NID infotext', async ({ page, context }) => {
-    /*
-    Show BIC/SWIFT/NID infotext
-    */
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Is country US': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_showBicSwiftNidInfotext(args)
-  })
-  test('Show BIC SWIFT infotext', async ({ page, context }) => {
-    /*
-    Show BIC/SWIFT infotext
-    */
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Is country US': 'no',
-      'is country ibanLength 0': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_showBicSwiftInfotext(args)
-  })
-  test('Show country ibanLength and update infotext', async ({ page, context }) => {
-    /*
-    Show [country.ibanLength] and update infotext
-    */
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Is country US': 'no',
-      'is country ibanLength 0': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_showCountryIbanlengthAndUpdateInfotext(args)
-  })
-  test('Set Kontonummer field label to BBAN', async ({ page, context }) => {
-    /*
-    Set “Kontonummer” field label to BBAN
-    
-    */
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Is country US': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_setKontonummerFieldLabelToBban(args)
-  })
   test('Open section Betalning', async ({ page, context }) => {
     /*
     Open section “Betalning”
@@ -473,49 +398,9 @@ test.describe('main', () => {
     await handles.action_mottagareFortsattClicked(args)
     await handles.test_openSectionBetalning(args)
   })
-  test('Set Kontonummer field label to BBAN 1', async ({ page, context }) => {
+  test('Show BIC SWIFT NID infotext', async ({ page, context }) => {
     /*
-    Set “Kontonummer” field label to BBAN
-    
-    */
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Is country US': 'no',
-      'is country ibanLength 0': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_setKontonummerFieldLabelToBban(args)
-  })
-  test('Set Kontonummer field label to IBAN', async ({ page, context }) => {
-    /*
-    Set “Kontonummer” field label to IBAN
-    
-    */
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Is country US': 'no',
-      'is country ibanLength 0': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_setKontonummerFieldLabelToIban(args)
-  })
-  test('Show Banknummer field', async ({ page, context }) => {
-    /*
-    Show “Banknummer” field
+    Show BIC/SWIFT/NID infotext
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -529,7 +414,7 @@ test.describe('main', () => {
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_selectCountry(args)
-    await handles.test_showBanknummerField(args)
+    await handles.test_showBicSwiftNidInfotext(args)
   })
   test('Display currency code currency discription in currencies dropdown', async ({ page, context }) => {
     /*
@@ -552,9 +437,28 @@ test.describe('main', () => {
     await handles.action_mottagareFortsattClicked(args)
     await handles.test_displayCurrencyCodeCurrencyDiscriptionInCurrenciesDropdown(args)
   })
-  test('Show Banknummer field 1', async ({ page, context }) => {
+  test('Show country ibanLength and update infotext', async ({ page, context }) => {
     /*
-    Show “Banknummer” field
+    Show [country.ibanLength] and update infotext
+    */
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Is country US': 'no',
+      'is country ibanLength 0': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_selectCountry(args)
+    await handles.test_showCountryIbanlengthAndUpdateInfotext(args)
+  })
+  test('Show BIC SWIFT infotext', async ({ page, context }) => {
+    /*
+    Show BIC/SWIFT infotext
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -569,12 +473,11 @@ test.describe('main', () => {
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_selectCountry(args)
-    await handles.test_showBanknummerField(args)
+    await handles.test_showBicSwiftInfotext(args)
   })
-  test('Set Banknummer field label to BIC SWIFT eller Nationellt ID', async ({ page, context }) => {
+  test('Set Kontonummer field label to BBAN', async ({ page, context }) => {
     /*
-    Set “Banknummer” field label to BIC/SWIFT eller Nationellt ID
-    
+    Set “Kontonummer” field label to BBAN
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -588,7 +491,7 @@ test.describe('main', () => {
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_selectCountry(args)
-    await handles.test_setBanknummerFieldLabelToBicSwiftEllerNationelltId(args)
+    await handles.test_setKontonummerFieldLabelToBban(args)
   })
   test('Display Valuta Belopp Betala i SEK Meddelande till mottagaren', async ({ page, context }) => {
     /*
@@ -614,10 +517,28 @@ test.describe('main', () => {
     await handles.action_mottagareFortsattClicked(args)
     await handles.test_displayValutaBeloppBetalaISekMeddelandeTillMottagaren(args)
   })
-  test('Set Banknummer field label to BIC SWIFT', async ({ page, context }) => {
+  test('Set Kontonummer field label to IBAN', async ({ page, context }) => {
     /*
-    Set “Banknummer” field label to BIC/SWIFT
-    
+    Set “Kontonummer” field label to IBAN
+    */
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Is country US': 'no',
+      'is country ibanLength 0': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_selectCountry(args)
+    await handles.test_setKontonummerFieldLabelToIban(args)
+  })
+  test('Set Kontonummer field label to BBAN 1', async ({ page, context }) => {
+    /*
+    Set “Kontonummer” field label to BBAN
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -632,18 +553,35 @@ test.describe('main', () => {
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_selectCountry(args)
-    await handles.test_setBanknummerFieldLabelToBicSwift(args)
+    await handles.test_setKontonummerFieldLabelToBban(args)
   })
-  test('Hide Banknummer field', async ({ page, context }) => {
+  test('Show Banknummer field', async ({ page, context }) => {
     /*
-    Hide “Banknummer” field
+    Show “Banknummer” field
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'Is country US': 'no',
-      'is country ibanLength 0': 'yes',
+      'Is country US': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_selectCountry(args)
+    await handles.test_showBanknummerField(args)
+  })
+  test('Hide avgift section', async ({ page, context }) => {
+    /*
+    Hide avgift section
+    */
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'is payment section shown': 'yes',
       'country isEuEesCountry': 'yes'
     }
     const state = await handles.setup({ gateways, page, context } as any)
@@ -652,7 +590,63 @@ test.describe('main', () => {
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_selectCountry(args)
-    await handles.test_hideBanknummerField(args)
+    await handles.test_hideAvgiftSection(args)
+  })
+  test('Hide betalningsreferens', async ({ page, context }) => {
+    /*
+    Hide betalningsreferens
+    */
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'is payment section shown': 'yes',
+      'country isEuEesCountry': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_selectCountry(args)
+    await handles.test_hideBetalningsreferens(args)
+  })
+  test('Show Banknummer field 1', async ({ page, context }) => {
+    /*
+    Show “Banknummer” field
+    */
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Is country US': 'no',
+      'is country ibanLength 0': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_selectCountry(args)
+    await handles.test_showBanknummerField(args)
+  })
+  test('Set Banknummer field label to BIC SWIFT eller Nationellt ID', async ({ page, context }) => {
+    /*
+    Set “Banknummer” field label to BIC/SWIFT eller Nationellt ID
+    */
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Is country US': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_selectCountry(args)
+    await handles.test_setBanknummerFieldLabelToBicSwiftEllerNationelltId(args)
   })
   test('Show BIC SWIFT optional infotext', async ({ page, context }) => {
     /*
@@ -674,9 +668,9 @@ test.describe('main', () => {
     await handles.action_selectCountry(args)
     await handles.test_showBicSwiftOptionalInfotext(args)
   })
-  test('Show Banknummer field 2', async ({ page, context }) => {
+  test('Hide Banknummer field', async ({ page, context }) => {
     /*
-    Show “Banknummer” field
+    Hide “Banknummer” field
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -684,44 +678,6 @@ test.describe('main', () => {
       'Is Konto selected': 'yes',
       'Is country US': 'no',
       'is country ibanLength 0': 'yes',
-      'country isEuEesCountry': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_showBanknummerField(args)
-  })
-  test('Show avgift section', async ({ page, context }) => {
-    /*
-    Show avgift section
-    */
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.test_showAvgiftSection(args)
-  })
-  test('Hide avgift section', async ({ page, context }) => {
-    /*
-    Hide avgift section
-    */
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
       'country isEuEesCountry': 'yes'
     }
     const state = await handles.setup({ gateways, page, context } as any)
@@ -729,21 +685,19 @@ test.describe('main', () => {
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.test_hideAvgiftSection(args)
+    await handles.action_selectCountry(args)
+    await handles.test_hideBanknummerField(args)
   })
-  test('Set Banknummer field label to BIC SWIFT Optional', async ({ page, context }) => {
+  test('Set Banknummer field label to BIC SWIFT', async ({ page, context }) => {
     /*
-    Set “Banknummer” field label to BIC/SWIFT Optional
-    
+    Set “Banknummer” field label to BIC/SWIFT
     */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Is country US': 'no',
-      'is country ibanLength 0': 'yes',
-      'country isEuEesCountry': 'no'
+      'is country ibanLength 0': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -751,7 +705,47 @@ test.describe('main', () => {
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_selectCountry(args)
-    await handles.test_setBanknummerFieldLabelToBicSwiftOptional(args)
+    await handles.test_setBanknummerFieldLabelToBicSwift(args)
+  })
+  test('Show betalningsreferens', async ({ page, context }) => {
+    /*
+    Show betalningsreferens
+    */
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'is payment section shown': 'yes',
+      'country isEuEesCountry': 'yes',
+      'currency code is EUR': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_selectCountry(args)
+    await handles.test_showBetalningsreferens(args)
+  })
+  test('Hide betalningsreferens 1', async ({ page, context }) => {
+    /*
+    Hide betalningsreferens
+    */
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'is payment section shown': 'yes',
+      'country isEuEesCountry': 'yes',
+      'currency code is EUR': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_selectCountry(args)
+    await handles.test_hideBetalningsreferens(args)
   })
   test('Open info about avgift', async ({ page, context }) => {
     /*
@@ -761,7 +755,7 @@ test.describe('main', () => {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
+      'is payment section shown': 'yes',
       'country isEuEesCountry': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
@@ -769,7 +763,7 @@ test.describe('main', () => {
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
+    await handles.action_selectCountry(args)
     await handles.action_vadSkaJagBetalaForAvgiftClicked(args)
     await handles.test_openInfoAboutAvgift(args)
   })
@@ -779,8 +773,7 @@ test.describe('main', () => {
         'Any errors loading data': 'no',
         'empty array from getAccounts': 'no',
         'Is Konto selected': 'yes',
-        'Any validation errors from mottagare': 'no',
-        'country isEuEesCountry': 'yes'
+        'Any validation errors from mottagare': 'no'
       }
       const state = await handles.setup({ gateways, page, context, tableRow } as any)
       const args = { gateways, state, page, context, tableRow } as any
@@ -861,8 +854,7 @@ test.describe('main', () => {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes'
+      'Any validation errors from mottagare': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -881,8 +873,7 @@ test.describe('main', () => {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes'
+      'Any validation errors from mottagare': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -901,8 +892,7 @@ test.describe('main', () => {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes'
+      'Any validation errors from mottagare': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -913,6 +903,86 @@ test.describe('main', () => {
     await handles.action_selectCurrency(args)
     await handles.test_displayCurrencyCodeInAmountField(args)
   })
+  test('Show Banknummer field 2', async ({ page, context }) => {
+    /*
+    Show “Banknummer” field
+    */
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Is country US': 'no',
+      'is country ibanLength 0': 'yes',
+      'country isEuEesCountry': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_selectCountry(args)
+    await handles.test_showBanknummerField(args)
+  })
+  test('Show avgift section', async ({ page, context }) => {
+    /*
+    Show avgift section
+    */
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'is payment section shown': 'yes',
+      'country isEuEesCountry': 'no',
+      'currency code is SEK': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_selectCountry(args)
+    await handles.test_showAvgiftSection(args)
+  })
+  test('Hide avgift section 1', async ({ page, context }) => {
+    /*
+    Hide avgift section
+    */
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'is payment section shown': 'yes',
+      'country isEuEesCountry': 'no',
+      'currency code is SEK': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_selectCountry(args)
+    await handles.test_hideAvgiftSection(args)
+  })
+  test('Set Banknummer field label to BIC SWIFT Optional', async ({ page, context }) => {
+    /*
+    Set “Banknummer” field label to BIC/SWIFT Optional
+    */
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Is country US': 'no',
+      'is country ibanLength 0': 'yes',
+      'country isEuEesCountry': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_selectCountry(args)
+    await handles.test_setBanknummerFieldLabelToBicSwiftOptional(args)
+  })
   test('https www lansforsakringar se 49334d globalassets aa global dokument prislistor 08198 prislista privat pdf', async ({ page, context }) => {
     /*
     https://www.lansforsakringar.se/49334d/globalassets/aa-global/dokument/prislistor/08198-prislista-privat.pdf
@@ -921,7 +991,7 @@ test.describe('main', () => {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
+      'is payment section shown': 'yes',
       'country isEuEesCountry': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
@@ -929,7 +999,7 @@ test.describe('main', () => {
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
+    await handles.action_selectCountry(args)
     await handles.action_vadSkaJagBetalaForAvgiftClicked(args)
     await handles.action_prislistaClicked(args)
     await handles.test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf(args)
@@ -943,7 +1013,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'yes'
     }
     const state = await handles.setup({ gateways, page, context } as any)
@@ -963,8 +1032,7 @@ test.describe('main', () => {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes'
+      'Any validation errors from mottagare': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -976,46 +1044,6 @@ test.describe('main', () => {
     await handles.action_preliminaraAktuellaValutaKurserClicked(args)
     await handles.test_httpsWwwDnbSeSeSvMarketsValutaRentorKurslistaOverforingDaglig(args)
   })
-  test('Hide betalningsreferens', async ({ page, context }) => {
-    /*
-    Hide betalningsreferens
-    */
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_selectCurrency(args)
-    await handles.test_hideBetalningsreferens(args)
-  })
-  test('Hide avgift section 1', async ({ page, context }) => {
-    /*
-    Hide avgift section
-    */
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_selectCurrency(args)
-    await handles.test_hideAvgiftSection(args)
-  })
   test('Go back to Payment', async ({ page, context }) => {
     /*
     Go back to Payment
@@ -1025,7 +1053,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'yes'
     }
@@ -1047,7 +1074,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no'
     }
@@ -1062,90 +1088,6 @@ test.describe('main', () => {
     ]
     await handles.test_clearAllAlertsAndValidationErrors(args, { actions })
   })
-  test('Hide avgift section 2', async ({ page, context }) => {
-    /*
-    Hide avgift section
-    */
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'no',
-      'currency code is SEK': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_selectCurrency(args)
-    await handles.test_hideAvgiftSection(args)
-  })
-  test('Show avgift section 1', async ({ page, context }) => {
-    /*
-    Show avgift section
-    */
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'no',
-      'currency code is SEK': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_selectCurrency(args)
-    await handles.test_showAvgiftSection(args)
-  })
-  test('Hide betalningsreferens 1', async ({ page, context }) => {
-    /*
-    Hide betalningsreferens
-    */
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
-      'currency code is EUR': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_selectCurrency(args)
-    await handles.test_hideBetalningsreferens(args)
-  })
-  test('Show betalningsreferens', async ({ page, context }) => {
-    /*
-    Show betalningsreferens
-    */
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
-      'currency code is EUR': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_selectCurrency(args)
-    await handles.test_showBetalningsreferens(args)
-  })
   test('bank payment crossborder crossborder payments', async ({ page, context }) => {
     /*
     bank/payment/crossborder/crossborder-payments
@@ -1155,7 +1097,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no'
     }
@@ -1175,7 +1116,6 @@ test.describe('main', () => {
         'empty array from getAccounts': 'no',
         'Is Konto selected': 'yes',
         'Any validation errors from mottagare': 'no',
-        'country isEuEesCountry': 'yes',
         'Both meddelande and referens are shown and empty': 'no',
         'Any validation errors from betalning': 'no',
         'Error from validate service': 'yes'
@@ -1508,7 +1448,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'yes',
@@ -1532,7 +1471,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'yes',
@@ -1563,7 +1501,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no'
@@ -1586,7 +1523,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no'
@@ -1610,7 +1546,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no'
@@ -1634,7 +1569,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -1659,7 +1593,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -1685,7 +1618,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -1711,7 +1643,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -1757,7 +1688,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -1784,7 +1714,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -1812,7 +1741,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -1840,7 +1768,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -1869,7 +1796,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -1898,7 +1824,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -1928,7 +1853,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -1958,7 +1882,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -1988,7 +1911,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -2018,7 +1940,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -2052,7 +1973,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -2083,7 +2003,6 @@ test.describe('main', () => {
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'country isEuEesCountry': 'yes',
       'Both meddelande and referens are shown and empty': 'no',
       'Any validation errors from betalning': 'no',
       'Error from validate service': 'no',
@@ -2112,12 +2031,13 @@ export const Gateways = [
   'Any errors loading data',
   'empty array from getAccounts',
   'Is Konto selected',
+  'is payment section shown',
+  'country isEuEesCountry',
+  'currency code is SEK',
+  'currency code is EUR',
   'Is country US',
   'is country ibanLength 0',
-  'country isEuEesCountry',
   'Any validation errors from mottagare',
-  'currency code is EUR',
-  'currency code is SEK',
   'Both meddelande and referens are shown and empty',
   'Any validation errors from betalning',
   'Error from validate service',
@@ -2177,6 +2097,8 @@ export type Main<TState={}, TPageExtensions={}> = {
   action_selectCountry: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   action_linkToCountriesYouCanSendTo: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   action_mottagareFortsattClicked: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+  action_vadSkaJagBetalaForAvgiftClicked: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+  action_prislistaClicked: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   action_selectCurrency: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   action_beloppISekChecked: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   action_hurSkaJagTankaKringValutaClicked: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
@@ -2191,8 +2113,6 @@ export type Main<TState={}, TPageExtensions={}> = {
   action_cancelPaymentSigning: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   action_paymentSigningComplete: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   action_nyBetalningClicked: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
-  action_vadSkaJagBetalaForAvgiftClicked: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
-  action_prislistaClicked: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   test_imJsonOverviewGetaccountsEsbBankDepositGetaccounts201411: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_bankPaymentCrossborderCountries: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_bankPaymentCrossborderCurrencies: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
@@ -2207,27 +2127,29 @@ export type Main<TState={}, TPageExtensions={}> = {
   test_displayDropdownLandCountryName: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_displayKontonummerWithLabelIban: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_clearValidationErrorsForKontonummerBanknummer: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_hideBetalningsreferens: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_hideAvgiftSection: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_showAvgiftSection: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_openInfoAboutAvgift: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_showBetalningsreferens: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_showBicSwiftNidInfotext: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_setKontonummerFieldLabelToBban: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_showBanknummerField: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_setBanknummerFieldLabelToBicSwiftEllerNationelltId: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showCountryIbanlengthAndUpdateInfotext: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_setKontonummerFieldLabelToIban: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showBicSwiftOptionalInfotext: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_setBanknummerFieldLabelToBicSwiftOptional: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_hideBanknummerField: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_showBicSwiftInfotext: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_setBanknummerFieldLabelToBicSwift: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_showCountryIbanlengthAndUpdateInfotext: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_setKontonummerFieldLabelToIban: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_hideBanknummerField: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_showBicSwiftOptionalInfotext: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_setBanknummerFieldLabelToBicSwiftOptional: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_httpsWwwLansforsakringarSe49bd3eGlobalassetsAaGlobalDokumentInformationLandinformationPdf: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_validateFieldsRecipientData: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_openSectionBetalning: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_displayCurrencyCodeCurrencyDiscriptionInCurrenciesDropdown: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_displayValutaBeloppBetalaISekMeddelandeTillMottagaren: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_hideAvgiftSection: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_displayCurrencyCodeInAmountField: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showBetalningsreferens: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_hideBetalningsreferens: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showAvgiftSection: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_setCurrencycodeToSek: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_openInfoAboutCurrency: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_httpsWwwDnbSeSeSvMarketsValutaRentorKurslistaOverforingDaglig: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
@@ -2257,8 +2179,6 @@ export type Main<TState={}, TPageExtensions={}> = {
   test_showAllAlertMessages: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_show3AlertMessages: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_goBackToPayment: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_openInfoAboutAvgift: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_goBackToPayee: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
   test_displayErrorAngeKonto: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
 }

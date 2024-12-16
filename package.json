@@ -1,6 +1,6 @@
 {
   "name": "estridi",
-  "version": "1.0.0-beta114",
+  "version": "1.0.0-beta115",
   "description": "",
   "bin": {
     "estridi": "./dist/cli.js",

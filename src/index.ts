@@ -1,9 +1,10 @@
 import { filterScraped } from './common/filter.js'
 import { getRootName } from './common/root.js'
-import { generatePlaywright } from './targets/playwright.js'
 import { loadFigmaDocument, processFigma } from './sources/figma.js'
 import { loadDrawIoDocument, processDrawIo } from './sources/drawio.js'
 import { bundledFiles } from './targets/bundledFiles.js'
+import { generatePlaywright2 } from './targets/playwright/index2.js'
+import { generatePlaywright } from './targets/playwright/index.js'
 
 export type EstridiSourceConfig = {
   getDataFunc: (args: any) => Promise<any>
@@ -16,7 +17,7 @@ export type EstridiTargetConfig = {
   generateUtils?: () => Promise<{ code: string, fileName: string }[]>
 }
 
-export type EstridiTargets = 'playwright'
+export type EstridiTargets = 'playwright' | 'playwright2'
 export type EstridiSources = 'figma' | 'drawio'
 
 function isFigmaConfig(config: EstridiConfig) {
@@ -80,6 +81,13 @@ export const generateEstridiTests = async (args: {
     playwright: {
       getFileName: (name) => `${name}.spec.ts`,
       generatorFunc: generatePlaywright,
+      generateUtils: async () => {
+        return [{ fileName: 'utils.ts', code: Buffer.from(bundledFiles.utils, 'base64').toString() }]
+      }
+    },
+    playwright2: {
+      getFileName: (name) => `${name}.spec.ts`,
+      generatorFunc: generatePlaywright2,
       generateUtils: async () => {
         return [{ fileName: 'utils.ts', code: Buffer.from(bundledFiles.utils, 'base64').toString() }]
       }

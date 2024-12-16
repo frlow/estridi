@@ -13,3 +13,4 @@ estridi.json
 tests/
 .env
 example/
+test-results/
