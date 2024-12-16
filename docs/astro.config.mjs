@@ -11,19 +11,11 @@ export default defineConfig({
     starlight({
       title: 'estridi',
       social: {
-        // github: 'https://github.com/withastro/starlight',
       },
-      // sidebar: [
-      //   {
-      //     label: 'Introduction',
-      //     autogenerate: { directory: 'introduction' }
-      //   },
-      // ],
       customCss: [
         "./src/styles/style.css"
       ],
        components: {
-        Head: "./src/components/Head.astro"
        }
     })
   ]

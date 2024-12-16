@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@astrojs/starlight": "^0.29.2",
-    "@julian_cataldo/astro-lightbox": "^0.10.11",
     "astro": "^4.16.10",
     "sharp": "^0.32.5"
   },
