@@ -1098,7 +1098,7 @@ test.describe('main', ()=>{
     await handles.test_goBackToPayment(args)
   })
       test.describe('Avgift logic', ()=>{
-  test('Hide betalningsreferens 2', async ({ page, context }) => {
+  test('Hide betalningsreferens', async ({ page, context }) => {
     /*
     Hide betalningsreferens
     */
@@ -1117,7 +1117,7 @@ test.describe('main', ()=>{
     await handles.action_mottagareFortsattClicked(args)
     await handles.test_hideBetalningsreferens(args)
   })
-  test('Hide avgift section 2', async ({ page, context }) => {
+  test('Hide avgift section', async ({ page, context }) => {
     /*
     Hide avgift section
     */
@@ -1137,7 +1137,7 @@ test.describe('main', ()=>{
     await handles.action_mottagareFortsattClicked(args)
     await handles.test_hideAvgiftSection(args)
   })
-  test('Show avgift section 1', async ({ page, context }) => {
+  test('Show avgift section', async ({ page, context }) => {
     /*
     Show avgift section
     */
@@ -1157,7 +1157,7 @@ test.describe('main', ()=>{
     await handles.action_mottagareFortsattClicked(args)
     await handles.test_showAvgiftSection(args)
   })
-  test('Open info about avgift 1', async ({ page, context }) => {
+  test('Open info about avgift', async ({ page, context }) => {
     /*
     Open info about avgift
     */
@@ -1177,7 +1177,7 @@ test.describe('main', ()=>{
     await handles.action_vadSkaJagBetalaForAvgiftClicked(args)
     await handles.test_openInfoAboutAvgift(args)
   })
-  test('https www lansforsakringar se 49334d globalassets aa global dokument prislistor 08198 prislista privat pdf 1', async ({ page, context }) => {
+  test('https www lansforsakringar se 49334d globalassets aa global dokument prislistor 08198 prislista privat pdf', async ({ page, context }) => {
     /*
     https://www.lansforsakringar.se/49334d/globalassets/aa-global/dokument/prislistor/08198-prislista-privat.pdf
     */
@@ -1198,7 +1198,7 @@ test.describe('main', ()=>{
     await handles.action_prislistaClicked(args)
     await handles.test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf(args)
   })
-  test('Hide avgift section 3', async ({ page, context }) => {
+  test('Hide avgift section 1', async ({ page, context }) => {
     /*
     Hide avgift section
     */
@@ -1217,7 +1217,7 @@ test.describe('main', ()=>{
     await handles.action_mottagareFortsattClicked(args)
     await handles.test_hideAvgiftSection(args)
   })
-  test('Hide betalningsreferens 3', async ({ page, context }) => {
+  test('Hide betalningsreferens 1', async ({ page, context }) => {
     /*
     Hide betalningsreferens
     */
@@ -1237,7 +1237,7 @@ test.describe('main', ()=>{
     await handles.action_mottagareFortsattClicked(args)
     await handles.test_hideBetalningsreferens(args)
   })
-  test('Show betalningsreferens 1', async ({ page, context }) => {
+  test('Show betalningsreferens', async ({ page, context }) => {
     /*
     Show betalningsreferens
     */
@@ -1260,7 +1260,7 @@ test.describe('main', ()=>{
 
       })
       test.describe('Avgift logic', ()=>{
-  test('Hide betalningsreferens 4', async ({ page, context }) => {
+  test('Hide betalningsreferens', async ({ page, context }) => {
     /*
     Hide betalningsreferens
     */
@@ -1280,7 +1280,7 @@ test.describe('main', ()=>{
     await handles.action_selectCurrency(args)
     await handles.test_hideBetalningsreferens(args)
   })
-  test('Hide avgift section 4', async ({ page, context }) => {
+  test('Hide avgift section', async ({ page, context }) => {
     /*
     Hide avgift section
     */
@@ -1301,7 +1301,7 @@ test.describe('main', ()=>{
     await handles.action_selectCurrency(args)
     await handles.test_hideAvgiftSection(args)
   })
-  test('Show avgift section 2', async ({ page, context }) => {
+  test('Show avgift section', async ({ page, context }) => {
     /*
     Show avgift section
     */
@@ -1322,7 +1322,7 @@ test.describe('main', ()=>{
     await handles.action_selectCurrency(args)
     await handles.test_showAvgiftSection(args)
   })
-  test('Open info about avgift 2', async ({ page, context }) => {
+  test('Open info about avgift', async ({ page, context }) => {
     /*
     Open info about avgift
     */
@@ -1343,7 +1343,7 @@ test.describe('main', ()=>{
     await handles.action_vadSkaJagBetalaForAvgiftClicked(args)
     await handles.test_openInfoAboutAvgift(args)
   })
-  test('https www lansforsakringar se 49334d globalassets aa global dokument prislistor 08198 prislista privat pdf 2', async ({ page, context }) => {
+  test('https www lansforsakringar se 49334d globalassets aa global dokument prislistor 08198 prislista privat pdf', async ({ page, context }) => {
     /*
     https://www.lansforsakringar.se/49334d/globalassets/aa-global/dokument/prislistor/08198-prislista-privat.pdf
     */
@@ -1365,7 +1365,7 @@ test.describe('main', ()=>{
     await handles.action_prislistaClicked(args)
     await handles.test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf(args)
   })
-  test('Hide avgift section 5', async ({ page, context }) => {
+  test('Hide avgift section 1', async ({ page, context }) => {
     /*
     Hide avgift section
     */
@@ -1385,7 +1385,7 @@ test.describe('main', ()=>{
     await handles.action_selectCurrency(args)
     await handles.test_hideAvgiftSection(args)
   })
-  test('Hide betalningsreferens 5', async ({ page, context }) => {
+  test('Hide betalningsreferens 1', async ({ page, context }) => {
     /*
     Hide betalningsreferens
     */
@@ -1406,7 +1406,7 @@ test.describe('main', ()=>{
     await handles.action_selectCurrency(args)
     await handles.test_hideBetalningsreferens(args)
   })
-  test('Show betalningsreferens 2', async ({ page, context }) => {
+  test('Show betalningsreferens', async ({ page, context }) => {
     /*
     Show betalningsreferens
     */

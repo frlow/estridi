@@ -1,9 +1,14 @@
 import { findShortestPathToNode } from '../../common/shotestPath.js'
 import { getActionsForPath, getPathGatewayValuesForPath } from '../codegen/misc.js'
 import { _, camelize } from '../../common/texts.js'
-import { getTestName, rawCommentBlock } from './common.js'
+import { rawCommentBlock } from './common.js'
 
-export const generateScriptTest = (scraped: Scraped, node: ScrapedScript | ScrapedServiceCall, blockPath: any[]) => {
+export const generateScriptTest = (scraped: Scraped, node: ScrapedScript | ScrapedServiceCall, blockPath: any[], usedNames: Record<string, number>) => {
+  const getTestName = (name: string): string => {
+    usedNames[name] = usedNames[name] !== undefined ? usedNames[name] + 1 : 0
+    if (usedNames[name]) return `${name} ${usedNames[name]}`
+    return name
+  }
   const _node = { customTest: undefined, ...node }
   const shortestPath = findShortestPathToNode(scraped, node.id, blockPath)
   const gatewayValues = getPathGatewayValuesForPath(shortestPath)

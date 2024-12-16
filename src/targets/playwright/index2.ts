@@ -11,8 +11,9 @@ const fixIndent = (text: string, indent: number) => {
 const generateTestBlock = (scraped: Scraped, tree: ReturnType<typeof getTestableNodeTree>, indentation: number = 0) => {
   const testableNodes = tree.nodes.filter(n => n.id)
   const subflows = tree.nodes.filter(n => n.blockPath)
+  const usedNames = {}
   return `${_(indentation)}test.describe('${tree.name}', ()=>{
-${testableNodes.map(node => generateTest(scraped, node, tree.blockPath)).join('\n')}
+${testableNodes.map(node => generateTest(scraped, node, tree.blockPath, usedNames)).join('\n')}
 ${subflows.map(subflow => generateTestBlock(scraped, subflow, indentation + 1)).join('\n')}
 ${_(indentation)}})`
 }

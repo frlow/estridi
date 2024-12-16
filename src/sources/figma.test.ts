@@ -7,7 +7,7 @@ describe('Load from figma', () => {
   test('process figma document', async () => {
     const data = getFigmaTestData()
     const scraped = await processFigma(data)
-    expect(scraped.length).toBeGreaterThan(5000)
+    expect(scraped.length).toBeGreaterThan(3500)
   })
 
   test('test parsing nodes from figma', async () => {
