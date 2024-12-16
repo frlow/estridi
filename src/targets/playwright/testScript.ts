@@ -3,12 +3,14 @@ import { getActionsForPath, getPathGatewayValuesForPath } from '../codegen/misc.
 import { _, camelize } from '../../common/texts.js'
 import { rawCommentBlock } from './common.js'
 
+export const getTestName = (name: string, usedNames: Record<string, number>): string => {
+  usedNames[name] = usedNames[name] !== undefined ? usedNames[name] + 1 : 0
+  if (usedNames[name]) return `${name} ${usedNames[name]}`
+  return name
+}
+
 export const generateScriptTest = (scraped: Scraped, node: ScrapedScript | ScrapedServiceCall, blockPath: any[], usedNames: Record<string, number>) => {
-  const getTestName = (name: string): string => {
-    usedNames[name] = usedNames[name] !== undefined ? usedNames[name] + 1 : 0
-    if (usedNames[name]) return `${name} ${usedNames[name]}`
-    return name
-  }
+
   const _node = { customTest: undefined, ...node }
   const shortestPath = findShortestPathToNode(scraped, node.id, blockPath)
   const gatewayValues = getPathGatewayValuesForPath(shortestPath)
@@ -19,8 +21,7 @@ export const generateScriptTest = (scraped: Scraped, node: ScrapedScript | Scrap
 ${actions.map((a) => `      '${a}'`).join(',\n')}
     ]`
     : actions.map((a) => `    await handles.${a}(args)`).join('\n')
-  return `  test('${getTestName(node.text)}', async ({ page, context }) => {
-${rawCommentBlock(node.raw)}
+  return `  test('${getTestName(node.text, usedNames)}', async ({ page, context }) => {
     const gateways: GatewayCollection = ${JSON.stringify(gatewayValues, null, 2).replace(/"/g, '\'').replace(/\n/g, `\n${_(2)}`)}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any

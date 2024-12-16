@@ -3,18 +3,20 @@ import { findShortestPathToNode } from '../../common/shotestPath.js'
 import { generateHandlesTypeCode } from './handlesTypes.js'
 import { generateTest, getRootNote } from './common.js'
 import { _ } from '../../common/texts.js'
+import { getTestName } from './testScript.js'
 
 const fixIndent = (text: string, indent: number) => {
 
 }
 
-const generateTestBlock = (scraped: Scraped, tree: ReturnType<typeof getTestableNodeTree>, indentation: number = 0) => {
+const generateTestBlock = (scraped: Scraped, tree: ReturnType<typeof getTestableNodeTree>, usedBlockNamesInParent: Record<string, number>, indentation: number = 0) => {
   const testableNodes = tree.nodes.filter(n => n.id)
   const subflows = tree.nodes.filter(n => n.blockPath)
   const usedNames = {}
-  return `${_(indentation)}test.describe('${tree.name}', ()=>{
+  const usedBlockNames = {}
+  return `${_(indentation)}test.describe('${getTestName(tree.name, usedBlockNamesInParent)}', ()=>{
 ${testableNodes.map(node => generateTest(scraped, node, tree.blockPath, usedNames)).join('\n')}
-${subflows.map(subflow => generateTestBlock(scraped, subflow, indentation + 1)).join('\n')}
+${subflows.map(subflow => generateTestBlock(scraped, subflow, usedBlockNames, indentation + 1)).join('\n')}
 ${_(indentation)}})`
 }
 
@@ -25,7 +27,7 @@ export const generatePlaywright2 = async (name: string, scraped: Scraped) => {
 import { handles } from './${name}.js'
 ${getRootNote(scraped)}
 
-${generateTestBlock(scraped, testableNodeTree)}
+${generateTestBlock(scraped, testableNodeTree, {})}
 
 ${handlesTypeCode}`
 }

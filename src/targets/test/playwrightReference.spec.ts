@@ -5,10 +5,6 @@ import { handles } from './main.js'
 
 test.describe('main', () => {
   test('im json overview getaccounts ESB bank deposit getAccounts 201411', async ({ page, context }) => {
-    /*
-    im/json/overview/getaccounts  ->
-    ESB/bank/deposit/getAccounts/201411
-    */
     const gateways: GatewayCollection = {}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -18,9 +14,6 @@ test.describe('main', () => {
     await handles.test_imJsonOverviewGetaccountsEsbBankDepositGetaccounts201411(args)
   })
   test('bank payment crossborder countries', async ({ page, context }) => {
-    /*
-    bank/payment/crossborder/countries
-    */
     const gateways: GatewayCollection = {}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -30,9 +23,6 @@ test.describe('main', () => {
     await handles.test_bankPaymentCrossborderCountries(args)
   })
   test('bank payment crossborder currencies', async ({ page, context }) => {
-    /*
-    bank/payment/crossborder/currencies
-    */
     const gateways: GatewayCollection = {}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -42,9 +32,6 @@ test.describe('main', () => {
     await handles.test_bankPaymentCrossborderCurrencies(args)
   })
   test('Could not load page', async ({ page, context }) => {
-    /*
-    Could not load page
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'yes'
     }
@@ -56,13 +43,6 @@ test.describe('main', () => {
     await handles.test_couldNotLoadPage(args)
   })
   test('Display Sections Från Till Betalning Granska Godkänn', async ({ page, context }) => {
-    /*
-    Display Sections:
-    Från
-    Till
-    Betalning
-    Granska & Godkänn
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no'
@@ -75,9 +55,6 @@ test.describe('main', () => {
     await handles.test_displaySectionsFranTillBetalningGranskaGodkann(args)
   })
   test('No available accounts', async ({ page, context }) => {
-    /*
-    No available accounts
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'yes'
@@ -90,13 +67,6 @@ test.describe('main', () => {
     await handles.test_noAvailableAccounts(args)
   })
   test('Display dropdown Välj Konto with values account number account currenctBalance account name account availableBalance', async ({ page, context }) => {
-    /*
-    Display dropdown “Välj Konto” with values
-    [account.number]
-    [account.currenctBalance]
-    [account.name]
-    [account.availableBalance]
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no'
@@ -109,9 +79,6 @@ test.describe('main', () => {
     await handles.test_displayDropdownValjKontoWithValuesAccountNumberAccountCurrenctbalanceAccountNameAccountAvailablebalance(args)
   })
   test('Open section Från', async ({ page, context }) => {
-    /*
-    Open section “Från”
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no'
@@ -124,9 +91,6 @@ test.describe('main', () => {
     await handles.test_openSectionFran(args)
   })
   test('Display error Ange Konto', async ({ page, context }) => {
-    /*
-    Display error: Ange Konto
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -140,9 +104,6 @@ test.describe('main', () => {
     await handles.test_displayErrorAngeKonto(args)
   })
   test('Hide button Fortsätt', async ({ page, context }) => {
-    /*
-    Hide button Fortsätt
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -156,9 +117,6 @@ test.describe('main', () => {
     await handles.test_hideButtonFortsatt(args)
   })
   test('Open section Till', async ({ page, context }) => {
-    /*
-    Open section “Till”
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -172,9 +130,6 @@ test.describe('main', () => {
     await handles.test_openSectionTill(args)
   })
   test('Display Mottagarens fullständiga namn Adress', async ({ page, context }) => {
-    /*
-    Display “Mottagarens fullständiga namn”     ”Adress”     
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -188,10 +143,6 @@ test.describe('main', () => {
     await handles.test_displayMottagarensFullstandigaNamnAdress(args)
   })
   test('Display dropdown Land country name', async ({ page, context }) => {
-    /*
-    Display dropdown “Land”      [country.name]
-    
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -205,9 +156,6 @@ test.describe('main', () => {
     await handles.test_displayDropdownLandCountryName(args)
   })
   test('Display Kontonummer with label IBAN', async ({ page, context }) => {
-    /*
-    Display “Kontonummer” with label IBAN
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -326,9 +274,6 @@ test.describe('main', () => {
     })
   })
   test('https www lansforsakringar se 49bd3e globalassets aa global dokument information landinformation pdf', async ({ page, context }) => {
-    /*
-    https://www.lansforsakringar.se/49bd3e/globalassets/aa-global/dokument/information/landinformation.pdf
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -343,10 +288,6 @@ test.describe('main', () => {
     await handles.test_httpsWwwLansforsakringarSe49bd3eGlobalassetsAaGlobalDokumentInformationLandinformationPdf(args)
   })
   test('Clear validation errors for Kontonummer Banknummer', async ({ page, context }) => {
-    /*
-    _Clear validation errors for      ”Kontonummer”
-    “Banknummer”
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -363,9 +304,6 @@ test.describe('main', () => {
     await handles.test_clearValidationErrorsForKontonummerBanknummer(args, { actions })
   })
   test('Go back to Payee', async ({ page, context }) => {
-    /*
-    Go back to Payee
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -381,9 +319,6 @@ test.describe('main', () => {
     await handles.test_goBackToPayee(args)
   })
   test('Open section Betalning', async ({ page, context }) => {
-    /*
-    Open section “Betalning”
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -399,9 +334,6 @@ test.describe('main', () => {
     await handles.test_openSectionBetalning(args)
   })
   test('Show BIC SWIFT NID infotext', async ({ page, context }) => {
-    /*
-    Show BIC/SWIFT/NID infotext
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -417,12 +349,6 @@ test.describe('main', () => {
     await handles.test_showBicSwiftNidInfotext(args)
   })
   test('Display currency code currency discription in currencies dropdown', async ({ page, context }) => {
-    /*
-    Display 
-    [currency.code]
-    [currency.discription]
-    in currencies dropdown
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -438,9 +364,6 @@ test.describe('main', () => {
     await handles.test_displayCurrencyCodeCurrencyDiscriptionInCurrenciesDropdown(args)
   })
   test('Show country ibanLength and update infotext', async ({ page, context }) => {
-    /*
-    Show [country.ibanLength] and update infotext
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -457,9 +380,6 @@ test.describe('main', () => {
     await handles.test_showCountryIbanlengthAndUpdateInfotext(args)
   })
   test('Show BIC SWIFT infotext', async ({ page, context }) => {
-    /*
-    Show BIC/SWIFT infotext
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -476,9 +396,6 @@ test.describe('main', () => {
     await handles.test_showBicSwiftInfotext(args)
   })
   test('Set Kontonummer field label to BBAN', async ({ page, context }) => {
-    /*
-    Set “Kontonummer” field label to BBAN
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -494,15 +411,6 @@ test.describe('main', () => {
     await handles.test_setKontonummerFieldLabelToBban(args)
   })
   test('Display Valuta Belopp Betala i SEK Meddelande till mottagaren', async ({ page, context }) => {
-    /*
-    Display
-    “Valuta”
-    “Belopp”
-    “Betala i SEK”
-    “Meddelande till mottagaren”
-    
-    
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -518,9 +426,6 @@ test.describe('main', () => {
     await handles.test_displayValutaBeloppBetalaISekMeddelandeTillMottagaren(args)
   })
   test('Set Kontonummer field label to IBAN', async ({ page, context }) => {
-    /*
-    Set “Kontonummer” field label to IBAN
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -537,9 +442,6 @@ test.describe('main', () => {
     await handles.test_setKontonummerFieldLabelToIban(args)
   })
   test('Set Kontonummer field label to BBAN 1', async ({ page, context }) => {
-    /*
-    Set “Kontonummer” field label to BBAN
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -556,9 +458,6 @@ test.describe('main', () => {
     await handles.test_setKontonummerFieldLabelToBban(args)
   })
   test('Show Banknummer field', async ({ page, context }) => {
-    /*
-    Show “Banknummer” field
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -574,9 +473,6 @@ test.describe('main', () => {
     await handles.test_showBanknummerField(args)
   })
   test('Hide avgift section', async ({ page, context }) => {
-    /*
-    Hide avgift section
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -593,9 +489,6 @@ test.describe('main', () => {
     await handles.test_hideAvgiftSection(args)
   })
   test('Hide betalningsreferens', async ({ page, context }) => {
-    /*
-    Hide betalningsreferens
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -612,9 +505,6 @@ test.describe('main', () => {
     await handles.test_hideBetalningsreferens(args)
   })
   test('Show Banknummer field 1', async ({ page, context }) => {
-    /*
-    Show “Banknummer” field
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -631,9 +521,6 @@ test.describe('main', () => {
     await handles.test_showBanknummerField(args)
   })
   test('Set Banknummer field label to BIC SWIFT eller Nationellt ID', async ({ page, context }) => {
-    /*
-    Set “Banknummer” field label to BIC/SWIFT eller Nationellt ID
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -649,9 +536,6 @@ test.describe('main', () => {
     await handles.test_setBanknummerFieldLabelToBicSwiftEllerNationelltId(args)
   })
   test('Show BIC SWIFT optional infotext', async ({ page, context }) => {
-    /*
-    Show BIC/SWIFT optional infotext
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -669,9 +553,6 @@ test.describe('main', () => {
     await handles.test_showBicSwiftOptionalInfotext(args)
   })
   test('Hide Banknummer field', async ({ page, context }) => {
-    /*
-    Hide “Banknummer” field
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -689,9 +570,6 @@ test.describe('main', () => {
     await handles.test_hideBanknummerField(args)
   })
   test('Set Banknummer field label to BIC SWIFT', async ({ page, context }) => {
-    /*
-    Set “Banknummer” field label to BIC/SWIFT
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -708,9 +586,6 @@ test.describe('main', () => {
     await handles.test_setBanknummerFieldLabelToBicSwift(args)
   })
   test('Show betalningsreferens', async ({ page, context }) => {
-    /*
-    Show betalningsreferens
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -728,9 +603,6 @@ test.describe('main', () => {
     await handles.test_showBetalningsreferens(args)
   })
   test('Hide betalningsreferens 1', async ({ page, context }) => {
-    /*
-    Hide betalningsreferens
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -748,9 +620,6 @@ test.describe('main', () => {
     await handles.test_hideBetalningsreferens(args)
   })
   test('Open info about avgift', async ({ page, context }) => {
-    /*
-    Open info about avgift
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -847,9 +716,6 @@ test.describe('main', () => {
     })
   })
   test('Open info about currency', async ({ page, context }) => {
-    /*
-    Open info about currency
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -866,9 +732,6 @@ test.describe('main', () => {
     await handles.test_openInfoAboutCurrency(args)
   })
   test('Set currencyCode to SEK', async ({ page, context }) => {
-    /*
-    Set currencyCode to SEK
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -885,9 +748,6 @@ test.describe('main', () => {
     await handles.test_setCurrencycodeToSek(args)
   })
   test('Display currency code in Amount field', async ({ page, context }) => {
-    /*
-    Display [currency.code] in Amount field
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -904,9 +764,6 @@ test.describe('main', () => {
     await handles.test_displayCurrencyCodeInAmountField(args)
   })
   test('Show Banknummer field 2', async ({ page, context }) => {
-    /*
-    Show “Banknummer” field
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -924,9 +781,6 @@ test.describe('main', () => {
     await handles.test_showBanknummerField(args)
   })
   test('Show avgift section', async ({ page, context }) => {
-    /*
-    Show avgift section
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -944,9 +798,6 @@ test.describe('main', () => {
     await handles.test_showAvgiftSection(args)
   })
   test('Hide avgift section 1', async ({ page, context }) => {
-    /*
-    Hide avgift section
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -964,9 +815,6 @@ test.describe('main', () => {
     await handles.test_hideAvgiftSection(args)
   })
   test('Set Banknummer field label to BIC SWIFT Optional', async ({ page, context }) => {
-    /*
-    Set “Banknummer” field label to BIC/SWIFT Optional
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -984,9 +832,6 @@ test.describe('main', () => {
     await handles.test_setBanknummerFieldLabelToBicSwiftOptional(args)
   })
   test('https www lansforsakringar se 49334d globalassets aa global dokument prislistor 08198 prislista privat pdf', async ({ page, context }) => {
-    /*
-    https://www.lansforsakringar.se/49334d/globalassets/aa-global/dokument/prislistor/08198-prislista-privat.pdf
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1005,9 +850,6 @@ test.describe('main', () => {
     await handles.test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf(args)
   })
   test('Show meddelande och eller referens måste fyllas i', async ({ page, context }) => {
-    /*
-    Show meddelande och/eller referens måste fyllas i
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1025,9 +867,6 @@ test.describe('main', () => {
     await handles.test_showMeddelandeOchEllerReferensMasteFyllasI(args)
   })
   test('https www dnb se se sv markets valuta rentor kurslista overforing daglig', async ({ page, context }) => {
-    /*
-    https://www.dnb.se/se/sv/markets/valuta-rentor/kurslista/overforing/daglig
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1045,9 +884,6 @@ test.describe('main', () => {
     await handles.test_httpsWwwDnbSeSeSvMarketsValutaRentorKurslistaOverforingDaglig(args)
   })
   test('Go back to Payment', async ({ page, context }) => {
-    /*
-    Go back to Payment
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1066,9 +902,6 @@ test.describe('main', () => {
     await handles.test_goBackToPayment(args)
   })
   test('Clear all alerts and validation errors', async ({ page, context }) => {
-    /*
-    _Clear all alerts and      validation errors
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1089,9 +922,6 @@ test.describe('main', () => {
     await handles.test_clearAllAlertsAndValidationErrors(args, { actions })
   })
   test('bank payment crossborder crossborder payments', async ({ page, context }) => {
-    /*
-    bank/payment/crossborder/crossborder-payments
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1440,9 +1270,6 @@ test.describe('main', () => {
     })
   })
   test('Show 3 Alert Messages', async ({ page, context }) => {
-    /*
-    Show 3 Alert Messages
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1463,9 +1290,6 @@ test.describe('main', () => {
     await handles.test_show3AlertMessages(args)
   })
   test('Show all Alert Messages', async ({ page, context }) => {
-    /*
-    Show all Alert Messages
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1486,16 +1310,6 @@ test.describe('main', () => {
     await handles.test_showAllAlertMessages(args)
   })
   test('Display recipient summary modal creditorDetails creditorName creditorDetails creditorAddress addressLine1 creditorDetails creditorAddress addressLine2 creditorDetails creditorAddress addressLine3 creditorDetails creditorAccount creditorDetails creditorAgentIdentification creditorDetails creditorAgentName', async ({ page, context }) => {
-    /*
-    Display recipient summary modal
-    [creditorDetails.creditorName]
-    [creditorDetails.creditorAddress.addressLine1]
-    [creditorDetails. creditorAddress.addressLine2]
-    [creditorDetails.creditorAddress.addressLine3]?
-    [creditorDetails.creditorAccount]
-    [creditorDetails.creditorAgentIdentification]
-    [creditorDetails.creditorAgentName]
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1515,9 +1329,6 @@ test.describe('main', () => {
     await handles.test_displayRecipientSummaryModalCreditordetailsCreditornameCreditordetailsCreditoraddressAddressline1CreditordetailsCreditoraddressAddressline2CreditordetailsCreditoraddressAddressline3CreditordetailsCreditoraccountCreditordetailsCreditoragentidentificationCreditordetailsCreditoragentname(args)
   })
   test('Close recipient summary modal', async ({ page, context }) => {
-    /*
-    Close recipient summary modal
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1538,9 +1349,6 @@ test.describe('main', () => {
     await handles.test_closeRecipientSummaryModal(args)
   })
   test('POST payee sign', async ({ page, context }) => {
-    /*
-    POST: /payee/sign
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1561,9 +1369,6 @@ test.describe('main', () => {
     await handles.test_postPayeeSign(args)
   })
   test('Show error for sign payee', async ({ page, context }) => {
-    /*
-    Show error for sign payee
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1585,9 +1390,6 @@ test.describe('main', () => {
     await handles.test_showErrorForSignPayee(args)
   })
   test('POST payee execute', async ({ page, context }) => {
-    /*
-    POST: /payee/execute
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1610,9 +1412,6 @@ test.describe('main', () => {
     await handles.test_postPayeeExecute(args)
   })
   test('Close recipient signing modal', async ({ page, context }) => {
-    /*
-    Close recipient signing modal
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1635,9 +1434,6 @@ test.describe('main', () => {
     await handles.test_closeRecipientSigningModal(args)
   })
   test('Display some error', async ({ page, context }) => {
-    /*
-    Display some error
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1661,28 +1457,6 @@ test.describe('main', () => {
     await handles.test_displaySomeError(args)
   })
   test('Display creditorDetails creditorAccount creditorDetails creditorName creditorDetails creditorAgentIdentification creditorDetails creditorAddress addressLine1 creditorDetails creditorAddress addressLine2 creditorDetails creditorAddress addressLine3 creditorDetails creditorAgentName creditorDetails creditorAgentIdentificationType creditorDetails creditorAgentAddress addressLine1 paymentDetails requestedExecutionDate paymentDetails equivalentAmount paymentDetails equivalentCurrency paymentDetails transactionAmount paymentDetails transactionCurrency paymentDetails endToEndIdentification paymentDetails remittanceInformation paymentDetails exchangeRate paymentDetails fee', async ({ page, context }) => {
-    /*
-    Display 
-    [creditorDetails.creditorAccount]
-    [creditorDetails.creditorName]
-    [creditorDetails.creditorAgentIdentification]
-    [creditorDetails.creditorAddress.addressLine1]
-    [creditorDetails.creditorAddress.addressLine2]
-    [creditorDetails.creditorAddress.addressLine3]?
-    [creditorDetails.creditorAgentName]
-    [creditorDetails.creditorAgentIdentificationType]
-    [creditorDetails.creditorAgentAddress.addressLine1]
-    
-    [paymentDetails.requestedExecutionDate]
-    [paymentDetails.equivalentAmount]
-    [paymentDetails.equivalentCurrency]
-    [paymentDetails.transactionAmount]
-    [paymentDetails.transactionCurrency]
-    [paymentDetails.endToEndIdentification]
-    [paymentDetails.remittanceInformation]
-    [paymentDetails.exchangeRate]
-    [paymentDetails.fee]
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1706,9 +1480,6 @@ test.describe('main', () => {
     await handles.test_displayCreditordetailsCreditoraccountCreditordetailsCreditornameCreditordetailsCreditoragentidentificationCreditordetailsCreditoraddressAddressline1CreditordetailsCreditoraddressAddressline2CreditordetailsCreditoraddressAddressline3CreditordetailsCreditoragentnameCreditordetailsCreditoragentidentificationtypeCreditordetailsCreditoragentaddressAddressline1PaymentdetailsRequestedexecutiondatePaymentdetailsEquivalentamountPaymentdetailsEquivalentcurrencyPaymentdetailsTransactionamountPaymentdetailsTransactioncurrencyPaymentdetailsEndtoendidentificationPaymentdetailsRemittanceinformationPaymentdetailsExchangeratePaymentdetailsFee(args)
   })
   test('Go back to registration page', async ({ page, context }) => {
-    /*
-    Go back to registration page
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1733,9 +1504,6 @@ test.describe('main', () => {
     await handles.test_goBackToRegistrationPage(args)
   })
   test('POST payment sign', async ({ page, context }) => {
-    /*
-    POST: /payment/sign
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1760,9 +1528,6 @@ test.describe('main', () => {
     await handles.test_postPaymentSign(args)
   })
   test('Display sign payment modal', async ({ page, context }) => {
-    /*
-    Display sign payment modal
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1788,9 +1553,6 @@ test.describe('main', () => {
     await handles.test_displaySignPaymentModal(args)
   })
   test('Show error for sign payment', async ({ page, context }) => {
-    /*
-    Show error for sign payment
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1816,9 +1578,6 @@ test.describe('main', () => {
     await handles.test_showErrorForSignPayment(args)
   })
   test('Close sign payment modal', async ({ page, context }) => {
-    /*
-    Close sign payment modal
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1845,9 +1604,6 @@ test.describe('main', () => {
     await handles.test_closeSignPaymentModal(args)
   })
   test('Close sign payment modal 1', async ({ page, context }) => {
-    /*
-    Close sign payment modal
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1874,9 +1630,6 @@ test.describe('main', () => {
     await handles.test_closeSignPaymentModal(args)
   })
   test('Go back to payment summary page', async ({ page, context }) => {
-    /*
-    Go back to payment summary page
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1903,9 +1656,6 @@ test.describe('main', () => {
     await handles.test_goBackToPaymentSummaryPage(args)
   })
   test('POST payment execute', async ({ page, context }) => {
-    /*
-    POST: payment/execute
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1932,9 +1682,6 @@ test.describe('main', () => {
     await handles.test_postPaymentExecute(args)
   })
   test('Show error for execute payment', async ({ page, context }) => {
-    /*
-    Show error for execute payment
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1962,12 +1709,6 @@ test.describe('main', () => {
     await handles.test_showErrorForExecutePayment(args)
   })
   test('Show paymentDetails exchangeRate paymentDetails transactionAmount paymentDetails fee', async ({ page, context }) => {
-    /*
-    Show
-    [paymentDetails.exchangeRate]
-    [paymentDetails.transactionAmount]
-    [paymentDetails.fee]
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
@@ -1995,9 +1736,6 @@ test.describe('main', () => {
     await handles.test_showPaymentdetailsExchangeratePaymentdetailsTransactionamountPaymentdetailsFee(args)
   })
   test('Initiate registerView', async ({ page, context }) => {
-    /*
-    Initiate registerView
-    */
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
