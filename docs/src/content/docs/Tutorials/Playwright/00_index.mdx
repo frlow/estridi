@@ -4,11 +4,8 @@ title: Setup
 
 In this tutorial we will create an example application using estridi, Playwright and React with vite.
 
-## S3D flowchart
-
-Start by downloading the .jam file for the example project [here](https://example.com)
-Import the jam file into figma.
-
+## Step 1. Download and open example jamfile
+Download the .jam file `INSERT LOCATION` and import it into figma.
 Click "create new" > "import" > "import from computer"
 <div data-lightbox="true">
   > ![alt text](./import_1.png)
@@ -18,7 +15,29 @@ Click "create new" > "import" > "import from computer"
   > ![alt text](./import_2.png)
 </div>
 
-## Figma API
+## Step 2. Create an app
+Create a project using:
+```bash
+npm create vite
+```
+Follow the instructions in the wizard and choose *React* with *Typescript*
+
+#### Install dependencies
+
+After your app is created we need to install a few dependencies. As mentioned earlier we will use Playwright for testing.
+
+```bash
+npm install --save-dev estridi@latest
+npm install --save-dev playwright@latest
+npm install --save-dev @playwright/test
+```
+
+## Step 3. Configure estridi & playwright
+
+#### Create estridi.json
+
+Create estridi.json in the root for you project. As mentioned under "Getting started" section you will need to
+add an token and a fileId inside this file.
 
 Create a user token for your figma account
 
@@ -44,29 +63,8 @@ https://www.figma.com/board/Izz9320atTsGRKo1AjiuxZ/S3D---Register-Foreign-Paymen
 
 This part is the fileId: *Izz9320atTsGRKo1AjiuxZ*
 
-
-## Create an app
-
-Create a project using:
-```bash
-npm create vite
-```
-
-Follow the instructions in the wizard and choose *React* with *Typescript*
-
-Create a file called "estridi.json" in the root of the project
-Copy the token and fileId from the previous steps
-```json
-{
-  "token": "your token here",
-  "fileId": "FigJam file Id"
-}
-
-```
-
-This will generate your tests
-
-## Playwright
+#### Create playwright.config.ts
+We also need to configure our playwright tests. Create a file called `playwright.config.ts` in the root of your project.
 
 Add a playwright config file
 ```javascript
@@ -87,18 +85,40 @@ export default defineConfig({
   }
 })
 ```
-
-Run your tests with the following command
+#### Try and run playwright
+Now you should be able to run playwright by running the following command:
 ```bash
 npx playwright test
-
-# You might have to run install first:
-npx playwright install
 ```
 
-## estridi
+And hopefully you will get something like this. Because we do not have any tests yet.playwright
+<div data-lightbox="true">
+  > ![alt text](./noTestsFound.png)
+</div>
 
-In the project directory, run the following commands
+## Step 4. Generate tests
+First make your system design (flow) testable by adding a root node. More on how under "Make your flow testable".
+
+Then we need to add a script to run estridi. In you package.json add a new script called estridi.
+```json
+{
+  "scripts": {
+    "estridi": "estridi"
+  }
+}
+```
+
+Run the script by running:
 ```bash
-npx estridi
+npm run estridi
 ```
+
+And if everything went well you should see a new directory called `tests` with a file called `main.spec.ts`.
+
+##### Now we are ready to start testing!!!
+
+
+
+
+
+
