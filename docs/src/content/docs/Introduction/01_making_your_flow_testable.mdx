@@ -9,7 +9,7 @@ your system design testable.
 First you need to create a root node. This is where a test sequence starts.
 Create a root node by adding root:[name] to the outgoing arrow from a start node.
 <div data-lightbox="true">
-  > ![alt text](./root.png)
+  > ![alt text](./../../../assets/introduction/root.png)
 </div>
 
 ### Link subflows
@@ -17,7 +17,7 @@ You can connect a subflow node to the corresponding start node of the subflow.
 Connect these nodes by adding the name of the subflow to the outgoing
 arrow of the start node in the subflow.
 <div data-lightbox="true">
-  > ![alt text](./subflow.png)
+  > ![alt text](./../../../assets/introduction/subflow.png)
 </div>
 
 ### Link gateways
@@ -28,7 +28,7 @@ for example **yes and no** at the same time.
 To avoid this ever happens, gateways that are the same needs to have the **exact** same name.
 
 <div data-lightbox="true">
-  > ![alt text](./gateway.png)
+  > ![alt text](./../../../assets/introduction/gateway.png)
 </div>
 ### Link scripts
 Like the gateway problem above we can have the same problem with scripts. There is a
@@ -37,7 +37,7 @@ possibility to have two scripts that are the **same** but the flow cannot be sim
 To avoid having duplicated tests that are the same, make sure that scripts that are the same have the **exact** same name.
 
 <div data-lightbox="true">
-  > ![alt text](./scripts.png)
+  > ![alt text](./../../../assets/introduction/scripts.png)
 </div>
 
 ### Link subflows to tables
@@ -52,7 +52,7 @@ Example: [Display fields]: [Some table]
 Then in the top left cell of your table insert your **exact** table name
 
 <div data-lightbox="true">
-  > ![alt text](./tables.png)
+  > ![alt text](./../../../assets/introduction/tables.png)
 </div>
 
 ### Custom tests
@@ -66,7 +66,7 @@ To make a node a custom test put _ in front of that node name. In the picture be
 name "Clear all alerts and validation errors" is going to be handled as a custom test but putting _ in the beginning.
 
 <div data-lightbox="true">
-  > ![alt text](./custom.png)
+  > ![alt text](./../../../assets/introduction/custom.png)
 </div>
 
 

@@ -1,0 +1,80 @@
+---
+title: Spec & Handles
+---
+import { FileTree } from '@astrojs/starlight/components';
+
+The generated tests are split into two types of files: The "spec" file and the "handles" file. 
+
+The spec file is auto generated and contains the actual tests and this is where you **run** your tests. The handles file is where you **implement** the tests.
+
+
+In this section we will go through how to work with these files and what they do. But more on how to
+implement the tests in the tutorials section.
+<FileTree>
+- src
+  - main.spec.ts *Spec file*
+  - main.ts *Handles file*
+</FileTree>
+
+## Spec
+
+The spec file is auto generated and reflects the flowchart from FigJam
+It contains the actual tests:
+
+```typescript
+test('my awesome test', async ({ page, context }) => {
+  const gateways: GatewayCollection = {}
+  const state = await handles.setup({ gateways, page, context } as any)
+  const args = { gateways, state, page, context } as any
+  await handleServiceCalls(args)
+  await handles.start(args)
+
+  await handles.test_testingSomethingHere(args)
+})
+```
+This is how a test will look like in playwright and from this file you will find a little play button
+next to the test where you can run the test.
+
+It also contains the typescript definition for all the test implementations
+```typescript
+export type Main<TState={}, TPageExtensions={}> = {
+  setup: (args: Omit<TestArgs<TState, TPageExtensions>, 'state'>) => Promise<TState>
+  start: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+  test_testingSomethingHere: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+}
+```
+
+## Handles
+
+The handles file is where you implement the tests.
+This file is not auto generated and you will have create a file named `main.ts` in the same directory as the spec file.
+To get started you can copy and paste the following code into your `main.ts` file.
+
+```typescript
+import {Main} from './main.spec.js'
+
+export const handles: Main = {
+    setup: async function () {
+        return {}
+    },
+    start: async function ({page}) {
+        await page.goto('/index.html')
+    },
+}
+```
+
+This file will then be added on with you implementations of all your tests, user actions and service calls.
+
+## Workflow
+
+When working with these files you will have to keep track of two files.
+<FileTree>
+  - main.spec.ts *This is where you run your tests*
+  - main.ts *This is where you implement your tests*
+</FileTree>
+
+So best practise is to have a window with the spec file open and a window with the handles file open.
+And to way to keep track of what node you are actually testing you can also look at your figma flow
+to get a better visual representation of what you are testing.
+
+#### Now you are ready to get started!!!

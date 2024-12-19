@@ -1,18 +1,27 @@
 ---
 title: Setup
 ---
+import { FileTree } from '@astrojs/starlight/components';
 
 In this tutorial we will create an example application using estridi, Playwright and React with vite.
 
 ## Step 1. Download and open example jamfile
-Download the .jam file `INSERT LOCATION` and import it into figma.
+Download the .jam file and import it into figma. The .jam file is located under assets
+`Estridi Astro Docs.jam`
+<FileTree>
+- src
+  - assets
+    - **Estridi Astro Docs.jam**
+</FileTree>
+To import your .jam file in figma.
+
 Click "create new" > "import" > "import from computer"
 <div data-lightbox="true">
-  > ![alt text](./import_1.png)
+  > ![alt text](./../../../../assets/tutorials/import_1.png)
 </div>
 
 <div data-lightbox="true">
-  > ![alt text](./import_2.png)
+  > ![alt text](./../../../../assets/tutorials/import_2.png)
 </div>
 
 ## Step 2. Create an app
@@ -44,16 +53,16 @@ Create a user token for your figma account
 On the home screen, Click on your user name > Settings
 Select the "Security" tab then scroll down to "Personal access tokens" and select "Generate new token"
 <div data-lightbox="true">
-  > ![alt text](./token_1.png)
+  > ![alt text](./../../../../assets/tutorials/token_1.png)
 </div>
 
 <div data-lightbox="true">
-  > ![alt text](./token_2.png)
+  > ![alt text](./../../../../assets/tutorials/token_2.png)
 </div>
 
 Copy the link to the FigJam board
 <div data-lightbox="true">
-  > ![alt text](./link.png)
+  > ![alt text](./../../../../assets/tutorials/link.png)
 </div>
 
 The link will look like this:
@@ -93,7 +102,7 @@ npx playwright test
 
 And hopefully you will get something like this. Because we do not have any tests yet.playwright
 <div data-lightbox="true">
-  > ![alt text](./noTestsFound.png)
+  > ![alt text](./../../../../assets/tutorials/noTestsFound.png)
 </div>
 
 ## Step 4. Generate tests
