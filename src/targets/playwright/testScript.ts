@@ -31,3 +31,27 @@ ${actionsText}
 ${testText}
   })`
 }
+
+export const generateServiceCallTest = (scraped: Scraped, node: ScrapedScript | ScrapedServiceCall, blockPath: any[], usedNames: Record<string, number>) => {
+
+  const _node = { customTest: undefined, ...node }
+  const shortestPath = findShortestPathToNode(scraped, node.id, blockPath)
+  const gatewayValues = getPathGatewayValuesForPath(shortestPath)
+  const actions = getActionsForPath(shortestPath)
+  const testText = `    const serviceCallTest = await handles.test_${camelize(node.text)}(args) as any`
+  const actionsText = _node.customTest
+    ? `    const actions = [
+${actions.map((a) => `      '${a}'`).join(',\n')}
+    ]`
+    : actions.map((a) => `    await handles.${a}(args)`).join('\n')
+  return `  test('${getTestName(node.text, usedNames)}', async ({ page, context }) => {
+    const gateways: GatewayCollection = ${JSON.stringify(gatewayValues, null, 2).replace(/"/g, '\'').replace(/\n/g, `\n${_(2)}`)}
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+${testText}
+    await handles.start(args)
+${actionsText}
+    await serviceCallTest(args)
+  })`
+}

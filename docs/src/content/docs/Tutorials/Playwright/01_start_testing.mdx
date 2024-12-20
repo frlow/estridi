@@ -9,7 +9,7 @@ First we need to create our handles file called main.ts. This is where we are go
 <FileTree>
   - tests
     - **main.ts**
-    - main.handles.ts
+    - main.spec.ts
 </FileTree>
 
 In your `main.ts` file copy and paste following code below.
@@ -33,12 +33,12 @@ Now we have done the setup to be able to run out tests.
 So you are going to have to keep track of two files.
 <FileTree>
   - tests
-    - main.ts *This is where you run your tests*
-    - main.handles.ts *This is where you implement your tests*
+    - main.ts *This is where you implement your tests*
+    - main.spec.ts *This is where you run your tests*
 </FileTree>
 
-So to clarify `main.ts` is auto-generated and everytime you run estridi this file will be re-generated. So **do not** write any code here. This file is only for running the tests.
-The other file`main.handles.ts` is where you get to write code and actually implement your tests.
+So to clarify `main.spec.ts` is auto-generated and everytime you run estridi this file will be re-generated. So **do not** write any code here. This file is only for running the tests.
+The other file`main.ts` is where you get to write code and actually implement your tests.
 
 ## Step 2. Implement your first tests
 
@@ -65,7 +65,7 @@ This is because we have not implemented the test yet. So let's do that.
 
 
 #### Implement service call
-In your `main.handles.ts` start typing servic... and hopefully you will get a suggestion to implement the test.
+In your `main.ts` start typing servic... and hopefully you will get a suggestion to implement the test.
 
 ```typescript
    serviceCall_demoDataJson: async ({context, gateways}) => {
@@ -120,7 +120,7 @@ So this can be a bit tricky at the beginning but try to imagine what we want to 
 Of course we have not implemented it yet but we want it to respond with https code 200 which means that everything is ok.
 So lets test that!
 
-In your `main.handles.ts` file start typing test... and you should get a suggestion to implement the test.
+In your `main.ts` file start typing test... and you should get a suggestion to implement the test.
 
 ```typescript
     test_demoDataJson: async function ({page}) {
@@ -173,12 +173,12 @@ Now we can implement our "mocked" service call in our app.
 
     useEffect(() => {
         fetch('/localMock/countries.json')
-            .then((response) => {
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
-                return response.json()
+            .then((res) => {
+                if (!res.ok) throw new Error('Failed to fetch countries')
+                return res.json()
             })
-            .then((data) => setCountries(data.countries))
-            .catch((err) => console.error('Failed to fetch countries:', err))
+            .then((res) => setCountries(res.countries))
+            .catch((error) => console.error(error))
     }, [])
 ```
 

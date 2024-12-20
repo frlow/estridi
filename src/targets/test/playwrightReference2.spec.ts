@@ -10,27 +10,30 @@ test.describe('main', ()=>{
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
+    const serviceCallTest = await handles.test_imJsonOverviewGetaccountsEsbBankDepositGetaccounts201411(args) as any
     await handles.start(args)
 
-    await handles.test_imJsonOverviewGetaccountsEsbBankDepositGetaccounts201411(args)
+    await serviceCallTest(args)
   })
   test('bank payment crossborder countries', async ({ page, context }) => {
     const gateways: GatewayCollection = {}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
+    const serviceCallTest = await handles.test_bankPaymentCrossborderCountries(args) as any
     await handles.start(args)
 
-    await handles.test_bankPaymentCrossborderCountries(args)
+    await serviceCallTest(args)
   })
   test('bank payment crossborder currencies', async ({ page, context }) => {
     const gateways: GatewayCollection = {}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
+    const serviceCallTest = await handles.test_bankPaymentCrossborderCurrencies(args) as any
     await handles.start(args)
 
-    await handles.test_bankPaymentCrossborderCurrencies(args)
+    await serviceCallTest(args)
   })
   test('Could not load page', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1227,11 +1230,12 @@ test.describe('main', ()=>{
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
+    const serviceCallTest = await handles.test_bankPaymentCrossborderCrossborderPayments(args) as any
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await handles.test_bankPaymentCrossborderCrossborderPayments(args)
+    await serviceCallTest(args)
   })
   test.describe("Validate errors Errors from validate service", ()=>{
     const testNode = async ({tableRow, context, page}: {tableRow: Record<string,string>, page: Page, context: BrowserContext}) => {
@@ -1636,12 +1640,13 @@ test.describe('main', ()=>{
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
+    const serviceCallTest = await handles.test_postPayeeSign(args) as any
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
     await handles.action_signeraClicked(args)
-    await handles.test_postPayeeSign(args)
+    await serviceCallTest(args)
   })
   test('Show error for sign payee', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1700,13 +1705,14 @@ test.describe('main', ()=>{
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
+    const serviceCallTest = await handles.test_postPayeeExecute(args) as any
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
     await handles.action_signeraClicked(args)
     await handles.action_payeeSigningCompleted(args)
-    await handles.test_postPayeeExecute(args)
+    await serviceCallTest(args)
   })
   test('Display some error', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1790,6 +1796,7 @@ test.describe('main', ()=>{
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
+    const serviceCallTest = await handles.test_postPaymentSign(args) as any
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
@@ -1797,7 +1804,7 @@ test.describe('main', ()=>{
     await handles.action_signeraClicked(args)
     await handles.action_payeeSigningCompleted(args)
     await handles.action_godkannClicked(args)
-    await handles.test_postPaymentSign(args)
+    await serviceCallTest(args)
   })
   test('Show error for sign payment', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1968,6 +1975,7 @@ test.describe('main', ()=>{
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
+    const serviceCallTest = await handles.test_postPaymentExecute(args) as any
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
@@ -1976,7 +1984,7 @@ test.describe('main', ()=>{
     await handles.action_payeeSigningCompleted(args)
     await handles.action_godkannClicked(args)
     await handles.action_paymentSigningComplete(args)
-    await handles.test_postPaymentExecute(args)
+    await serviceCallTest(args)
   })
   test('Show error for execute payment', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -2107,6 +2115,9 @@ export type TestOptions = {
   actions?: string[]
 }
 
+export type TestFunction<TState, TPageExtensions> = (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void|TestFunction<TState, TPageExtensions>>
+
+
 const handleServiceCalls = async (args: TestArgs<any, any>)=>{
   // im/json/overview/getaccounts  -> ESB/bank/deposit/getAccounts/201411
   await handles.serviceCall_imJsonOverviewGetaccountsEsbBankDepositGetaccounts201411(args)
@@ -2157,72 +2168,72 @@ export type Main<TState={}, TPageExtensions={}> = {
   action_cancelPaymentSigning: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   action_paymentSigningComplete: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   action_nyBetalningClicked: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
-  test_imJsonOverviewGetaccountsEsbBankDepositGetaccounts201411: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_bankPaymentCrossborderCountries: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_bankPaymentCrossborderCurrencies: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_couldNotLoadPage: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_noAvailableAccounts: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_displaySectionsFranTillBetalningGranskaGodkann: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_displayDropdownValjKontoWithValuesAccountNumberAccountCurrenctbalanceAccountNameAccountAvailablebalance: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_openSectionFran: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_hideButtonFortsatt: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_openSectionTill: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_displayMottagarensFullstandigaNamnAdress: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_displayDropdownLandCountryName: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_displayKontonummerWithLabelIban: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_clearValidationErrorsForKontonummerBanknummer: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_hideBetalningsreferens: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_hideAvgiftSection: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showAvgiftSection: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_openInfoAboutAvgift: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showBetalningsreferens: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showBicSwiftNidInfotext: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_setKontonummerFieldLabelToBban: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showBanknummerField: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_setBanknummerFieldLabelToBicSwiftEllerNationelltId: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showBicSwiftInfotext: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_setBanknummerFieldLabelToBicSwift: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showCountryIbanlengthAndUpdateInfotext: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_setKontonummerFieldLabelToIban: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_hideBanknummerField: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showBicSwiftOptionalInfotext: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_setBanknummerFieldLabelToBicSwiftOptional: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_httpsWwwLansforsakringarSe49bd3eGlobalassetsAaGlobalDokumentInformationLandinformationPdf: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_validateFieldsRecipientData: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_openSectionBetalning: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_displayCurrencyCodeCurrencyDiscriptionInCurrenciesDropdown: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_displayValutaBeloppBetalaISekMeddelandeTillMottagaren: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_displayCurrencyCodeInAmountField: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_setCurrencycodeToSek: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_openInfoAboutCurrency: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_httpsWwwDnbSeSeSvMarketsValutaRentorKurslistaOverforingDaglig: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_validateFieldsPaymentData: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showMeddelandeOchEllerReferensMasteFyllasI: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_clearAllAlertsAndValidationErrors: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_bankPaymentCrossborderCrossborderPayments: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_displayRecipientSummaryModalCreditordetailsCreditornameCreditordetailsCreditoraddressAddressline1CreditordetailsCreditoraddressAddressline2CreditordetailsCreditoraddressAddressline3CreditordetailsCreditoraccountCreditordetailsCreditoragentidentificationCreditordetailsCreditoragentname: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_postPayeeSign: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showErrorForSignPayee: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_closeRecipientSigningModal: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_postPayeeExecute: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_displayCreditordetailsCreditoraccountCreditordetailsCreditornameCreditordetailsCreditoragentidentificationCreditordetailsCreditoraddressAddressline1CreditordetailsCreditoraddressAddressline2CreditordetailsCreditoraddressAddressline3CreditordetailsCreditoragentnameCreditordetailsCreditoragentidentificationtypeCreditordetailsCreditoragentaddressAddressline1PaymentdetailsRequestedexecutiondatePaymentdetailsEquivalentamountPaymentdetailsEquivalentcurrencyPaymentdetailsTransactionamountPaymentdetailsTransactioncurrencyPaymentdetailsEndtoendidentificationPaymentdetailsRemittanceinformationPaymentdetailsExchangeratePaymentdetailsFee: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_postPaymentSign: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showErrorForSignPayment: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_displaySignPaymentModal: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_closeSignPaymentModal: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_goBackToPaymentSummaryPage: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_postPaymentExecute: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showErrorForExecutePayment: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showPaymentdetailsExchangeratePaymentdetailsTransactionamountPaymentdetailsFee: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_initiateRegisterview: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_goBackToRegistrationPage: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_displaySomeError: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_closeRecipientSummaryModal: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_validateErrorsErrorsFromValidateService: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_showAllAlertMessages: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_show3AlertMessages: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_goBackToPayment: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_goBackToPayee: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
-  test_displayErrorAngeKonto: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>
+  test_imJsonOverviewGetaccountsEsbBankDepositGetaccounts201411: TestFunction<TState, TPageExtensions>
+  test_bankPaymentCrossborderCountries: TestFunction<TState, TPageExtensions>
+  test_bankPaymentCrossborderCurrencies: TestFunction<TState, TPageExtensions>
+  test_couldNotLoadPage: TestFunction<TState, TPageExtensions>
+  test_noAvailableAccounts: TestFunction<TState, TPageExtensions>
+  test_displaySectionsFranTillBetalningGranskaGodkann: TestFunction<TState, TPageExtensions>
+  test_displayDropdownValjKontoWithValuesAccountNumberAccountCurrenctbalanceAccountNameAccountAvailablebalance: TestFunction<TState, TPageExtensions>
+  test_openSectionFran: TestFunction<TState, TPageExtensions>
+  test_hideButtonFortsatt: TestFunction<TState, TPageExtensions>
+  test_openSectionTill: TestFunction<TState, TPageExtensions>
+  test_displayMottagarensFullstandigaNamnAdress: TestFunction<TState, TPageExtensions>
+  test_displayDropdownLandCountryName: TestFunction<TState, TPageExtensions>
+  test_displayKontonummerWithLabelIban: TestFunction<TState, TPageExtensions>
+  test_clearValidationErrorsForKontonummerBanknummer: TestFunction<TState, TPageExtensions>
+  test_hideBetalningsreferens: TestFunction<TState, TPageExtensions>
+  test_hideAvgiftSection: TestFunction<TState, TPageExtensions>
+  test_showAvgiftSection: TestFunction<TState, TPageExtensions>
+  test_openInfoAboutAvgift: TestFunction<TState, TPageExtensions>
+  test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf: TestFunction<TState, TPageExtensions>
+  test_showBetalningsreferens: TestFunction<TState, TPageExtensions>
+  test_showBicSwiftNidInfotext: TestFunction<TState, TPageExtensions>
+  test_setKontonummerFieldLabelToBban: TestFunction<TState, TPageExtensions>
+  test_showBanknummerField: TestFunction<TState, TPageExtensions>
+  test_setBanknummerFieldLabelToBicSwiftEllerNationelltId: TestFunction<TState, TPageExtensions>
+  test_showBicSwiftInfotext: TestFunction<TState, TPageExtensions>
+  test_setBanknummerFieldLabelToBicSwift: TestFunction<TState, TPageExtensions>
+  test_showCountryIbanlengthAndUpdateInfotext: TestFunction<TState, TPageExtensions>
+  test_setKontonummerFieldLabelToIban: TestFunction<TState, TPageExtensions>
+  test_hideBanknummerField: TestFunction<TState, TPageExtensions>
+  test_showBicSwiftOptionalInfotext: TestFunction<TState, TPageExtensions>
+  test_setBanknummerFieldLabelToBicSwiftOptional: TestFunction<TState, TPageExtensions>
+  test_httpsWwwLansforsakringarSe49bd3eGlobalassetsAaGlobalDokumentInformationLandinformationPdf: TestFunction<TState, TPageExtensions>
+  test_validateFieldsRecipientData: TestFunction<TState, TPageExtensions>
+  test_openSectionBetalning: TestFunction<TState, TPageExtensions>
+  test_displayCurrencyCodeCurrencyDiscriptionInCurrenciesDropdown: TestFunction<TState, TPageExtensions>
+  test_displayValutaBeloppBetalaISekMeddelandeTillMottagaren: TestFunction<TState, TPageExtensions>
+  test_displayCurrencyCodeInAmountField: TestFunction<TState, TPageExtensions>
+  test_setCurrencycodeToSek: TestFunction<TState, TPageExtensions>
+  test_openInfoAboutCurrency: TestFunction<TState, TPageExtensions>
+  test_httpsWwwDnbSeSeSvMarketsValutaRentorKurslistaOverforingDaglig: TestFunction<TState, TPageExtensions>
+  test_validateFieldsPaymentData: TestFunction<TState, TPageExtensions>
+  test_showMeddelandeOchEllerReferensMasteFyllasI: TestFunction<TState, TPageExtensions>
+  test_clearAllAlertsAndValidationErrors: TestFunction<TState, TPageExtensions>
+  test_bankPaymentCrossborderCrossborderPayments: TestFunction<TState, TPageExtensions>
+  test_displayRecipientSummaryModalCreditordetailsCreditornameCreditordetailsCreditoraddressAddressline1CreditordetailsCreditoraddressAddressline2CreditordetailsCreditoraddressAddressline3CreditordetailsCreditoraccountCreditordetailsCreditoragentidentificationCreditordetailsCreditoragentname: TestFunction<TState, TPageExtensions>
+  test_postPayeeSign: TestFunction<TState, TPageExtensions>
+  test_showErrorForSignPayee: TestFunction<TState, TPageExtensions>
+  test_closeRecipientSigningModal: TestFunction<TState, TPageExtensions>
+  test_postPayeeExecute: TestFunction<TState, TPageExtensions>
+  test_displayCreditordetailsCreditoraccountCreditordetailsCreditornameCreditordetailsCreditoragentidentificationCreditordetailsCreditoraddressAddressline1CreditordetailsCreditoraddressAddressline2CreditordetailsCreditoraddressAddressline3CreditordetailsCreditoragentnameCreditordetailsCreditoragentidentificationtypeCreditordetailsCreditoragentaddressAddressline1PaymentdetailsRequestedexecutiondatePaymentdetailsEquivalentamountPaymentdetailsEquivalentcurrencyPaymentdetailsTransactionamountPaymentdetailsTransactioncurrencyPaymentdetailsEndtoendidentificationPaymentdetailsRemittanceinformationPaymentdetailsExchangeratePaymentdetailsFee: TestFunction<TState, TPageExtensions>
+  test_postPaymentSign: TestFunction<TState, TPageExtensions>
+  test_showErrorForSignPayment: TestFunction<TState, TPageExtensions>
+  test_displaySignPaymentModal: TestFunction<TState, TPageExtensions>
+  test_closeSignPaymentModal: TestFunction<TState, TPageExtensions>
+  test_goBackToPaymentSummaryPage: TestFunction<TState, TPageExtensions>
+  test_postPaymentExecute: TestFunction<TState, TPageExtensions>
+  test_showErrorForExecutePayment: TestFunction<TState, TPageExtensions>
+  test_showPaymentdetailsExchangeratePaymentdetailsTransactionamountPaymentdetailsFee: TestFunction<TState, TPageExtensions>
+  test_initiateRegisterview: TestFunction<TState, TPageExtensions>
+  test_goBackToRegistrationPage: TestFunction<TState, TPageExtensions>
+  test_displaySomeError: TestFunction<TState, TPageExtensions>
+  test_closeRecipientSummaryModal: TestFunction<TState, TPageExtensions>
+  test_validateErrorsErrorsFromValidateService: TestFunction<TState, TPageExtensions>
+  test_showAllAlertMessages: TestFunction<TState, TPageExtensions>
+  test_show3AlertMessages: TestFunction<TState, TPageExtensions>
+  test_goBackToPayment: TestFunction<TState, TPageExtensions>
+  test_goBackToPayee: TestFunction<TState, TPageExtensions>
+  test_displayErrorAngeKonto: TestFunction<TState, TPageExtensions>
 }

@@ -28,7 +28,10 @@ export type TestArgs<TState, TPageExtensions> = {
 
 export type TestOptions = {
   actions?: string[]
-}`
+}
+
+export type TestFunction<TState, TPageExtensions> = (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void|TestFunction<TState, TPageExtensions>>
+`
 
   const serviceCallLines = getServiceCallNames(scraped)
     .map(
@@ -43,7 +46,7 @@ export type TestOptions = {
   const testLines = getTestNames(scraped)
     .map(
       (sc) =>
-        `  test_${camelize(sc)}: (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void>`
+        `  test_${camelize(sc)}: TestFunction<TState, TPageExtensions>`
     )
 
   const handlesObjectTypeCode = `export type ${name.charAt(0).toUpperCase() + camelize(name.substring(1))}<TState={}, TPageExtensions={}> = {

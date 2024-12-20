@@ -6,12 +6,11 @@ import { FileTree } from '@astrojs/starlight/components';
 In this tutorial we will create an example application using estridi, Playwright and React with vite.
 
 ## Step 1. Download and open example jamfile
-Download the .jam file and import it into figma. The .jam file is located under assets
+### [Download the .jam file here](/Estridi_Docs.jam)
 `Estridi Astro Docs.jam`
 <FileTree>
-- src
-  - assets
-    - **Estridi Astro Docs.jam**
+- public
+  - **Estridi_Docs.jam**
 </FileTree>
 To import your .jam file in figma.
 
@@ -71,6 +70,14 @@ https://www.figma.com/board/Izz9320atTsGRKo1AjiuxZ/S3D---Register-Foreign-Paymen
 ```
 
 This part is the fileId: *Izz9320atTsGRKo1AjiuxZ*
+
+##### estridi.json
+```json
+{
+  "token": "<my figma user token>",
+  "fileId": "<file id of the FigJam board>"
+}
+```
 
 #### Create playwright.config.ts
 We also need to configure our playwright tests. Create a file called `playwright.config.ts` in the root of your project.
