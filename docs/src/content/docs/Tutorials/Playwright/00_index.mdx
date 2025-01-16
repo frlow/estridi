@@ -40,13 +40,24 @@ npm install --save-dev playwright@latest
 npm install --save-dev @playwright/test
 ```
 
+Make sure it is the latest version of Estridi in your package.json
+```
+"^1.0.0-beta117"
+```
+
 ## Step 3. Configure estridi & playwright
 
 #### Create estridi.json
 
-Create estridi.json in the root for you project. As mentioned under "Getting started" section you will need to
+Create estridi.json in the **root** for you project. As mentioned under "Getting started" section you will need to
 add an token and a fileId inside this file.
-
+##### estridi.json
+```json
+{
+  "token": "<my figma user token>",
+  "fileId": "<file id of the FigJam board>"
+}
+```
 Create a user token for your figma account
 
 On the home screen, Click on your user name > Settings
@@ -70,14 +81,6 @@ https://www.figma.com/board/Izz9320atTsGRKo1AjiuxZ/S3D---Register-Foreign-Paymen
 ```
 
 This part is the fileId: *Izz9320atTsGRKo1AjiuxZ*
-
-##### estridi.json
-```json
-{
-  "token": "<my figma user token>",
-  "fileId": "<file id of the FigJam board>"
-}
-```
 
 #### Create playwright.config.ts
 We also need to configure our playwright tests. Create a file called `playwright.config.ts` in the root of your project.
