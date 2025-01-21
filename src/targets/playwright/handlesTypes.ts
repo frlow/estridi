@@ -26,11 +26,10 @@ export type TestArgs<TState, TPageExtensions> = {
   tableRow?: Record<string,string>
 }
 
-export type TestOptions = {
-  actions?: string[]
-}
-
-export type TestFunction<TState, TPageExtensions> = (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void|TestFunction<TState, TPageExtensions>>
+export type TestFunction<TState, TPageExtensions> = (
+  args: TestArgs<TState, TPageExtensions>,
+  usesPrepareFunction?: undefined
+) => Promise<void | (() => Promise<void>)>
 `
 
   const serviceCallLines = getServiceCallNames(scraped)

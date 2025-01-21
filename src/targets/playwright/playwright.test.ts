@@ -5,25 +5,13 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { filterScraped } from '../../common/filter.js'
 import { generatePlaywright } from './index.js'
-import { generatePlaywright2 } from './index2.js'
 
 describe('playwright', () => {
   test('generated code should match reference', async () => {
     const scraped = filterScraped(await processFigma(getFigmaTestData()), 'main')
     const code = await generatePlaywright('main', scraped)
     const filePath = path.join(__dirname, '../test', 'playwrightReference.spec.ts')
-    // fs.writeFileSync(filePath, code, 'utf8')
-    const reference = fs.readFileSync(filePath, 'utf8')
-    expect(code).toStrictEqual(reference)
-  })
-})
-
-describe('playwright2', () => {
-  test('generated code should match reference', async () => {
-    const scraped = filterScraped(await processFigma(getFigmaTestData()), 'main')
-    const code = await generatePlaywright2('main', scraped)
-    const filePath = path.join(__dirname, '../test', 'playwrightReference2.spec.ts')
-    // fs.writeFileSync(filePath, code, 'utf8')
+    fs.writeFileSync(filePath, code, 'utf8')
     const reference = fs.readFileSync(filePath, 'utf8')
     expect(code).toStrictEqual(reference)
   })

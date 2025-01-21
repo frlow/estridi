@@ -29,7 +29,6 @@ export type ScrapedTable = {
 export type ScrapedScript = {
   type: ScrapedNodeType<'script'>
   next?: string
-  customTest?: boolean
 } & BaseNode
 
 export type ScrapedServiceCall = {

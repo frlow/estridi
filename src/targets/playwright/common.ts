@@ -1,5 +1,5 @@
 import { _ } from '../../common/texts.js'
-import { generateScriptTest, generateServiceCallTest } from './testScript.js'
+import { generateScriptTest } from './testScript.js'
 import { generateSubprocessTableTest } from './subprocessTable.js'
 
 export const rawCommentBlock = (raw: string) => `/*
@@ -23,10 +23,8 @@ export const generateTest = (
   blockPath: any[],
   usedNames: Record<string, number>
 ): string => {
-  if (node.type === 'script') {
+  if (node.type === 'script' || node.type === 'serviceCall') {
     return generateScriptTest(scraped, node, blockPath, usedNames)
-  } else if (node.type === 'serviceCall') {
-    return generateServiceCallTest(scraped, node, blockPath, usedNames)
   } else if (node.type === 'subprocess' && node.tableKey) {
     return generateSubprocessTableTest(scraped, node, blockPath)
   } else {

@@ -63,8 +63,6 @@ const getTableKey = (node: any) => {
   return splitResult[1].trim()
 }
 
-const isCustomTest = (node: any) => findRawText(node).startsWith('_')
-
 const getNodeMetadata = (node: Node): ScrapedNode => {
   const type = getType(node)
   switch (type) {
@@ -96,7 +94,6 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         next: getNext(node),
         raw: findRawText(node)
       }
-      if (isCustomTest(node)) script.customTest = true
       return script
     }
     case 'serviceCall': {

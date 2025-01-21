@@ -3,36 +3,40 @@ import { handles } from './main.js'
 
 
 
-test.describe('main', () => {
+
+test.describe('main', ()=>{
   test('im json overview getaccounts ESB bank deposit getAccounts 201411', async ({ page, context }) => {
     const gateways: GatewayCollection = {}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    const serviceCallTest = await handles.test_imJsonOverviewGetaccountsEsbBankDepositGetaccounts201411(args) as any
-    await handles.start(args)
 
-    await serviceCallTest(args)
+    let testFunc = handles.test_imJsonOverviewGetaccountsEsbBankDepositGetaccounts201411
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.start(args)
+    await testFunc(args)
   })
   test('bank payment crossborder countries', async ({ page, context }) => {
     const gateways: GatewayCollection = {}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    const serviceCallTest = await handles.test_bankPaymentCrossborderCountries(args) as any
-    await handles.start(args)
 
-    await serviceCallTest(args)
+    let testFunc = handles.test_bankPaymentCrossborderCountries
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.start(args)
+    await testFunc(args)
   })
   test('bank payment crossborder currencies', async ({ page, context }) => {
     const gateways: GatewayCollection = {}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    const serviceCallTest = await handles.test_bankPaymentCrossborderCurrencies(args) as any
-    await handles.start(args)
 
-    await serviceCallTest(args)
+    let testFunc = handles.test_bankPaymentCrossborderCurrencies
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.start(args)
+    await testFunc(args)
   })
   test('Could not load page', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -41,21 +45,11 @@ test.describe('main', () => {
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    await handles.start(args)
 
-    await handles.test_couldNotLoadPage(args)
-  })
-  test('Display Sections Från Till Betalning Granska Godkänn', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
+    let testFunc = handles.test_couldNotLoadPage
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.start(args)
-
-    await handles.test_displaySectionsFranTillBetalningGranskaGodkann(args)
+    await testFunc(args)
   })
   test('No available accounts', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -65,9 +59,25 @@ test.describe('main', () => {
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    await handles.start(args)
 
-    await handles.test_noAvailableAccounts(args)
+    let testFunc = handles.test_noAvailableAccounts
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.start(args)
+    await testFunc(args)
+  })
+  test('Display Sections Från Till Betalning Granska Godkänn', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+
+    let testFunc = handles.test_displaySectionsFranTillBetalningGranskaGodkann
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.start(args)
+    await testFunc(args)
   })
   test('Display dropdown Välj Konto with values account number account currenctBalance account name account availableBalance', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -77,9 +87,11 @@ test.describe('main', () => {
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    await handles.start(args)
 
-    await handles.test_displayDropdownValjKontoWithValuesAccountNumberAccountCurrenctbalanceAccountNameAccountAvailablebalance(args)
+    let testFunc = handles.test_displayDropdownValjKontoWithValuesAccountNumberAccountCurrenctbalanceAccountNameAccountAvailablebalance
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.start(args)
+    await testFunc(args)
   })
   test('Open section Från', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -89,22 +101,11 @@ test.describe('main', () => {
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    await handles.start(args)
 
-    await handles.test_openSectionFran(args)
-  })
-  test('Display error Ange Konto', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
+    let testFunc = handles.test_openSectionFran
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.test_displayErrorAngeKonto(args)
+    await testFunc(args)
   })
   test('Hide button Fortsätt', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -116,9 +117,27 @@ test.describe('main', () => {
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
+    let testFunc = handles.test_hideButtonFortsatt
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_franFortsattClicked(args)
-    await handles.test_hideButtonFortsatt(args)
+    await testFunc(args)
   })
+  test('Display error Ange Konto', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    let testFunc = handles.test_displayErrorAngeKonto
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_franFortsattClicked(args)
+    await testFunc(args)
+  })
+  test.describe('New payee information', ()=>{
   test('Open section Till', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -129,8 +148,10 @@ test.describe('main', () => {
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
+    let testFunc = handles.test_openSectionTill
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_franFortsattClicked(args)
-    await handles.test_openSectionTill(args)
+    await testFunc(args)
   })
   test('Display Mottagarens fullständiga namn Adress', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -142,8 +163,10 @@ test.describe('main', () => {
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
+    let testFunc = handles.test_displayMottagarensFullstandigaNamnAdress
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_franFortsattClicked(args)
-    await handles.test_displayMottagarensFullstandigaNamnAdress(args)
+    await testFunc(args)
   })
   test('Display dropdown Land country name', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -155,8 +178,10 @@ test.describe('main', () => {
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
+    let testFunc = handles.test_displayDropdownLandCountryName
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_franFortsattClicked(args)
-    await handles.test_displayDropdownLandCountryName(args)
+    await testFunc(args)
   })
   test('Display Kontonummer with label IBAN', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -168,24 +193,60 @@ test.describe('main', () => {
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
+    let testFunc = handles.test_displayKontonummerWithLabelIban
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_franFortsattClicked(args)
-    await handles.test_displayKontonummerWithLabelIban(args)
+    await testFunc(args)
+  })
+  test('Clear validation errors for Kontonummer Banknummer', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_clearValidationErrorsForKontonummerBanknummer
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCountry(args)
+    await testFunc(args)
+  })
+  test('https www lansforsakringar se 49bd3e globalassets aa global dokument information landinformation pdf', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_httpsWwwLansforsakringarSe49bd3eGlobalassetsAaGlobalDokumentInformationLandinformationPdf
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_linkToCountriesYouCanSendTo(args)
+    await testFunc(args)
   })
   test.describe("Validate fields Recipient data", ()=>{
     const testNode = async ({tableRow, context, page}: {tableRow: Record<string,string>, page: Page, context: BrowserContext}) => {
       const gateways: GatewayCollection = {
         'Any errors loading data': 'no',
         'empty array from getAccounts': 'no',
-        'Is Konto selected': 'yes'
+        'Is Konto selected': 'yes',
+        'Any validation errors from mottagare': 'no'
       }
       const state = await handles.setup({ gateways, page, context, tableRow } as any)
       const args = { gateways, state, page, context, tableRow } as any
       await handleServiceCalls(args)
-      const actions = [
-        'action_franFortsattClicked',
-        'action_mottagareFortsattClicked'
-      ]
-      await handles.test_validateFieldsRecipientData(args, { actions })
+      await handles.start(args)
+      await handles.action_franFortsattClicked(args)
+      let testFunc = handles.test_validateFieldsRecipientData
+      if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+      await handles.action_mottagareFortsattClicked(args)
+      await testFunc(args)
     }
     
     test("Land", async ({ page, context }) => {
@@ -276,36 +337,6 @@ test.describe('main', () => {
       await testNode({tableRow, page, context})
     })
   })
-  test('https www lansforsakringar se 49bd3e globalassets aa global dokument information landinformation pdf', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_linkToCountriesYouCanSendTo(args)
-    await handles.test_httpsWwwLansforsakringarSe49bd3eGlobalassetsAaGlobalDokumentInformationLandinformationPdf(args)
-  })
-  test('Clear validation errors for Kontonummer Banknummer', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    // manually implement start in test
-    const actions = [
-      'action_franFortsattClicked',
-      'action_selectCountry'
-    ]
-    await handles.test_clearValidationErrorsForKontonummerBanknummer(args, { actions })
-  })
   test('Go back to Payee', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -318,24 +349,12 @@ test.describe('main', () => {
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_goBackToPayee
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_mottagareFortsattClicked(args)
-    await handles.test_goBackToPayee(args)
+    await testFunc(args)
   })
-  test('Open section Betalning', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.test_openSectionBetalning(args)
-  })
+    test.describe('Country logic', ()=>{
   test('Show BIC SWIFT NID infotext', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -348,39 +367,61 @@ test.describe('main', () => {
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_showBicSwiftNidInfotext
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await handles.test_showBicSwiftNidInfotext(args)
+    await testFunc(args)
   })
-  test('Display currency code currency discription in currencies dropdown', async ({ page, context }) => {
+  test('Set Kontonummer field label to BBAN', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no'
+      'Is country US': 'yes'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.test_displayCurrencyCodeCurrencyDiscriptionInCurrenciesDropdown(args)
+    let testFunc = handles.test_setKontonummerFieldLabelToBban
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCountry(args)
+    await testFunc(args)
   })
-  test('Show country ibanLength and update infotext', async ({ page, context }) => {
+  test('Show Banknummer field', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'Is country US': 'no',
-      'is country ibanLength 0': 'yes'
+      'Is country US': 'yes'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_showBanknummerField
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await handles.test_showCountryIbanlengthAndUpdateInfotext(args)
+    await testFunc(args)
+  })
+  test('Set Banknummer field label to BIC SWIFT eller Nationellt ID', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Is country US': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_setBanknummerFieldLabelToBicSwiftEllerNationelltId
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCountry(args)
+    await testFunc(args)
   })
   test('Show BIC SWIFT infotext', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -395,54 +436,10 @@ test.describe('main', () => {
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_showBicSwiftInfotext
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await handles.test_showBicSwiftInfotext(args)
-  })
-  test('Set Kontonummer field label to BBAN', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Is country US': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_setKontonummerFieldLabelToBban(args)
-  })
-  test('Display Valuta Belopp Betala i SEK Meddelande till mottagaren', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.test_displayValutaBeloppBetalaISekMeddelandeTillMottagaren(args)
-  })
-  test('Set Kontonummer field label to IBAN', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Is country US': 'no',
-      'is country ibanLength 0': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_setKontonummerFieldLabelToIban(args)
+    await testFunc(args)
   })
   test('Set Kontonummer field label to BBAN 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -457,55 +454,10 @@ test.describe('main', () => {
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_setKontonummerFieldLabelToBban
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await handles.test_setKontonummerFieldLabelToBban(args)
-  })
-  test('Show Banknummer field', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Is country US': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_showBanknummerField(args)
-  })
-  test('Hide avgift section', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'is payment section shown': 'yes',
-      'country isEuEesCountry': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_hideAvgiftSection(args)
-  })
-  test('Hide betalningsreferens', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'is payment section shown': 'yes',
-      'country isEuEesCountry': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_hideBetalningsreferens(args)
+    await testFunc(args)
   })
   test('Show Banknummer field 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -520,40 +472,64 @@ test.describe('main', () => {
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_showBanknummerField
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await handles.test_showBanknummerField(args)
+    await testFunc(args)
   })
-  test('Set Banknummer field label to BIC SWIFT eller Nationellt ID', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Is country US': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_setBanknummerFieldLabelToBicSwiftEllerNationelltId(args)
-  })
-  test('Show BIC SWIFT optional infotext', async ({ page, context }) => {
+  test('Set Banknummer field label to BIC SWIFT', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Is country US': 'no',
-      'is country ibanLength 0': 'yes',
-      'country isEuEesCountry': 'no'
+      'is country ibanLength 0': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_setBanknummerFieldLabelToBicSwift
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await handles.test_showBicSwiftOptionalInfotext(args)
+    await testFunc(args)
+  })
+  test('Show country ibanLength and update infotext', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Is country US': 'no',
+      'is country ibanLength 0': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_showCountryIbanlengthAndUpdateInfotext
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCountry(args)
+    await testFunc(args)
+  })
+  test('Set Kontonummer field label to IBAN', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Is country US': 'no',
+      'is country ibanLength 0': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_setKontonummerFieldLabelToIban
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCountry(args)
+    await testFunc(args)
   })
   test('Hide Banknummer field', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -569,58 +545,126 @@ test.describe('main', () => {
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_hideBanknummerField
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await handles.test_hideBanknummerField(args)
+    await testFunc(args)
   })
-  test('Set Banknummer field label to BIC SWIFT', async ({ page, context }) => {
+  test('Show BIC SWIFT optional infotext', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Is country US': 'no',
-      'is country ibanLength 0': 'no'
+      'is country ibanLength 0': 'yes',
+      'country isEuEesCountry': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_showBicSwiftOptionalInfotext
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await handles.test_setBanknummerFieldLabelToBicSwift(args)
+    await testFunc(args)
   })
-  test('Show betalningsreferens', async ({ page, context }) => {
+  test('Show Banknummer field 2', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Is country US': 'no',
+      'is country ibanLength 0': 'yes',
+      'country isEuEesCountry': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_showBanknummerField
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCountry(args)
+    await testFunc(args)
+  })
+  test('Set Banknummer field label to BIC SWIFT Optional', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Is country US': 'no',
+      'is country ibanLength 0': 'yes',
+      'country isEuEesCountry': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_setBanknummerFieldLabelToBicSwiftOptional
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCountry(args)
+    await testFunc(args)
+  })
+
+    })
+    test.describe('Avgift logic', ()=>{
+  test('Hide betalningsreferens', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'is payment section shown': 'yes',
-      'country isEuEesCountry': 'yes',
-      'currency code is EUR': 'yes'
+      'country isEuEesCountry': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_hideBetalningsreferens
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await handles.test_showBetalningsreferens(args)
+    await testFunc(args)
   })
-  test('Hide betalningsreferens 1', async ({ page, context }) => {
+  test('Hide avgift section', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'is payment section shown': 'yes',
-      'country isEuEesCountry': 'yes',
-      'currency code is EUR': 'no'
+      'country isEuEesCountry': 'no',
+      'currency code is SEK': 'yes'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_hideAvgiftSection
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await handles.test_hideBetalningsreferens(args)
+    await testFunc(args)
+  })
+  test('Show avgift section', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'is payment section shown': 'yes',
+      'country isEuEesCountry': 'no',
+      'currency code is SEK': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_showAvgiftSection
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCountry(args)
+    await testFunc(args)
   })
   test('Open info about avgift', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -636,8 +680,213 @@ test.describe('main', () => {
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_selectCountry(args)
+    let testFunc = handles.test_openInfoAboutAvgift
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_vadSkaJagBetalaForAvgiftClicked(args)
-    await handles.test_openInfoAboutAvgift(args)
+    await testFunc(args)
+  })
+  test('https www lansforsakringar se 49334d globalassets aa global dokument prislistor 08198 prislista privat pdf', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'is payment section shown': 'yes',
+      'country isEuEesCountry': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_selectCountry(args)
+    await handles.action_vadSkaJagBetalaForAvgiftClicked(args)
+    let testFunc = handles.test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_prislistaClicked(args)
+    await testFunc(args)
+  })
+  test('Hide avgift section 1', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'is payment section shown': 'yes',
+      'country isEuEesCountry': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_hideAvgiftSection
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCountry(args)
+    await testFunc(args)
+  })
+  test('Hide betalningsreferens 1', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'is payment section shown': 'yes',
+      'country isEuEesCountry': 'yes',
+      'currency code is EUR': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_hideBetalningsreferens
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCountry(args)
+    await testFunc(args)
+  })
+  test('Show betalningsreferens', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'is payment section shown': 'yes',
+      'country isEuEesCountry': 'yes',
+      'currency code is EUR': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_showBetalningsreferens
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCountry(args)
+    await testFunc(args)
+  })
+
+    })
+    test.describe('Payment information page', ()=>{
+  test('Open section Betalning', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_openSectionBetalning
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_mottagareFortsattClicked(args)
+    await testFunc(args)
+  })
+  test('Display currency code currency discription in currencies dropdown', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_displayCurrencyCodeCurrencyDiscriptionInCurrenciesDropdown
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_mottagareFortsattClicked(args)
+    await testFunc(args)
+  })
+  test('Display Valuta Belopp Betala i SEK Meddelande till mottagaren', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_displayValutaBeloppBetalaISekMeddelandeTillMottagaren
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_mottagareFortsattClicked(args)
+    await testFunc(args)
+  })
+  test('Display currency code in Amount field', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_displayCurrencyCodeInAmountField
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCurrency(args)
+    await testFunc(args)
+  })
+  test('Set currencyCode to SEK', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_setCurrencycodeToSek
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_beloppISekChecked(args)
+    await testFunc(args)
+  })
+  test('Open info about currency', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_openInfoAboutCurrency
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_hurSkaJagTankaKringValutaClicked(args)
+    await testFunc(args)
+  })
+  test('https www dnb se se sv markets valuta rentor kurslista overforing daglig', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    await handles.action_hurSkaJagTankaKringValutaClicked(args)
+    let testFunc = handles.test_httpsWwwDnbSeSeSvMarketsValutaRentorKurslistaOverforingDaglig
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_preliminaraAktuellaValutaKurserClicked(args)
+    await testFunc(args)
   })
   test.describe("Validate fields Payment data", ()=>{
     const testNode = async ({tableRow, context, page}: {tableRow: Record<string,string>, page: Page, context: BrowserContext}) => {
@@ -650,12 +899,13 @@ test.describe('main', () => {
       const state = await handles.setup({ gateways, page, context, tableRow } as any)
       const args = { gateways, state, page, context, tableRow } as any
       await handleServiceCalls(args)
-      const actions = [
-        'action_franFortsattClicked',
-        'action_mottagareFortsattClicked',
-        'action_signeraMottagreLaggTillButtonClicked'
-      ]
-      await handles.test_validateFieldsPaymentData(args, { actions })
+      await handles.start(args)
+      await handles.action_franFortsattClicked(args)
+      await handles.action_mottagareFortsattClicked(args)
+      let testFunc = handles.test_validateFieldsPaymentData
+      if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+      await handles.action_signeraMottagreLaggTillButtonClicked(args)
+      await testFunc(args)
     }
     
     test("Valuta", async ({ page, context }) => {
@@ -718,140 +968,6 @@ test.describe('main', () => {
       await testNode({tableRow, page, context})
     })
   })
-  test('Open info about currency', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_hurSkaJagTankaKringValutaClicked(args)
-    await handles.test_openInfoAboutCurrency(args)
-  })
-  test('Set currencyCode to SEK', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_beloppISekChecked(args)
-    await handles.test_setCurrencycodeToSek(args)
-  })
-  test('Display currency code in Amount field', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_selectCurrency(args)
-    await handles.test_displayCurrencyCodeInAmountField(args)
-  })
-  test('Show Banknummer field 2', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Is country US': 'no',
-      'is country ibanLength 0': 'yes',
-      'country isEuEesCountry': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_showBanknummerField(args)
-  })
-  test('Show avgift section', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'is payment section shown': 'yes',
-      'country isEuEesCountry': 'no',
-      'currency code is SEK': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_showAvgiftSection(args)
-  })
-  test('Hide avgift section 1', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'is payment section shown': 'yes',
-      'country isEuEesCountry': 'no',
-      'currency code is SEK': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_hideAvgiftSection(args)
-  })
-  test('Set Banknummer field label to BIC SWIFT Optional', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Is country US': 'no',
-      'is country ibanLength 0': 'yes',
-      'country isEuEesCountry': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.test_setBanknummerFieldLabelToBicSwiftOptional(args)
-  })
-  test('https www lansforsakringar se 49334d globalassets aa global dokument prislistor 08198 prislista privat pdf', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'is payment section shown': 'yes',
-      'country isEuEesCountry': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_selectCountry(args)
-    await handles.action_vadSkaJagBetalaForAvgiftClicked(args)
-    await handles.action_prislistaClicked(args)
-    await handles.test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf(args)
-  })
   test('Show meddelande och eller referens måste fyllas i', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -866,15 +982,19 @@ test.describe('main', () => {
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_showMeddelandeOchEllerReferensMasteFyllasI
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await handles.test_showMeddelandeOchEllerReferensMasteFyllasI(args)
+    await testFunc(args)
   })
-  test('https www dnb se se sv markets valuta rentor kurslista overforing daglig', async ({ page, context }) => {
+  test('Clear all alerts and validation errors', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no'
+      'Any validation errors from mottagare': 'no',
+      'Both meddelande and referens are shown and empty': 'no',
+      'Any validation errors from betalning': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -882,9 +1002,10 @@ test.describe('main', () => {
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
-    await handles.action_hurSkaJagTankaKringValutaClicked(args)
-    await handles.action_preliminaraAktuellaValutaKurserClicked(args)
-    await handles.test_httpsWwwDnbSeSeSvMarketsValutaRentorKurslistaOverforingDaglig(args)
+    let testFunc = handles.test_clearAllAlertsAndValidationErrors
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_signeraMottagreLaggTillButtonClicked(args)
+    await testFunc(args)
   })
   test('Go back to Payment', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -901,29 +1022,328 @@ test.describe('main', () => {
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_goBackToPayment
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await handles.test_goBackToPayment(args)
+    await testFunc(args)
   })
-  test('Clear all alerts and validation errors', async ({ page, context }) => {
+      test.describe('Avgift logic', ()=>{
+  test('Hide betalningsreferens', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
       'empty array from getAccounts': 'no',
       'Is Konto selected': 'yes',
       'Any validation errors from mottagare': 'no',
-      'Both meddelande and referens are shown and empty': 'no',
-      'Any validation errors from betalning': 'no'
+      'country isEuEesCountry': 'no'
     }
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    // manually implement start in test
-    const actions = [
-      'action_franFortsattClicked',
-      'action_mottagareFortsattClicked',
-      'action_signeraMottagreLaggTillButtonClicked'
-    ]
-    await handles.test_clearAllAlertsAndValidationErrors(args, { actions })
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_hideBetalningsreferens
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_mottagareFortsattClicked(args)
+    await testFunc(args)
   })
+  test('Hide avgift section', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'no',
+      'currency code is SEK': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_hideAvgiftSection
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_mottagareFortsattClicked(args)
+    await testFunc(args)
+  })
+  test('Show avgift section', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'no',
+      'currency code is SEK': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_showAvgiftSection
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_mottagareFortsattClicked(args)
+    await testFunc(args)
+  })
+  test('Open info about avgift', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_openInfoAboutAvgift
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_vadSkaJagBetalaForAvgiftClicked(args)
+    await testFunc(args)
+  })
+  test('https www lansforsakringar se 49334d globalassets aa global dokument prislistor 08198 prislista privat pdf', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    await handles.action_vadSkaJagBetalaForAvgiftClicked(args)
+    let testFunc = handles.test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_prislistaClicked(args)
+    await testFunc(args)
+  })
+  test('Hide avgift section 1', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_hideAvgiftSection
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_mottagareFortsattClicked(args)
+    await testFunc(args)
+  })
+  test('Hide betalningsreferens 1', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'yes',
+      'currency code is EUR': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_hideBetalningsreferens
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_mottagareFortsattClicked(args)
+    await testFunc(args)
+  })
+  test('Show betalningsreferens', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'yes',
+      'currency code is EUR': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    let testFunc = handles.test_showBetalningsreferens
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_mottagareFortsattClicked(args)
+    await testFunc(args)
+  })
+
+      })
+      test.describe('Avgift logic 1', ()=>{
+  test('Hide betalningsreferens', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_hideBetalningsreferens
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCurrency(args)
+    await testFunc(args)
+  })
+  test('Hide avgift section', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'no',
+      'currency code is SEK': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_hideAvgiftSection
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCurrency(args)
+    await testFunc(args)
+  })
+  test('Show avgift section', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'no',
+      'currency code is SEK': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_showAvgiftSection
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCurrency(args)
+    await testFunc(args)
+  })
+  test('Open info about avgift', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    await handles.action_selectCurrency(args)
+    let testFunc = handles.test_openInfoAboutAvgift
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_vadSkaJagBetalaForAvgiftClicked(args)
+    await testFunc(args)
+  })
+  test('https www lansforsakringar se 49334d globalassets aa global dokument prislistor 08198 prislista privat pdf', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    await handles.action_selectCurrency(args)
+    await handles.action_vadSkaJagBetalaForAvgiftClicked(args)
+    let testFunc = handles.test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_prislistaClicked(args)
+    await testFunc(args)
+  })
+  test('Hide avgift section 1', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_hideAvgiftSection
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCurrency(args)
+    await testFunc(args)
+  })
+  test('Hide betalningsreferens 1', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'yes',
+      'currency code is EUR': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_hideBetalningsreferens
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCurrency(args)
+    await testFunc(args)
+  })
+  test('Show betalningsreferens', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'country isEuEesCountry': 'yes',
+      'currency code is EUR': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_showBetalningsreferens
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_selectCurrency(args)
+    await testFunc(args)
+  })
+
+      })
+      test.describe('Validate payment', ()=>{
   test('bank payment crossborder crossborder payments', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -936,12 +1356,13 @@ test.describe('main', () => {
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    const serviceCallTest = await handles.test_bankPaymentCrossborderCrossborderPayments(args) as any
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_bankPaymentCrossborderCrossborderPayments
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await serviceCallTest(args)
+    await testFunc(args)
   })
   test.describe("Validate errors Errors from validate service", ()=>{
     const testNode = async ({tableRow, context, page}: {tableRow: Record<string,string>, page: Page, context: BrowserContext}) => {
@@ -949,20 +1370,18 @@ test.describe('main', () => {
         'Any errors loading data': 'no',
         'empty array from getAccounts': 'no',
         'Is Konto selected': 'yes',
-        'Any validation errors from mottagare': 'no',
-        'Both meddelande and referens are shown and empty': 'no',
-        'Any validation errors from betalning': 'no',
-        'Error from validate service': 'yes'
+        'Any validation errors from mottagare': 'no'
       }
       const state = await handles.setup({ gateways, page, context, tableRow } as any)
       const args = { gateways, state, page, context, tableRow } as any
       await handleServiceCalls(args)
-      const actions = [
-        'action_franFortsattClicked',
-        'action_mottagareFortsattClicked',
-        'action_signeraMottagreLaggTillButtonClicked'
-      ]
-      await handles.test_validateErrorsErrorsFromValidateService(args, { actions })
+      await handles.start(args)
+      await handles.action_franFortsattClicked(args)
+      await handles.action_mottagareFortsattClicked(args)
+      let testFunc = handles.test_validateErrorsErrorsFromValidateService
+      if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+      await handles.action_signeraMottagreLaggTillButtonClicked(args)
+      await testFunc(args)
     }
     
     test("10", async ({ page, context }) => {
@@ -1273,26 +1692,6 @@ test.describe('main', () => {
       await testNode({tableRow, page, context})
     })
   })
-  test('Show 3 Alert Messages', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'Both meddelande and referens are shown and empty': 'no',
-      'Any validation errors from betalning': 'no',
-      'Error from validate service': 'yes',
-      'More than 3 alerts': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await handles.test_show3AlertMessages(args)
-  })
   test('Show all Alert Messages', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -1310,9 +1709,34 @@ test.describe('main', () => {
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_showAllAlertMessages
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await handles.test_showAllAlertMessages(args)
+    await testFunc(args)
   })
+  test('Show 3 Alert Messages', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'Both meddelande and referens are shown and empty': 'no',
+      'Any validation errors from betalning': 'no',
+      'Error from validate service': 'yes',
+      'More than 3 alerts': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_show3AlertMessages
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_signeraMottagreLaggTillButtonClicked(args)
+    await testFunc(args)
+  })
+        test.describe('New recipient summary modal', ()=>{
   test('Display recipient summary modal creditorDetails creditorName creditorDetails creditorAddress addressLine1 creditorDetails creditorAddress addressLine2 creditorDetails creditorAddress addressLine3 creditorDetails creditorAccount creditorDetails creditorAgentIdentification creditorDetails creditorAgentName', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -1329,28 +1753,10 @@ test.describe('main', () => {
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
+    let testFunc = handles.test_displayRecipientSummaryModalCreditordetailsCreditornameCreditordetailsCreditoraddressAddressline1CreditordetailsCreditoraddressAddressline2CreditordetailsCreditoraddressAddressline3CreditordetailsCreditoraccountCreditordetailsCreditoragentidentificationCreditordetailsCreditoragentname
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await handles.test_displayRecipientSummaryModalCreditordetailsCreditornameCreditordetailsCreditoraddressAddressline1CreditordetailsCreditoraddressAddressline2CreditordetailsCreditoraddressAddressline3CreditordetailsCreditoraccountCreditordetailsCreditoragentidentificationCreditordetailsCreditoragentname(args)
-  })
-  test('Close recipient summary modal', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'Both meddelande and referens are shown and empty': 'no',
-      'Any validation errors from betalning': 'no',
-      'Error from validate service': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await handles.action_avbrytClicked(args)
-    await handles.test_closeRecipientSummaryModal(args)
+    await testFunc(args)
   })
   test('POST payee sign', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1365,13 +1771,14 @@ test.describe('main', () => {
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    const serviceCallTest = await handles.test_postPayeeSign(args) as any
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
+    let testFunc = handles.test_postPayeeSign
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraClicked(args)
-    await serviceCallTest(args)
+    await testFunc(args)
   })
   test('Show error for sign payee', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1391,31 +1798,10 @@ test.describe('main', () => {
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
+    let testFunc = handles.test_showErrorForSignPayee
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraClicked(args)
-    await handles.test_showErrorForSignPayee(args)
-  })
-  test('POST payee execute', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'Both meddelande and referens are shown and empty': 'no',
-      'Any validation errors from betalning': 'no',
-      'Error from validate service': 'no',
-      'Any errors from sign payee': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    const serviceCallTest = await handles.test_postPayeeExecute(args) as any
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await handles.action_signeraClicked(args)
-    await handles.action_payeeSigningCompleted(args)
-    await serviceCallTest(args)
+    await testFunc(args)
   })
   test('Close recipient signing modal', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1436,8 +1822,34 @@ test.describe('main', () => {
     await handles.action_mottagareFortsattClicked(args)
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
     await handles.action_signeraClicked(args)
+    let testFunc = handles.test_closeRecipientSigningModal
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_cancelPayeeSigning(args)
-    await handles.test_closeRecipientSigningModal(args)
+    await testFunc(args)
+  })
+  test('POST payee execute', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'Both meddelande and referens are shown and empty': 'no',
+      'Any validation errors from betalning': 'no',
+      'Error from validate service': 'no',
+      'Any errors from sign payee': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    await handles.action_signeraMottagreLaggTillButtonClicked(args)
+    await handles.action_signeraClicked(args)
+    let testFunc = handles.test_postPayeeExecute
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_payeeSigningCompleted(args)
+    await testFunc(args)
   })
   test('Display some error', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1459,9 +1871,34 @@ test.describe('main', () => {
     await handles.action_mottagareFortsattClicked(args)
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
     await handles.action_signeraClicked(args)
+    let testFunc = handles.test_displaySomeError
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_payeeSigningCompleted(args)
-    await handles.test_displaySomeError(args)
+    await testFunc(args)
   })
+  test('Close recipient summary modal', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'Both meddelande and referens are shown and empty': 'no',
+      'Any validation errors from betalning': 'no',
+      'Error from validate service': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    await handles.action_signeraMottagreLaggTillButtonClicked(args)
+    let testFunc = handles.test_closeRecipientSummaryModal
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_avbrytClicked(args)
+    await testFunc(args)
+  })
+          test.describe('Payment summary page', ()=>{
   test('Display creditorDetails creditorAccount creditorDetails creditorName creditorDetails creditorAgentIdentification creditorDetails creditorAddress addressLine1 creditorDetails creditorAddress addressLine2 creditorDetails creditorAddress addressLine3 creditorDetails creditorAgentName creditorDetails creditorAgentIdentificationType creditorDetails creditorAgentAddress addressLine1 paymentDetails requestedExecutionDate paymentDetails equivalentAmount paymentDetails equivalentCurrency paymentDetails transactionAmount paymentDetails transactionCurrency paymentDetails endToEndIdentification paymentDetails remittanceInformation paymentDetails exchangeRate paymentDetails fee', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -1482,32 +1919,10 @@ test.describe('main', () => {
     await handles.action_mottagareFortsattClicked(args)
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
     await handles.action_signeraClicked(args)
+    let testFunc = handles.test_displayCreditordetailsCreditoraccountCreditordetailsCreditornameCreditordetailsCreditoragentidentificationCreditordetailsCreditoraddressAddressline1CreditordetailsCreditoraddressAddressline2CreditordetailsCreditoraddressAddressline3CreditordetailsCreditoragentnameCreditordetailsCreditoragentidentificationtypeCreditordetailsCreditoragentaddressAddressline1PaymentdetailsRequestedexecutiondatePaymentdetailsEquivalentamountPaymentdetailsEquivalentcurrencyPaymentdetailsTransactionamountPaymentdetailsTransactioncurrencyPaymentdetailsEndtoendidentificationPaymentdetailsRemittanceinformationPaymentdetailsExchangeratePaymentdetailsFee
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_payeeSigningCompleted(args)
-    await handles.test_displayCreditordetailsCreditoraccountCreditordetailsCreditornameCreditordetailsCreditoragentidentificationCreditordetailsCreditoraddressAddressline1CreditordetailsCreditoraddressAddressline2CreditordetailsCreditoraddressAddressline3CreditordetailsCreditoragentnameCreditordetailsCreditoragentidentificationtypeCreditordetailsCreditoragentaddressAddressline1PaymentdetailsRequestedexecutiondatePaymentdetailsEquivalentamountPaymentdetailsEquivalentcurrencyPaymentdetailsTransactionamountPaymentdetailsTransactioncurrencyPaymentdetailsEndtoendidentificationPaymentdetailsRemittanceinformationPaymentdetailsExchangeratePaymentdetailsFee(args)
-  })
-  test('Go back to registration page', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'Both meddelande and referens are shown and empty': 'no',
-      'Any validation errors from betalning': 'no',
-      'Error from validate service': 'no',
-      'Any errors from sign payee': 'no',
-      'Is payee status completed': 'yes'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await handles.action_signeraClicked(args)
-    await handles.action_payeeSigningCompleted(args)
-    await handles.action_andraClicked(args)
-    await handles.test_goBackToRegistrationPage(args)
+    await testFunc(args)
   })
   test('POST payment sign', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1524,40 +1939,16 @@ test.describe('main', () => {
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    const serviceCallTest = await handles.test_postPaymentSign(args) as any
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
     await handles.action_signeraClicked(args)
     await handles.action_payeeSigningCompleted(args)
+    let testFunc = handles.test_postPaymentSign
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_godkannClicked(args)
-    await serviceCallTest(args)
-  })
-  test('Display sign payment modal', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'Both meddelande and referens are shown and empty': 'no',
-      'Any validation errors from betalning': 'no',
-      'Error from validate service': 'no',
-      'Any errors from sign payee': 'no',
-      'Is payee status completed': 'yes',
-      'Any errors from sign payment': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await handles.action_signeraClicked(args)
-    await handles.action_payeeSigningCompleted(args)
-    await handles.action_godkannClicked(args)
-    await handles.test_displaySignPaymentModal(args)
+    await testFunc(args)
   })
   test('Show error for sign payment', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1581,8 +1972,37 @@ test.describe('main', () => {
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
     await handles.action_signeraClicked(args)
     await handles.action_payeeSigningCompleted(args)
+    let testFunc = handles.test_showErrorForSignPayment
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_godkannClicked(args)
-    await handles.test_showErrorForSignPayment(args)
+    await testFunc(args)
+  })
+  test('Display sign payment modal', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'Both meddelande and referens are shown and empty': 'no',
+      'Any validation errors from betalning': 'no',
+      'Error from validate service': 'no',
+      'Any errors from sign payee': 'no',
+      'Is payee status completed': 'yes',
+      'Any errors from sign payment': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    await handles.action_signeraMottagreLaggTillButtonClicked(args)
+    await handles.action_signeraClicked(args)
+    await handles.action_payeeSigningCompleted(args)
+    let testFunc = handles.test_displaySignPaymentModal
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_godkannClicked(args)
+    await testFunc(args)
   })
   test('Close sign payment modal', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1607,34 +2027,10 @@ test.describe('main', () => {
     await handles.action_signeraClicked(args)
     await handles.action_payeeSigningCompleted(args)
     await handles.action_godkannClicked(args)
-    await handles.action_paymentSigningComplete(args)
-    await handles.test_closeSignPaymentModal(args)
-  })
-  test('Close sign payment modal 1', async ({ page, context }) => {
-    const gateways: GatewayCollection = {
-      'Any errors loading data': 'no',
-      'empty array from getAccounts': 'no',
-      'Is Konto selected': 'yes',
-      'Any validation errors from mottagare': 'no',
-      'Both meddelande and referens are shown and empty': 'no',
-      'Any validation errors from betalning': 'no',
-      'Error from validate service': 'no',
-      'Any errors from sign payee': 'no',
-      'Is payee status completed': 'yes',
-      'Any errors from sign payment': 'no'
-    }
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-    await handles.start(args)
-    await handles.action_franFortsattClicked(args)
-    await handles.action_mottagareFortsattClicked(args)
-    await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await handles.action_signeraClicked(args)
-    await handles.action_payeeSigningCompleted(args)
-    await handles.action_godkannClicked(args)
+    let testFunc = handles.test_closeSignPaymentModal
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_cancelPaymentSigning(args)
-    await handles.test_closeSignPaymentModal(args)
+    await testFunc(args)
   })
   test('Go back to payment summary page', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1659,9 +2055,66 @@ test.describe('main', () => {
     await handles.action_signeraClicked(args)
     await handles.action_payeeSigningCompleted(args)
     await handles.action_godkannClicked(args)
+    let testFunc = handles.test_goBackToPaymentSummaryPage
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_cancelPaymentSigning(args)
-    await handles.test_goBackToPaymentSummaryPage(args)
+    await testFunc(args)
   })
+  test('Close sign payment modal 1', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'Both meddelande and referens are shown and empty': 'no',
+      'Any validation errors from betalning': 'no',
+      'Error from validate service': 'no',
+      'Any errors from sign payee': 'no',
+      'Is payee status completed': 'yes',
+      'Any errors from sign payment': 'no'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    await handles.action_signeraMottagreLaggTillButtonClicked(args)
+    await handles.action_signeraClicked(args)
+    await handles.action_payeeSigningCompleted(args)
+    await handles.action_godkannClicked(args)
+    let testFunc = handles.test_closeSignPaymentModal
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_paymentSigningComplete(args)
+    await testFunc(args)
+  })
+  test('Go back to registration page', async ({ page, context }) => {
+    const gateways: GatewayCollection = {
+      'Any errors loading data': 'no',
+      'empty array from getAccounts': 'no',
+      'Is Konto selected': 'yes',
+      'Any validation errors from mottagare': 'no',
+      'Both meddelande and referens are shown and empty': 'no',
+      'Any validation errors from betalning': 'no',
+      'Error from validate service': 'no',
+      'Any errors from sign payee': 'no',
+      'Is payee status completed': 'yes'
+    }
+    const state = await handles.setup({ gateways, page, context } as any)
+    const args = { gateways, state, page, context } as any
+    await handleServiceCalls(args)
+    await handles.start(args)
+    await handles.action_franFortsattClicked(args)
+    await handles.action_mottagareFortsattClicked(args)
+    await handles.action_signeraMottagreLaggTillButtonClicked(args)
+    await handles.action_signeraClicked(args)
+    await handles.action_payeeSigningCompleted(args)
+    let testFunc = handles.test_goBackToRegistrationPage
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+    await handles.action_andraClicked(args)
+    await testFunc(args)
+  })
+            test.describe('Execute payment', ()=>{
   test('POST payment execute', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -1678,7 +2131,6 @@ test.describe('main', () => {
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    const serviceCallTest = await handles.test_postPaymentExecute(args) as any
     await handles.start(args)
     await handles.action_franFortsattClicked(args)
     await handles.action_mottagareFortsattClicked(args)
@@ -1686,8 +2138,10 @@ test.describe('main', () => {
     await handles.action_signeraClicked(args)
     await handles.action_payeeSigningCompleted(args)
     await handles.action_godkannClicked(args)
+    let testFunc = handles.test_postPaymentExecute
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_paymentSigningComplete(args)
-    await serviceCallTest(args)
+    await testFunc(args)
   })
   test('Show error for execute payment', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1713,9 +2167,12 @@ test.describe('main', () => {
     await handles.action_signeraClicked(args)
     await handles.action_payeeSigningCompleted(args)
     await handles.action_godkannClicked(args)
+    let testFunc = handles.test_showErrorForExecutePayment
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_paymentSigningComplete(args)
-    await handles.test_showErrorForExecutePayment(args)
+    await testFunc(args)
   })
+              test.describe('Confirmation page', ()=>{
   test('Show paymentDetails exchangeRate paymentDetails transactionAmount paymentDetails fee', async ({ page, context }) => {
     const gateways: GatewayCollection = {
       'Any errors loading data': 'no',
@@ -1740,8 +2197,10 @@ test.describe('main', () => {
     await handles.action_signeraClicked(args)
     await handles.action_payeeSigningCompleted(args)
     await handles.action_godkannClicked(args)
+    let testFunc = handles.test_showPaymentdetailsExchangeratePaymentdetailsTransactionamountPaymentdetailsFee
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_paymentSigningComplete(args)
-    await handles.test_showPaymentdetailsExchangeratePaymentdetailsTransactionamountPaymentdetailsFee(args)
+    await testFunc(args)
   })
   test('Initiate registerView', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1768,8 +2227,18 @@ test.describe('main', () => {
     await handles.action_payeeSigningCompleted(args)
     await handles.action_godkannClicked(args)
     await handles.action_paymentSigningComplete(args)
+    let testFunc = handles.test_initiateRegisterview
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_nyBetalningClicked(args)
-    await handles.test_initiateRegisterview(args)
+    await testFunc(args)
+  })
+
+              })
+            })
+          })
+        })
+      })
+    })
   })
 })
 
@@ -1805,11 +2274,10 @@ export type TestArgs<TState, TPageExtensions> = {
   tableRow?: Record<string,string>
 }
 
-export type TestOptions = {
-  actions?: string[]
-}
-
-export type TestFunction<TState, TPageExtensions> = (args: TestArgs<TState, TPageExtensions>, options?: TestOptions) => Promise<void|TestFunction<TState, TPageExtensions>>
+export type TestFunction<TState, TPageExtensions> = (
+  args: TestArgs<TState, TPageExtensions>,
+  usesPrepareFunction?: undefined
+) => Promise<void | (() => Promise<void>)>
 
 
 const handleServiceCalls = async (args: TestArgs<any, any>)=>{

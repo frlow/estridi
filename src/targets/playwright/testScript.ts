@@ -1,7 +1,6 @@
 import { findShortestPathToNode } from '../../common/shotestPath.js'
 import { getActionsForPath, getPathGatewayValuesForPath } from '../codegen/misc.js'
 import { _, camelize } from '../../common/texts.js'
-import { rawCommentBlock } from './common.js'
 
 export const getTestName = (name: string, usedNames: Record<string, number>): string => {
   usedNames[name] = usedNames[name] !== undefined ? usedNames[name] + 1 : 0
@@ -11,47 +10,22 @@ export const getTestName = (name: string, usedNames: Record<string, number>): st
 
 export const generateScriptTest = (scraped: Scraped, node: ScrapedScript | ScrapedServiceCall, blockPath: any[], usedNames: Record<string, number>) => {
 
-  const _node = { customTest: undefined, ...node }
   const shortestPath = findShortestPathToNode(scraped, node.id, blockPath)
   const gatewayValues = getPathGatewayValuesForPath(shortestPath)
   const actions = getActionsForPath(shortestPath)
-  const testText = `    await handles.test_${camelize(node.text.replace('*', ''))}(args${_node.customTest ? ', { actions }' : ''})`
-  const actionsText = _node.customTest
-    ? `    const actions = [
-${actions.map((a) => `      '${a}'`).join(',\n')}
-    ]`
-    : actions.map((a) => `    await handles.${a}(args)`).join('\n')
+  const gatewayText = `    const gateways: GatewayCollection = ${JSON.stringify(gatewayValues, null, 2).replace(/"/g, '\'').replace(/\n/g, `\n${_(2)}`)}`
+  const actionLines = [
+    '    await handles.start(args)',
+    ...actions.map((a) => `    await handles.${a}(args)`)]
   return `  test('${getTestName(node.text, usedNames)}', async ({ page, context }) => {
-    const gateways: GatewayCollection = ${JSON.stringify(gatewayValues, null, 2).replace(/"/g, '\'').replace(/\n/g, `\n${_(2)}`)}
+${gatewayText}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-    ${_node.customTest ? '// manually implement start in test' : `await handles.start(args)`}
-${actionsText}
-${testText}
-  })`
-}
-
-export const generateServiceCallTest = (scraped: Scraped, node: ScrapedScript | ScrapedServiceCall, blockPath: any[], usedNames: Record<string, number>) => {
-
-  const _node = { customTest: undefined, ...node }
-  const shortestPath = findShortestPathToNode(scraped, node.id, blockPath)
-  const gatewayValues = getPathGatewayValuesForPath(shortestPath)
-  const actions = getActionsForPath(shortestPath)
-  const testText = `    const serviceCallTest = await handles.test_${camelize(node.text)}(args) as any`
-  const actionsText = _node.customTest
-    ? `    const actions = [
-${actions.map((a) => `      '${a}'`).join(',\n')}
-    ]`
-    : actions.map((a) => `    await handles.${a}(args)`).join('\n')
-  return `  test('${getTestName(node.text, usedNames)}', async ({ page, context }) => {
-    const gateways: GatewayCollection = ${JSON.stringify(gatewayValues, null, 2).replace(/"/g, '\'').replace(/\n/g, `\n${_(2)}`)}
-    const state = await handles.setup({ gateways, page, context } as any)
-    const args = { gateways, state, page, context } as any
-    await handleServiceCalls(args)
-${testText}
-    await handles.start(args)
-${actionsText}
-    await serviceCallTest(args)
+${actionLines.slice(0,-1).join('\n')}
+    let testFunc = handles.test_${camelize(node.text)}
+    if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+${actionLines.slice(-1)}
+    expect(await testFunc(args)).toBeUndefined()
   })`
 }
