@@ -250,88 +250,88 @@ test.describe('main', ()=>{
     
     test("Land", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Land',
-        'Component type': 'DropdownInputSelect',
-        'Length': '1',
-        'Placeholder': 'Välj land',
-        'Notes': ''
+        "Id": "Land",
+        "Component type": "DropdownInputSelect",
+        "Length": "1",
+        "Placeholder": "Välj land",
+        "Notes": ""
       }
       await testNode({tableRow, page, context})
     })
 
     test("Mottagarens fullständiga namn", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Mottagarens fullständiga namn',
-        'Component type': 'Input field',
-        'Length': '1-35',
-        'Placeholder': '',
-        'Notes': ''
+        "Id": "Mottagarens fullständiga namn",
+        "Component type": "Input field",
+        "Length": "1-35",
+        "Placeholder": "",
+        "Notes": ""
       }
       await testNode({tableRow, page, context})
     })
 
     test("Adress", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Adress',
-        'Component type': 'Input field x3',
-        'Length': '1-35',
-        'Placeholder': '',
-        'Notes': ''
+        "Id": "Adress",
+        "Component type": "Input field x3",
+        "Length": "1-35",
+        "Placeholder": "",
+        "Notes": ""
       }
       await testNode({tableRow, page, context})
     })
 
     test("Kontonummer IBAN", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Kontonummer (IBAN)',
-        'Component type': 'Input field',
-        'Length': '1-35',
-        'Placeholder': '',
-        'Notes': ''
+        "Id": "Kontonummer (IBAN)",
+        "Component type": "Input field",
+        "Length": "1-35",
+        "Placeholder": "",
+        "Notes": ""
       }
       await testNode({tableRow, page, context})
     })
 
     test("Kontonummer BBAN", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Kontonummer (BBAN)',
-        'Component type': 'Input field',
-        'Length': '1-35',
-        'Placeholder': '',
-        'Notes': ''
+        "Id": "Kontonummer (BBAN)",
+        "Component type": "Input field",
+        "Length": "1-35",
+        "Placeholder": "",
+        "Notes": ""
       }
       await testNode({tableRow, page, context})
     })
 
     test("Bankkod BIC SWIFT", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Bankkod (BIC/SWIFT)',
-        'Component type': 'Input field',
-        'Length': '8-11',
-        'Placeholder': '',
-        'Notes': 'infotext: BIC/SWIFT är en internationell identifieringskod, varje bank har en unik. Kan vara 8 eller 11 tecken.'
+        "Id": "Bankkod (BIC/SWIFT)",
+        "Component type": "Input field",
+        "Length": "8-11",
+        "Placeholder": "",
+        "Notes": "infotext: BIC/SWIFT är en internationell identifieringskod, varje bank har en unik. Kan vara 8 eller 11 tecken."
       }
       await testNode({tableRow, page, context})
     })
 
     test("Bankkod BIC SWIFT eller Nationellt ID", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Bankkod (BIC/SWIFT eller Nationellt ID)',
-        'Component type': 'Input field',
-        'Length': '8-11',
-        'Placeholder': '',
-        'Notes': 'infotext: BIC/SWIFT är en internationell identifieringskod, varje bank har en unik. Kan vara 8 eller 11 tecken. Nationellt ID är en nationell identifieringskod ska vara 11 tecken.'
+        "Id": "Bankkod (BIC/SWIFT eller Nationellt ID)",
+        "Component type": "Input field",
+        "Length": "8-11",
+        "Placeholder": "",
+        "Notes": "infotext: BIC/SWIFT är en internationell identifieringskod, varje bank har en unik. Kan vara 8 eller 11 tecken. Nationellt ID är en nationell identifieringskod ska vara 11 tecken."
       }
       await testNode({tableRow, page, context})
     })
 
     test("Bankkod BIC SWIFT frivilligt", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Bankkod (BIC/SWIFT frivilligt)',
-        'Component type': 'Input field',
-        'Length': '',
-        'Placeholder': '',
-        'Notes': 'infotext: BIC/SWIFT är en internationell identifieringskod, varje bank har en unik. Kan vara 8 eller 11 tecken.\n'
+        "Id": "Bankkod (BIC/SWIFT frivilligt)",
+        "Component type": "Input field",
+        "Length": "",
+        "Placeholder": "",
+        "Notes": "infotext: BIC/SWIFT är en internationell identifieringskod, varje bank har en unik. Kan vara 8 eller 11 tecken.\n"
       }
       await testNode({tableRow, page, context})
     })
@@ -909,60 +909,60 @@ test.describe('main', ()=>{
     
     test("Valuta", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Valuta',
-        'Component type': 'DropdownInputSelect',
-        'Properties': 'Required',
-        'Specific requirements': 'Default value “Välj land”'
+        "Id": "Valuta",
+        "Component type": "DropdownInputSelect",
+        "Properties": "Required",
+        "Specific requirements": "Default value “Välj land”"
       }
       await testNode({tableRow, page, context})
     })
 
     test("Belopp", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Belopp',
-        'Component type': 'Input field',
-        'Properties': 'Required\nDecimal [Format: 1-14 integers, 0-2 decimals]',
-        'Specific requirements': ''
+        "Id": "Belopp",
+        "Component type": "Input field",
+        "Properties": "Required\nDecimal [Format: 1-14 integers, 0-2 decimals]",
+        "Specific requirements": ""
       }
       await testNode({tableRow, page, context})
     })
 
     test("Betala i SEK", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Betala i SEK',
-        'Component type': 'Checkbox',
-        'Properties': 'Optional',
-        'Specific requirements': ''
+        "Id": "Betala i SEK",
+        "Component type": "Checkbox",
+        "Properties": "Optional",
+        "Specific requirements": ""
       }
       await testNode({tableRow, page, context})
     })
 
     test("Avgift", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Avgift',
-        'Component type': 'Radio button',
-        'Properties': 'Required if shown',
-        'Specific requirements': 'Preselect “Jag betalar samtliga avgifter”'
+        "Id": "Avgift",
+        "Component type": "Radio button",
+        "Properties": "Required if shown",
+        "Specific requirements": "Preselect “Jag betalar samtliga avgifter”"
       }
       await testNode({tableRow, page, context})
     })
 
     test("Meddelande till mottagaren", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Meddelande till mottagaren',
-        'Component type': 'textarea',
-        'Properties': 'Optional \nString [Format: 1-140 characters]',
-        'Specific requirements': ''
+        "Id": "Meddelande till mottagaren",
+        "Component type": "textarea",
+        "Properties": "Optional \nString [Format: 1-140 characters]",
+        "Specific requirements": ""
       }
       await testNode({tableRow, page, context})
     })
 
     test("Betalningsreferens", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Betalningsreferens',
-        'Component type': 'Input field',
-        'Properties': 'Optional\nString [Format: 1-35 characters]',
-        'Specific requirements': ''
+        "Id": "Betalningsreferens",
+        "Component type": "Input field",
+        "Properties": "Optional\nString [Format: 1-35 characters]",
+        "Specific requirements": ""
       }
       await testNode({tableRow, page, context})
     })
@@ -1388,308 +1388,308 @@ test.describe('main', ()=>{
     
     test("10", async ({ page, context }) => {
       const tableRow = {
-        'Id': '10',
-        'Cause': 'Sessionen har gått ut.',
-        'Component': 'alert',
-        'Field': '',
-        'Error message to display': 'Du behöver logga in igen – din session eller behörighet har gått ut.'
+        "Id": "10",
+        "Cause": "Sessionen har gått ut.",
+        "Component": "alert",
+        "Field": "",
+        "Error message to display": "Du behöver logga in igen – din session eller behörighet har gått ut."
       }
       await testNode({tableRow, page, context})
     })
 
     test("11 100 111 113 121 124 126 130 131 132 133 134 135 143 145 146 149 150 152 155 157 159 161 163", async ({ page, context }) => {
       const tableRow = {
-        'Id': '11 \r\n100-111 \r\n113-121 \r\n124 \r\n126 \r\n130 \r\n131 \r\n132 \r\n133 \r\n134 \r\n135 \r\n143 \r\n145 \r\n146 \r\n149 \r\n150 \r\n152 \r\n155 \r\n157-159 \r\n161 \r\n163',
-        'Cause': 'Ska inte hända',
-        'Component': 'alert',
-        'Field': '',
-        'Error message to display': 'Något gick fel - försök gärna igen eller kontakta oss om felet kvarstår'
+        "Id": "11 \r\n100-111 \r\n113-121 \r\n124 \r\n126 \r\n130 \r\n131 \r\n132 \r\n133 \r\n134 \r\n135 \r\n143 \r\n145 \r\n146 \r\n149 \r\n150 \r\n152 \r\n155 \r\n157-159 \r\n161 \r\n163",
+        "Cause": "Ska inte hända",
+        "Component": "alert",
+        "Field": "",
+        "Error message to display": "Något gick fel - försök gärna igen eller kontakta oss om felet kvarstår"
       }
       await testNode({tableRow, page, context})
     })
 
     test("105", async ({ page, context }) => {
       const tableRow = {
-        'Id': '105',
-        'Cause': 'Generellt fel om användarens valda konto',
-        'Component': 'field',
-        'Field': 'Frånkonto',
-        'Error message to display': 'Kontrollera konto'
+        "Id": "105",
+        "Cause": "Generellt fel om användarens valda konto",
+        "Component": "field",
+        "Field": "Frånkonto",
+        "Error message to display": "Kontrollera konto"
       }
       await testNode({tableRow, page, context})
     })
 
     test("112", async ({ page, context }) => {
       const tableRow = {
-        'Id': '112',
-        'Cause': 'För företag ska en \'tax code\' anges vid större betalningar. Generellt fel om den',
-        'Component': 'alert',
-        'Field': '',
-        'Error message to display': 'Kontrollera betalkod\n// Senare field när vi gör Färetag'
+        "Id": "112",
+        "Cause": "För företag ska en \"tax code\" anges vid större betalningar. Generellt fel om den",
+        "Component": "alert",
+        "Field": "",
+        "Error message to display": "Kontrollera betalkod\n// Senare field när vi gör Färetag"
       }
       await testNode({tableRow, page, context})
     })
 
     test("122", async ({ page, context }) => {
       const tableRow = {
-        'Id': '122',
-        'Cause': 'Generellt fel om mottagarens kontonummer',
-        'Component': 'field',
-        'Field': 'Mottagarens konto',
-        'Error message to display': 'Kontrollera kontonummer'
+        "Id": "122",
+        "Cause": "Generellt fel om mottagarens kontonummer",
+        "Component": "field",
+        "Field": "Mottagarens konto",
+        "Error message to display": "Kontrollera kontonummer"
       }
       await testNode({tableRow, page, context})
     })
 
     test("123", async ({ page, context }) => {
       const tableRow = {
-        'Id': '123',
-        'Cause': 'Generellt fel om mottagarens namn',
-        'Component': 'field',
-        'Field': 'Mottagarens namn',
-        'Error message to display': 'Kontrollera mottagarens namn'
+        "Id": "123",
+        "Cause": "Generellt fel om mottagarens namn",
+        "Component": "field",
+        "Field": "Mottagarens namn",
+        "Error message to display": "Kontrollera mottagarens namn"
       }
       await testNode({tableRow, page, context})
     })
 
     test("125", async ({ page, context }) => {
       const tableRow = {
-        'Id': '125',
-        'Cause': 'Generellt fel om BIC/SWIFT/NID',
-        'Component': 'field',
-        'Field': 'Banknummer',
-        'Error message to display': 'Kontrollera bankens identifieringskod'
+        "Id": "125",
+        "Cause": "Generellt fel om BIC/SWIFT/NID",
+        "Component": "field",
+        "Field": "Banknummer",
+        "Error message to display": "Kontrollera bankens identifieringskod"
       }
       await testNode({tableRow, page, context})
     })
 
     test("127", async ({ page, context }) => {
       const tableRow = {
-        'Id': '127',
-        'Cause': 'Generellt fel om mottagarens adress 1',
-        'Component': 'field',
-        'Field': 'Adress',
-        'Error message to display': 'Kontrollera mottagarens adress'
+        "Id": "127",
+        "Cause": "Generellt fel om mottagarens adress 1",
+        "Component": "field",
+        "Field": "Adress",
+        "Error message to display": "Kontrollera mottagarens adress"
       }
       await testNode({tableRow, page, context})
     })
 
     test("128", async ({ page, context }) => {
       const tableRow = {
-        'Id': '128',
-        'Cause': 'Generellt fel om mottagarens adress 2',
-        'Component': 'field',
-        'Field': 'Adress',
-        'Error message to display': 'Kontrollera mottagarens adress'
+        "Id": "128",
+        "Cause": "Generellt fel om mottagarens adress 2",
+        "Component": "field",
+        "Field": "Adress",
+        "Error message to display": "Kontrollera mottagarens adress"
       }
       await testNode({tableRow, page, context})
     })
 
     test("129", async ({ page, context }) => {
       const tableRow = {
-        'Id': '129',
-        'Cause': 'Generellt fel om mottagarens adress 3',
-        'Component': 'field',
-        'Field': 'Adress',
-        'Error message to display': 'Kontrollera mottagarens adress'
+        "Id": "129",
+        "Cause": "Generellt fel om mottagarens adress 3",
+        "Component": "field",
+        "Field": "Adress",
+        "Error message to display": "Kontrollera mottagarens adress"
       }
       await testNode({tableRow, page, context})
     })
 
     test("136", async ({ page, context }) => {
       const tableRow = {
-        'Id': '136',
-        'Cause': 'Tax kod saknas vid betalning? Behövs vid belopp X?',
-        'Component': '',
-        'Field': '',
-        'Error message to display': 'Ange betalningskod\n// Företag'
+        "Id": "136",
+        "Cause": "Tax kod saknas vid betalning? Behövs vid belopp X?",
+        "Component": "",
+        "Field": "",
+        "Error message to display": "Ange betalningskod\n// Företag"
       }
       await testNode({tableRow, page, context})
     })
 
     test("137", async ({ page, context }) => {
       const tableRow = {
-        'Id': '137',
-        'Cause': 'Format på IBAN stämmer ej',
-        'Component': 'field',
-        'Field': 'Mottagarens konto',
-        'Error message to display': 'Kontrollera formatet på IBAN'
+        "Id": "137",
+        "Cause": "Format på IBAN stämmer ej",
+        "Component": "field",
+        "Field": "Mottagarens konto",
+        "Error message to display": "Kontrollera formatet på IBAN"
       }
       await testNode({tableRow, page, context})
     })
 
     test("138", async ({ page, context }) => {
       const tableRow = {
-        'Id': '138',
-        'Cause': 'Valt konto är blockerat',
-        'Component': 'alert + field',
-        'Field': 'Frånkonto',
-        'Error message to display': 'Alert: Vänligen kontakta telefonbanken på 0771-666555 och välj knappval 2. Öppettider för utlandsbetalningar är vardagar 07:30-16:00\n\nField: Kontot kan inte användas för utlandsbetalning'
+        "Id": "138",
+        "Cause": "Valt konto är blockerat",
+        "Component": "alert + field",
+        "Field": "Frånkonto",
+        "Error message to display": "Alert: Vänligen kontakta telefonbanken på 0771-666555 och välj knappval 2. Öppettider för utlandsbetalningar är vardagar 07:30-16:00\n\nField: Kontot kan inte användas för utlandsbetalning"
       }
       await testNode({tableRow, page, context})
     })
 
     test("139", async ({ page, context }) => {
       const tableRow = {
-        'Id': '139',
-        'Cause': 'Valt konto har felaktig status, exempelvis att kontot är inaktivt.\nGenerellt, ev misstänk aktivitet men vi vill ej säga det till kunden',
-        'Component': 'field',
-        'Field': 'Frånkonto',
-        'Error message to display': ' Kontrollera kontonummer'
+        "Id": "139",
+        "Cause": "Valt konto har felaktig status, exempelvis att kontot är inaktivt.\nGenerellt, ev misstänk aktivitet men vi vill ej säga det till kunden",
+        "Component": "field",
+        "Field": "Frånkonto",
+        "Error message to display": " Kontrollera kontonummer"
       }
       await testNode({tableRow, page, context})
     })
 
     test("140", async ({ page, context }) => {
       const tableRow = {
-        'Id': '140',
-        'Cause': 'Vet inte när detta inträffar - vad är beloppsgränsen?',
-        'Component': 'field',
-        'Field': 'Belopp',
-        'Error message to display': 'Maxbelopp per transaktion uppnått, välj ett lägre belopp'
+        "Id": "140",
+        "Cause": "Vet inte när detta inträffar - vad är beloppsgränsen?",
+        "Component": "field",
+        "Field": "Belopp",
+        "Error message to display": "Maxbelopp per transaktion uppnått, välj ett lägre belopp"
       }
       await testNode({tableRow, page, context})
     })
 
     test("141", async ({ page, context }) => {
       const tableRow = {
-        'Id': '141',
-        'Cause': 'Betalningen är för stor för \'personligt\' inställningar/limit',
-        'Component': 'field',
-        'Field': 'Belopp',
-        'Error message to display': 'Maxbelopp per transaktion uppnått, välj ett lägre belopp'
+        "Id": "141",
+        "Cause": "Betalningen är för stor för \"personligt\" inställningar/limit",
+        "Component": "field",
+        "Field": "Belopp",
+        "Error message to display": "Maxbelopp per transaktion uppnått, välj ett lägre belopp"
       }
       await testNode({tableRow, page, context})
     })
 
     test("142", async ({ page, context }) => {
       const tableRow = {
-        'Id': '142',
-        'Cause': 'När betalningar senaste sju dagar överskider personlig \'inställningar/limit\'',
-        'Component': 'field',
-        'Field': 'Belopp',
-        'Error message to display': 'Maxbelopp per 7 dagar uppnått, välj ett lägre belopp'
+        "Id": "142",
+        "Cause": "När betalningar senaste sju dagar överskider personlig \"inställningar/limit\"",
+        "Component": "field",
+        "Field": "Belopp",
+        "Error message to display": "Maxbelopp per 7 dagar uppnått, välj ett lägre belopp"
       }
       await testNode({tableRow, page, context})
     })
 
     test("144", async ({ page, context }) => {
       const tableRow = {
-        'Id': '144',
-        'Cause': 'Saknar täckning',
-        'Component': 'field',
-        'Field': 'Belopp',
-        'Error message to display': 'Tillgängligt saldo för lågt'
+        "Id": "144",
+        "Cause": "Saknar täckning",
+        "Component": "field",
+        "Field": "Belopp",
+        "Error message to display": "Tillgängligt saldo för lågt"
       }
       await testNode({tableRow, page, context})
     })
 
     test("147", async ({ page, context }) => {
       const tableRow = {
-        'Id': '147',
-        'Cause': 'När mottagerns bank är i annat land än valt land',
-        'Component': 'field x3',
-        'Field': 'Land\nMottagarens konto\nBanknummer',
-        'Error message to display': 'Country field: Kontrollera val av land\n\nRecipient account number field: Kontrollera IBAN or Kontrollera BBAN\n\nRecipient bank number field: Kontrollera BIC/SWIFT eller National ID'
+        "Id": "147",
+        "Cause": "När mottagerns bank är i annat land än valt land",
+        "Component": "field x3",
+        "Field": "Land\nMottagarens konto\nBanknummer",
+        "Error message to display": "Country field: Kontrollera val av land\n\nRecipient account number field: Kontrollera IBAN or Kontrollera BBAN\n\nRecipient bank number field: Kontrollera BIC/SWIFT eller National ID"
       }
       await testNode({tableRow, page, context})
     })
 
     test("148", async ({ page, context }) => {
       const tableRow = {
-        'Id': '148',
-        'Cause': 'När användaren exempelvis enbart angett IBAN där IBAN + BIC krävs?',
-        'Component': 'field',
-        'Field': 'Banknummer',
-        'Error message to display': 'Kontrollera bankens identifierngskod\n'
+        "Id": "148",
+        "Cause": "När användaren exempelvis enbart angett IBAN där IBAN + BIC krävs?",
+        "Component": "field",
+        "Field": "Banknummer",
+        "Error message to display": "Kontrollera bankens identifierngskod\n"
       }
       await testNode({tableRow, page, context})
     })
 
     test("149", async ({ page, context }) => {
       const tableRow = {
-        'Id': '149',
-        'Cause': '??????',
-        'Component': 'field x2',
-        'Field': 'Banknummer\nValuta',
-        'Error message to display': 'Recipient bank field: Kontrollera bankens identifieringskod\n\nCurrency field: För nationell identifieringskod krävs valt lands valuta'
+        "Id": "149",
+        "Cause": "??????",
+        "Component": "field x2",
+        "Field": "Banknummer\nValuta",
+        "Error message to display": "Recipient bank field: Kontrollera bankens identifieringskod\n\nCurrency field: För nationell identifieringskod krävs valt lands valuta"
       }
       await testNode({tableRow, page, context})
     })
 
     test("151", async ({ page, context }) => {
       const tableRow = {
-        'Id': '151',
-        'Cause': 'Fel kombination av land och valuta',
-        'Component': 'field',
-        'Field': 'Valuta',
-        'Error message to display': 'Valutan går inte att betala med till det land du har valt'
+        "Id": "151",
+        "Cause": "Fel kombination av land och valuta",
+        "Component": "field",
+        "Field": "Valuta",
+        "Error message to display": "Valutan går inte att betala med till det land du har valt"
       }
       await testNode({tableRow, page, context})
     })
 
     test("153", async ({ page, context }) => {
       const tableRow = {
-        'Id': '153',
-        'Cause': 'Användaren har inte tillgång till \'utlandstjänsten\' - behöver exempelvis uppdatera KYC',
-        'Component': 'alert',
-        'Field': '',
-        'Error message to display': 'Du har inte tjänsten för utlandsbetalningar – Vänligen kontakta telefonbanken på 0771-666555 och välj knappval 2. Öppettider för utlandsbetalningar är vardagar 07:30-16:00'
+        "Id": "153",
+        "Cause": "Användaren har inte tillgång till \"utlandstjänsten\" - behöver exempelvis uppdatera KYC",
+        "Component": "alert",
+        "Field": "",
+        "Error message to display": "Du har inte tjänsten för utlandsbetalningar – Vänligen kontakta telefonbanken på 0771-666555 och välj knappval 2. Öppettider för utlandsbetalningar är vardagar 07:30-16:00"
       }
       await testNode({tableRow, page, context})
     })
 
     test("154", async ({ page, context }) => {
       const tableRow = {
-        'Id': '154',
-        'Cause': 'Generellt fel om tax code',
-        'Component': '',
-        'Field': '',
-        'Error message to display': 'Kontrollera betalningskod\n// Företag'
+        "Id": "154",
+        "Cause": "Generellt fel om tax code",
+        "Component": "",
+        "Field": "",
+        "Error message to display": "Kontrollera betalningskod\n// Företag"
       }
       await testNode({tableRow, page, context})
     })
 
     test("156", async ({ page, context }) => {
       const tableRow = {
-        'Id': '156',
-        'Cause': '????',
-        'Component': 'alert',
-        'Field': '',
-        'Error message to display': 'Din betalning kunde inte genomföras – försök gärna igen eller kontakta oss om problemet kvarstår'
+        "Id": "156",
+        "Cause": "????",
+        "Component": "alert",
+        "Field": "",
+        "Error message to display": "Din betalning kunde inte genomföras – försök gärna igen eller kontakta oss om problemet kvarstår"
       }
       await testNode({tableRow, page, context})
     })
 
     test("160", async ({ page, context }) => {
       const tableRow = {
-        'Id': '160',
-        'Cause': 'När något är fel hos DnB (de genomför utlandsbetalningar åt LF)',
-        'Component': 'alert',
-        'Field': '',
-        'Error message to display': 'Tekniken är inte med oss just nu – det går inte att göra utlandsbetalningar, försök igen om en stund'
+        "Id": "160",
+        "Cause": "När något är fel hos DnB (de genomför utlandsbetalningar åt LF)",
+        "Component": "alert",
+        "Field": "",
+        "Error message to display": "Tekniken är inte med oss just nu – det går inte att göra utlandsbetalningar, försök igen om en stund"
       }
       await testNode({tableRow, page, context})
     })
 
     test("162", async ({ page, context }) => {
       const tableRow = {
-        'Id': '162',
-        'Cause': 'Spärrad mottagare i utlandet exempelvis',
-        'Component': 'alert',
-        'Field': '',
-        'Error message to display': 'Vi kan inte genomföra din transaktion – Vänligen kontakta telefonbanken på 0771-666555 och välj knappval 2. Öppettider för utlandsbetalningar är vardagar 07:30-16:00'
+        "Id": "162",
+        "Cause": "Spärrad mottagare i utlandet exempelvis",
+        "Component": "alert",
+        "Field": "",
+        "Error message to display": "Vi kan inte genomföra din transaktion – Vänligen kontakta telefonbanken på 0771-666555 och välj knappval 2. Öppettider för utlandsbetalningar är vardagar 07:30-16:00"
       }
       await testNode({tableRow, page, context})
     })
 
     test("Empty response", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Empty response',
-        'Cause': 'Server svarar men det finns inget innehll i svaret',
-        'Component': '',
-        'Field': '',
-        'Error message to display': ''
+        "Id": "Empty response",
+        "Cause": "Server svarar men det finns inget innehll i svaret",
+        "Component": "",
+        "Field": "",
+        "Error message to display": ""
       }
       await testNode({tableRow, page, context})
     })

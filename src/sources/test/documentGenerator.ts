@@ -7,7 +7,7 @@ export type NodeGenerator = {
   scriptGroupedText: (args: { text?: string; id?: string }) => any
   serviceCall: (args: { text?: string; id?: string }) => any
   start: (args: { id?: string }) => any
-  gateway: (args: { id?: string; text?: string }) => any
+  gateway: (args: { id?: string; text?: string, type?: 'gateway' | 'loop' | 'parallel' }) => any
   subprocess: (args: { id?: string; text?: string, position?: number }) => any
   userAction: (args: { id?: string; text?: string; position: number }) => any
   signalListen: (args: { id?: string; text?: string; position: number }) => any
@@ -21,7 +21,7 @@ export type TableGenerator = (args: {
 }) => any[]
 
 export type ConnectorGenerator = (args: {
-  id?: string
+  // id?: string
   start: string
   end?: string
   text?: string
@@ -45,6 +45,8 @@ export type DocumentType =
   | 'dotted'
   | 'table'
   | 'note'
+  | 'loop'
+  | 'subprocess-loop'
 
 export type GetDocumentFunc<T = any> = (type: DocumentType, options?: GetDocumentOptions) => T
 export type GetDocumentOptions = { text?: string }
@@ -94,14 +96,14 @@ export const getDocument = (
         ...connectorGenerator({
           start: 'GatewayId',
           text: 'yes',
-          end: 'YesId',
-          id: 'ConnectorId1'
+          end: 'YesId'
+          // id: 'ConnectorId1'
         }),
         ...connectorGenerator({
           start: 'GatewayId',
           text: 'no',
-          end: 'NoId',
-          id: 'ConnectorId2'
+          end: 'NoId'
+          // id: 'ConnectorId2'
         })
       ])
     case 'subprocess':
@@ -110,13 +112,13 @@ export const getDocument = (
         nodeGenerator.start({ id: 'LinkId' }),
         ...connectorGenerator({
           start: 'SubprocessId',
-          id: 'ConnectorId1',
+          // id: 'ConnectorId1',
           end: 'NextId'
         }),
         ...connectorGenerator({
           start: 'LinkId',
-          text: 'Next',
-          id: 'ConnectorId2'
+          text: 'Next'
+          // id: 'ConnectorId2'
         })
       ])
     case 'userAction':
@@ -124,12 +126,12 @@ export const getDocument = (
         nodeGenerator.userAction({ text: textExample, position: 0 }),
         nodeGenerator.signalListen({ text: 'Click', position: 0 }),
         ...connectorGenerator({
-          start: 'UserActionId',
-          id: 'ConnectorId1'
+          start: 'UserActionId'
+          // id: 'ConnectorId1'
         }),
         ...connectorGenerator({
           start: 'SignalListenId',
-          id: 'ConnectorId2',
+          // id: 'ConnectorId2',
           end: 'ActionId'
         })
       ])
@@ -175,12 +177,12 @@ export const getDocument = (
         nodeGenerator.subprocess({ text: 'External component', position: 0 }),
         nodeGenerator.signalListen({ text: 'Click', position: 0 }),
         ...connectorGenerator({
-          start: 'SubprocessId',
-          id: 'ConnectorId1'
+          start: 'SubprocessId'
+          // id: 'ConnectorId1'
         }),
         ...connectorGenerator({
           start: 'SignalListenId',
-          id: 'ConnectorId2',
+          // id: 'ConnectorId2',
           end: 'ActionId'
         })
       ])
@@ -192,9 +194,34 @@ export const getDocument = (
     case 'note':
       return baseNodeFunc([
         nodeGenerator.start({}),
-        ...connectorGenerator({ start: 'NoteId', end: 'StartId', id: 'NoteConnectionId', dotted: true }),
-        ...connectorGenerator({ start: 'StartId', end: 'NextId', id: 'NextConnectorId', text: textExample }),
+        ...connectorGenerator({ start: 'NoteId', end: 'StartId', dotted: true }),
+        ...connectorGenerator({ start: 'StartId', end: 'NextId', text: textExample }),
         nodeGenerator.note({ text: 'Some comment here' })
+      ])
+    case 'loop':
+      return baseNodeFunc([
+        nodeGenerator.start({}),
+        ...connectorGenerator({ start: 'StartId', end: 'LoopId', text: 'root:loop' }),
+        nodeGenerator.gateway({ id: 'LoopId', text: 'loop', type: 'loop' }),
+        ...connectorGenerator({ start: 'LoopId', end: 'ScriptId' }),
+        nodeGenerator.script({ id: 'ScriptId', text: 'Script', type: 'script' }),
+        ...connectorGenerator({ start: 'ScriptId', end: 'LoopReturnId' }),
+        nodeGenerator.gateway({ id: 'LoopReturnId', text: 'loop return' }),
+        ...connectorGenerator({ start: 'LoopReturnId', end: 'LoopId' })
+      ])
+    case 'subprocess-loop':
+      return baseNodeFunc([
+        nodeGenerator.start({ id: 'StartId' }),
+        ...connectorGenerator({ start: 'StartId', end: 'SubprocessId', text: 'root:test' }),
+        nodeGenerator.subprocess({ id: 'SubprocessId', text: 'Sub Start', position: 1000 }),
+        nodeGenerator.start({ id: 'SubprocessRootId' }),
+        ...connectorGenerator({ start: 'SubprocessRootId', end: 'ScriptId', text: 'Sub Start' }),
+        nodeGenerator.script({ id: 'ScriptId', text: 'Do thing', type: 'script' }),
+        ...connectorGenerator({ start: 'ScriptId', end: 'UserActionId' }),
+        nodeGenerator.userAction({ position: 0, id: 'UserActionId' }),
+        nodeGenerator.signalListen({ position: 0, text: 'Click Next', id: 'SignalListenId' }),
+        ...connectorGenerator({ start: 'SignalListenId', end: 'SubprocessLoopId' }),
+        nodeGenerator.subprocess({ id: 'SubprocessLoopId', text: 'Sub Start', position: 2000 })
       ])
     default:
       debugger

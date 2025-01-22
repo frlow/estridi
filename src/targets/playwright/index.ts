@@ -42,6 +42,7 @@ const getTestableNodeTree = (scraped: Scraped) => {
           testableNodesInBlock.push(connectedNode)
         }
         if (connectedNode.link) {
+          if (blockPath.some(n => n.id === connectedNode.link)) return
           testableNodesInBlock.push(processBlock(scraped.find(n => n.id === connectedNode.link) as ScrapedStart, findShortestPathToNode(scraped, connectedNode.id)))
           if (connectedNode.next) processNode(scraped.find(n => n.id === connectedNode.next))
         } else

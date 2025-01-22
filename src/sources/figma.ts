@@ -129,6 +129,11 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
       return start
     }
     case 'gateway': {
+      const numberOfChildren = (node as any).children.length
+      const variant = numberOfChildren === 2 ? 'gateway' :
+        numberOfChildren === 3 ? 'loop' :
+          'parallel'
+
       const gateway: ScrapedGateway = {
         type: 'gateway',
         id: node.id,
@@ -137,6 +142,7 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
           (acc, cur) => ({ ...acc, [cur.id]: cur.text }),
           {}
         ),
+        variant,
         raw: findRawText(node)
       }
       return gateway

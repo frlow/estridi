@@ -12,6 +12,8 @@ export const getServiceCallNames = (scraped: Scraped): { name: string, raw: stri
   scraped
     .filter((node) => node.type === 'serviceCall')
     .map((node) => ({ name: node.text, raw: node.raw }))
+    .filter((node, i, arr) =>
+      arr.indexOf(arr.find(item => item.name === node.name)) === i)
 
 export const getActionNames = (scraped: Scraped): string[] =>
   scraped

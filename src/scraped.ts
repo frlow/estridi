@@ -44,6 +44,7 @@ export type ScrapedStart = {
 
 export type ScrapedGateway = {
   type: ScrapedNodeType<'gateway'>
+  variant: 'gateway' | 'loop' | 'parallel'
   options: Record<string, string>
 } & BaseNode
 

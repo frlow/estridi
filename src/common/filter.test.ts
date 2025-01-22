@@ -10,25 +10,25 @@ describe('filter scraped', () => {
     const scraped = await processFigma(
       getBaseFigmaNode([
         figmaNodes.start({ id: '0' }),
-        ...figmaConnectorNode({ id: '0-1', text: 'root:demo', start: '0', end: '1' }),
+        ...figmaConnectorNode({ text: 'root:demo', start: '0', end: '1' }),
         figmaNodes.script({ id: '1', type: 'script', text: 'Some script' }),
-        ...figmaConnectorNode({ id: '1-2', start: '1', end: '2' }),
+        ...figmaConnectorNode({ start: '1', end: '2' }),
         figmaNodes.gateway({ id: '2' }),
-        ...figmaConnectorNode({ id: '2-3', start: '2', end: '3', text: 'A' }),
+        ...figmaConnectorNode({ start: '2', end: '3', text: 'A' }),
         figmaNodes.script({ id: '3', type: 'message', text: 'Show A' }),
-        ...figmaConnectorNode({ id: '3-4', start: '3', end: '4' }),
+        ...figmaConnectorNode({ start: '3', end: '4' }),
         figmaNodes.userAction({ id: '4', position: 0 }),
-        ...figmaConnectorNode({ id: '4-end', start: '4', end: 'end' }),
+        ...figmaConnectorNode({ start: '4', end: 'end' }),
         figmaNodes.start({ id: 'end' }),
         figmaNodes.signalListen({ id: '5', position: 0, text: 'Click Button' }),
-        ...figmaConnectorNode({ id: '5-6', start: '5', end: '6' }),
+        ...figmaConnectorNode({ start: '5', end: '6' }),
         figmaNodes.script({ id: '6', type: 'message', text: 'Clicked Button' }),
-        ...figmaConnectorNode({ id: '6-7', start: '6', end: '7' }),
+        ...figmaConnectorNode({ start: '6', end: '7' }),
         figmaNodes.subprocess({ text: 'Some subprocess', id: '7', position: 500 }),
-        ...figmaConnectorNode({ id: '7-after', start: '7', end: 'after' }),
+        ...figmaConnectorNode({ start: '7', end: 'after' }),
         figmaNodes.script({ id: 'after', type: 'message', text: 'After subprocess' }),
         figmaNodes.start({ id: '8' }),
-        ...figmaConnectorNode({ id: '8-9', text: 'Some subprocess', start: '8', end: '9' }),
+        ...figmaConnectorNode({ text: 'Some subprocess', start: '8', end: '9' }),
         figmaNodes.script({ id: '9', type: 'signalSend', text: 'In subprocess' }),
         figmaNodes.script({ id: 'OtherScriptId', type: 'script' })
       ])
@@ -61,7 +61,8 @@ describe('filter scraped', () => {
         },
         'raw': 'Gateway',
         'text': 'Gateway',
-        'type': 'gateway'
+        'type': 'gateway',
+        variant: 'gateway'
       },
       {
         distance: 3,

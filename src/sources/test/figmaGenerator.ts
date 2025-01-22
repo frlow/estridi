@@ -69,17 +69,22 @@ export const figmaNodes: NodeGenerator = {
     id: id || 'StartId',
     name: '01. Start'
   }),
-  gateway: ({ id, text }) => ({
-    id: id || 'GatewayId',
-    name: '04. Gateway',
-    children: [
-      {
-        name: 'text',
-        type: 'TEXT',
-        characters: text || 'Gateway'
-      }
-    ]
-  }),
+  gateway: ({ id, text, type }) => {
+    const gateway = ({
+      id: id || 'GatewayId',
+      name: '04. Gateway',
+      children: [
+        {
+          name: 'text',
+          type: 'TEXT',
+          characters: text || 'Gateway'
+        }, {}
+      ]
+    })
+    if(type==="loop") gateway.children.push({})
+    if(type==="parallel") gateway.children.push({},{})
+    return gateway
+  },
   subprocess: ({ id, text, position }) => ({
     id: id || 'SubprocessId',
     name: '2. Subprocess',
@@ -162,7 +167,7 @@ export const figmaNodes: NodeGenerator = {
       }
     ]
   }),
-  note: ({text, id})=>({
+  note: ({ text, id }) => ({
     id: id || 'NoteId',
     name: '5. Note',
     children: [
@@ -175,14 +180,13 @@ export const figmaNodes: NodeGenerator = {
 }
 
 export const figmaConnectorNode: ConnectorGenerator = ({
-                                                         id,
                                                          end,
                                                          start,
                                                          text,
                                                          dotted
                                                        }) => [
   {
-    id: id || 'ConnectorId',
+    id: `Connector_${Math.random().toString()}`,
     type: 'CONNECTOR',
     name: text || 'Connector Line',
     connectorStart: {

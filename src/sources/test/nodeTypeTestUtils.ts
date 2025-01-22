@@ -77,6 +77,7 @@ export const testNodeParsing = async (getDocument: GetDocumentFunc) => {
       'NoId': 'no',
       'YesId': 'yes'
     },
+    variant: 'gateway',
     'text': 'Some text',
     raw: 'Some [text]',
     'type': 'gateway'
@@ -182,12 +183,24 @@ export const testNodeParsing = async (getDocument: GetDocumentFunc) => {
 
   const scriptWithNote = (await getDocument('note')).find(node => node.type === 'start')
   expect(scriptWithNote).toStrictEqual({
-    "id": "StartId",
-    "isRoot": false,
-    "next": "NextId",
-    "raw": "Some [text]",
-    "text": "Some text",
-    "type": "start",
-    note: "Some comment here"
+    'id': 'StartId',
+    'isRoot': false,
+    'next': 'NextId',
+    'raw': 'Some [text]',
+    'text': 'Some text',
+    'type': 'start',
+    note: 'Some comment here'
+  })
+
+  const loop = (await getDocument('loop')).find(node => node.type === 'gateway' && node.variant === 'loop')
+  expect(loop).toStrictEqual({
+    'type': 'gateway',
+    'id': 'LoopId',
+    'text': 'loop',
+    'options': {
+      'ScriptId': 'Connector Line'
+    },
+    'variant': 'loop',
+    'raw': 'loop'
   })
 }

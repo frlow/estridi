@@ -31,60 +31,60 @@ describe('generate test script for table', () => {
     
     test("Valuta", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Valuta',
-        'Component type': 'DropdownInputSelect',
-        'Properties': 'Required',
-        'Specific requirements': 'Default value “Välj land”'
+        "Id": "Valuta",
+        "Component type": "DropdownInputSelect",
+        "Properties": "Required",
+        "Specific requirements": "Default value “Välj land”"
       }
       await testNode({tableRow, page, context})
     })
 
     test("Belopp", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Belopp',
-        'Component type': 'Input field',
-        'Properties': 'Required\\nDecimal [Format: 1-14 integers, 0-2 decimals]',
-        'Specific requirements': ''
+        "Id": "Belopp",
+        "Component type": "Input field",
+        "Properties": "Required\\nDecimal [Format: 1-14 integers, 0-2 decimals]",
+        "Specific requirements": ""
       }
       await testNode({tableRow, page, context})
     })
 
     test("Betala i SEK", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Betala i SEK',
-        'Component type': 'Checkbox',
-        'Properties': 'Optional',
-        'Specific requirements': ''
+        "Id": "Betala i SEK",
+        "Component type": "Checkbox",
+        "Properties": "Optional",
+        "Specific requirements": ""
       }
       await testNode({tableRow, page, context})
     })
 
     test("Avgift", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Avgift',
-        'Component type': 'Radio button',
-        'Properties': 'Required if shown',
-        'Specific requirements': 'Preselect “Jag betalar samtliga avgifter”'
+        "Id": "Avgift",
+        "Component type": "Radio button",
+        "Properties": "Required if shown",
+        "Specific requirements": "Preselect “Jag betalar samtliga avgifter”"
       }
       await testNode({tableRow, page, context})
     })
 
     test("Meddelande till mottagaren", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Meddelande till mottagaren',
-        'Component type': 'textarea',
-        'Properties': 'Optional \\nString [Format: 1-140 characters]',
-        'Specific requirements': ''
+        "Id": "Meddelande till mottagaren",
+        "Component type": "textarea",
+        "Properties": "Optional \\nString [Format: 1-140 characters]",
+        "Specific requirements": ""
       }
       await testNode({tableRow, page, context})
     })
 
     test("Betalningsreferens", async ({ page, context }) => {
       const tableRow = {
-        'Id': 'Betalningsreferens',
-        'Component type': 'Input field',
-        'Properties': 'Optional\\nString [Format: 1-35 characters]',
-        'Specific requirements': ''
+        "Id": "Betalningsreferens",
+        "Component type": "Input field",
+        "Properties": "Optional\\nString [Format: 1-35 characters]",
+        "Specific requirements": ""
       }
       await testNode({tableRow, page, context})
     })

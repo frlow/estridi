@@ -15,7 +15,10 @@ export const generateSubprocessTableTest = (scraped: Scraped, node: ScrapedSubpr
     ...actions.map((a) => `      await handles.${a}(args)`)]
   const rowTests = createTable(table).values.map(row => {
     const rowCode = `${_(2)}test("${sanitizeText(row.Id)}", async ({ page, context }) => {
-      const tableRow = ${JSON.stringify(row, null, 2).replace(/"/g, '\'').replace(/\n/g, `\n${_(3)}`)}
+      const tableRow = ${JSON.stringify(row, null, 2)
+      .replace(/"/g, '\"')
+      .replace(/'/g, '\'')
+      .replace(/\n/g, `\n${_(3)}`)}
       await testNode({tableRow, page, context})
     })`
     return rowCode
@@ -27,7 +30,7 @@ ${gatewayText}
       const state = await handles.setup({ gateways, page, context, tableRow } as any)
       const args = { gateways, state, page, context, tableRow } as any
       await handleServiceCalls(args)
-${actionLines.slice(0,-1).join('\n')}
+${actionLines.slice(0, -1).join('\n')}
       let testFunc = handles.test_${camelize(node.text)}
       if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
 ${actionLines.slice(-1)}
