@@ -26,7 +26,7 @@ describe('generate test script for table', () => {
       let testFunc = handles.test_validateFieldsPaymentData
       if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
       await handles.action_signeraMottagreLaggTillButtonClicked(args)
-      await testFunc(args)
+      expect(await testFunc(args)).toBeUndefined()
     }
     
     test("Valuta", async ({ page, context }) => {

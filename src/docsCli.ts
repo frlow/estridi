@@ -8,3 +8,4 @@ const basePath = import.meta.dirname
 app.use(express.static(path.join(basePath, 'docs')))
 console.log(`Docs available at http://localhost:8080`)
 app.listen(port)
+

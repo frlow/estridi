@@ -24,7 +24,7 @@ describe('generate test script', () => {
     let testFunc = handles.test_goBackToPayee
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_mottagareFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })`)
   })
 
@@ -43,7 +43,7 @@ describe('generate test script', () => {
     let testFunc = handles.test_couldNotLoadPage
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.start(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })`)
   })
 })

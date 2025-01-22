@@ -1,4 +1,4 @@
-import { BrowserContext, Page, test } from '@playwright/test'
+import { BrowserContext, Page, test, expect } from '@playwright/test'
 import { handles } from './main.js'
 
 
@@ -14,7 +14,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_imJsonOverviewGetaccountsEsbBankDepositGetaccounts201411
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.start(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('bank payment crossborder countries', async ({ page, context }) => {
     const gateways: GatewayCollection = {}
@@ -25,7 +25,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_bankPaymentCrossborderCountries
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.start(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('bank payment crossborder currencies', async ({ page, context }) => {
     const gateways: GatewayCollection = {}
@@ -36,7 +36,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_bankPaymentCrossborderCurrencies
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.start(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Could not load page', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -49,7 +49,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_couldNotLoadPage
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.start(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('No available accounts', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -63,7 +63,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_noAvailableAccounts
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.start(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Display Sections Från Till Betalning Granska Godkänn', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -77,7 +77,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_displaySectionsFranTillBetalningGranskaGodkann
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.start(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Display dropdown Välj Konto with values account number account currenctBalance account name account availableBalance', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -91,7 +91,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_displayDropdownValjKontoWithValuesAccountNumberAccountCurrenctbalanceAccountNameAccountAvailablebalance
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.start(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Open section Från', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -105,7 +105,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_openSectionFran
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.start(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Hide button Fortsätt', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -120,7 +120,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_hideButtonFortsatt
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_franFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Display error Ange Konto', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -135,7 +135,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_displayErrorAngeKonto
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_franFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test.describe('New payee information', ()=>{
   test('Open section Till', async ({ page, context }) => {
@@ -151,7 +151,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_openSectionTill
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_franFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Display Mottagarens fullständiga namn Adress', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -166,7 +166,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_displayMottagarensFullstandigaNamnAdress
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_franFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Display dropdown Land country name', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -181,7 +181,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_displayDropdownLandCountryName
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_franFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Display Kontonummer with label IBAN', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -196,7 +196,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_displayKontonummerWithLabelIban
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_franFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Clear validation errors for Kontonummer Banknummer', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -212,7 +212,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_clearValidationErrorsForKontonummerBanknummer
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('https www lansforsakringar se 49bd3e globalassets aa global dokument information landinformation pdf', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -228,15 +228,14 @@ test.describe('main', ()=>{
     let testFunc = handles.test_httpsWwwLansforsakringarSe49bd3eGlobalassetsAaGlobalDokumentInformationLandinformationPdf
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_linkToCountriesYouCanSendTo(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test.describe("Validate fields Recipient data", ()=>{
     const testNode = async ({tableRow, context, page}: {tableRow: Record<string,string>, page: Page, context: BrowserContext}) => {
       const gateways: GatewayCollection = {
         'Any errors loading data': 'no',
         'empty array from getAccounts': 'no',
-        'Is Konto selected': 'yes',
-        'Any validation errors from mottagare': 'no'
+        'Is Konto selected': 'yes'
       }
       const state = await handles.setup({ gateways, page, context, tableRow } as any)
       const args = { gateways, state, page, context, tableRow } as any
@@ -246,7 +245,7 @@ test.describe('main', ()=>{
       let testFunc = handles.test_validateFieldsRecipientData
       if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
       await handles.action_mottagareFortsattClicked(args)
-      await testFunc(args)
+      expect(await testFunc(args)).toBeUndefined()
     }
     
     test("Land", async ({ page, context }) => {
@@ -352,7 +351,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_goBackToPayee
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_mottagareFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
     test.describe('Country logic', ()=>{
   test('Show BIC SWIFT NID infotext', async ({ page, context }) => {
@@ -370,7 +369,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showBicSwiftNidInfotext
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Set Kontonummer field label to BBAN', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -387,7 +386,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_setKontonummerFieldLabelToBban
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show Banknummer field', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -404,7 +403,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showBanknummerField
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Set Banknummer field label to BIC SWIFT eller Nationellt ID', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -421,7 +420,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_setBanknummerFieldLabelToBicSwiftEllerNationelltId
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show BIC SWIFT infotext', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -439,7 +438,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showBicSwiftInfotext
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Set Kontonummer field label to BBAN 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -457,7 +456,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_setKontonummerFieldLabelToBban
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show Banknummer field 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -475,7 +474,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showBanknummerField
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Set Banknummer field label to BIC SWIFT', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -493,7 +492,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_setBanknummerFieldLabelToBicSwift
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show country ibanLength and update infotext', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -511,7 +510,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showCountryIbanlengthAndUpdateInfotext
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Set Kontonummer field label to IBAN', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -529,7 +528,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_setKontonummerFieldLabelToIban
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Hide Banknummer field', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -548,7 +547,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_hideBanknummerField
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show BIC SWIFT optional infotext', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -567,7 +566,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showBicSwiftOptionalInfotext
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show Banknummer field 2', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -586,7 +585,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showBanknummerField
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Set Banknummer field label to BIC SWIFT Optional', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -605,7 +604,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_setBanknummerFieldLabelToBicSwiftOptional
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
 
     })
@@ -626,7 +625,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_hideBetalningsreferens
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Hide avgift section', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -645,7 +644,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_hideAvgiftSection
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show avgift section', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -664,7 +663,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showAvgiftSection
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Open info about avgift', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -683,7 +682,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_openInfoAboutAvgift
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_vadSkaJagBetalaForAvgiftClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('https www lansforsakringar se 49334d globalassets aa global dokument prislistor 08198 prislista privat pdf', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -703,7 +702,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_prislistaClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Hide avgift section 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -721,7 +720,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_hideAvgiftSection
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Hide betalningsreferens 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -740,7 +739,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_hideBetalningsreferens
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show betalningsreferens', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -759,7 +758,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showBetalningsreferens
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCountry(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
 
     })
@@ -779,7 +778,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_openSectionBetalning
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_mottagareFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Display currency code currency discription in currencies dropdown', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -796,7 +795,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_displayCurrencyCodeCurrencyDiscriptionInCurrenciesDropdown
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_mottagareFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Display Valuta Belopp Betala i SEK Meddelande till mottagaren', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -813,7 +812,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_displayValutaBeloppBetalaISekMeddelandeTillMottagaren
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_mottagareFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Display currency code in Amount field', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -831,7 +830,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_displayCurrencyCodeInAmountField
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCurrency(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Set currencyCode to SEK', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -849,7 +848,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_setCurrencycodeToSek
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_beloppISekChecked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Open info about currency', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -867,7 +866,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_openInfoAboutCurrency
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_hurSkaJagTankaKringValutaClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('https www dnb se se sv markets valuta rentor kurslista overforing daglig', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -886,7 +885,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_httpsWwwDnbSeSeSvMarketsValutaRentorKurslistaOverforingDaglig
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_preliminaraAktuellaValutaKurserClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test.describe("Validate fields Payment data", ()=>{
     const testNode = async ({tableRow, context, page}: {tableRow: Record<string,string>, page: Page, context: BrowserContext}) => {
@@ -905,7 +904,7 @@ test.describe('main', ()=>{
       let testFunc = handles.test_validateFieldsPaymentData
       if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
       await handles.action_signeraMottagreLaggTillButtonClicked(args)
-      await testFunc(args)
+      expect(await testFunc(args)).toBeUndefined()
     }
     
     test("Valuta", async ({ page, context }) => {
@@ -985,7 +984,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showMeddelandeOchEllerReferensMasteFyllasI
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Clear all alerts and validation errors', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1005,7 +1004,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_clearAllAlertsAndValidationErrors
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Go back to Payment', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1025,7 +1024,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_goBackToPayment
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
       test.describe('Avgift logic', ()=>{
   test('Hide betalningsreferens', async ({ page, context }) => {
@@ -1044,7 +1043,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_hideBetalningsreferens
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_mottagareFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Hide avgift section', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1063,7 +1062,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_hideAvgiftSection
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_mottagareFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show avgift section', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1082,7 +1081,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showAvgiftSection
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_mottagareFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Open info about avgift', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1101,7 +1100,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_openInfoAboutAvgift
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_vadSkaJagBetalaForAvgiftClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('https www lansforsakringar se 49334d globalassets aa global dokument prislistor 08198 prislista privat pdf', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1121,7 +1120,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_prislistaClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Hide avgift section 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1139,7 +1138,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_hideAvgiftSection
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_mottagareFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Hide betalningsreferens 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1158,7 +1157,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_hideBetalningsreferens
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_mottagareFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show betalningsreferens', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1177,7 +1176,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showBetalningsreferens
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_mottagareFortsattClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
 
       })
@@ -1199,7 +1198,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_hideBetalningsreferens
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCurrency(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Hide avgift section', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1219,7 +1218,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_hideAvgiftSection
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCurrency(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show avgift section', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1239,7 +1238,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showAvgiftSection
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCurrency(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Open info about avgift', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1259,7 +1258,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_openInfoAboutAvgift
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_vadSkaJagBetalaForAvgiftClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('https www lansforsakringar se 49334d globalassets aa global dokument prislistor 08198 prislista privat pdf', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1280,7 +1279,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_httpsWwwLansforsakringarSe49334dGlobalassetsAaGlobalDokumentPrislistor08198PrislistaPrivatPdf
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_prislistaClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Hide avgift section 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1299,7 +1298,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_hideAvgiftSection
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCurrency(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Hide betalningsreferens 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1319,7 +1318,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_hideBetalningsreferens
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCurrency(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show betalningsreferens', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1339,7 +1338,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showBetalningsreferens
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_selectCurrency(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
 
       })
@@ -1362,7 +1361,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_bankPaymentCrossborderCrossborderPayments
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test.describe("Validate errors Errors from validate service", ()=>{
     const testNode = async ({tableRow, context, page}: {tableRow: Record<string,string>, page: Page, context: BrowserContext}) => {
@@ -1370,7 +1369,10 @@ test.describe('main', ()=>{
         'Any errors loading data': 'no',
         'empty array from getAccounts': 'no',
         'Is Konto selected': 'yes',
-        'Any validation errors from mottagare': 'no'
+        'Any validation errors from mottagare': 'no',
+        'Both meddelande and referens are shown and empty': 'no',
+        'Any validation errors from betalning': 'no',
+        'Error from validate service': 'yes'
       }
       const state = await handles.setup({ gateways, page, context, tableRow } as any)
       const args = { gateways, state, page, context, tableRow } as any
@@ -1381,7 +1383,7 @@ test.describe('main', ()=>{
       let testFunc = handles.test_validateErrorsErrorsFromValidateService
       if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
       await handles.action_signeraMottagreLaggTillButtonClicked(args)
-      await testFunc(args)
+      expect(await testFunc(args)).toBeUndefined()
     }
     
     test("10", async ({ page, context }) => {
@@ -1712,7 +1714,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showAllAlertMessages
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show 3 Alert Messages', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1734,7 +1736,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_show3AlertMessages
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
         test.describe('New recipient summary modal', ()=>{
   test('Display recipient summary modal creditorDetails creditorName creditorDetails creditorAddress addressLine1 creditorDetails creditorAddress addressLine2 creditorDetails creditorAddress addressLine3 creditorDetails creditorAccount creditorDetails creditorAgentIdentification creditorDetails creditorAgentName', async ({ page, context }) => {
@@ -1756,7 +1758,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_displayRecipientSummaryModalCreditordetailsCreditornameCreditordetailsCreditoraddressAddressline1CreditordetailsCreditoraddressAddressline2CreditordetailsCreditoraddressAddressline3CreditordetailsCreditoraccountCreditordetailsCreditoragentidentificationCreditordetailsCreditoragentname
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraMottagreLaggTillButtonClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('POST payee sign', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1778,7 +1780,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_postPayeeSign
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show error for sign payee', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1801,7 +1803,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showErrorForSignPayee
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_signeraClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Close recipient signing modal', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1825,7 +1827,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_closeRecipientSigningModal
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_cancelPayeeSigning(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('POST payee execute', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1849,7 +1851,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_postPayeeExecute
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_payeeSigningCompleted(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Display some error', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1874,7 +1876,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_displaySomeError
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_payeeSigningCompleted(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Close recipient summary modal', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1896,7 +1898,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_closeRecipientSummaryModal
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_avbrytClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
           test.describe('Payment summary page', ()=>{
   test('Display creditorDetails creditorAccount creditorDetails creditorName creditorDetails creditorAgentIdentification creditorDetails creditorAddress addressLine1 creditorDetails creditorAddress addressLine2 creditorDetails creditorAddress addressLine3 creditorDetails creditorAgentName creditorDetails creditorAgentIdentificationType creditorDetails creditorAgentAddress addressLine1 paymentDetails requestedExecutionDate paymentDetails equivalentAmount paymentDetails equivalentCurrency paymentDetails transactionAmount paymentDetails transactionCurrency paymentDetails endToEndIdentification paymentDetails remittanceInformation paymentDetails exchangeRate paymentDetails fee', async ({ page, context }) => {
@@ -1922,7 +1924,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_displayCreditordetailsCreditoraccountCreditordetailsCreditornameCreditordetailsCreditoragentidentificationCreditordetailsCreditoraddressAddressline1CreditordetailsCreditoraddressAddressline2CreditordetailsCreditoraddressAddressline3CreditordetailsCreditoragentnameCreditordetailsCreditoragentidentificationtypeCreditordetailsCreditoragentaddressAddressline1PaymentdetailsRequestedexecutiondatePaymentdetailsEquivalentamountPaymentdetailsEquivalentcurrencyPaymentdetailsTransactionamountPaymentdetailsTransactioncurrencyPaymentdetailsEndtoendidentificationPaymentdetailsRemittanceinformationPaymentdetailsExchangeratePaymentdetailsFee
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_payeeSigningCompleted(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('POST payment sign', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1948,7 +1950,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_postPaymentSign
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_godkannClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show error for sign payment', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -1975,7 +1977,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showErrorForSignPayment
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_godkannClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Display sign payment modal', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -2002,7 +2004,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_displaySignPaymentModal
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_godkannClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Close sign payment modal', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -2030,7 +2032,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_closeSignPaymentModal
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_cancelPaymentSigning(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Go back to payment summary page', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -2058,7 +2060,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_goBackToPaymentSummaryPage
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_cancelPaymentSigning(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Close sign payment modal 1', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -2086,7 +2088,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_closeSignPaymentModal
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_paymentSigningComplete(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Go back to registration page', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -2112,7 +2114,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_goBackToRegistrationPage
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_andraClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
             test.describe('Execute payment', ()=>{
   test('POST payment execute', async ({ page, context }) => {
@@ -2141,7 +2143,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_postPaymentExecute
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_paymentSigningComplete(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Show error for execute payment', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -2170,7 +2172,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showErrorForExecutePayment
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_paymentSigningComplete(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
               test.describe('Confirmation page', ()=>{
   test('Show paymentDetails exchangeRate paymentDetails transactionAmount paymentDetails fee', async ({ page, context }) => {
@@ -2200,7 +2202,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_showPaymentdetailsExchangeratePaymentdetailsTransactionamountPaymentdetailsFee
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_paymentSigningComplete(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
   test('Initiate registerView', async ({ page, context }) => {
     const gateways: GatewayCollection = {
@@ -2230,7 +2232,7 @@ test.describe('main', ()=>{
     let testFunc = handles.test_initiateRegisterview
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
     await handles.action_nyBetalningClicked(args)
-    await testFunc(args)
+    expect(await testFunc(args)).toBeUndefined()
   })
 
               })
