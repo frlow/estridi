@@ -156,6 +156,6 @@ describe('filter scraped', () => {
         return acc
       }, {}))
     const diff = allGatewayOptions.filter(gw => !touchedGatewayOptions.includes(gw))
-    debugger
+    expect(diff.length).toEqual(0)
   })
 })
