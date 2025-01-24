@@ -35,6 +35,7 @@
     "docs/dist"
   ],
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./figma": "./src/sources/figma.ts"
   }
 }

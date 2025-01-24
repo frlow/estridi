@@ -1,9 +1,7 @@
-import { Node } from 'figma-api'
 import { ConnectorGenerator, getDocument, GetDocumentFunc, NodeGenerator } from './documentGenerator.js'
-import { FigmaDocument } from '../figma.js'
 import fs from 'node:fs'
 
-export const getBaseFigmaNode = (children: Node<any>[]): FigmaDocument => ({
+export const getBaseFigmaNode = (children: any[]): any => ({
   id: '0:0',
   name: 'Document',
   type: 'DOCUMENT',
@@ -222,7 +220,7 @@ export const figmaTable = ({
   ]
 }
 
-export const getFigmaDocument: GetDocumentFunc<FigmaDocument> = (type, options) =>
+export const getFigmaDocument: GetDocumentFunc = (type, options) =>
   getDocument({
     type,
     baseNodeFunc: getBaseFigmaNode,
