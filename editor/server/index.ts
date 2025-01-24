@@ -2,6 +2,7 @@ import { TLSocketRoom } from '@tldraw/sync-core'
 import fs, { writeFileSync } from 'node:fs'
 import { WebSocketServer } from 'ws'
 import { createTLSchema, defaultBindingSchemas, defaultShapeSchemas } from 'tldraw'
+import { CounterShapeProps } from 'editor-common/props'
 
 const FILE = 'data.json'
 const roomId = 'singleton'
@@ -9,7 +10,9 @@ const roomId = 'singleton'
 const schema = createTLSchema({
   shapes: {
     ...defaultShapeSchemas,
-    counter: {}
+    counter: {
+      props: CounterShapeProps
+    }
   },
   bindings: defaultBindingSchemas
 })
@@ -42,3 +45,4 @@ export const startServer = () => {
   })
 }
 
+startServer()

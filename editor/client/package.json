@@ -1,5 +1,5 @@
 {
-  "name": "editor",
+  "name": "editor-client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,17 +10,15 @@
   },
   "dependencies": {
     "@tldraw/sync": "^3.7.2",
-    "@tldraw/sync-core": "^3.7.2",
     "express": "^5.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tldraw": "^3.7.2",
-    "ws": "^8.18.0"
+    "editor-common": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
-    "@types/ws": "^8.5.13",
     "@vitejs/plugin-react": "^4.3.4",
     "globals": "^15.14.0",
     "typescript": "~5.7.3",

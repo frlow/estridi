@@ -65,14 +65,14 @@ importers:
         specifier: ^1.82.0
         version: 1.82.0
 
-  editor:
+  editor/client:
     dependencies:
       '@tldraw/sync':
         specifier: ^3.7.2
         version: 3.7.2(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@tldraw/sync-core':
-        specifier: ^3.7.2
-        version: 3.7.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      editor-common:
+        specifier: workspace:*
+        version: link:../common
       express:
         specifier: ^5.0.1
         version: 5.0.1
@@ -85,9 +85,6 @@ importers:
       tldraw:
         specifier: ^3.7.2
         version: 3.7.2(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      ws:
-        specifier: ^8.18.0
-        version: 8.18.0
     devDependencies:
       '@types/react':
         specifier: ^19.0.8
@@ -95,9 +92,6 @@ importers:
       '@types/react-dom':
         specifier: ^19.0.3
         version: 19.0.3(@types/react@19.0.8)
-      '@types/ws':
-        specifier: ^8.5.13
-        version: 8.5.13
       '@vitejs/plugin-react':
         specifier: ^4.3.4
         version: 4.3.4(vite@6.0.11(@types/node@22.10.9)(sass-embedded@1.82.0)(tsx@4.19.2))
@@ -110,6 +104,31 @@ importers:
       vite:
         specifier: ^6.0.11
         version: 6.0.11(@types/node@22.10.9)(sass-embedded@1.82.0)(tsx@4.19.2)
+
+  editor/common:
+    dependencies:
+      tldraw:
+        specifier: ^3.7.2
+        version: 3.7.2(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+
+  editor/server:
+    dependencies:
+      '@tldraw/sync-core':
+        specifier: ^3.7.2
+        version: 3.7.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      editor-common:
+        specifier: workspace:*
+        version: link:../common
+      tldraw:
+        specifier: ^3.7.2
+        version: 3.7.2(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      ws:
+        specifier: ^8.18.0
+        version: 8.18.0
+    devDependencies:
+      tsx:
+        specifier: ^4.19.2
+        version: 4.19.2
 
 packages:
 
@@ -1534,9 +1553,6 @@ packages:
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
 
-  '@types/ws@8.5.13':
-    resolution: {integrity: sha512-osM/gWBTPKgHV8XkTunnegTRIsvF6owmf5w+JtAfOw472dptdm0dlGv4xCt6GwQRcC2XVOvvRE/0bAoQcL2QkA==}
-
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
@@ -2599,6 +2615,7 @@ packages:
 
   lodash.isequal@4.5.0:
     resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==}
+    deprecated: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
 
   lodash.throttle@4.1.1:
     resolution: {integrity: sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==}
@@ -4193,7 +4210,7 @@ snapshots:
   '@babel/plugin-syntax-jsx@7.25.9(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
-      '@babel/helper-plugin-utils': 7.25.9
+      '@babel/helper-plugin-utils': 7.26.5
 
   '@babel/plugin-transform-react-jsx-self@7.25.9(@babel/core@7.26.0)':
     dependencies:
@@ -5347,10 +5364,6 @@ snapshots:
   '@types/unist@2.0.11': {}
 
   '@types/unist@3.0.3': {}
-
-  '@types/ws@8.5.13':
-    dependencies:
-      '@types/node': 22.10.9
 
   '@ungap/structured-clone@1.2.0': {}
 

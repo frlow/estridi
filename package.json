@@ -12,7 +12,8 @@
     "test-data": "tsx testData.ts",
     "test": "vitest",
     "build": "tsx ./bundleFiles.ts && tsc -p tsconfig.prod.json && pnpm --filter docs build",
-    "docs": "pnpm --filter docs dev"
+    "docs": "pnpm --filter docs dev",
+    "editor": "pnpm --filter \"editor-*\" dev"
   },
   "dependencies": {
     "commander": "^13.1.0",
