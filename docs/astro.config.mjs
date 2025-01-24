@@ -1,5 +1,5 @@
-import { defineConfig } from 'astro/config'
 import starlight from '@astrojs/starlight'
+import { defineConfig, passthroughImageService } from 'astro/config'
 
 import node from '@astrojs/node'
 
@@ -8,6 +8,10 @@ export default defineConfig({
   build: {
     server: `../dist/docs/server`,
     client: `../dist/docs/client`
+  },
+
+  image: {
+    service: passthroughImageService()
   },
 
   server: {
