@@ -1,0 +1,20 @@
+{
+  "name": "cli",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm dlx bun build --target=node ./cli.ts --outdir=../../dist"
+  },
+  "devDependencies": {
+    "commander": "^13.1.0",
+    "core": "workspace:*",
+    "@types/node": "^22.10.7"
+  },
+  "peerDependencies": {
+    "typescript": "*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,8 +1,9 @@
 import { filterScraped } from './common/filter.js'
 import { getRootName } from './common/root.js'
 import { loadFigmaDocument, processFigma } from './sources/figma.js'
-import { bundledFiles } from './targets/bundledFiles.js'
-import { generatePlaywright } from './targets/playwright/index.js'
+import { generatePlaywright } from './targets/playwright'
+
+export { EstridiConfig } from './scraped.js'
 
 export type EstridiSourceConfig = {
   getDataFunc: (args: any) => Promise<any>
@@ -71,7 +72,7 @@ export const generateEstridiTests = async (args: {
   const targets: Record<EstridiTargets, EstridiTargetConfig> = {
     playwright: {
       getFileName: (name) => `${name}.spec.ts`,
-      generatorFunc: generatePlaywright,
+      generatorFunc: generatePlaywright
     }
   }
   const target = targets[args.target || 'playwright']

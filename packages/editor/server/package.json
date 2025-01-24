@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "tsx --watch ./server.ts",
-    "build": "pnpm dlx bun build --target=node --outfile=../../dist/editor/server.js ./server.ts"
+    "build": "pnpm dlx bun build --target=node --outfile=../../../dist/editor.js ./server.ts"
   },
   "keywords": [],
   "author": "",

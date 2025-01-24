@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander'
-import { generateEstridiTests, parseRootNames } from './index.js'
+import { EstridiConfig, generateEstridiTests, parseRootNames } from 'core'
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -25,7 +25,7 @@ const run = async () => {
       const filesToWrite = await generateEstridiTests({
         target: options.target,
         config,
-        rootName: rootName?.trim() || undefined,
+        rootName: rootName?.trim() || undefined
       })
       const dir = options.directory || 'tests'
       fs.mkdirSync(dir, { recursive: true })

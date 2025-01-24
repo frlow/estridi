@@ -5,6 +5,7 @@ import { TLSocketRoom } from '@tldraw/sync-core'
 import { schema } from './schema'
 import express from 'express'
 import { port } from 'editor-common/config'
+import path from 'node:path'
 
 const app = new WebSocketExpress()
 const router = new Router()
@@ -37,7 +38,7 @@ router.ws('/sync', async (req, res) => {
 })
 
 app.use(router)
-app.use(express.static('client'))
+app.use(express.static(path.join(import.meta.dirname, "editor")))
 
 // create and run a server:
 const server = app.createServer()

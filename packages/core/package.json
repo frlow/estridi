@@ -1,0 +1,40 @@
+{
+  "name": "core",
+  "version": "1.0.0-beta120",
+  "description": "",
+  "bin": {
+    "estridi": "./dist/cli.js",
+    "estridi-docs": "./dist/docs.js"
+  },
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/cli.ts -r + -u",
+    "test-data": "tsx testData.ts",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "figma-api": "2.0.1-beta"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "@types/node": "^22.10.7",
+    "@vitest/coverage-v8": "^3.0.3",
+    "@figma/rest-api-spec": "^0.23.0",
+    "prettier": "^3.4.2",
+    "tsx": "^4.19.2",
+    "vitest": "^3.0.3"
+  },
+  "peerDependencies": {
+    "typescript": "*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "files": [
+    "dist",
+    "docs/dist"
+  ],
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}
