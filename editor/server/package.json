@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx --watch ./index.ts"
+    "dev": "tsx --watch ./server.ts",
+    "build": "pnpm dlx bun build --target=node --outfile=../../dist/editor/server.js ./server.ts"
   },
   "keywords": [],
   "author": "",
@@ -13,9 +14,13 @@
     "editor-common": "workspace:*",
     "ws": "^8.18.0",
     "@tldraw/sync-core": "^3.7.2",
-    "tldraw": "^3.7.2"
+    "tldraw": "^3.7.2",
+    "express": "^4.21.2",
+    "websocket-express": "^3.1.2"
   },
   "devDependencies": {
-    "tsx": "^4.19.2"
+    "tsx": "^4.19.2",
+    "@types/express": "^5.0.0",
+    "esbuild": "^0.24.2"
   }
 }
