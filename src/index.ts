@@ -12,7 +12,6 @@ export type EstridiSourceConfig = {
 export type EstridiTargetConfig = {
   generatorFunc: (name: string, scraped: Scraped) => Promise<string>
   getFileName: (name: string) => string
-  generateUtils?: () => Promise<{ code: string, fileName: string }[]>
 }
 
 export type EstridiTargets = 'playwright'
@@ -68,23 +67,15 @@ export const generateEstridiTests = async (args: {
   config: EstridiConfig,
   target?: 'playwright',
   rootName?: string,
-  generateUtils: boolean
 }): Promise<{ code: string, fileName: string }[]> => {
   const targets: Record<EstridiTargets, EstridiTargetConfig> = {
     playwright: {
       getFileName: (name) => `${name}.spec.ts`,
       generatorFunc: generatePlaywright,
-      generateUtils: async () => {
-        return [{ fileName: 'utils.ts', code: Buffer.from(bundledFiles.utils, 'base64').toString() }]
-      }
     }
   }
   const target = targets[args.target || 'playwright']
   const { scraped, rootName } = await loadScrapedFromSource(args.config, args.rootName)
   const code = await target.generatorFunc(rootName, scraped)
-  const filesToWrite = [{ code, fileName: target.getFileName(rootName) }]
-  if (args.generateUtils && target.generateUtils) {
-    filesToWrite.push(...await target.generateUtils())
-  }
-  return filesToWrite
+  return [{ code, fileName: target.getFileName(rootName) }]
 }

@@ -8,7 +8,6 @@ program
   .option('-t, --target <string>')
   .option('-r, --root-name <string>')
   .option('-d, --directory <string>')
-  .option('-u, --utils')
 
 program.parse()
 
@@ -27,7 +26,6 @@ const run = async () => {
         target: options.target,
         config,
         rootName: rootName?.trim() || undefined,
-        generateUtils: !!options.utils
       })
       const dir = options.directory || 'tests'
       fs.mkdirSync(dir, { recursive: true })
