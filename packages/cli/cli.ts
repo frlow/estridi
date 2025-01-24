@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander'
-import { EstridiConfig, generateEstridiTests, parseRootNames } from 'core'
+import { EstridiConfig, generateEstridiTests, loadScraped, parseRootNames } from 'core'
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -19,12 +19,13 @@ const run = async () => {
   try {
     if (!fs.existsSync(configPath)) throw 'Could not find estridi.json config file'
     const config: EstridiConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'))
-    const roots = await parseRootNames(config, options.rootName)
+    const scraped = await loadScraped(config)
+    const roots = parseRootNames(scraped, options.rootName)
     for (const rootName of roots) {
       console.log('Root: ', rootName)
       const filesToWrite = await generateEstridiTests({
         target: options.target,
-        config,
+        scraped,
         rootName: rootName?.trim() || undefined
       })
       const dir = options.directory || 'tests'

@@ -41,10 +41,7 @@ export const getSource = (config: EstridiConfig) => {
   return source
 }
 
-export const loadScrapedFromSource = async (config: EstridiConfig, rootName?: string) => {
-  const source = getSource(config)
-  const data = await source.getDataFunc(config)
-  const scraped = await source.processFunc(data)
+export const loadScrapedFromSource = async (scraped: Scraped, rootName?: string) => {
   const foundRootName = getRootName(scraped, rootName)
   if (!foundRootName) {
     const roots = scraped
@@ -56,16 +53,19 @@ ${roots.map(r => r.raw).join('\n')}`
   return { scraped: filtered, rootName: foundRootName }
 }
 
-export const parseRootNames = async (config: EstridiConfig, rootName: string | undefined): Promise<string[]> => {
-  if (rootName !== '+') return rootName?.split(',') || [undefined]
+export const loadScraped = async (config: EstridiConfig) => {
   const source = getSource(config)
   const data = await source.getDataFunc(config)
-  const scraped = await source.processFunc(data)
+  return await source.processFunc(data)
+}
+
+export const parseRootNames = (scraped: Scraped, rootName: string | undefined): string[] => {
+  if (rootName !== '+') return rootName?.split(',') || [undefined]
   return scraped.filter((n: ScrapedStart) => n.isRoot).map(n => n.raw)
 }
 
 export const generateEstridiTests = async (args: {
-  config: EstridiConfig,
+  scraped: Scraped,
   target?: 'playwright',
   rootName?: string,
 }): Promise<{ code: string, fileName: string }[]> => {
@@ -76,7 +76,7 @@ export const generateEstridiTests = async (args: {
     }
   }
   const target = targets[args.target || 'playwright']
-  const { scraped, rootName } = await loadScrapedFromSource(args.config, args.rootName)
+  const { scraped, rootName } = await loadScrapedFromSource(args.scraped, args.rootName)
   const code = await target.generatorFunc(rootName, scraped)
   return [{ code, fileName: target.getFileName(rootName) }]
 }
