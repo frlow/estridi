@@ -27,6 +27,9 @@ importers:
         specifier: '*'
         version: 5.6.3
     devDependencies:
+      '@figma/rest-api-spec':
+        specifier: ^0.23.0
+        version: 0.23.0
       '@playwright/test':
         specifier: ^1.49.1
         version: 1.49.1
@@ -731,6 +734,9 @@ packages:
 
   '@expressive-code/plugin-text-markers@0.38.3':
     resolution: {integrity: sha512-dPK3+BVGTbTmGQGU3Fkj3jZ3OltWUAlxetMHI6limUGCWBCucZiwoZeFM/WmqQa71GyKRzhBT+iEov6kkz2xVA==}
+
+  '@figma/rest-api-spec@0.23.0':
+    resolution: {integrity: sha512-x7oWMfg8cYv1yGAxqEzq6m0Eg3mzqa96PvrXBLPWbm3xHiA3Zj9KvhfQau2hVi6BCVBW+ZcJYvllg25JXe6y+w==}
 
   '@floating-ui/core@1.6.9':
     resolution: {integrity: sha512-uMXCuQ3BItDUbAMhIXw7UPXRfAlOAvZzdK9BWpE60MCn+Svt3aLn9jsPTi/WNGlRUu2uI0v5S7JiIUsbsvh3fw==}
@@ -4516,6 +4522,8 @@ snapshots:
   '@expressive-code/plugin-text-markers@0.38.3':
     dependencies:
       '@expressive-code/core': 0.38.3
+
+  '@figma/rest-api-spec@0.23.0': {}
 
   '@floating-ui/core@1.6.9':
     dependencies:

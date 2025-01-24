@@ -1,20 +1,19 @@
-import type { Node } from 'figma-api'
 import * as Figma from 'figma-api'
 import { isNodeInside } from '../common/inside.js'
 import { sanitizeText } from '../common/texts.js'
+import { Node, DocumentNode } from '@figma/rest-api-spec'
 
-export type ProcessedNodes = Record<string, Node<any>>
-export type FigmaDocument = Figma.Node<'DOCUMENT'>
+export type ProcessedNodes = Record<string, any>
 export const loadFigmaDocument = async ({
                                           fileId,
                                           token
-                                        }: FigmaConfig): Promise<FigmaDocument> => {
+                                        }: FigmaConfig): Promise<DocumentNode> => {
   if (!fileId || !token) throw 'token and fileId must be set'
   const api = new Figma.Api({
     personalAccessToken: token
   })
 
-  const file = await api.getFile(fileId)
+  const file = await api.getFile({ file_key: fileId })
   return file.document
 }
 

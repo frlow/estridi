@@ -1,6 +1,6 @@
 {
   "name": "estridi",
-  "version": "1.0.0-beta119",
+  "version": "1.0.0-beta120",
   "description": "",
   "bin": {
     "estridi": "./dist/cli.js",
@@ -27,6 +27,7 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.7",
     "@vitest/coverage-v8": "^3.0.3",
+    "@figma/rest-api-spec": "^0.23.0",
     "prettier": "^3.4.2",
     "tsx": "^4.19.2",
     "vitest": "^3.0.3"
