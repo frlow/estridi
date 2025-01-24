@@ -11,9 +11,10 @@
     "start": "tsx src/cli.ts -r + -u",
     "test-data": "tsx testData.ts",
     "test": "vitest",
-    "build": "tsx ./bundleFiles.ts && tsc -p tsconfig.prod.json && pnpm --filter docs build && pnpm --filter \"editor-*\" build",
+    "build": "tsc -p tsconfig.prod.json && pnpm --filter docs build && pnpm",
     "docs": "pnpm --filter docs dev",
-    "editor": "pnpm --filter \"editor-*\" dev"
+    "editor": "pnpm --filter \"editor-*\" dev",
+    "editor:build": "--filter \"editor-*\" build"
   },
   "dependencies": {
     "commander": "^13.1.0",
