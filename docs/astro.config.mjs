@@ -1,22 +1,33 @@
 import { defineConfig } from 'astro/config'
 import starlight from '@astrojs/starlight'
 
+import node from '@astrojs/node'
+
 // https://astro.build/config
 export default defineConfig({
-  outDir: "../dist/docs",
+  build: {
+    server: `../dist/docs/server`,
+    client: `../dist/docs/client`
+  },
+
   server: {
     host: true
   },
+
   integrations: [
     starlight({
       title: 'estridi',
-      social: {
-      },
+      social: {},
       customCss: [
-        "./src/styles/style.css"
+        './src/styles/style.css'
       ],
-       components: {
-       }
+      components: {}
     })
-  ]
+  ],
+
+  output: 'server',
+
+  adapter: node({
+    mode: 'standalone'
+  })
 })

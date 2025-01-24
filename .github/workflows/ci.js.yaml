@@ -32,7 +32,9 @@ jobs:
           cache: 'pnpm'
       - run: pnpm i
       - run: pnpm test
-      - run: pnpm build
+      - run: |
+          pnpm build
+          pnpm --filter docs build
       - uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_TOKEN }}
