@@ -1,10 +1,8 @@
 import { MouseEvent } from 'react'
 import { BaseBoxShapeTool, BaseBoxShapeUtil, HTMLContainer, stopEventPropagation, TLBaseShape } from 'tldraw'
-import { CounterShapeProps } from 'editor-common/props'
+import { CounterShapeProps, ShapeProps } from 'editor-common/props'
 
-type CounterShape = TLBaseShape<'counter', { w: number; h: number; count: number }>
-
-
+type CounterShape = TLBaseShape<'counter', ShapeProps<typeof CounterShapeProps>>
 
 export class CounterShapeUtil extends BaseBoxShapeUtil<CounterShape> {
   static override type = 'counter' as const
