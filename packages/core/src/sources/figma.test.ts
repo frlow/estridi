@@ -10,7 +10,7 @@ describe('Load from figma', () => {
     expect(scraped.length).toBeGreaterThan(3500)
   })
 
-  test('test parsing nodes from figma', async () => {
-    await testNodeParsing(async (...args) => await processFigma(getFigmaDocument(...args)))
+  describe('test parsing nodes from figma', async () => {
+    testNodeParsing(async (...args) => await processFigma(getFigmaDocument(...args)))
   })
 })

@@ -1,12 +1,12 @@
 import { MouseEvent } from 'react'
-import { BaseBoxShapeTool, BaseBoxShapeUtil, HTMLContainer, stopEventPropagation, TLBaseShape } from 'tldraw'
-import { CounterShapeProps, ShapeProps } from 'editor-common/props'
+import { BaseBoxShapeUtil, HTMLContainer, stopEventPropagation, TLBaseShape } from 'tldraw'
+import { ShapeProps, Shapes } from 'editor-common'
 
-type CounterShape = TLBaseShape<'counter', ShapeProps<typeof CounterShapeProps>>
+type Message = TLBaseShape<typeof Shapes.message.name, ShapeProps<typeof Shapes.message.props>>
 
-export class CounterShapeUtil extends BaseBoxShapeUtil<CounterShape> {
-  static override type = 'counter' as const
-  static override props = CounterShapeProps
+export class MessageShapeUtil extends BaseBoxShapeUtil<Message> {
+  static override type = Shapes.message.name
+  static override props = Shapes.message.props
 
   override getDefaultProps() {
     return {
@@ -16,12 +16,12 @@ export class CounterShapeUtil extends BaseBoxShapeUtil<CounterShape> {
     }
   }
 
-  override component(shape: CounterShape) {
+  override component(shape: Message) {
     const onClick = (event: MouseEvent, change: number) => {
       event.stopPropagation()
       this.editor.updateShape({
         id: shape.id,
-        type: 'counter',
+        type: Shapes.message.name,
         props: { count: shape.props.count + change }
       })
     }
@@ -48,12 +48,7 @@ export class CounterShapeUtil extends BaseBoxShapeUtil<CounterShape> {
     )
   }
 
-  override indicator(shape: CounterShape) {
+  override indicator(shape: Message) {
     return <rect width={shape.props.w} height={shape.props.h} />
   }
-}
-
-export class CounterShapeTool extends BaseBoxShapeTool {
-  static override id = 'counter'
-  override shapeType = 'counter'
 }

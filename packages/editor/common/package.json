@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "exports": {
-    "./props": "./props.ts",
+    ".": "./shapeDefinitions.ts",
     "./config": "./config.ts"
   }
 }

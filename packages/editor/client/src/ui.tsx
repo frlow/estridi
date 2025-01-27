@@ -2,37 +2,43 @@ import {
   DefaultToolbar,
   DefaultToolbarContent,
   TLComponents,
-  TLUiOverrides,
   TldrawUiMenuItem,
+  TLUiOverrides,
   useIsToolSelected,
-  useTools,
+  useTools
 } from 'tldraw'
+import { ShapeNames, Shapes } from 'editor-common'
 
 export const uiOverrides: TLUiOverrides = {
   tools(editor, tools) {
-    // Create a tool item in the ui's context.
-    tools.counter = {
-      id: 'counter',
-      icon: 'color',
-      label: 'counter',
-      kbd: 'c',
-      onSelect: () => {
-        editor.setCurrentTool('counter')
-      },
-    }
+    Object.values(Shapes).forEach(shape => {
+      tools[shape.name] = {
+        id: shape.name,
+        icon: shape.icon,
+        label: shape.name,
+        // kbd: 'c',
+        onSelect: () => editor.setCurrentTool(shape.name)
+      }
+    })
+
     return tools
-  },
+  }
 }
 
 export const components: TLComponents = {
   Toolbar: (props) => {
     const tools = useTools()
-    const isCounterSelected = useIsToolSelected(tools['counter'])
+    const isSelected = ShapeNames.reduce((acc, cur) => {
+      acc[cur] = useIsToolSelected(tools[cur])
+      return acc
+    }, {} as any)
+    const toolItems = ShapeNames.map(shapeName => <TldrawUiMenuItem {...tools[shapeName]}
+                                                                    isSelected={isSelected[shapeName]} />)
     return (
       <DefaultToolbar {...props}>
-        <TldrawUiMenuItem {...tools['counter']} isSelected={isCounterSelected} />
+        {toolItems}
         <DefaultToolbarContent />
       </DefaultToolbar>
     )
-  },
+  }
 }
