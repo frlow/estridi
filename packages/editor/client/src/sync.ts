@@ -1,7 +1,7 @@
 import { TLAssetStore, uniqueId } from 'tldraw'
 import { port } from 'editor-common/config'
 
-export const WORKER_URL = `http://localhost:${port}/sync`
+export const WORKER_URL = `ws://localhost:${port}/sync`
 
 export const multiplayerAssets: TLAssetStore = {
   // to upload an asset, we prefix it with a unique id, POST it to our worker, and return the URL

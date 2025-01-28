@@ -27,7 +27,7 @@ const room = new TLSocketRoom({
   },
   onDataChange() {
     console.log(`Saving changes...`)
-    writeFileSync(FILE, JSON.stringify(room.getCurrentSnapshot()))
+    writeFileSync(FILE, JSON.stringify(room.getCurrentSnapshot(), null, 2))
   }
 })
 
@@ -38,7 +38,7 @@ router.ws('/sync', async (req, res) => {
 })
 
 app.use(router)
-app.use(express.static(path.join(import.meta.dirname, "editor")))
+app.use(express.static(path.join(import.meta.dirname, 'editor')))
 
 // create and run a server:
 const server = app.createServer()
