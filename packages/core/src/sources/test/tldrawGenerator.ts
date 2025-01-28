@@ -54,7 +54,7 @@ const tldrawConnectorNode: ConnectorGenerator = ({ text, end, start, dotted }) =
         'id': `binding:end_${id}`,
         'type': 'arrow',
         'fromId': id,
-        'toId': end,
+        'toId': end || "NextId",
         'props': {
           'terminal': 'end'
         },
