@@ -6,6 +6,8 @@ export type ScrapedNodeTypes =
   | 'table'
   | 'other'
   | 'script'
+  | 'message'
+  | 'signalSend'
   | 'serviceCall'
   | 'start'
   | 'root'
@@ -28,6 +30,7 @@ export type ScrapedTable = {
 
 export type ScrapedScript = {
   type: ScrapedNodeType<'script'>
+  variant: 'script' | 'message' | 'signalSend'
   next?: string
 } & BaseNode
 

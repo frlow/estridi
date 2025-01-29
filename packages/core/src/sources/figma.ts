@@ -1,7 +1,7 @@
 import * as Figma from 'figma-api'
 import { isNodeInside } from '../common/inside.js'
 import { sanitizeText } from '../common/texts.js'
-import { Node, DocumentNode } from '@figma/rest-api-spec'
+import { DocumentNode, Node } from '@figma/rest-api-spec'
 
 export type ProcessedNodes = Record<string, any>
 export const loadFigmaDocument = async ({
@@ -34,8 +34,8 @@ const findText = (node: any) => sanitizeText(findRawText(node))
 
 const getType = (node: Node): ScrapedNodeTypes => {
   if ((node.type as any) === 'TABLE') return 'table'
-  if (node.name?.replace('02.', '').trim() === 'Message') return 'script'
-  if (node.name?.replace('06.', '').trim() === 'Signal send') return 'script'
+  if (node.name?.replace('02.', '').trim() === 'Message') return 'message'
+  if (node.name?.replace('06.', '').trim() === 'Signal send') return 'signalSend'
   if (node.name?.replace('3.', '').trim() === 'Script') return 'script'
   if (node.name?.replace('4.', '').trim() === 'Service call')
     return 'serviceCall'
@@ -84,13 +84,16 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
       }
       return table
     }
+    case 'message':
+    case 'signalSend':
     case 'script': {
       const script: ScrapedScript = {
         type: 'script',
         id: node.id,
         text: findText(node),
         next: getNext(node),
-        raw: findRawText(node)
+        raw: findRawText(node),
+        variant: type
       }
       return script
     }
