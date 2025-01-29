@@ -6,23 +6,25 @@ export type ShapeProps<T> = {
 
 type ExtractGenericArgs<T> = T extends T.Validator<infer U> ? U : never
 
+const wh = {
+  w: T.positiveNumber,
+  h: T.positiveNumber
+}
+
 export const Shapes = {
   message: {
     name: 'message',
     props: {
-      w: T.positiveNumber,
-      h: T.positiveNumber,
-      count: T.number
+      ...wh
     },
-    icon: 'color'
+    icon: 'letter'
   },
   start: {
     name: 'start',
     props: {
-      w: T.positiveNumber,
-      h: T.positiveNumber,
+      ...wh
     },
-    icon: 'color'
+    icon: 'circle'
   }
 } as const
 export const ShapeNames = Object.keys(Shapes)

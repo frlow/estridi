@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useSync } from '@tldraw/sync'
 import { defaultShapeUtils, Tldraw } from 'tldraw'
-import { components, uiOverrides } from './ui.tsx'
+import { components, customAssetUrls, uiOverrides } from './ui.tsx'
 import { multiplayerAssets, WORKER_URL } from './sync.ts'
 import { customShapes, customTools } from './shapes'
 import 'tldraw/tldraw.css'
@@ -20,6 +20,7 @@ function App() {
       tools={customTools}
       overrides={uiOverrides}
       components={components}
+      assetUrls={customAssetUrls}
       deepLinks
     />
   )

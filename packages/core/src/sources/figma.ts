@@ -26,7 +26,6 @@ const findRawText = (node: any): string => {
     const children = parent?.children
     const textNode = children?.find(c => c.type === 'TEXT')
     return textNode?.characters || ''
-
   }
   return rawText
 }

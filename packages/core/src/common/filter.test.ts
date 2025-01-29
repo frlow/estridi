@@ -9,28 +9,28 @@ describe('filter scraped', () => {
   test('filter', async () => {
     const scraped = await processFigma(
       getBaseFigmaNode([
-        figmaNodes.start({ id: '0' }),
+        ...figmaNodes.start({ id: '0' }),
         ...figmaConnectorNode({ text: 'root:demo', start: '0', end: '1' }),
-        figmaNodes.script({ id: '1', type: 'script', text: 'Some script' }),
+        ...figmaNodes.script({ id: '1', type: 'script', text: 'Some script' }),
         ...figmaConnectorNode({ start: '1', end: '2' }),
-        figmaNodes.gateway({ id: '2' }),
+        ...figmaNodes.gateway({ id: '2' }),
         ...figmaConnectorNode({ start: '2', end: '3', text: 'A' }),
-        figmaNodes.script({ id: '3', type: 'message', text: 'Show A' }),
+        ...figmaNodes.script({ id: '3', type: 'message', text: 'Show A' }),
         ...figmaConnectorNode({ start: '3', end: '4' }),
-        figmaNodes.userAction({ id: '4', position: 0 }),
+        ...figmaNodes.userAction({ id: '4' }),
         ...figmaConnectorNode({ start: '4', end: 'end' }),
-        figmaNodes.start({ id: 'end' }),
-        figmaNodes.signalListen({ id: '5', position: 0, text: 'Click Button' }),
+        ...figmaNodes.start({ id: 'end' }),
+        ...figmaNodes.signalListen({ id: '5', parentId: '4', text: 'Click Button' }),
         ...figmaConnectorNode({ start: '5', end: '6' }),
-        figmaNodes.script({ id: '6', type: 'message', text: 'Clicked Button' }),
+        ...figmaNodes.script({ id: '6', type: 'message', text: 'Clicked Button' }),
         ...figmaConnectorNode({ start: '6', end: '7' }),
-        figmaNodes.subprocess({ text: 'Some subprocess', id: '7', position: 500 }),
+        ...figmaNodes.subprocess({ text: 'Some subprocess', id: '7' }),
         ...figmaConnectorNode({ start: '7', end: 'after' }),
-        figmaNodes.script({ id: 'after', type: 'message', text: 'After subprocess' }),
-        figmaNodes.start({ id: '8' }),
+        ...figmaNodes.script({ id: 'after', type: 'message', text: 'After subprocess' }),
+        ...figmaNodes.start({ id: '8' }),
         ...figmaConnectorNode({ text: 'Some subprocess', start: '8', end: '9' }),
-        figmaNodes.script({ id: '9', type: 'signalSend', text: 'In subprocess' }),
-        figmaNodes.script({ id: 'OtherScriptId', type: 'script' })
+        ...figmaNodes.script({ id: '9', type: 'signalSend', text: 'In subprocess' }),
+        ...figmaNodes.script({ id: 'OtherScriptId', type: 'script' })
       ])
     )
     const filtered = filterScraped(scraped, 'demo')

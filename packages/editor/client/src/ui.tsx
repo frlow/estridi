@@ -3,11 +3,21 @@ import {
   DefaultToolbarContent,
   TLComponents,
   TldrawUiMenuItem,
+  TLUiAssetUrlOverrides,
   TLUiOverrides,
   useIsToolSelected,
   useTools
 } from 'tldraw'
 import { ShapeNames, Shapes } from 'editor-common'
+
+export const customAssetUrls: TLUiAssetUrlOverrides = {
+  icons: {
+    'donut': '/donut.svg',
+    'circle': '/circle.svg',
+    'letter': '/letter.svg',
+    'letter-thin': '/letter-thin.svg'
+  }
+}
 
 export const uiOverrides: TLUiOverrides = {
   tools(editor, tools) {
@@ -32,8 +42,8 @@ export const components: TLComponents = {
       acc[cur] = useIsToolSelected(tools[cur])
       return acc
     }, {} as any)
-    const toolItems = ShapeNames.map(shapeName => <TldrawUiMenuItem {...tools[shapeName]}
-                                                                    isSelected={isSelected[shapeName]} />)
+    const toolItems = ShapeNames.map((shapeName, i) => <TldrawUiMenuItem key={i} {...tools[shapeName]}
+                                                                         isSelected={isSelected[shapeName]} />)
     return (
       <DefaultToolbar {...props}>
         {toolItems}

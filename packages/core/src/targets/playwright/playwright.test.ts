@@ -42,9 +42,9 @@ describe('playwright', () => {
   test('illegal characters in tables', async () => {
     const scraped = await processFigma(
       getBaseFigmaNode([
-        figmaNodes.start({ id: 'startId' }),
+        ...figmaNodes.start({ id: 'startId' }),
         ...figmaConnectorNode({ text: 'root:demo', start: 'startId', end: 'TableSubprocessId' }),
-        figmaNodes.subprocess({ text: 'Validate: My Table', id: 'TableSubprocessId' }),
+        ...figmaNodes.subprocess({ text: 'Validate: My Table', id: 'TableSubprocessId' }),
         ...figmaTable({
           children: [
             ['My Table', 'Content'],

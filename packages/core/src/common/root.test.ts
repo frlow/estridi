@@ -7,40 +7,40 @@ describe('find root node', () => {
   test('RootName is undefined and there is only one root', async () => {
     const scraped = await processFigma(
       getBaseFigmaNode([
-        figmaNodes.start({ id: '0' }),
-        ...figmaConnectorNode({ id: '0-1', text: 'root:demo', start: '0', end: '1' })
+        ...figmaNodes.start({ id: '0' }),
+        ...figmaConnectorNode({ text: 'root:demo', start: '0', end: '1' })
       ])
     )
-    expect(getRootName(scraped, undefined)).toEqual("demo")
+    expect(getRootName(scraped, undefined)).toEqual('demo')
   })
 
   test('RootName is set and there is only one root', async () => {
     const scraped = await processFigma(
       getBaseFigmaNode([
-        figmaNodes.start({ id: '0' }),
-        ...figmaConnectorNode({ id: '0-1', text: 'root:demo', start: '0', end: '1' })
+        ...figmaNodes.start({ id: '0' }),
+        ...figmaConnectorNode({ text: 'root:demo', start: '0', end: '1' })
       ])
     )
-    expect(getRootName(scraped, "demo")).toEqual("demo")
+    expect(getRootName(scraped, 'demo')).toEqual('demo')
   })
 
   test('RootName is set but missing and there is only one root', async () => {
     const scraped = await processFigma(
       getBaseFigmaNode([
-        figmaNodes.start({ id: '0' }),
-        ...figmaConnectorNode({ id: '0-1', text: 'root:demo', start: '0', end: '1' })
+        ...figmaNodes.start({ id: '0' }),
+        ...figmaConnectorNode({ text: 'root:demo', start: '0', end: '1' })
       ])
     )
-    expect(getRootName(scraped, "wrong")).toEqual(undefined)
+    expect(getRootName(scraped, 'wrong')).toEqual(undefined)
   })
 
   test('RootName is undefined and there are multiple roots', async () => {
     const scraped = await processFigma(
       getBaseFigmaNode([
-        figmaNodes.start({ id: '0' }),
-        ...figmaConnectorNode({ id: '0-1', text: 'root:demo', start: '0', end: '1' }),
-        figmaNodes.start({ id: '2' }),
-        ...figmaConnectorNode({ id: '2-3', text: 'root:other', start: '2', end: '3' })
+        ...figmaNodes.start({ id: '0' }),
+        ...figmaConnectorNode({ text: 'root:demo', start: '0', end: '1' }),
+        ...figmaNodes.start({ id: '2' }),
+        ...figmaConnectorNode({ text: 'root:other', start: '2', end: '3' })
       ])
     )
     expect(getRootName(scraped, undefined)).toEqual(undefined)
@@ -49,12 +49,12 @@ describe('find root node', () => {
   test('RootName is set and there are multiple roots', async () => {
     const scraped = await processFigma(
       getBaseFigmaNode([
-        figmaNodes.start({ id: '0' }),
-        ...figmaConnectorNode({ id: '0-1', text: 'root:demo', start: '0', end: '1' }),
-        figmaNodes.start({ id: '2' }),
-        ...figmaConnectorNode({ id: '2-3', text: 'root:other', start: '2', end: '3' })
+        ...figmaNodes.start({ id: '0' }),
+        ...figmaConnectorNode({ text: 'root:demo', start: '0', end: '1' }),
+        ...figmaNodes.start({ id: '2' }),
+        ...figmaConnectorNode({ text: 'root:other', start: '2', end: '3' })
       ])
     )
-    expect(getRootName(scraped, "other")).toEqual("other")
+    expect(getRootName(scraped, 'other')).toEqual('other')
   })
 })

@@ -1,6 +1,17 @@
 import { ConnectorGenerator, getDocument, GetDocumentFunc, NodeGenerator } from './documentGenerator.js'
 import fs from 'node:fs'
 
+function generateHash(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash |= 0; // Convert to 32bit integer
+  }
+  // Ensure the hash is positive and pad to 12 digits
+  return hash * 20
+}
+
 export const getBaseFigmaNode = (children: any[]): any => ({
   id: '0:0',
   name: 'Document',
@@ -36,7 +47,7 @@ export const figmaNodes: NodeGenerator = {
         typeName = '06. Signal send'
         break
     }
-    return {
+    return [{
       id: id || 'ScriptId',
       name: typeName,
       type: 'INSTANCE',
@@ -51,9 +62,9 @@ export const figmaNodes: NodeGenerator = {
           characters: text || 'Script'
         }
       ]
-    }
+    }]
   },
-  serviceCall: ({ text, id }) => ({
+  serviceCall: ({ text, id }) => ([{
     id: id || 'ServiceCallId',
     name: '4. Service call',
     children: [
@@ -62,11 +73,11 @@ export const figmaNodes: NodeGenerator = {
         characters: text || 'Service Call'
       }
     ]
-  }),
-  start: ({ id }) => ({
+  }]),
+  start: ({ id }) => ([{
     id: id || 'StartId',
     name: '01. Start'
-  }),
+  }]),
   gateway: ({ id, text, type }) => {
     const gateway = ({
       id: id || 'GatewayId',
@@ -79,11 +90,11 @@ export const figmaNodes: NodeGenerator = {
         }, {}
       ]
     })
-    if(type==="loop") gateway.children.push({})
-    if(type==="parallel") gateway.children.push({},{})
-    return gateway
+    if (type === 'loop') gateway.children.push({})
+    if (type === 'parallel') gateway.children.push({}, {})
+    return [gateway]
   },
-  subprocess: ({ id, text, position }) => ({
+  subprocess: ({ id, text }) => ([{
     id: id || 'SubprocessId',
     name: '2. Subprocess',
     children: [
@@ -94,13 +105,13 @@ export const figmaNodes: NodeGenerator = {
       }
     ],
     absoluteBoundingBox: {
-      x: position || 0,
+      x: generateHash(id || 'SubprocessId'),
       y: 0,
       width: 100,
-      height: 100
+      height: 20
     }
-  }),
-  userAction: ({ id, text, position }) => ({
+  }]),
+  userAction: ({ id, text }) => ([{
     id: id || 'UserActionId',
     name: '1. User action',
     children: [
@@ -111,13 +122,13 @@ export const figmaNodes: NodeGenerator = {
       }
     ],
     absoluteBoundingBox: {
-      x: position,
+      x: generateHash(id || 'UserActionId'),
       y: 0,
       width: 100,
-      height: 100
+      height: 20
     }
-  }),
-  signalListen: ({ id, text, position }) => ({
+  }]),
+  signalListen: ({ id, text, parentId }) => ([{
     id: id || 'SignalListenId',
     name: '05. Signal listen',
     children: [
@@ -128,13 +139,13 @@ export const figmaNodes: NodeGenerator = {
       }
     ],
     absoluteBoundingBox: {
-      x: position + 5,
-      y: 50,
+      x: generateHash(parentId) + 5,
+      y: 5,
       width: 10,
       height: 10
     }
-  }),
-  other: ({ text, id }) => ({
+  }]),
+  other: ({ text, id }) => ([{
     id: id || 'ScriptId',
     children: [
       {
@@ -143,8 +154,8 @@ export const figmaNodes: NodeGenerator = {
         characters: text || 'Other'
       }
     ]
-  }),
-  scriptGroupedText: ({ text, id }) => ({
+  }]),
+  scriptGroupedText: ({ text, id }) => ([{
     'id': `group-${id}`,
     'type': 'GROUP',
     'children': [
@@ -164,8 +175,8 @@ export const figmaNodes: NodeGenerator = {
         'characters': text || 'Script with grouped text'
       }
     ]
-  }),
-  note: ({ text, id }) => ({
+  }]),
+  note: ({ text, id }) => ([{
     id: id || 'NoteId',
     name: '5. Note',
     children: [
@@ -174,7 +185,7 @@ export const figmaNodes: NodeGenerator = {
         characters: text || 'Note'
       }
     ]
-  })
+  }])
 }
 
 export const figmaConnectorNode: ConnectorGenerator = ({

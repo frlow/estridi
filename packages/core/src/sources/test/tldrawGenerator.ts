@@ -6,9 +6,10 @@ function getBaseTldrawNode(children: []) {
   }
 }
 
-export const tldrawNodes: NodeGenerator = {
+export type TlDrawNode = { state: any }
+export const tldrawNodes: NodeGenerator<TlDrawNode> = {
   script({ id, text, type }) {
-    return {
+    return [{
       'state': {
         'id': id || 'ScriptId',
         'type': type,
@@ -16,7 +17,34 @@ export const tldrawNodes: NodeGenerator = {
           'text': text
         }
       }
-    }
+    }]
+  },
+  scriptGroupedText({ text, id }) {
+    const scriptId = id || 'ScriptId'
+    return [{
+      'state': {
+        'id': scriptId,
+        'type': 'script',
+        'props': {},
+        'parentId': `${scriptId}_group`
+      }
+    },
+      {
+        'state': {
+          'id': `${scriptId}_group`,
+          'type': 'group'
+        }
+      },
+      {
+        'state': {
+          'id': `${scriptId}_text`,
+          'type': 'text',
+          'props': {
+            'text': text
+          },
+          'parentId': `${scriptId}_group`
+        }
+      }]
   }
 }
 
@@ -54,7 +82,7 @@ const tldrawConnectorNode: ConnectorGenerator = ({ text, end, start, dotted }) =
         'id': `binding:end_${id}`,
         'type': 'arrow',
         'fromId': id,
-        'toId': end || "NextId",
+        'toId': end || 'NextId',
         'props': {
           'terminal': 'end'
         },

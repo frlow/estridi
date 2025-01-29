@@ -1,5 +1,6 @@
 import { BaseBoxShapeUtil, HTMLContainer, TLBaseShape } from 'tldraw'
 import { ShapeProps, Shapes } from 'editor-common'
+import { baseStyle } from './index.ts'
 
 type Start = TLBaseShape<typeof Shapes.start.name, ShapeProps<typeof Shapes.start.props>>
 
@@ -20,16 +21,7 @@ export class StartShapeUtil extends BaseBoxShapeUtil<Start> {
 
   override component(_: Start) {
     return (
-      <HTMLContainer
-        style={{
-          pointerEvents: 'all',
-          background: '#efefef',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 8
-        }}
-      >
+      <HTMLContainer style={baseStyle}>
         <div>Start</div>
       </HTMLContainer>
     )

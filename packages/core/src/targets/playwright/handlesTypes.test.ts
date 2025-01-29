@@ -8,16 +8,16 @@ describe('generate handles types', () => {
   test('normal case', async () => {
     const scraped = await processFigma(
       getBaseFigmaNode([
-        figmaNodes.start({ id: 'startId' }),
+        ...figmaNodes.start({ id: 'startId' }),
         ...figmaConnectorNode({ text: 'root:demo', start: 'startId', end: 'serviceCallId' }),
-        figmaNodes.serviceCall({ id: 'serviceCallId', text: 'Some service call' }),
+        ...figmaNodes.serviceCall({ id: 'serviceCallId', text: 'Some service call' }),
         ...figmaConnectorNode({ start: 'serviceCallId', end: 'scriptId' }),
-        figmaNodes.script({ id: 'scriptId', type: 'script', text: 'Some script' }),
+        ...figmaNodes.script({ id: 'scriptId', type: 'script', text: 'Some script' }),
         ...figmaConnectorNode({ start: 'scriptId', end: 'userActionId' }),
-        figmaNodes.userAction({ id: 'userActionId', text: 'some user action', position: 0 }),
-        figmaNodes.signalListen({ id: 'signalListenId', position: 0, text: 'Click Button' }),
+        ...figmaNodes.userAction({ id: 'userActionId', text: 'some user action', }),
+        ...figmaNodes.signalListen({ id: 'signalListenId', parentId: "userActionId", text: 'Click Button' }),
         ...figmaConnectorNode({ start: 'userActionId', end: 'gatewayId' }),
-        figmaNodes.gateway({ id: 'gatewayId', text: 'Is something true?' })
+        ...figmaNodes.gateway({ id: 'gatewayId', text: 'Is something true?' })
       ])
     )
     const filtered = filterScraped(scraped, 'demo')
@@ -62,11 +62,11 @@ export type Demo<TState={}, TPageExtensions={}> = {
   test('multiple calls to same serviceCall should only create one type', async () => {
     const scraped = await processFigma(
       getBaseFigmaNode([
-        figmaNodes.start({ id: 'startId' }),
+        ...figmaNodes.start({ id: 'startId' }),
         ...figmaConnectorNode({ text: 'root:demo', start: 'startId', end: 'serviceCall1Id' }),
-        figmaNodes.serviceCall({ id: 'serviceCall1Id', text: 'Some service call' }),
+        ...figmaNodes.serviceCall({ id: 'serviceCall1Id', text: 'Some service call' }),
         ...figmaConnectorNode({ start: 'serviceCall1Id', end: 'serviceCall2Id' }),
-        figmaNodes.serviceCall({ id: 'serviceCall2Id', text: 'Some service call' })
+        ...figmaNodes.serviceCall({ id: 'serviceCall2Id', text: 'Some service call' })
       ])
     )
     const filtered = filterScraped(scraped, 'demo')
