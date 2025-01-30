@@ -241,4 +241,4 @@ export const getFigmaDocument: GetDocumentFunc = (type, options) =>
     options
   })
 
-export const getFigmaTestData = () => JSON.parse(fs.readFileSync('./src/sources/test/figma.json', 'utf8'))
+

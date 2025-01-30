@@ -1,25 +1,23 @@
 import { describe, expect, test } from 'vitest'
-import { processFigma } from '../../sources/figma.js'
-import { figmaConnectorNode, figmaNodes, getBaseFigmaNode } from '../../sources/test/figmaGenerator.js'
 import { filterScraped } from '../../common/filter.js'
 import { generateHandlesTypeCode } from './handlesTypes.js'
+import { autoText } from '../../sources/testCases'
 
 describe('generate handles types', () => {
   test('normal case', async () => {
-    const scraped = await processFigma(
-      getBaseFigmaNode([
-        ...figmaNodes.start({ id: 'startId' }),
-        ...figmaConnectorNode({ text: 'root:demo', start: 'startId', end: 'serviceCallId' }),
-        ...figmaNodes.serviceCall({ id: 'serviceCallId', text: 'Some service call' }),
-        ...figmaConnectorNode({ start: 'serviceCallId', end: 'scriptId' }),
-        ...figmaNodes.script({ id: 'scriptId', type: 'script', text: 'Some script' }),
-        ...figmaConnectorNode({ start: 'scriptId', end: 'userActionId' }),
-        ...figmaNodes.userAction({ id: 'userActionId', text: 'some user action', }),
-        ...figmaNodes.signalListen({ id: 'signalListenId', parentId: "userActionId", text: 'Click Button' }),
-        ...figmaConnectorNode({ start: 'userActionId', end: 'gatewayId' }),
-        ...figmaNodes.gateway({ id: 'gatewayId', text: 'Is something true?' })
-      ])
-    )
+    const scraped: Scraped = [
+      { id: 'startId', type: 'root', ...autoText('demo'), next: 'serviceCallId' },
+      { id: 'serviceCallId', type: 'serviceCall', ...autoText('Some service call'), next: 'scriptId' },
+      { id: 'scriptId', type: 'script', variant: 'script', ...autoText('Some script'), next: 'userActionId' },
+      {
+        id: 'userActionId',
+        type: 'userAction', ...autoText('some user action'),
+        next: 'gatewayId',
+        actions: { 'nextNodeId': 'Click Button' },
+        variant: 'userAction'
+      },
+      { id: 'gatewayId', type: 'gateway', variant: 'gateway', ...autoText('Is something true?'), options: {} }
+    ]
     const filtered = filterScraped(scraped, 'demo')
     const handlesTypesText = generateHandlesTypeCode(filtered, 'demo')
     expect(handlesTypesText).toEqual(`export const Gateways = [
@@ -60,15 +58,20 @@ export type Demo<TState={}, TPageExtensions={}> = {
   })
 
   test('multiple calls to same serviceCall should only create one type', async () => {
-    const scraped = await processFigma(
-      getBaseFigmaNode([
-        ...figmaNodes.start({ id: 'startId' }),
-        ...figmaConnectorNode({ text: 'root:demo', start: 'startId', end: 'serviceCall1Id' }),
-        ...figmaNodes.serviceCall({ id: 'serviceCall1Id', text: 'Some service call' }),
-        ...figmaConnectorNode({ start: 'serviceCall1Id', end: 'serviceCall2Id' }),
-        ...figmaNodes.serviceCall({ id: 'serviceCall2Id', text: 'Some service call' })
-      ])
-    )
+    // const scraped = await processFigma(
+    //   getBaseFigmaNode([
+    //     ...figmaNodes.start({ id: 'startId' }),
+    //     ...figmaConnectorNode({ text: 'root:demo', start: 'startId', end: 'serviceCall1Id' }),
+    //     ...figmaNodes.serviceCall({ id: 'serviceCall1Id', text: 'Some service call' }),
+    //     ...figmaConnectorNode({ start: 'serviceCall1Id', end: 'serviceCall2Id' }),
+    //     ...figmaNodes.serviceCall({ id: 'serviceCall2Id', text: 'Some service call' })
+    //   ])
+    // )
+    const scraped: Scraped = [
+      { id: 'startId', type: 'root', ...autoText('demo'), next: 'serviceCall1Id' },
+      { id: 'serviceCall1Id', type: 'serviceCall', ...autoText('Some service call'), next: 'serviceCall2Id' },
+      { id: 'serviceCall2Id', type: 'serviceCall', ...autoText('Some service call') }
+    ]
     const filtered = filterScraped(scraped, 'demo')
     const handlesTypesText = generateHandlesTypeCode(filtered, 'demo')
     expect(handlesTypesText).toEqual(`export const Gateways = [

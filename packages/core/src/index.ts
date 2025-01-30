@@ -45,7 +45,7 @@ export const loadScrapedFromSource = async (scraped: Scraped, rootName?: string)
   const foundRootName = getRootName(scraped, rootName)
   if (!foundRootName) {
     const roots = scraped
-      .filter((node: ScrapedStart) => node.isRoot)
+      .filter((node: ScrapedStart) => node.type === 'root')
     throw `Root could not be found, use one of the following root nodes:
 ${roots.map(r => r.raw).join('\n')}`
   }
@@ -61,7 +61,7 @@ export const loadScraped = async (config: EstridiConfig) => {
 
 export const parseRootNames = (scraped: Scraped, rootName: string | undefined): string[] => {
   if (rootName !== '+') return rootName?.split(',') || [undefined]
-  return scraped.filter((n: ScrapedStart) => n.isRoot).map(n => n.raw)
+  return scraped.filter((n: ScrapedStart) => n.type === 'root').map(n => n.raw)
 }
 
 export const generateEstridiTests = async (args: {

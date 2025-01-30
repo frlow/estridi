@@ -1,6 +1,6 @@
 export { loadScrapedFromSource } from './index.js'
 
-export type BaseNode = { id: string, text: string, raw: string, note?: string, distance?: number }
+export type BaseNode = { id: string, text: string, raw: string, distance?: number }
 
 export type ScrapedNodeTypes =
   | 'table'
@@ -42,7 +42,6 @@ export type ScrapedServiceCall = {
 export type ScrapedStart = {
   type: ScrapedNodeType<'start' | 'root' | 'end'>
   next?: string
-  isRoot?: boolean
 } & BaseNode
 
 export type ScrapedGateway = {
@@ -62,6 +61,7 @@ export type ScrapedUserAction = {
   type: ScrapedNodeType<'userAction'>
   next?: string
   actions?: Record<string, string>
+  variant: 'userAction' | 'subprocess'
 } & BaseNode
 
 export type ScrapedNode =

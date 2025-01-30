@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest'
 import { filterScraped } from '../../common/filter.js'
 import { processFigma } from '../../sources/figma.js'
-import { getFigmaTestData } from '../../sources/test/figmaGenerator.js'
 import { generateSubprocessTableTest } from './subprocessTable.js'
+import { getFigmaTestData } from '../../sources/testCases'
 
 describe('generate test script for table', () => {
   test('Generate test for script', async () => {

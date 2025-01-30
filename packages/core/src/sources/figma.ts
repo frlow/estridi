@@ -120,11 +120,10 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
       const connection = (node as any).connections[0]
       const isRoot = connection?.text?.startsWith('root:')
       const start: ScrapedStart = {
-        type: 'start',
+        type: isRoot ? 'root' : 'start',
         id: node.id,
         text: sanitizeText(connection?.text?.replace('root:', '') || 'start'),
         next: getNext(node),
-        isRoot: isRoot,
         raw: connection?.text?.replace('root:', '') || 'start'
       }
       return start
@@ -166,7 +165,8 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         text: findText(node),
         next: getNext(node),
         actions: {},
-        raw: findRawText(node)
+        raw: findRawText(node),
+        variant: 'userAction'
       }
     }
     default: {
@@ -211,18 +211,12 @@ const afterProcess = (
         delete (ua as any).link
         delete (ua as any).tableKey
         ua.type = 'userAction'
+        ua.variant = 'subprocess'
         ua.actions = {}
       }
       actions.forEach((a) => (ua.actions[getNext(a)] = findText(a)))
     })
 
-  // map notes
-  Object.values(nodes).filter(n => n.name?.replace('5.', '').trim() === 'Note').forEach(note => {
-    const targetId = note.dottedConnections[0] ? note.dottedConnections[0].id : undefined
-    if (!targetId) return
-    const target = ret.find(node => node.id === targetId)
-    target.note = findRawText(note)
-  })
   return ret
 }
 

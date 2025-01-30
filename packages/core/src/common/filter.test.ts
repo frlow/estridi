@@ -1,49 +1,86 @@
 import { describe, expect, test } from 'vitest'
 import { processFigma } from '../sources/figma.js'
-import { figmaConnectorNode, figmaNodes, getBaseFigmaNode, getFigmaTestData } from '../sources/test/figmaGenerator.js'
 import { filterScraped } from './filter.js'
 import { getPathGatewayValuesForPath, getTestableNodes } from '../targets/codegen/misc.js'
 import { findShortestPathToNode } from './shotestPath.js'
+import { autoText, getFigmaTestData } from '../sources/testCases'
 
 describe('filter scraped', () => {
   test('filter', async () => {
-    const scraped = await processFigma(
-      getBaseFigmaNode([
-        ...figmaNodes.start({ id: '0' }),
-        ...figmaConnectorNode({ text: 'root:demo', start: '0', end: '1' }),
-        ...figmaNodes.script({ id: '1', type: 'script', text: 'Some script' }),
-        ...figmaConnectorNode({ start: '1', end: '2' }),
-        ...figmaNodes.gateway({ id: '2' }),
-        ...figmaConnectorNode({ start: '2', end: '3', text: 'A' }),
-        ...figmaNodes.script({ id: '3', type: 'message', text: 'Show A' }),
-        ...figmaConnectorNode({ start: '3', end: '4' }),
-        ...figmaNodes.userAction({ id: '4' }),
-        ...figmaConnectorNode({ start: '4', end: 'end' }),
-        ...figmaNodes.start({ id: 'end' }),
-        ...figmaNodes.signalListen({ id: '5', parentId: '4', text: 'Click Button' }),
-        ...figmaConnectorNode({ start: '5', end: '6' }),
-        ...figmaNodes.script({ id: '6', type: 'message', text: 'Clicked Button' }),
-        ...figmaConnectorNode({ start: '6', end: '7' }),
-        ...figmaNodes.subprocess({ text: 'Some subprocess', id: '7' }),
-        ...figmaConnectorNode({ start: '7', end: 'after' }),
-        ...figmaNodes.script({ id: 'after', type: 'message', text: 'After subprocess' }),
-        ...figmaNodes.start({ id: '8' }),
-        ...figmaConnectorNode({ text: 'Some subprocess', start: '8', end: '9' }),
-        ...figmaNodes.script({ id: '9', type: 'signalSend', text: 'In subprocess' }),
-        ...figmaNodes.script({ id: 'OtherScriptId', type: 'script' })
-      ])
-    )
-    const filtered = filterScraped(scraped, 'demo')
+    const scraped: Scraped = [
+      { id: '0', type: 'root', ...autoText('demo'), next: '1' },
+      { id: '1', type: 'script', variant: 'script', ...autoText('Some script'), next: '2' },
+      { id: '2', type: 'gateway', ...autoText('Gateway'), options: { 3: 'A' }, variant: 'gateway' },
+      { id: '3', next: '4', raw: 'Show A', text: 'Show A', type: 'script', variant: 'script' },
+      {
+        'actions': {
+          '6': 'Click Button'
+        },
+        'id': '4',
+        'next': 'end',
+        'raw': 'action',
+        'text': 'action',
+        'type': 'userAction',
+        variant: 'userAction'
+      },
+      {
+        'id': '6',
+        'next': '7',
+        'raw': 'Clicked Button',
+        'text': 'Clicked Button',
+        'type': 'script',
+        variant: 'script'
+      },
+      {
+        'id': '7',
+        'link': '8',
+        'next': 'after',
+        'raw': 'Some subprocess',
+        'tableKey': undefined,
+        'text': 'Some subprocess',
+        'type': 'subprocess'
+      },
+      {
+        'id': '8',
+        'next': '9',
+        'raw': 'Some subprocess',
+        'text': 'Some subprocess',
+        'type': 'start'
+      },
+      {
+        'id': '9',
+        'next': undefined,
+        'raw': 'In subprocess',
+        'text': 'In subprocess',
+        'type': 'script',
+        variant: 'script'
+      },
+      {
+        'id': 'end',
+        'raw': 'end',
+        'text': 'end',
+        'type': 'end'
+      },
+      {
+        'id': 'after',
+        'next': undefined,
+        'raw': 'After subprocess',
+        'text': 'After subprocess',
+        'type': 'script',
+        variant: 'script'
+      },
+      { id: 'OtherId', type: 'script', variant: 'script', ...autoText('other') },
+    ]
 
-    expect(filtered).toStrictEqual([
+    const filtered = filterScraped(scraped, 'demo')
+    const expected: Scraped = [
       {
         distance: 0,
         'id': '0',
-        'isRoot': true,
         'next': '1',
         'raw': 'demo',
         'text': 'demo',
-        'type': 'start'
+        'type': 'root'
       },
       {
         distance: 1,
@@ -51,7 +88,8 @@ describe('filter scraped', () => {
         'next': '2',
         'raw': 'Some script',
         'text': 'Some script',
-        'type': 'script'
+        'type': 'script',
+        variant: 'script'
       },
       {
         distance: 2,
@@ -70,7 +108,8 @@ describe('filter scraped', () => {
         'next': '4',
         'raw': 'Show A',
         'text': 'Show A',
-        'type': 'script'
+        'type': 'script',
+        variant: 'script'
       },
       {
         distance: 4,
@@ -81,7 +120,8 @@ describe('filter scraped', () => {
         'next': 'end',
         'raw': 'action',
         'text': 'action',
-        'type': 'userAction'
+        'type': 'userAction',
+        variant: 'userAction'
       },
       {
         distance: 5,
@@ -89,7 +129,8 @@ describe('filter scraped', () => {
         'next': '7',
         'raw': 'Clicked Button',
         'text': 'Clicked Button',
-        'type': 'script'
+        'type': 'script',
+        variant: 'script'
       },
       {
         distance: 6,
@@ -104,7 +145,6 @@ describe('filter scraped', () => {
       {
         distance: 7,
         'id': '8',
-        'isRoot': false,
         'next': '9',
         'raw': 'Some subprocess',
         'text': 'Some subprocess',
@@ -116,7 +156,8 @@ describe('filter scraped', () => {
         'next': undefined,
         'raw': 'In subprocess',
         'text': 'In subprocess',
-        'type': 'script'
+        'type': 'script',
+        variant: 'script'
       },
       {
         distance: 5,
@@ -131,9 +172,11 @@ describe('filter scraped', () => {
         'next': undefined,
         'raw': 'After subprocess',
         'text': 'After subprocess',
-        'type': 'script'
+        'type': 'script',
+        variant: 'script'
       }
-    ])
+    ]
+    expect(filtered).toStrictEqual(expected)
     expect(filtered.find(n => n.id === 'OtherScriptId')).toBeUndefined()
   })
   test('find untouched paths', async () => {

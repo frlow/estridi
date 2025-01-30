@@ -105,7 +105,6 @@ export const testNodeParsing = (getDocument: GetDocumentFunc<Promise<Scraped>>) 
     const start = (await getDocument('start')).find(node => node.type === 'start')
     expect(start).toStrictEqual({
       'id': 'StartId',
-      'isRoot': false,
       'next': 'NextId',
       'text': 'Some text',
       raw: 'Some [text]',
@@ -117,11 +116,10 @@ export const testNodeParsing = (getDocument: GetDocumentFunc<Promise<Scraped>>) 
     const root = (await getDocument('root')).find(node => node.type === 'start')
     expect(root).toStrictEqual({
       'id': 'StartId',
-      'isRoot': true,
       'next': 'NextId',
       'text': 'test',
       raw: 'test',
-      'type': 'start'
+      'type': 'root'
     })
   })
 
@@ -220,7 +218,6 @@ export const testNodeParsing = (getDocument: GetDocumentFunc<Promise<Scraped>>) 
     const scriptWithNote = (await getDocument('note')).find(node => node.type === 'start')
     expect(scriptWithNote).toStrictEqual({
       'id': 'StartId',
-      'isRoot': false,
       'next': 'NextId',
       'raw': 'Some [text]',
       'text': 'Some text',

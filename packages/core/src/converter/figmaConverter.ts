@@ -67,10 +67,39 @@ export const convertToFigma = async (scraped: Scraped) => {
         if (node.next) children.push(createConnector({ start: node.id, end: node.next }))
         break
       case 'gateway':
-        debugger
+        const gateway = ({
+          id: node.id,
+          name: '04. Gateway',
+          children: [
+            {
+              name: 'text',
+              type: 'TEXT',
+              characters: node.raw
+            }, {}
+          ]
+        })
+        if (node.variant === 'loop') gateway.children.push({})
+        if (node.variant === 'parallel') gateway.children.push({}, {})
+        children.push(gateway)
+        Object.entries(node.options).forEach(([key, value]) => {
+          children.push(createConnector({ start: node.id, end: key, text: value }))
+        })
         break
       case 'table':
-        debugger
+        const mappedChildren = node.rows.flatMap((row, i) =>
+          row.map((text) => ({
+            characters: text,
+            absoluteBoundingBox: { y: i }
+          }))
+        )
+        children.push(
+          {
+            id: node.id,
+            name: 'Table',
+            type: 'TABLE',
+            children: mappedChildren
+          }
+        )
         break
       case 'serviceCall':
         children.push({
@@ -85,19 +114,19 @@ export const convertToFigma = async (scraped: Scraped) => {
         })
         if (node.next) children.push(createConnector({ start: node.id, end: node.next }))
         break
-      case 'start':
+      case 'root':
+      case 'end':
+      case 'start': {
         children.push({
           id: node.id,
           name: '01. Start'
         })
-        children.push(createConnector({ start: node.id, end: node.next, text: node.raw }))
+        if (node.next) {
+          const text = node.type === 'root' ? `root:${node.raw}` : node.raw
+          children.push(createConnector({ start: node.id, end: node.next, text }))
+        }
         break
-      case 'root':
-        debugger
-        break
-      case 'end':
-        debugger
-        break
+      }
       case 'subprocess':
         children.push({
           id: node.id,
@@ -126,9 +155,10 @@ export const convertToFigma = async (scraped: Scraped) => {
         }
         break
       case 'userAction':
+        const variant = node.variant === 'userAction' ? '1. User action' : '2. Subprocess'
         children.push({
           id: node.id,
-          name: '1. User action',
+          name: variant,
           children: [
             {
               name: 'action',
@@ -166,8 +196,19 @@ export const convertToFigma = async (scraped: Scraped) => {
         if (node.next) children.push(createConnector({ start: node.id, end: node.next }))
         break
       case 'other':
-        debugger
+        children.push({
+          id: node.id,
+          children: [
+            {
+              type: 'TEXT',
+              name: 'text',
+              characters: node.raw
+            }
+          ]
+        })
+        if (node.next) children.push(createConnector({ start: node.id, end: node.next }))
         break
+
     }
   })
   return { id: 'document', children: [{ id: 'page', children }] }

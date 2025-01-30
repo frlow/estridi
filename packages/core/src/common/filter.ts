@@ -13,7 +13,7 @@ export const filterScraped = (scraped: Scraped, rootName: string): Scraped => {
   }
   const acc: Record<string, ScrapedNode> = {}
   const root = scraped.find(
-    (r: ScrapedStart) => r.isRoot && r.raw === rootName
+    (r: ScrapedStart) => r.type === 'root' && r.raw === rootName
   )
   processNode(root, 0)
   scraped.filter((s) => s.type === 'table').forEach((t) => (acc[t.id] = t))

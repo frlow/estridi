@@ -1,7 +1,7 @@
 import { getNodeConnections } from '../../common/filter.js'
 import { findShortestPathToNode } from '../../common/shotestPath.js'
 import { generateHandlesTypeCode } from './handlesTypes.js'
-import { generateTest, getRootNote } from './common.js'
+import { generateTest } from './common.js'
 import { _ } from '../../common/texts.js'
 import { getTestName } from './testScript.js'
 
@@ -21,7 +21,6 @@ export const generatePlaywright = async (name: string, scraped: Scraped) => {
   const handlesTypeCode = generateHandlesTypeCode(scraped, name)
   return `import { BrowserContext, Page, test, expect } from '@playwright/test'
 import { handles } from './${name}.js'
-${getRootNote(scraped)}
 
 ${generateTestBlock(scraped, testableNodeTree, {})}
 
@@ -30,7 +29,7 @@ ${handlesTypeCode}`
 
 
 const getTestableNodeTree = (scraped: Scraped) => {
-  const rootNode: ScrapedStart = scraped.find((n: ScrapedStart) => n.isRoot) as ScrapedStart
+  const rootNode: ScrapedStart = scraped.find((n: ScrapedStart) => n.type === 'root') as ScrapedStart
   const processBlock = (startNode: ScrapedStart, blockPath: any[]) => {
     const testableNodesInBlock: any[] = []
     const processNode = (node: any) => {

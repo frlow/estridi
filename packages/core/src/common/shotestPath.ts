@@ -4,7 +4,7 @@ const findBlockRoot = (scraped: Scraped, blockPath: any[]): ScrapedStart | undef
 }
 
 export const findShortestPathToNode = (scraped: Scraped, nodeId: string, blockPath: any[] = []) => {
-  const root = findBlockRoot(scraped, blockPath) || scraped.find((n: ScrapedStart) => n.isRoot)
+  const root = findBlockRoot(scraped, blockPath) || scraped.find((n: ScrapedStart) => n.type === 'root')
   if (nodeId === root.id) return []
   let crawled = [[root]]
   let max = 100000
