@@ -1,5 +1,4 @@
 import { describe, expect, test } from 'vitest'
-import { processFigma } from '../../sources/figma.js'
 import { filterScraped } from '../../common/filter.js'
 import { generatePlaywright } from './index.js'
 import { autoText, loopTestCase, subprocessLoopTestCase } from '../../sources/testCases'
@@ -13,6 +12,7 @@ describe('playwright', () => {
   //   const reference = fs.readFileSync(filePath, 'utf8')
   //   expect(code).toStrictEqual(reference)
   // })
+
 
   test('loop should not crash', async () => {
     const code = await generatePlaywright('main', loopTestCase)

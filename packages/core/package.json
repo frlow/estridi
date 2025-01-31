@@ -10,7 +10,8 @@
   "scripts": {
     "start": "tsx src/cli.ts -r + -u",
     "test-data": "tsx testData.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "tsc": "tsc"
   },
   "dependencies": {
     "figma-api": "2.0.1-beta"

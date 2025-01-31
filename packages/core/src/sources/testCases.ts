@@ -29,8 +29,7 @@ export const testTestCase = async (parser: Parser, testCase: Scraped) => {
 const baseScript = {
   'id': 'ScriptId',
   'next': 'NextId',
-  raw: 'Some [text]',
-  'text': 'Some text',
+  ...autoText('Some [text]'),
   'type': 'script'
 } as const
 
@@ -54,24 +53,21 @@ export const subProcessTestCase: Scraped = [{
   'link': 'LinkId',
   'next': 'NextId',
   'tableKey': undefined,
-  'text': 'Next',
-  raw: 'Next',
+  ...autoText('Next'),
   'type': 'subprocess'
 }]
 
 export const startTestCase: Scraped = [{
   'id': 'StartId',
   'next': 'NextId',
-  'text': 'Some text',
-  raw: 'Some [text]',
+  ...autoText('Some [text]'),
   'type': 'start'
 }]
 
 export const serviceCallTestCase: Scraped = [{
   'id': 'ServiceCallId',
   'next': 'NextId',
-  'text': 'api get data',
-  'raw': '/api/get-data',
+  ...autoText('/api/get-data'),
   'type': 'serviceCall'
 }]
 
@@ -81,8 +77,7 @@ export const userActionTestCase: Scraped = [{
   },
   'id': 'UserActionId',
   'next': 'NextId',
-  'text': 'Some text',
-  raw: 'Some [text]',
+  ...autoText('Some [text]'),
   'type': 'userAction',
   variant: 'userAction'
 }]
@@ -94,47 +89,42 @@ export const gatewayTestCase: Scraped = [{
     'YesId': 'yes'
   },
   variant: 'gateway',
-  'text': 'Some text',
-  raw: 'Some [text]',
+  ...autoText('Some [text]'),
   'type': 'gateway'
 }]
 
 export const rootTestCase: Scraped = [{
   'id': 'StartId',
   'next': 'NextId',
-  'text': 'test',
-  raw: 'test',
+  ...autoText('test'),
   'type': 'root'
 }]
 
 export const endTestCase: Scraped = [{
   'id': 'EndId',
-  'text': 'end',
   'type': 'end',
-  raw: 'end'
+  ...autoText('end')
 }]
 
 export const otherTestCase: Scraped = [{
   'id': 'OtherId',
   'next': 'NextId',
-  'text': 'Some text',
-  raw: 'Some [text]',
+  ...autoText('Some [text]'),
   'type': 'other'
 }]
 
 export const complexStringTestCase: Scraped = [{
   'id': 'ScriptId',
   'next': 'NextId',
-  'text': 'My complex text with more things',
   'type': 'script',
-  raw: `My, complex
-(text) with [more things]`,
+  ...autoText(`My, complex
+(text) with [more things]`),
   variant: 'script'
 }]
 
 export const tableTestCase: Scraped = [{
   'id': 'TableId',
-  raw: 'My Table',
+  ...autoText('My Table'),
   'rows': [
     [
       'My Table',
@@ -152,7 +142,6 @@ export const tableTestCase: Scraped = [{
       'DDDD'
     ]
   ],
-  'text': 'My Table',
   'type': 'table'
 }]
 
@@ -162,8 +151,7 @@ export const subprocessActionsTestCase: Scraped = [{
   },
   'id': 'SubprocessId',
   'next': 'NextId',
-  'text': 'External component',
-  'raw': 'External component',
+  ...autoText('External component'),
   'type': 'userAction',
   variant: 'subprocess'
 }]
@@ -210,7 +198,7 @@ export const subprocessLoopTestCase: Scraped = [{
     id: 'SubprocessId',
     type: 'subprocess',
     ...autoText('Sub Start'),
-    link: "SubprocessRootId"
+    link: 'SubprocessRootId'
   },
   {
     id: 'SubprocessRootId',
@@ -237,7 +225,12 @@ export const subprocessLoopTestCase: Scraped = [{
     id: 'SubprocessLoopId',
     type: 'subprocess',
     ...autoText('Sub Start'),
-    link: "SubprocessRootId"
+    link: 'SubprocessRootId'
   }]
+
+export const standardTestCase: Scraped = [
+  { id: 'RootId', type: 'root', ...autoText('main'), next: 'ServiceCallId' },
+  { id: 'ServiceCallId', type: 'serviceCall', ...autoText('/api/data'), next: 'ServiceCallId' }
+]
 
 export const getFigmaTestData = () => JSON.parse(fs.readFileSync('./src/sources/figma.json', 'utf8'))
