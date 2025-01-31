@@ -3,6 +3,8 @@ import { processFigma } from '../sources/figma'
 import { expect } from 'vitest'
 import fs from 'node:fs'
 import { sanitizeText } from '../common/texts'
+import { convertToTldraw } from '../converter/tldrawConverter'
+import { processTldraw } from '../sources/tldraw'
 
 export type Parser = {
   converter: (scraped: Scraped) => Promise<any>
@@ -15,6 +17,10 @@ export const parsers: Record<string, Parser> = {
   figma: {
     converter: convertToFigma,
     processor: processFigma
+  },
+  tldraw: {
+    converter: convertToTldraw,
+    processor: processTldraw
   }
 }
 
@@ -53,8 +59,13 @@ export const subProcessTestCase: Scraped = [{
   'link': 'LinkId',
   'next': 'NextId',
   'tableKey': undefined,
-  ...autoText('Next'),
+  ...autoText('Next Page'),
   'type': 'subprocess'
+}, {
+  type: 'start',
+  id: 'LinkId',
+  ...autoText('Next Page'),
+  next: "OtherId"
 }]
 
 export const startTestCase: Scraped = [{

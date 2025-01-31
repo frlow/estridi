@@ -146,13 +146,13 @@ export const convertToFigma = async (scraped: Scraped) => {
           }
         })
         if (node.next) children.push(createConnector({ start: node.id, end: node.next }))
-        if (node.link) {
-          children.push({
-            id: node.link,
-            name: '01. Start'
-          })
-          children.push(createConnector({ start: node.link, text: node.raw }))
-        }
+        // if (node.link) {
+          // children.push({
+          //   id: node.link,
+          //   name: '01. Start'
+          // })
+          // children.push(createConnector({ start: node.link, text: node.raw }))
+        // }
         break
       case 'userAction':
         const variant = node.variant === 'userAction' ? '1. User action' : '2. Subprocess'

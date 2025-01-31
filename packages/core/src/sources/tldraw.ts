@@ -1,4 +1,5 @@
 import { sanitizeText } from '../common/texts'
+import { afterProcess, getTableKey } from './common'
 
 export type ProcessedNodes = Record<string, any>
 
@@ -14,14 +15,19 @@ export const processTldraw = async (
       if (parentType === 'group') {
         const groupedText = data.documents.find(n =>
           n.state.parentId === parent.state.id &&
-          n.state.type === "text")
-        return groupedText?.state?.props.text || ""
+          n.state.type === 'text')
+        return groupedText?.state?.props.text || ''
       }
     }
     return text
   }
 
   const findText = (node: any) => sanitizeText(findRawText(node))
+
+  const autoFindText = (node: any) => ({
+    text: findText(node),
+    raw: findRawText(node)
+  })
 
   const getNext = (node: any): string | undefined => {
     const connections = node.connections
@@ -30,8 +36,7 @@ export const processTldraw = async (
   }
 
   const getType = (node: any): ScrapedNodeTypes => {
-    const types: ScrapedNodeTypes[] = ['script', 'end', 'gateway', 'root', 'script', 'serviceCall', 'start', 'subprocess', 'table', 'userAction']
-    if (['message', 'signalSend'].includes(node.state?.type)) return 'script'
+    const types: ScrapedNodeTypes[] = ['script', 'end', 'gateway', 'root', 'script', 'serviceCall', 'start', 'subprocess', 'table', 'userAction', 'message', 'signalSend']
     if (types.includes(node.state?.type)) return node.state?.type
     return 'other'
   }
@@ -39,16 +44,27 @@ export const processTldraw = async (
   const getNodeMetadata = (node: any): ScrapedNode => {
     const type = getType(node)
     switch (type) {
+      case 'message':
+      case 'signalSend':
       case 'script':
         const script: ScrapedScript = {
           type: 'script',
           id: node.state.id,
-          text: findText(node),
           next: getNext(node),
-          raw: findRawText(node),
-          variant: "script"
+          ...autoFindText(node),
+          variant: type
         }
         return script
+      case 'subprocess':
+        const subprocess: ScrapedSubprocess = {
+          type: 'subprocess',
+          id: node.state.id,
+          ...autoFindText(node),
+          next: getNext(node),
+          tableKey: getTableKey(findRawText(node)),
+          link: undefined
+        }
+        return subprocess
       default: {
         return {
           type: 'other',
@@ -100,6 +116,5 @@ export const processTldraw = async (
   const nodesWithConnections = mapConnections(nodes)
   const nodeValues = Object.values(nodesWithConnections)
   const scraped = nodeValues.map((n) => getNodeMetadata(n))
-  // return afterProcess(scraped, nodesWithConnections)
-  return scraped
+  return afterProcess({ scraped, nodes: nodesWithConnections, findText, getNext })
 }

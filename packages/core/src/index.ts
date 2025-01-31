@@ -22,10 +22,6 @@ function isFigmaConfig(config: EstridiConfig) {
   return (config as FigmaConfig)?.fileId && (config as FigmaConfig)?.token
 }
 
-function isFileConfig(config: EstridiConfig) {
-  return (config as FileConfig)?.file
-}
-
 export const getSource = (config: EstridiConfig) => {
   let sourceName: EstridiSources
   if (isFigmaConfig(config)) sourceName = 'figma'

@@ -1,7 +1,7 @@
 import * as Figma from 'figma-api'
-import { isNodeInside } from '../common/inside.js'
 import { sanitizeText } from '../common/texts.js'
 import { DocumentNode, Node } from '@figma/rest-api-spec'
+import { afterProcess, getTableKey } from './common'
 
 export type ProcessedNodes = Record<string, any>
 export const loadFigmaDocument = async ({
@@ -52,13 +52,6 @@ const getNext = (node: any): string | undefined => {
   const connections = node.connections
   if (connections?.length === 1) return connections[0].id
   return undefined
-}
-
-const getTableKey = (node: any) => {
-  const text = findRawText(node)
-  const splitResult = text.split(':')
-  if (splitResult.length !== 2) return undefined
-  return splitResult[1].trim()
 }
 
 const getNodeMetadata = (node: Node): ScrapedNode => {
@@ -154,7 +147,7 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         text: findText(node),
         next: getNext(node),
         link: undefined,
-        tableKey: getTableKey(node),
+        tableKey: getTableKey(findRawText(node)),
         raw: findRawText(node)
       }
     }
@@ -182,43 +175,43 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
   }
 }
 
-const afterProcess = (
-  scraped: Scraped,
-  nodes: ProcessedNodes
-): Scraped => {
-  const ret = structuredClone(scraped)
-
-  // Map sub process links
-  ret
-    .filter((node) => node.type === 'subprocess')
-    .forEach((sp: ScrapedSubprocess) => {
-      const linkNode = ret.find((n) => n.type === 'start' && n.text === sp.text)
-      sp.link = linkNode?.id
-    })
-
-  // Map actions for userAction and special cases for external subprocesses
-  ret
-    .filter((node) => ['userAction', 'subprocess'].includes(node.type))
-    .forEach((ua: ScrapedUserAction) => {
-      const uaNode = nodes[ua.id]
-      const actions = Object.values(nodes).filter(
-        (n) =>
-          n.name?.replace('05.', '').trim() === 'Signal listen' &&
-          n.absoluteBoundingBox &&
-          isNodeInside(uaNode.absoluteBoundingBox, n.absoluteBoundingBox)
-      )
-      if ((ua.type as any) === 'subprocess' && actions.length > 0) {
-        delete (ua as any).link
-        delete (ua as any).tableKey
-        ua.type = 'userAction'
-        ua.variant = 'subprocess'
-        ua.actions = {}
-      }
-      actions.forEach((a) => (ua.actions[getNext(a)] = findText(a)))
-    })
-
-  return ret
-}
+// const afterProcess = (
+//   scraped: Scraped,
+//   nodes: ProcessedNodes
+// ): Scraped => {
+//   const ret = structuredClone(scraped)
+//
+//   // Map sub process links
+//   ret
+//     .filter((node) => node.type === 'subprocess')
+//     .forEach((sp: ScrapedSubprocess) => {
+//       const linkNode = ret.find((n) => n.type === 'start' && n.text === sp.text)
+//       sp.link = linkNode?.id
+//     })
+//
+//   // Map actions for userAction and special cases for external subprocesses
+//   ret
+//     .filter((node) => ['userAction', 'subprocess'].includes(node.type))
+//     .forEach((ua: ScrapedUserAction) => {
+//       const uaNode = nodes[ua.id]
+//       const actions = Object.values(nodes).filter(
+//         (n) =>
+//           n.name?.replace('05.', '').trim() === 'Signal listen' &&
+//           n.absoluteBoundingBox &&
+//           isNodeInside(uaNode.absoluteBoundingBox, n.absoluteBoundingBox)
+//       )
+//       if ((ua.type as any) === 'subprocess' && actions.length > 0) {
+//         delete (ua as any).link
+//         delete (ua as any).tableKey
+//         ua.type = 'userAction'
+//         ua.variant = 'subprocess'
+//         ua.actions = {}
+//       }
+//       actions.forEach((a) => (ua.actions[getNext(a)] = findText(a)))
+//     })
+//
+//   return ret
+// }
 
 
 export const processFigma = async (
@@ -229,7 +222,7 @@ export const processFigma = async (
   const nodesWithConnections = mapConnections(nodes)
   const nodeValues = Object.values(nodesWithConnections)
   const scraped = nodeValues.map((n) => getNodeMetadata(n))
-  return afterProcess(scraped, nodesWithConnections)
+  return afterProcess({ scraped, nodes: nodesWithConnections, findText, getNext })
 }
 
 const processNode = (node: any, acc: ProcessedNodes) => {

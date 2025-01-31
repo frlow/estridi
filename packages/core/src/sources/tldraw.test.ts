@@ -1,8 +1,44 @@
-import { describe } from 'vitest'
+import { describe, test } from 'vitest'
+import {
+  complexStringTestCase,
+  endTestCase,
+  gatewayTestCase,
+  loopTestCase,
+  messageTestCase,
+  otherTestCase,
+  parsers,
+  rootTestCase,
+  scriptTestCase,
+  serviceCallTestCase,
+  signalSendTestCase,
+  startTestCase,
+  subprocessActionsTestCase,
+  subProcessTestCase,
+  tableTestCase,
+  testTestCase,
+  userActionTestCase
+} from '../test/testCases'
 
-const disableTldraw = true
+const parserName: keyof typeof parsers = 'tldraw'
+const parser = parsers[parserName]
 
-describe.skipIf(disableTldraw)('Load from tldraw', () => {
-  describe('test parsing nodes from tldraw', async () => {
+
+describe.skip(`Load from ${parserName}`, () => {
+  describe('test cases', () => {
+    test('message', async () => await testTestCase(parser, messageTestCase))
+    test('script', async () => await testTestCase(parser, scriptTestCase))
+    test('signalSend', async () => await testTestCase(parser, signalSendTestCase))
+    test('subprocess', async () => await testTestCase(parser, subProcessTestCase))
+    test('serviceCall', async () => await testTestCase(parser, serviceCallTestCase))
+    test('userAction', async () => await testTestCase(parser, userActionTestCase))
+    test('gateway', async () => await testTestCase(parser, gatewayTestCase))
+    test('start', async () => await testTestCase(parser, startTestCase))
+    test('root', async () => await testTestCase(parser, rootTestCase))
+    test('end', async () => await testTestCase(parser, endTestCase))
+    test('other', async () => await testTestCase(parser, otherTestCase))
+    test('complex string', async () => await testTestCase(parser, complexStringTestCase))
+    test('table', async () => await testTestCase(parser, tableTestCase))
+    test('subprocess-actions', async () => await testTestCase(parser, subprocessActionsTestCase))
+    test('loop', async () => await testTestCase(parser, loopTestCase))
   })
 })
