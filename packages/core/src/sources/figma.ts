@@ -2,6 +2,7 @@ import * as Figma from 'figma-api'
 import { sanitizeText } from '../common/texts.js'
 import { DocumentNode, Node } from '@figma/rest-api-spec'
 import { afterProcess, getTableKey } from './common'
+import { isNodeInside } from '../common/inside'
 
 export type ProcessedNodes = Record<string, any>
 export const loadFigmaDocument = async ({
@@ -175,6 +176,10 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
   }
 }
 
+const isSignalListenInside = (host, child) => child.name?.replace('05.', '').trim() === 'Signal listen' &&
+  child.absoluteBoundingBox &&
+  isNodeInside(host.absoluteBoundingBox, child.absoluteBoundingBox)
+
 export const processFigma = async (
   data: any
 ): Promise<Scraped> => {
@@ -183,7 +188,7 @@ export const processFigma = async (
   const nodesWithConnections = mapConnections(nodes)
   const nodeValues = Object.values(nodesWithConnections)
   const scraped = nodeValues.map((n) => getNodeMetadata(n))
-  return afterProcess({ scraped, nodes: nodesWithConnections, findText, getNext })
+  return afterProcess({ scraped, nodes: nodesWithConnections, findText, getNext, isSignalListenInside })
 }
 
 const processNode = (node: any, acc: ProcessedNodes) => {

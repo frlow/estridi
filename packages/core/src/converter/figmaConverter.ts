@@ -1,13 +1,4 @@
-function getXCoordinate(id) {
-  let hash = 0
-  for (let i = 0; i < id.length; i++) {
-    const char = id.charCodeAt(i)
-    hash = (hash << 5) - hash + char
-    hash |= 0 // Convert to 32bit integer
-  }
-  // Ensure the hash is positive and pad to 12 digits
-  return hash * 20
-}
+import { getXCoordinate } from './common'
 
 const createConnector = ({ text, start, end, dotted }: {
   text?: string,
@@ -146,13 +137,6 @@ export const convertToFigma = async (scraped: Scraped) => {
           }
         })
         if (node.next) children.push(createConnector({ start: node.id, end: node.next }))
-        // if (node.link) {
-          // children.push({
-          //   id: node.link,
-          //   name: '01. Start'
-          // })
-          // children.push(createConnector({ start: node.link, text: node.raw }))
-        // }
         break
       case 'userAction':
         const variant = node.variant === 'userAction' ? '1. User action' : '2. Subprocess'

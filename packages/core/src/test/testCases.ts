@@ -11,7 +11,12 @@ export type Parser = {
   processor: (data: any) => Promise<Scraped>
 }
 
-export const autoText = (raw: string) => ({ raw, text: sanitizeText(raw) })
+export const autoText = (raw: string) =>
+  ({
+      raw,
+      text: sanitizeText(raw)
+    }
+  )
 
 export const parsers: Record<string, Parser> = {
   figma: {
@@ -65,7 +70,7 @@ export const subProcessTestCase: Scraped = [{
   type: 'start',
   id: 'LinkId',
   ...autoText('Next Page'),
-  next: "OtherId"
+  next: 'OtherId'
 }]
 
 export const startTestCase: Scraped = [{

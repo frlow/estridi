@@ -1,5 +1,6 @@
 import { sanitizeText } from '../common/texts'
 import { afterProcess, getTableKey } from './common'
+import { isNodeInside } from '../common/inside'
 
 export type ProcessedNodes = Record<string, any>
 
@@ -69,7 +70,7 @@ export const processTldraw = async (
         if ((node as any).connections.length === 0) {
           const end: ScrapedStart = {
             type: 'end',
-            id: node.id,
+            id: node.state.id,
             text: 'end',
             raw: 'end'
           }
@@ -85,6 +86,24 @@ export const processTldraw = async (
           raw: connection?.text?.replace('root:', '') || 'start'
         }
         return start
+      case 'serviceCall':
+        const serviceCall: ScrapedServiceCall = {
+          type: 'serviceCall',
+          id: node.state.id,
+          next: getNext(node),
+          ...autoFindText(node)
+        }
+        return serviceCall
+      case 'userAction':
+        const userAction: ScrapedUserAction = {
+          type: 'userAction',
+          id: node.state.id,
+          next: getNext(node),
+          ...autoFindText(node),
+          variant: 'userAction',
+          actions: {}
+        }
+        return userAction
       default: {
         return {
           type: 'other',
@@ -130,11 +149,18 @@ export const processTldraw = async (
     return temp
   }
 
+  const isSignalListenInside = (host, child) => {
+    if (child.state.type !== 'signalListen') return false
+    return isNodeInside(
+      { x: host.state.x, y: host.state.y, width: host.state.props.w, height: host.state.props.h },
+      { x: child.state.x, y: child.state.y, width: child.state.props.w, height: child.state.props.h }
+    )
+  }
 
   const nodes: ProcessedNodes = {}
   processData(data.documents, nodes)
   const nodesWithConnections = mapConnections(nodes)
   const nodeValues = Object.values(nodesWithConnections)
   const scraped = nodeValues.map((n) => getNodeMetadata(n))
-  return afterProcess({ scraped, nodes: nodesWithConnections, findText, getNext })
+  return afterProcess({ scraped, nodes: nodesWithConnections, findText, getNext, isSignalListenInside })
 }

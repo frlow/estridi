@@ -13,12 +13,14 @@ export const afterProcess = (
     scraped,
     nodes,
     getNext,
-    findText
+    findText,
+    isSignalListenInside
   }: {
     scraped: Scraped,
     nodes: ProcessedNodes,
     getNext: (node: any)=>string|undefined
-    findText: (node: any)=>string|undefined
+    findText: (node: any)=>string|undefined,
+    isSignalListenInside: (host: any, child: any)=>boolean
   }
 ): Scraped => {
   const ret = structuredClone(scraped)
@@ -37,10 +39,7 @@ export const afterProcess = (
     .forEach((ua: ScrapedUserAction) => {
       const uaNode = nodes[ua.id]
       const actions = Object.values(nodes).filter(
-        (n) =>
-          n.name?.replace('05.', '').trim() === 'Signal listen' &&
-          n.absoluteBoundingBox &&
-          isNodeInside(uaNode.absoluteBoundingBox, n.absoluteBoundingBox)
+        (n) => isSignalListenInside(uaNode, n)
       )
       if ((ua.type as any) === 'subprocess' && actions.length > 0) {
         delete (ua as any).link

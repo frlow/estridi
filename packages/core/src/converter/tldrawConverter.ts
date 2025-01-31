@@ -1,3 +1,5 @@
+import { getXCoordinate } from './common'
+
 const createConnector = ({ text, start, end, dotted }: {
   text?: string,
   start: string,
@@ -69,6 +71,8 @@ export const convertToTldraw = async (scraped: Scraped) => {
         })
         if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
         break
+      case 'root':
+      case 'end':
       case 'start':
         children.push({
           'state': {
@@ -76,7 +80,67 @@ export const convertToTldraw = async (scraped: Scraped) => {
             'type': 'start'
           }
         })
+        if (node.next) children.push(...createConnector({
+          start: node.id,
+          end: node.next,
+          text: node.type === 'root' ? `root:${node.raw}` : node.raw
+        }))
+        break
+      case 'serviceCall':
+        children.push({
+          'state': {
+            'id': node.id,
+            'type': 'serviceCall',
+            'props': {
+              'text': node.raw
+            }
+          }
+        })
         if (node.next) children.push(...createConnector({ start: node.id, end: node.next, text: node.raw }))
+        break
+      case 'userAction':
+        children.push({
+          'state': {
+            'id': node.id,
+            'type': 'userAction',
+            'props': {
+              'text': node.raw,
+              h: 20,
+              w: 100
+            },
+            x: getXCoordinate(node.id),
+            y: 0
+          }
+        })
+        Object.entries(node.actions).forEach(([key, value], i) => {
+          children.push({
+            'state': {
+              id: `${node.id}_action_${i}`,
+              'type': 'signalListen',
+              'props': {
+                'text': value,
+                h: 10,
+                w: 10
+              },
+              x: getXCoordinate(node.id) + 5,
+              y: 5
+            }
+          })
+          children.push(...createConnector({ start: `${node.id}_action_${i}`, end: key }))
+        })
+        if (node.next) children.push(...createConnector({ start: node.id, end: node.next, text: node.raw }))
+        break
+      case "other":
+        children.push({
+          'state': {
+            'id': node.id,
+            'type': "other",
+            'props': {
+              'text': node.raw
+            }
+          }
+        })
+        if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
         break
       default:
         debugger
