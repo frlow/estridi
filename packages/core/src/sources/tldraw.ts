@@ -1,10 +1,11 @@
 import { sanitizeText } from '../common/texts'
 import { afterProcess, getTableKey } from './common'
 import { isNodeInside } from '../common/inside'
+import { autoText } from '../test/testCases'
 
 export type ProcessedNodes = Record<string, any>
 
-
+type ExtendedNodeTypes = ScrapedNodeTypes | 'loop' | 'parallel'
 export const processTldraw = async (
   data: { documents: any[] }
 ): Promise<Scraped> => {
@@ -36,8 +37,11 @@ export const processTldraw = async (
     return undefined
   }
 
-  const getType = (node: any): ScrapedNodeTypes => {
-    const types: ScrapedNodeTypes[] = ['script', 'end', 'gateway', 'root', 'script', 'serviceCall', 'start', 'subprocess', 'table', 'userAction', 'message', 'signalSend']
+  const getType = (node: any): ExtendedNodeTypes => {
+    const types: ExtendedNodeTypes[] = [
+      'script', 'end', 'gateway', 'root', 'script', 'serviceCall',
+      'start', 'subprocess', 'table', 'userAction', 'message', 'signalSend',
+      'loop', 'parallel']
     if (types.includes(node.state?.type)) return node.state?.type
     return 'other'
   }
@@ -104,6 +108,28 @@ export const processTldraw = async (
           actions: {}
         }
         return userAction
+      case 'loop':
+      case 'parallel':
+      case 'gateway':
+        const gateway: ScrapedGateway = {
+          type: 'gateway',
+          id: node.state.id,
+          ...autoFindText(node),
+          variant: type,
+          options: ((node as any).connections || []).reduce(
+            (acc, cur) => ({ ...acc, [cur.id]: cur.text }),
+            {}
+          )
+        }
+        return gateway
+      case 'table':
+        const table: ScrapedTable = {
+          id: node.state.id,
+          type: 'table',
+          ...autoText(node.state.props.rows[0][0]),
+          rows: node.state.props.rows
+        }
+        return table
       default: {
         return {
           type: 'other',

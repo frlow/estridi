@@ -102,7 +102,7 @@ export const convertToTldraw = async (scraped: Scraped) => {
         children.push({
           'state': {
             'id': node.id,
-            'type': 'userAction',
+            'type': node.variant,
             'props': {
               'text': node.raw,
               h: 20,
@@ -130,17 +130,42 @@ export const convertToTldraw = async (scraped: Scraped) => {
         })
         if (node.next) children.push(...createConnector({ start: node.id, end: node.next, text: node.raw }))
         break
-      case "other":
+      case 'other':
         children.push({
           'state': {
             'id': node.id,
-            'type': "other",
+            'type': 'other',
             'props': {
               'text': node.raw
             }
           }
         })
         if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
+        break
+      case 'gateway':
+        children.push({
+          'state': {
+            'id': node.id,
+            'type': node.variant,
+            'props': {
+              'text': node.raw
+            }
+          }
+        })
+        Object.entries(node.options || {}).forEach(option => {
+          children.push(...createConnector({ start: node.id, end: option[0], text: option[1] }))
+        })
+        break
+      case 'table':
+        children.push({
+          'state': {
+            'id': node.id,
+            'type': 'table',
+            'props': {
+              'rows': node.rows
+            }
+          }
+        })
         break
       default:
         debugger
