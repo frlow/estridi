@@ -175,45 +175,6 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
   }
 }
 
-// const afterProcess = (
-//   scraped: Scraped,
-//   nodes: ProcessedNodes
-// ): Scraped => {
-//   const ret = structuredClone(scraped)
-//
-//   // Map sub process links
-//   ret
-//     .filter((node) => node.type === 'subprocess')
-//     .forEach((sp: ScrapedSubprocess) => {
-//       const linkNode = ret.find((n) => n.type === 'start' && n.text === sp.text)
-//       sp.link = linkNode?.id
-//     })
-//
-//   // Map actions for userAction and special cases for external subprocesses
-//   ret
-//     .filter((node) => ['userAction', 'subprocess'].includes(node.type))
-//     .forEach((ua: ScrapedUserAction) => {
-//       const uaNode = nodes[ua.id]
-//       const actions = Object.values(nodes).filter(
-//         (n) =>
-//           n.name?.replace('05.', '').trim() === 'Signal listen' &&
-//           n.absoluteBoundingBox &&
-//           isNodeInside(uaNode.absoluteBoundingBox, n.absoluteBoundingBox)
-//       )
-//       if ((ua.type as any) === 'subprocess' && actions.length > 0) {
-//         delete (ua as any).link
-//         delete (ua as any).tableKey
-//         ua.type = 'userAction'
-//         ua.variant = 'subprocess'
-//         ua.actions = {}
-//       }
-//       actions.forEach((a) => (ua.actions[getNext(a)] = findText(a)))
-//     })
-//
-//   return ret
-// }
-
-
 export const processFigma = async (
   data: any
 ): Promise<Scraped> => {

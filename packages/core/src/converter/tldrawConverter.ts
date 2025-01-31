@@ -69,6 +69,15 @@ export const convertToTldraw = async (scraped: Scraped) => {
         })
         if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
         break
+      case 'start':
+        children.push({
+          'state': {
+            'id': node.id,
+            'type': 'start'
+          }
+        })
+        if (node.next) children.push(...createConnector({ start: node.id, end: node.next, text: node.raw }))
+        break
       default:
         debugger
         break

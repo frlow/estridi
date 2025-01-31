@@ -65,6 +65,26 @@ export const processTldraw = async (
           link: undefined
         }
         return subprocess
+      case 'start':
+        if ((node as any).connections.length === 0) {
+          const end: ScrapedStart = {
+            type: 'end',
+            id: node.id,
+            text: 'end',
+            raw: 'end'
+          }
+          return end
+        }
+        const connection = (node as any).connections[0]
+        const isRoot = connection?.text?.startsWith('root:')
+        const start: ScrapedStart = {
+          type: isRoot ? 'root' : 'start',
+          id: node.state.id,
+          text: sanitizeText(connection?.text?.replace('root:', '') || 'start'),
+          next: getNext(node),
+          raw: connection?.text?.replace('root:', '') || 'start'
+        }
+        return start
       default: {
         return {
           type: 'other',
@@ -97,7 +117,7 @@ export const processTldraw = async (
           c.state.props?.terminal === terminal)?.state?.toId
         const from = findBinding('start')
         const to = findBinding('end')
-        return { from, to, text: n.props?.text }
+        return { from, to, text: n.state.props?.text }
       })
     Object.keys(temp).forEach((key) => {
       const node = temp[key]
