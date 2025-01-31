@@ -1,11 +1,10 @@
 import { sanitizeText } from '../common/texts'
-import { TlDrawNode } from './test/tldrawGenerator'
 
 export type ProcessedNodes = Record<string, any>
 
 
 export const processTldraw = async (
-  data: { documents: TlDrawNode[] }
+  data: { documents: any[] }
 ): Promise<Scraped> => {
   const findRawText = (node: any): string => {
     const text = node.state?.props?.text
@@ -46,7 +45,8 @@ export const processTldraw = async (
           id: node.state.id,
           text: findText(node),
           next: getNext(node),
-          raw: findRawText(node)
+          raw: findRawText(node),
+          variant: "script"
         }
         return script
       default: {

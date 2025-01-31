@@ -1,5 +1,5 @@
 import { convertToFigma } from '../converter/figmaConverter'
-import { processFigma } from './figma'
+import { processFigma } from '../sources/figma'
 import { expect } from 'vitest'
 import fs from 'node:fs'
 import { sanitizeText } from '../common/texts'
@@ -230,7 +230,27 @@ export const subprocessLoopTestCase: Scraped = [{
 
 export const standardTestCase: Scraped = [
   { id: 'RootId', type: 'root', ...autoText('main'), next: 'ServiceCallId' },
-  { id: 'ServiceCallId', type: 'serviceCall', ...autoText('/api/data'), next: 'ServiceCallId' }
+  { id: 'ServiceCallId', type: 'serviceCall', ...autoText('/api/data'), next: 'ServiceCallErrorHandlingId' },
+  {
+    id: 'ServiceCallErrorHandlingId',
+    type: 'gateway',
+    variant: 'gateway', ...autoText('Any errors from api call?'),
+    options: {
+      ShowErrorId: 'yes',
+      ScriptId: 'no'
+    }
+  },
+  { id: 'ShowErrorId', type: 'script', variant: 'message', ...autoText('Show an error message') },
+  { id: 'ScriptId', type: 'script', variant: 'script', ...autoText('Do something [here]'), next: 'UserActionId' },
+  {
+    id: 'UserActionId', type: 'userAction', variant: 'userAction', ...autoText('action'), next: 'BaseEndId', actions: {
+      SubprocessId: 'Click'
+    }
+  },
+  { id: 'BaseEndId', type: 'end', ...autoText('end') },
+  { id: 'SubprocessId', ...autoText('Next page'), type: 'subprocess', link: 'NextPageId' },
+  { id: 'NextPageId', type: 'start', ...autoText('Next page'), next: 'LinkId' },
+  { id: 'LinkId', type: 'script', variant: 'signalSend', ...autoText('Go to some page') }
 ]
 
 export const getFigmaTestData = () => JSON.parse(fs.readFileSync('./src/sources/figma.json', 'utf8'))

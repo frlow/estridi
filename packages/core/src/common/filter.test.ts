@@ -3,7 +3,7 @@ import { processFigma } from '../sources/figma.js'
 import { filterScraped } from './filter.js'
 import { getPathGatewayValuesForPath, getTestableNodes } from '../targets/codegen/misc.js'
 import { findShortestPathToNode } from './shotestPath.js'
-import { autoText, getFigmaTestData } from '../sources/testCases'
+import { autoText, getFigmaTestData } from '../test/testCases'
 
 describe('filter scraped', () => {
   test('filter', async () => {

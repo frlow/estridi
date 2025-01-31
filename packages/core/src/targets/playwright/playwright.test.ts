@@ -1,17 +1,19 @@
 import { describe, expect, test } from 'vitest'
 import { filterScraped } from '../../common/filter.js'
 import { generatePlaywright } from './index.js'
-import { autoText, loopTestCase, subprocessLoopTestCase } from '../../sources/testCases'
+import { autoText, loopTestCase, standardTestCase, subprocessLoopTestCase } from '../../test/testCases'
+import path from 'node:path'
+import fs from 'node:fs'
 
 describe('playwright', () => {
-  // test('generated code should match reference', async () => {
-  //   const scraped = filterScraped(await processFigma(getFigmaTestData()), 'main')
-  //   const code = await generatePlaywright('main', scraped)
-  //   const filePath = path.join(__dirname, '../test', 'playwrightReference.spec.ts')
-  //   fs.writeFileSync(filePath, code, 'utf8')
-  //   const reference = fs.readFileSync(filePath, 'utf8')
-  //   expect(code).toStrictEqual(reference)
-  // })
+  test('generate playwright test code', async () => {
+    const code = await generatePlaywright('main', standardTestCase)
+    const filePath = path.join(__dirname, '../../test', 'playwrightReference.ts')
+    const referenceFileContent = `// @ts-nocheck\n${code}`
+    // fs.writeFileSync(filePath, referenceFileContent, 'utf8')
+    const reference = fs.readFileSync(filePath, 'utf8')
+    expect(referenceFileContent).toStrictEqual(reference)
+  })
 
 
   test('loop should not crash', async () => {
@@ -35,7 +37,7 @@ describe('playwright', () => {
         id: 'TableSubprocessId',
         type: 'subprocess',
         ...autoText('Validate: My Table'),
-        tableKey: "My Table"
+        tableKey: 'My Table'
       },
       {
         id: 'TableId',

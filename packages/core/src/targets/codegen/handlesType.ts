@@ -18,7 +18,7 @@ export const getServiceCallNames = (scraped: Scraped): { name: string, raw: stri
 export const getActionNames = (scraped: Scraped): string[] =>
   scraped
     .filter((node) => node.type === 'userAction')
-    .flatMap((a) => Object.values(a.actions))
+    .flatMap((a) => Object.values(a.actions || {}))
 
 export const getTestNames = (scraped: Scraped): string[] => {
   const ret = getTestableNodes(scraped)

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { getRootName } from './root.js'
-import { autoText } from '../sources/testCases'
+import { autoText } from '../test/testCases'
 
 describe('find root node', () => {
   test('RootName is undefined and there is only one root', async () => {

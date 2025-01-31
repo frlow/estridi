@@ -17,7 +17,7 @@ import {
   tableTestCase,
   testTestCase,
   userActionTestCase
-} from './testCases'
+} from '../test/testCases'
 
 const parserName: keyof typeof parsers = 'figma'
 const parser = parsers[parserName]

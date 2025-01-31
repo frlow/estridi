@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import { filterScraped } from '../../common/filter.js'
 import { processFigma } from '../../sources/figma.js'
 import { generateScriptTest } from './testScript.js'
-import { getFigmaTestData } from '../../sources/testCases'
+import { getFigmaTestData } from '../../test/testCases'
 
 describe('generate test script', () => {
   test('Generate test for script', async () => {
