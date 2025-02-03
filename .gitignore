@@ -9,7 +9,7 @@ featuresOld/
 features/
 .idea/
 output/
-estridi.json
+packages/cli/estridi.json
 tests/
 .env
 example/

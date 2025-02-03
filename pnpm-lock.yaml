@@ -23,6 +23,9 @@ importers:
       core:
         specifier: workspace:*
         version: link:../core
+      tsx:
+        specifier: ^4.19.2
+        version: 4.19.2
 
   packages/core:
     dependencies:

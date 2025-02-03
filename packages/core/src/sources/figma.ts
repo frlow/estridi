@@ -3,12 +3,27 @@ import { sanitizeText } from '../common/texts.js'
 import { DocumentNode, Node } from '@figma/rest-api-spec'
 import { afterProcess, getTableKey } from './common'
 import { isNodeInside } from '../common/inside'
+import {
+  FigmaConfig,
+  Scraped,
+  ScrapedGateway,
+  ScrapedNode,
+  ScrapedNodeTypes,
+  ScrapedOther,
+  ScrapedScript,
+  ScrapedServiceCall,
+  ScrapedStart,
+  ScrapedSubprocess,
+  ScrapedTable,
+  ScrapedUserAction
+} from '../scraped'
 
 export type ProcessedNodes = Record<string, any>
-export const loadFigmaDocument = async ({
-                                          fileId,
-                                          token
-                                        }: FigmaConfig): Promise<DocumentNode> => {
+export const loadFigmaDocument = async (
+  {
+    fileId,
+    token
+  }: FigmaConfig): Promise<DocumentNode> => {
   if (!fileId || !token) throw 'token and fileId must be set'
   const api = new Figma.Api({
     personalAccessToken: token
@@ -57,6 +72,7 @@ const getNext = (node: any): string | undefined => {
 
 const getNodeMetadata = (node: Node): ScrapedNode => {
   const type = getType(node)
+  let ret: ScrapedNode
   switch (type) {
     case 'table': {
       const rows: string[][] = Object.values(
@@ -76,7 +92,8 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         type: 'table', rows, id: node.id, text,
         raw: text
       }
-      return table
+      ret = table
+      break
     }
     case 'message':
     case 'signalSend':
@@ -89,7 +106,8 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         raw: findRawText(node),
         variant: type
       }
-      return script
+      ret = script
+      break
     }
     case 'serviceCall': {
       const serviceCall: ScrapedServiceCall = {
@@ -99,7 +117,8 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         next: getNext(node),
         raw: findRawText(node)
       }
-      return serviceCall
+      ret = serviceCall
+      break
     }
     case 'start': {
       if ((node as any).connections.length === 0) {
@@ -109,7 +128,8 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
           text: 'end',
           raw: 'end'
         }
-        return end
+        ret = end
+        break
       }
       const connection = (node as any).connections[0]
       const isRoot = connection?.text?.startsWith('root:')
@@ -120,7 +140,8 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         next: getNext(node),
         raw: connection?.text?.replace('root:', '') || 'start'
       }
-      return start
+      ret = start
+      break
     }
     case 'gateway': {
       const numberOfChildren = (node as any).children.length
@@ -139,10 +160,11 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         variant,
         raw: findRawText(node)
       }
-      return gateway
+      ret = gateway
+      break
     }
     case 'subprocess': {
-      return {
+      const subprocess: ScrapedSubprocess = {
         type: 'subprocess',
         id: node.id,
         text: findText(node),
@@ -151,9 +173,11 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         tableKey: getTableKey(findRawText(node)),
         raw: findRawText(node)
       }
+      ret = subprocess
+      break
     }
     case 'userAction': {
-      return {
+      const userAction: ScrapedUserAction = {
         type: 'userAction',
         id: node.id,
         text: findText(node),
@@ -162,6 +186,8 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         raw: findRawText(node),
         variant: 'userAction'
       }
+      ret = userAction
+      break
     }
     default: {
       const other: ScrapedOther = {
@@ -171,9 +197,15 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         text: findText(node),
         raw: findRawText(node)
       }
-      return other
+      ret = other
+      break
     }
   }
+
+  if ((node as any).absoluteBoundingBox) {
+    ret.position = (node as any).absoluteBoundingBox
+  }
+  return ret
 }
 
 const isSignalListenInside = (host, child) => child.name?.replace('05.', '').trim() === 'Signal listen' &&

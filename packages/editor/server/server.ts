@@ -7,7 +7,6 @@ import express from 'express'
 import { port } from 'editor-common/config'
 import path from 'node:path'
 import { generateEstridiTests, parseRootNames, processTldraw } from 'core'
-import { NodeJS } from 'timers'
 
 const app = new WebSocketExpress()
 const router = new Router()

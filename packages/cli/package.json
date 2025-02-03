@@ -4,12 +4,14 @@
   "description": "",
   "type": "module",
   "scripts": {
+    "start": "tsx cli.ts",
     "build": "pnpm dlx bun build --target=node ./cli.ts --outdir=../../dist"
   },
   "devDependencies": {
     "commander": "^13.1.0",
     "core": "workspace:*",
-    "@types/node": "^22.10.7"
+    "@types/node": "^22.10.7",
+    "tsx": "^4.19.2"
   },
   "peerDependencies": {
     "typescript": "*"

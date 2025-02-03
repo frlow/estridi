@@ -28,6 +28,9 @@ export const parsers: Record<string, Parser> = {
 export const testTestCase = async (parser: Parser, testCase: Scraped) => {
   const document = await parser.converter(testCase)
   const scraped = await parser.processor(document)
+  scraped.forEach(node => {
+    delete node.position
+  })
   for (const testItem of testCase) {
     expect(scraped).toContainEqual(testItem)
   }
