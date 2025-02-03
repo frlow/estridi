@@ -70,8 +70,10 @@ test('position imported from figma', async () => {
   }
   const scraped = await parser.processor(document)
   const subprocess = scraped.find(n=>n.type==="subprocess")
-  expect(subprocess.position.x).toEqual(5)
-  expect(subprocess.position.y).toEqual(10)
+  expect(subprocess.extra.x).toEqual(5)
+  expect(subprocess.extra.y).toEqual(10)
+  expect(subprocess.extra.width).toEqual(231)
+  expect(subprocess.extra.height).toEqual(100)
 })
 
 

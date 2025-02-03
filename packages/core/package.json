@@ -37,6 +37,6 @@
   ],
   "exports": {
     ".": "./src/index.ts",
-    "./figma": "./src/sources/figma.ts"
+    "./test-cases": "./src/test/testCases.ts"
   }
 }

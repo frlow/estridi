@@ -5,7 +5,12 @@ export type BaseNode = {
   text: string,
   raw: string,
   distance?: number,
-  position?: { x: number, y: number }
+  extra?: {
+    width: number,
+    height: number,
+    x: number,
+    y: number
+  }
 }
 
 export type ScrapedNodeTypes =

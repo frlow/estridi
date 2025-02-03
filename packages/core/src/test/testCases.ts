@@ -3,7 +3,7 @@ import { processFigma } from '../sources/figma'
 import fs from 'node:fs'
 import { convertToTldraw } from '../converter/tldrawConverter'
 import { processTldraw } from '../sources/tldraw'
-import { Scraped } from '../scraped'
+import { Scraped, ScrapedNode } from '../scraped'
 import { expect } from 'vitest'
 import { autoText } from '../common/texts'
 
@@ -28,11 +28,8 @@ export const parsers: Record<string, Parser> = {
 export const testTestCase = async (parser: Parser, testCase: Scraped) => {
   const document = await parser.converter(testCase)
   const scraped = await parser.processor(document)
-  scraped.forEach(node => {
-    delete node.position
-  })
   for (const testItem of testCase) {
-    expect(scraped).toContainEqual(testItem)
+    expect(scraped).toContainEqual(expect.objectContaining(testItem))
   }
 }
 

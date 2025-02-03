@@ -203,7 +203,7 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
   }
 
   if ((node as any).absoluteBoundingBox) {
-    ret.position = (node as any).absoluteBoundingBox
+    ret.extra = { ...(ret.extra || {}), ...(node as any).absoluteBoundingBox }
   }
   return ret
 }

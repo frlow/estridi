@@ -1,103 +1,6 @@
-import { describe, expect, test } from 'vitest'
-import {
-  complexStringTestCase,
-  endTestCase,
-  gatewayTestCase,
-  loopTestCase,
-  messageTestCase,
-  otherTestCase,
-  parsers,
-  rootTestCase,
-  scriptTestCase,
-  serviceCallTestCase,
-  signalSendTestCase,
-  startTestCase,
-  subprocessActionsTestCase,
-  subProcessTestCase,
-  tableTestCase,
-  testTestCase,
-  userActionTestCase
-} from '../test/testCases'
-import { processTldraw } from './tldraw'
-import { generatePlaywright } from '../targets/playwright'
-import { filterScraped } from '../common/filter'
-
-const parserName: keyof typeof parsers = 'tldraw'
-const parser = parsers[parserName]
-
-
-describe(`Load from ${parserName}`, () => {
-  describe('test cases', () => {
-    test('message', async () => await testTestCase(parser, messageTestCase))
-    test('script', async () => await testTestCase(parser, scriptTestCase))
-    test('signalSend', async () => await testTestCase(parser, signalSendTestCase))
-    test('subprocess', async () => await testTestCase(parser, subProcessTestCase))
-    test('serviceCall', async () => await testTestCase(parser, serviceCallTestCase))
-    test('userAction', async () => await testTestCase(parser, userActionTestCase))
-    test('gateway', async () => await testTestCase(parser, gatewayTestCase))
-    test('start', async () => await testTestCase(parser, startTestCase))
-    test('root', async () => await testTestCase(parser, rootTestCase))
-    test('end', async () => await testTestCase(parser, endTestCase))
-    test('other', async () => await testTestCase(parser, otherTestCase))
-    test('complex string', async () => await testTestCase(parser, complexStringTestCase))
-    test('table', async () => await testTestCase(parser, tableTestCase))
-    test('subprocess-actions', async () => await testTestCase(parser, subprocessActionsTestCase))
-    test('loop', async () => await testTestCase(parser, loopTestCase))
-  })
-})
-
-test('tldraw typical case', async () => {
-  const scraped = await processTldraw(tlDrawTestCase)
-  const filtered = filterScraped(scraped, "main")
-  const code = await generatePlaywright('main', filtered)
-  expect(code).toBeTruthy()
-})
-
-const tlDrawTestCase = {
-  "clock": 25361,
-  "tombstones": {
-    "shape:c0xg0vfB8kKH87tu2sWEO": 414,
-    "shape:t1Syzq24ftd1VuhLmncq2": 439,
-    "shape:vNsUMhrqluUHykVytQ46x": 821,
-    "shape:nyf_0M9LLGDlxd9fw5wiw": 1431,
-    "binding:LnQ8NML3cGfvkXJuuI46Z": 1732,
-    "binding:zJ4OZM6Xq1V4L0PIuyOBd": 1800,
-    "binding:bxGnZY6iyJfbQZTXM37or": 1862,
-    "binding:qjpkjEYsj6MvEIgkzmqXq": 2171,
-    "binding:1FlslitlHxpgVW3tKd1yE": 2660,
-    "binding:5xLSyhn4O-cfBGXqVR2YK": 2668,
-    "binding:FqV-SMcq0P8GClkFdTRkC": 2731,
-    "binding:GL-91dScAajF40QjYKoOT": 4103,
-    "binding:1sCM62fZyMELolg00oUra": 4238,
-    "binding:BoaCX3ayHz6cNeY6cMH8P": 7329,
-    "binding:4RCB5aB3xL7HpG1aYnwBv": 7329,
-    "shape:3u9EZVCBT6F3be2bf13kf": 7329,
-    "shape:VZ97J9M6yP7AyEhO4RBH3": 7429,
-    "shape:1dCBTStP3jbDh3ucA4bD_": 7651,
-    "shape:5JL0YKpEVjbfmsmOoBrUa": 7673,
-    "binding:DvEcej4mStL5y3HO2RXha": 10584,
-    "shape:rGUHDbIl8qJiEFnRswMQV": 10584,
-    "shape:LWzw25MhQQV2ATE41tTdQ": 11073,
-    "shape:6whHaa9EOQvyLoNxJwvwU": 11073,
-    "shape:Pp0qwnA26NsdKjKYizaLO": 11073,
-    "shape:fE3pmNgvlRairVitjjsWI": 11073,
-    "shape:tZzUDX8P3J6F_7AL0UOfo": 11073,
-    "shape:_FfLmv9LTWdICTIDNaTkM": 11117,
-    "shape:UQv61u8sDFJrqgYk33tOh": 11117,
-    "shape:tJzj6v3L6nQl9daSUW39e": 11117,
-    "binding:EHVgWP0CM8pfSatPNWZDt": 13292,
-    "shape:k2RM26HQGPWIb5fOtaqDh": 13992,
-    "binding:-8ARE9uAWgXw1_IpegwjF": 17428,
-    "shape:SZsf9MnA2ViRYxZT-LPg9": 18809,
-    "shape:ylMRPXj3Xx8SqBmTY96_m": 23866,
-    "binding:25rrrf75uMMWHUS5KkBkY": 24410,
-    "binding:JislOLUHXzTCFsQSmHdQs": 24410,
-    "binding:7gUq-CNrJJfzL750PAO35": 24410,
-    "shape:Y_zwKs0URxd57I6P0NTua": 24410,
-    "binding:90vMxKmFiRFwt0N_4wCJM": 24482,
-    "shape:ekvUVcOJ6DHOfzmqT6O_b": 24482,
-    "shape:1JYkYDYfzZex-_b4cQnWD": 24859
-  },
+{
+  "clock": 27159,
+  "tombstones": {},
   "schema": {
     "schemaVersion": 2,
     "sequences": {
@@ -205,8 +108,8 @@ const tlDrawTestCase = {
     },
     {
       "state": {
-        "x": 353.0136373434968,
-        "y": 174.9447452160058,
+        "x": 324.7586594673907,
+        "y": 175.17218135840324,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
@@ -214,7 +117,7 @@ const tlDrawTestCase = {
         "id": "shape:5hA4zVaI5DSz06TLwYZVX",
         "type": "serviceCall",
         "parentId": "shape:nVGHAIZ7WAxjCeuxO0ZXH",
-        "index": "a36qy",
+        "index": "aaaa",
         "props": {
           "h": 80,
           "w": 80,
@@ -222,7 +125,7 @@ const tlDrawTestCase = {
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 19464
+      "lastChangedClock": 27159
     },
     {
       "state": {
@@ -232,10 +135,10 @@ const tlDrawTestCase = {
         "isLocked": false,
         "opacity": 1,
         "meta": {},
-        "id": "shape:AlNgBpJ6XU3nHfzJoLSd-",
+        "id": "shape:xxxaaabb",
         "type": "subprocess",
         "parentId": "shape:nVGHAIZ7WAxjCeuxO0ZXH",
-        "index": "a642b",
+        "index": "aaaaa",
         "props": {
           "h": 80,
           "w": 80,
@@ -243,12 +146,12 @@ const tlDrawTestCase = {
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 19464
+      "lastChangedClock": 26647
     },
     {
       "state": {
-        "x": 810.6528127440512,
-        "y": 73.92170450213371,
+        "x": 814.678208082949,
+        "y": 72.34523565157042,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
@@ -264,7 +167,7 @@ const tlDrawTestCase = {
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 21863
+      "lastChangedClock": 26457
     },
     {
       "state": {
@@ -341,10 +244,10 @@ const tlDrawTestCase = {
           "scale": 1
         },
         "parentId": "shape:nVGHAIZ7WAxjCeuxO0ZXH",
-        "index": "a57d5",
+        "index": "aaaaI6XJ",
         "typeName": "shape"
       },
-      "lastChangedClock": 19464
+      "lastChangedClock": 26809
     },
     {
       "state": {
@@ -419,10 +322,10 @@ const tlDrawTestCase = {
           "scale": 1
         },
         "parentId": "shape:nVGHAIZ7WAxjCeuxO0ZXH",
-        "index": "a4C07",
+        "index": "aaaa9Emd",
         "typeName": "shape"
       },
-      "lastChangedClock": 19464
+      "lastChangedClock": 26809
     },
     {
       "state": {
@@ -848,10 +751,10 @@ const tlDrawTestCase = {
           "scale": 1
         },
         "parentId": "shape:nVGHAIZ7WAxjCeuxO0ZXH",
-        "index": "aF1jR",
+        "index": "ab29M",
         "typeName": "shape"
       },
-      "lastChangedClock": 19464
+      "lastChangedClock": 26566
     },
     {
       "state": {
@@ -859,7 +762,7 @@ const tlDrawTestCase = {
         "id": "binding:xkTFSZMxCEMIYEu4NZSoG",
         "type": "arrow",
         "fromId": "shape:Jdhoy3UOVMXoHsiSu2MqB",
-        "toId": "shape:AlNgBpJ6XU3nHfzJoLSd-",
+        "toId": "shape:xxxaaabb",
         "props": {
           "isPrecise": true,
           "isExact": false,
@@ -978,8 +881,8 @@ const tlDrawTestCase = {
     },
     {
       "state": {
-        "x": -113.35955915728948,
-        "y": 692.7799131911943,
+        "x": -113.66034040728948,
+        "y": 665.6705381911943,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
@@ -988,14 +891,14 @@ const tlDrawTestCase = {
         "type": "frame",
         "props": {
           "w": 1519.7069476617112,
-          "h": 315.9904918391197,
+          "h": 316.9397105891197,
           "name": "Next subprocess"
         },
         "parentId": "page:gWt5qpf3Ru44g127a6ohx",
         "index": "aF5uK",
         "typeName": "shape"
       },
-      "lastChangedClock": 21973
+      "lastChangedClock": 25878
     },
     {
       "state": {
