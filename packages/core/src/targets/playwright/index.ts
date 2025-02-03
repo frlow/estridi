@@ -4,6 +4,7 @@ import { generateHandlesTypeCode } from './handlesTypes.js'
 import { generateTest } from './common.js'
 import { _ } from '../../common/texts.js'
 import { getTestName } from './testScript.js'
+import { Scraped, ScrapedStart } from '../../scraped'
 
 const generateTestBlock = (scraped: Scraped, tree: ReturnType<typeof getTestableNodeTree>, usedBlockNamesInParent: Record<string, number>, indentation: number = 0) => {
   const testableNodes = tree.nodes.filter(n => n.id)
@@ -32,20 +33,24 @@ const getTestableNodeTree = (scraped: Scraped) => {
   const rootNode: ScrapedStart = scraped.find((n: ScrapedStart) => n.type === 'root') as ScrapedStart
   const processBlock = (startNode: ScrapedStart, blockPath: any[]) => {
     const testableNodesInBlock: any[] = []
+    const touchedNodesInBlock: any[] = []
     const processNode = (node: any) => {
       const connections = getNodeConnections(node)
       connections.forEach(c => {
         const connectedNode: any = scraped.find(n => n.id === c)
-        if (testableNodesInBlock.some(n => n.id === connectedNode.id)) return
+        if (touchedNodesInBlock.some(n => n.id === connectedNode.id)) return
+        touchedNodesInBlock.push(connectedNode)
         if (connectedNode.type === 'script' || (connectedNode.type === 'subprocess' && !connectedNode.link && connectedNode.tableKey) || connectedNode.type === 'serviceCall') {
           testableNodesInBlock.push(connectedNode)
         }
         if (connectedNode.link) {
           if (blockPath.some(n => n.id === connectedNode.link)) return
-          testableNodesInBlock.push(processBlock(scraped.find(n => n.id === connectedNode.link) as ScrapedStart, findShortestPathToNode(scraped, connectedNode.id)))
+          const blockNode = processBlock(scraped.find(n => n.id === connectedNode.link) as ScrapedStart, findShortestPathToNode(scraped, connectedNode.id))
+          testableNodesInBlock.push(blockNode)
           if (connectedNode.next) processNode(scraped.find(n => n.id === connectedNode.next))
-        } else
+        } else {
           processNode(connectedNode)
+        }
       })
     }
     processNode(startNode)

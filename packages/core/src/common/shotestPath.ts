@@ -1,3 +1,5 @@
+import { Scraped, ScrapedNode, ScrapedStart } from '../scraped'
+
 const findBlockRoot = (scraped: Scraped, blockPath: any[]): ScrapedStart | undefined => {
   if (blockPath.length === 0) return undefined
   return scraped.find(n => n.id === blockPath[blockPath.length - 1].link) as ScrapedStart

@@ -1,12 +1,28 @@
-import { MessageShapeUtil } from './Message.tsx'
-import { ShapeNames, Shapes } from 'editor-common'
-import { BaseBoxShapeTool, ShapeUtil, TLShapeUtilConstructor } from 'tldraw'
-import { StartShapeUtil } from './Start.tsx'
 import { CSSProperties } from 'react'
+import Message from './Message.tsx'
+import Start from './Start.tsx'
+import { ShapeDefinition, ShapeName, ShapeNames, ShapeProps } from 'editor-common'
+import { BaseBoxShapeTool, ShapeUtil, TLBaseShape, TLShapeUtilConstructor } from 'tldraw'
+import Script from './Script.tsx'
+import UserAction from './UserAction.tsx'
+import Subprocess from './Subprocess.tsx'
+import Gateway from './Gateway.tsx'
+import ServiceCall from './ServiceCall.tsx'
+import SignalSend from './SignalSend.tsx'
+import SignalListen from './SignalListen.tsx'
+import Other from './Other.tsx'
 
-const customShapeDefinitions: Record<keyof typeof Shapes, TLShapeUtilConstructor<any, ShapeUtil<any>>> = {
-  message: MessageShapeUtil,
-  start: StartShapeUtil
+const customShapeDefinitions: Record<ShapeName, TLShapeUtilConstructor<any, ShapeUtil<any>>> = {
+  gateway: Gateway,
+  script: Script,
+  serviceCall: ServiceCall,
+  signalSend: SignalSend,
+  subprocess: Subprocess,
+  userAction: UserAction,
+  message: Message,
+  start: Start,
+  signalListen: SignalListen,
+  other: Other
 }
 
 export const customShapes = Object.values(customShapeDefinitions)
@@ -16,11 +32,14 @@ export const customTools = ShapeNames.map(name => class extends BaseBoxShapeTool
   override shapeType = name
 })
 
-export const baseStyle: CSSProperties= {
+export const baseStyle: CSSProperties = {
   pointerEvents: 'all',
   background: '#efefef',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  flexDirection: 'column',
   gap: 8
 }
+
+export type BaseShape<T extends ShapeDefinition> = TLBaseShape<T['name'], ShapeProps<T['props']>>

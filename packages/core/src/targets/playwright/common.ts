@@ -1,5 +1,6 @@
 import { generateScriptTest } from './testScript.js'
 import { generateSubprocessTableTest } from './subprocessTable.js'
+import { Scraped, ScrapedNode } from '../../scraped'
 
 export const generateTest = (
   scraped: Scraped,

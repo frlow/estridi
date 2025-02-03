@@ -1,22 +1,18 @@
 import { convertToFigma } from '../converter/figmaConverter'
 import { processFigma } from '../sources/figma'
-import { expect } from 'vitest'
 import fs from 'node:fs'
-import { sanitizeText } from '../common/texts'
 import { convertToTldraw } from '../converter/tldrawConverter'
 import { processTldraw } from '../sources/tldraw'
+import { Scraped } from '../scraped'
+import { expect } from 'vitest'
+import { autoText } from '../common/texts'
+
+export { autoText }
 
 export type Parser = {
   converter: (scraped: Scraped) => Promise<any>
   processor: (data: any) => Promise<Scraped>
 }
-
-export const autoText = (raw: string) =>
-  ({
-      raw,
-      text: sanitizeText(raw)
-    }
-  )
 
 export const parsers: Record<string, Parser> = {
   figma: {

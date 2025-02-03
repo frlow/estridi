@@ -6,25 +6,87 @@ export type ShapeProps<T> = {
 
 type ExtractGenericArgs<T> = T extends T.Validator<infer U> ? U : never
 
-const wh = {
+const props = {
   w: T.positiveNumber,
-  h: T.positiveNumber
+  h: T.positiveNumber,
+  text: T.string
 }
 
+export type ShapeDefinition = {
+  name: ShapeName,
+  props: Record<string, T.Validator<any>>,
+  icon: string
+}
 export const Shapes = {
   message: {
     name: 'message',
     props: {
-      ...wh
+      ...props
     },
     icon: 'letter'
   },
-  start: {
+  script: {
+    name: 'script',
+    props: {
+      ...props
+    },
+    icon: 'letter'
+  },
+  signalSend: {
+    name: 'signalSend',
+    props: {
+      ...props
+    },
+    icon: 'letter'
+  }, start: {
     name: 'start',
     props: {
-      ...wh
+      ...props
+    },
+    icon: 'circle'
+  },
+  subprocess: {
+    name: 'subprocess',
+    props: {
+      ...props
+    },
+    icon: 'letter'
+  },
+  serviceCall: {
+    name: 'serviceCall',
+    props: {
+      ...props
+    },
+    icon: 'letter'
+  },
+  userAction: {
+    name: 'userAction',
+    props: {
+      ...props
+    },
+    icon: 'letter'
+  },
+  gateway: {
+    name: 'gateway',
+    props: {
+      ...props
+    },
+    icon: 'letter'
+  },
+  signalListen: {
+    name: 'signalListen',
+    props: {
+      ...props
+    },
+    icon: 'letter'
+  },
+  other: {
+    name: 'other',
+    props: {
+      ...props
     },
     icon: 'circle'
   }
 } as const
-export const ShapeNames = Object.keys(Shapes)
+export const ShapeNames: (keyof typeof Shapes)[] = Object.keys(Shapes) as (keyof typeof Shapes)[]
+export type ShapeName = keyof typeof Shapes

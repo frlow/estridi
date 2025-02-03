@@ -1,4 +1,5 @@
 import { camelize } from '../../common/texts.js'
+import { Scraped, ScrapedNode } from '../../scraped'
 
 export const filterDuplicates = (texts: string[]): string[] =>
   texts.filter((v, i, a) => a.indexOf(v) === i)

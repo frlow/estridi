@@ -1,4 +1,5 @@
 import { getXCoordinate } from './common'
+import { Scraped } from '../scraped'
 
 const createConnector = ({ text, start, end, dotted }: {
   text?: string,

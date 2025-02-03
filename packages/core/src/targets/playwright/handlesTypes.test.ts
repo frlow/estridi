@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import { filterScraped } from '../../common/filter.js'
 import { generateHandlesTypeCode } from './handlesTypes.js'
 import { autoText } from '../../test/testCases'
+import { Scraped } from '../../scraped'
 
 describe('generate handles types', () => {
   test('normal case', async () => {

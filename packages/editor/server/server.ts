@@ -6,6 +6,8 @@ import { schema } from './schema'
 import express from 'express'
 import { port } from 'editor-common/config'
 import path from 'node:path'
+import { generateEstridiTests, parseRootNames, processTldraw } from 'core'
+import { NodeJS } from 'timers'
 
 const app = new WebSocketExpress()
 const router = new Router()
@@ -25,9 +27,11 @@ const room = new TLSocketRoom({
       room.close()
     }
   },
-  onDataChange() {
+  async onDataChange() {
     console.log(`Saving changes...`)
-    writeFileSync(FILE, JSON.stringify(room.getCurrentSnapshot(), null, 2))
+    const data = room.getCurrentSnapshot()
+    writeFileSync(FILE, JSON.stringify(data, null, 2))
+    updateTestTimer(data)
   }
 })
 
@@ -44,3 +48,37 @@ app.use(express.static(path.join(import.meta.dirname, 'editor')))
 const server = app.createServer()
 console.log(`Server running on http://localhost:${port}`)
 server.listen(port)
+
+let timeout: NodeJS.Timeout
+const updateTestTimer = (data: any) => {
+  if (timeout) clearTimeout(timeout)
+  timeout = setTimeout(() => writeTests(data), 500)
+}
+
+const writeTests = async (data: any) => {
+  console.log('writing tests')
+  try {
+    const scraped = await processTldraw(data).catch(e => {
+      throw e
+    })
+    const roots = parseRootNames(scraped, 'main')
+    if (!roots.includes('main')) {
+      console.log('No root named \'main\' found!')
+      return
+    }
+    debugger
+    const filesToWrite = await generateEstridiTests({
+      target: 'playwright',
+      scraped,
+      rootName: 'main'
+    }).catch(e => {
+      throw e
+    })
+    const dir = 'tests'
+    fs.mkdirSync(dir, { recursive: true })
+    for (const fileToWrite of filesToWrite)
+      fs.writeFileSync(path.join(dir, fileToWrite.fileName), fileToWrite.code, 'utf8')
+  } catch (e) {
+    console.log(e)
+  }
+}

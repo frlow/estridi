@@ -122,6 +122,9 @@ importers:
       '@tldraw/sync-core':
         specifier: ^3.7.2
         version: 3.7.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      core:
+        specifier: workspace:*
+        version: link:../../core
       editor-common:
         specifier: workspace:*
         version: link:../common

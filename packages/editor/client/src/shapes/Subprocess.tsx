@@ -3,7 +3,7 @@ import { Shapes } from 'editor-common'
 import { BaseShape, baseStyle } from './index.ts'
 
 
-const shapeType = Shapes.message
+const shapeType = Shapes.subprocess
 type ShapeType = BaseShape<typeof shapeType>
 
 export default class extends BaseBoxShapeUtil<ShapeType> {
@@ -19,13 +19,13 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
   }
 
   override canResize(_shape: ShapeType): boolean {
-    return false
+    return true
   }
 
   override component(shape: ShapeType) {
     return (
       <HTMLContainer style={baseStyle}>
-        <div>Message</div>
+        <div>Subprocess</div>
         <input value={shape.props.text} onChange={e => {
           this.editor.updateShape({
             id: shape.id,

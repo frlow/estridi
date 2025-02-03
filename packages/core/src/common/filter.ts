@@ -1,3 +1,5 @@
+import { Scraped, ScrapedNode, ScrapedStart } from '../scraped'
+
 export const getNodeConnections = (node: any): string[] => {
   return [node.next, ...Object.keys(node.options || {}), ...Object.keys(node.actions || {}), node.link].filter(((n, index, array) => n && array.indexOf(n) === index))
 }

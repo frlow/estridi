@@ -1,5 +1,6 @@
 import { _, camelize } from '../../common/texts.js'
 import { filterDuplicates, getTestableNodes } from './misc.js'
+import { Scraped } from '../../scraped'
 
 export const getGatewayNames = (scraped: Scraped): string[] => {
   const ret = scraped

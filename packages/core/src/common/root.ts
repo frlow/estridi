@@ -1,3 +1,5 @@
+import { Scraped, ScrapedStart } from '../scraped'
+
 export const getRootName =
   (scraped: Scraped, name: string | undefined): string | undefined => {
     const rootNodes: ScrapedStart[] = scraped

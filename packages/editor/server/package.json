@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "editor-common": "workspace:*",
+    "core": "workspace:*",
     "ws": "^8.18.0",
     "@tldraw/sync-core": "^3.7.2",
     "tldraw": "^3.7.2",

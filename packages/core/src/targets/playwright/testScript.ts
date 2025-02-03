@@ -1,6 +1,7 @@
 import { findShortestPathToNode } from '../../common/shotestPath.js'
 import { getActionsForPath, getPathGatewayValuesForPath } from '../codegen/misc.js'
 import { _, camelize } from '../../common/texts.js'
+import { Scraped, ScrapedScript, ScrapedServiceCall } from '../../scraped'
 
 export const getTestName = (name: string, usedNames: Record<string, number>): string => {
   usedNames[name] = usedNames[name] !== undefined ? usedNames[name] + 1 : 0
@@ -22,7 +23,7 @@ ${gatewayText}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
     await handleServiceCalls(args)
-${actionLines.slice(0,-1).join('\n')}
+${actionLines.slice(0, -1).join('\n')}
     let testFunc = handles.test_${camelize(node.text)}
     if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
 ${actionLines.slice(-1)}

@@ -6,6 +6,7 @@ import {
   getTestNames
 } from '../codegen/handlesType.js'
 import { _, camelize } from '../../common/texts.js'
+import { Scraped } from '../../scraped'
 
 export const generateHandlesTypeCode = (scraped: Scraped, name: string) => {
   const gatewayNameLines = getGatewayNames(scraped).map(

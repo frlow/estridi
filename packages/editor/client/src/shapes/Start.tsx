@@ -1,25 +1,28 @@
-import { BaseBoxShapeUtil, HTMLContainer, TLBaseShape } from 'tldraw'
-import { ShapeProps, Shapes } from 'editor-common'
-import { baseStyle } from './index.ts'
+import { BaseBoxShapeUtil, HTMLContainer } from 'tldraw'
+import { Shapes } from 'editor-common'
+import { BaseShape, baseStyle } from './index.ts'
 
-type Start = TLBaseShape<typeof Shapes.start.name, ShapeProps<typeof Shapes.start.props>>
 
-export class StartShapeUtil extends BaseBoxShapeUtil<Start> {
-  static override type = Shapes.start.name
-  static override props = Shapes.start.props
+const shapeType = Shapes.start
+type ShapeType = BaseShape<typeof shapeType>
+
+export default class extends BaseBoxShapeUtil<ShapeType> {
+  static override type = shapeType.name
+  static override props = shapeType.props
 
   override getDefaultProps() {
     return {
       h: 80,
-      w: 80
+      w: 80,
+      text: ''
     }
   }
 
-  override canResize(_shape: Start): boolean {
+  override canResize(_shape: ShapeType): boolean {
     return false
   }
 
-  override component(_: Start) {
+  override component(_: ShapeType) {
     return (
       <HTMLContainer style={baseStyle}>
         <div>Start</div>
@@ -27,7 +30,7 @@ export class StartShapeUtil extends BaseBoxShapeUtil<Start> {
     )
   }
 
-  override indicator(shape: Start) {
+  override indicator(shape: ShapeType) {
     return <rect width={shape.props.w} height={shape.props.h} />
   }
 }

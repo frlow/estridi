@@ -19,3 +19,11 @@ export function camelize(str: string): string {
 }
 
 export const _ = (count: number) => ''.padStart(count * 2, ' ')
+
+
+export const autoText = (raw: string) =>
+  ({
+      raw,
+      text: sanitizeText(raw)
+    }
+  )

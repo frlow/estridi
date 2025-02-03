@@ -2,8 +2,9 @@ import { filterScraped } from './common/filter.js'
 import { getRootName } from './common/root.js'
 import { loadFigmaDocument, processFigma } from './sources/figma.js'
 import { generatePlaywright } from './targets/playwright'
-
-export { EstridiConfig } from './scraped.js'
+import { EstridiConfig, FigmaConfig, Scraped, ScrapedStart } from './scraped'
+export * from './sources/tldraw.js'
+export * from './scraped.js'
 
 export type EstridiSourceConfig = {
   getDataFunc: (args: any) => Promise<any>

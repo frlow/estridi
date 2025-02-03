@@ -2,6 +2,7 @@ import { findShortestPathToNode } from '../../common/shotestPath.js'
 import { getActionsForPath, getPathGatewayValuesForPath } from '../codegen/misc.js'
 import { _, camelize, sanitizeText } from '../../common/texts.js'
 import { createTable } from '../../common/table.js'
+import { Scraped, ScrapedSubprocess, ScrapedTable } from '../../scraped'
 
 export const generateSubprocessTableTest = (scraped: Scraped, node: ScrapedSubprocess, blockPath: any[]) => {
   const table: ScrapedTable = scraped.find(n => n.type === 'table' && n.text === node.tableKey) as ScrapedTable

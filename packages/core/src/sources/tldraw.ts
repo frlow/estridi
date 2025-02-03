@@ -1,7 +1,19 @@
-import { sanitizeText } from '../common/texts'
+import { autoText, sanitizeText } from '../common/texts'
 import { afterProcess, getTableKey } from './common'
 import { isNodeInside } from '../common/inside'
-import { autoText } from '../test/testCases'
+import {
+  Scraped,
+  ScrapedGateway,
+  ScrapedNode,
+  ScrapedNodeTypes,
+  ScrapedOther,
+  ScrapedScript,
+  ScrapedServiceCall,
+  ScrapedStart,
+  ScrapedSubprocess,
+  ScrapedTable,
+  ScrapedUserAction
+} from '../scraped'
 
 export type ProcessedNodes = Record<string, any>
 

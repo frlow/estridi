@@ -3,6 +3,7 @@ import { filterScraped } from '../../common/filter.js'
 import { processFigma } from '../../sources/figma.js'
 import { generateSubprocessTableTest } from './subprocessTable.js'
 import { getFigmaTestData } from '../../test/testCases'
+import { ScrapedSubprocess } from '../../scraped'
 
 describe('generate test script for table', () => {
   test('Generate test for script', async () => {

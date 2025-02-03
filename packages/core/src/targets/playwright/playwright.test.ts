@@ -4,6 +4,7 @@ import { generatePlaywright } from './index.js'
 import { autoText, loopTestCase, standardTestCase, subprocessLoopTestCase } from '../../test/testCases'
 import path from 'node:path'
 import fs from 'node:fs'
+import { Scraped } from '../../scraped'
 
 describe('playwright', () => {
   test('generate playwright test code', async () => {

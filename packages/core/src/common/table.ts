@@ -1,3 +1,5 @@
+import { ScrapedTable } from '../scraped'
+
 export type Table = {
   content: string[][]
   values: Record<string, string>[]
