@@ -1,60 +1,110 @@
-import { getXCoordinate } from './common'
-import { Scraped } from '../scraped'
+import { Scraped, ScrapedNode } from '../scraped'
 
-const createConnector = ({ text, start, end, dotted }: {
-  text?: string,
-  start: string,
-  end?: string,
-  dotted?: boolean
-}) => {
-  const id = Math.random().toString()
-  return [{
-    'state': {
-      'id': id,
-      'type': 'arrow',
-      'typeName': 'shape',
-      props: {
-        'text': text
-      }
-    }
-  },
-    {
-      'state': {
-        'id': `binding:start_${id}`,
-        'type': 'arrow',
-        'fromId': id,
-        'toId': start,
-        'props': {
-          'terminal': 'start'
-        },
-        'typeName': 'binding'
-      }
-    },
-    {
-      'state': {
-        'id': `binding:end_${id}`,
-        'type': 'arrow',
-        'fromId': id,
-        'toId': end || 'NextId',
-        'props': {
-          'terminal': 'end'
-        },
-        'typeName': 'binding'
-      }
-    }]
-}
 
 export const convertToTldraw = async (scraped: Scraped) => {
+  const pageId = 'page:page1Id'
+  const base = (node?: ScrapedNode) => {
+    return ({
+      typeName: 'shape',
+      x: node?.extra?.x || 0,
+      y: node?.extra?.y || 0,
+      rotation: 0,
+      index: 'aaaaa',
+      parentId: pageId,
+      isLocked: false,
+      opacity: 1,
+      meta: {}
+    })
+  }
   const children: any[] = []
   scraped.forEach(node => {
+    const createConnector = ({ text, start, end, dotted }: {
+      text?: string,
+      start: string,
+      end?: string,
+      dotted?: boolean
+    }) => {
+      const id = Math.random().toString()
+      return [{
+        'state': {
+          ...base(),
+          'id': `shape:${id}`,
+          'type': 'arrow',
+          'typeName': 'shape',
+          props: {
+            'text': text || '',
+            'dash': 'draw',
+            'size': 's',
+            'fill': 'none',
+            'color': 'black',
+            'labelColor': 'black',
+            'bend': 0,
+            'start': {
+              'x': 0,
+              'y': 0
+            },
+            'end': {
+              'x': 0,
+              'y': 0
+            },
+            'arrowheadStart': 'none',
+            'arrowheadEnd': 'arrow',
+            'labelPosition': 0.5,
+            'font': 'draw',
+            'scale': 1
+          }
+        }
+      },
+        {
+          'state': {
+            'id': `binding:start_${id}`,
+            'type': 'arrow',
+            'fromId': `shape:${id}`,
+            'toId': `shape:${start}`,
+            'meta': {},
+            'props': {
+              'terminal': 'start',
+              'isPrecise': true,
+              'isExact': false,
+              'normalizedAnchor': {
+                'x': 0.5,
+                'y': 0.5
+              }
+            },
+            'typeName': 'binding'
+          }
+        },
+        {
+          'state': {
+            'id': `binding:end_${id}`,
+            'type': 'arrow',
+            'fromId': `shape:${id}`,
+            'toId': `shape:${end}`,
+            'meta': {},
+            'props': {
+              'terminal': 'end',
+              'isPrecise': true,
+              'isExact': false,
+              'normalizedAnchor': {
+                'x': 0.5,
+                'y': 0.5
+              }
+            },
+            'typeName': 'binding'
+          }
+        }]
+    }
+
     switch (node.type) {
       case 'script':
         children.push({
           'state': {
-            'id': node.id,
+            ...base(node),
+            'id': `shape:${node.id}`,
             'type': node.variant,
             'props': {
               'text': node.raw
+              , w: 80, h: 80
             }
           }
         })
@@ -63,10 +113,12 @@ export const convertToTldraw = async (scraped: Scraped) => {
       case 'subprocess':
         children.push({
           'state': {
-            'id': node.id,
+            ...base(node),
+            'id': `shape:${node.id}`,
             'type': 'subprocess',
             'props': {
               'text': node.raw
+              , w: 80, h: 80
             }
           }
         })
@@ -77,8 +129,12 @@ export const convertToTldraw = async (scraped: Scraped) => {
       case 'start':
         children.push({
           'state': {
-            'id': node.id,
-            'type': 'start'
+            ...base(node),
+            'id': `shape:${node.id}`,
+            'type': 'start',
+            props: {
+              w: 80, h: 80, text: ''
+            }
           }
         })
         if (node.next) children.push(...createConnector({
@@ -90,10 +146,13 @@ export const convertToTldraw = async (scraped: Scraped) => {
       case 'serviceCall':
         children.push({
           'state': {
-            'id': node.id,
+            ...base(node),
+            'id': `shape:${node.id}`,
             'type': 'serviceCall',
             'props': {
-              'text': node.raw
+              'text': node.raw,
+              w: 80,
+              h: 80
             }
           }
         })
@@ -102,42 +161,46 @@ export const convertToTldraw = async (scraped: Scraped) => {
       case 'userAction':
         children.push({
           'state': {
-            'id': node.id,
+            ...base(node),
+            'id': `shape:${node.id}`,
             'type': node.variant,
             'props': {
               'text': node.raw,
-              h: 20,
-              w: 100
+              h: node.extra?.height || 80,
+              w: node.extra?.width || (Object.keys(node.actions).length * 100 + 100)
             },
-            x: getXCoordinate(node.id),
-            y: 0
+            x: node.extra?.x || 0,
+            y: node.extra?.y || 0
           }
         })
         Object.entries(node.actions).forEach(([key, value], i) => {
           children.push({
             'state': {
-              id: `${node.id}_action_${i}`,
+              ...base(node),
+              id: `shape:${node.id}_action_${i}`,
               'type': 'signalListen',
               'props': {
                 'text': value,
-                h: 10,
-                w: 10
+                h: 80,
+                w: 80
               },
-              x: getXCoordinate(node.id) + 5,
-              y: 5
+              x: (node.extra?.x || 0) + 50 + (i * 100),
+              y: (node.extra?.y || 0) + 50
             }
           })
           children.push(...createConnector({ start: `${node.id}_action_${i}`, end: key }))
         })
-        if (node.next) children.push(...createConnector({ start: node.id, end: node.next, text: node.raw }))
+        if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
         break
       case 'other':
         children.push({
           'state': {
-            'id': node.id,
+            ...base(node),
+            'id': `shape:${node.id}`,
             'type': 'other',
             'props': {
               'text': node.raw
+              , w: 80, h: 80
             }
           }
         })
@@ -146,10 +209,12 @@ export const convertToTldraw = async (scraped: Scraped) => {
       case 'gateway':
         children.push({
           'state': {
-            'id': node.id,
+            ...base(node),
+            'id': `shape:${node.id}`,
             'type': node.variant,
             'props': {
               'text': node.raw
+              , w: 80, h: 80
             }
           }
         })
@@ -160,10 +225,13 @@ export const convertToTldraw = async (scraped: Scraped) => {
       case 'table':
         children.push({
           'state': {
-            'id': node.id,
+            ...base(node),
+            'id': `shape:${node.id}`,
             'type': 'table',
             'props': {
-              'rows': node.rows
+              'rows': node.rows,
+              text: node.text,
+              h: 80, w: 80
             }
           }
         })
@@ -173,7 +241,72 @@ export const convertToTldraw = async (scraped: Scraped) => {
         break
     }
   })
+  children.push(...[{
+    'state': {
+      'gridSize': 10,
+      'name': '',
+      'meta': {},
+      'id': 'document:document',
+      'typeName': 'document'
+    },
+    'lastChangedClock': 0
+  },
+    {
+      'state': {
+        'meta': {},
+        'id': pageId,
+        'name': 'Page 1',
+        'index': 'a1',
+        'typeName': 'page'
+      },
+      'lastChangedClock': 0
+    }])
+
   return {
-    documents: children
+    'clock': 1,
+    'tombstones': {},
+    'schema': {
+      'schemaVersion': 2,
+      'sequences': {
+        'com.tldraw.store': 4,
+        'com.tldraw.asset': 1,
+        'com.tldraw.camera': 1,
+        'com.tldraw.document': 2,
+        'com.tldraw.instance': 25,
+        'com.tldraw.instance_page_state': 5,
+        'com.tldraw.page': 1,
+        'com.tldraw.instance_presence': 6,
+        'com.tldraw.pointer': 1,
+        'com.tldraw.shape': 4,
+        'com.tldraw.asset.bookmark': 2,
+        'com.tldraw.asset.image': 5,
+        'com.tldraw.asset.video': 5,
+        'com.tldraw.shape.arrow': 5,
+        'com.tldraw.shape.bookmark': 2,
+        'com.tldraw.shape.draw': 2,
+        'com.tldraw.shape.embed': 4,
+        'com.tldraw.shape.frame': 0,
+        'com.tldraw.shape.geo': 9,
+        'com.tldraw.shape.group': 0,
+        'com.tldraw.shape.highlight': 1,
+        'com.tldraw.shape.image': 4,
+        'com.tldraw.shape.line': 5,
+        'com.tldraw.shape.note': 8,
+        'com.tldraw.shape.text': 2,
+        'com.tldraw.shape.video': 2,
+        'com.tldraw.shape.message': 0,
+        'com.tldraw.shape.script': 0,
+        'com.tldraw.shape.signalSend': 0,
+        'com.tldraw.shape.start': 0,
+        'com.tldraw.shape.subprocess': 0,
+        'com.tldraw.shape.serviceCall': 0,
+        'com.tldraw.shape.userAction': 0,
+        'com.tldraw.shape.gateway': 0,
+        'com.tldraw.shape.signalListen': 0,
+        'com.tldraw.shape.other': 0,
+        'com.tldraw.binding.arrow': 0
+      }
+    },
+    'documents': children
   }
 }

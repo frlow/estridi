@@ -3,7 +3,7 @@ import { Shapes } from 'editor-common'
 import { BaseShape, baseStyle } from './index.ts'
 
 
-const shapeType = Shapes.serviceCall
+const shapeType = Shapes.table
 type ShapeType = BaseShape<typeof shapeType>
 
 export default class extends BaseBoxShapeUtil<ShapeType> {
@@ -24,15 +24,8 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
 
   override component(shape: ShapeType) {
     return (
-      <HTMLContainer style={{...baseStyle, background: "#59e351"}}>
-        <div>Service Call</div>
-        <input value={shape.props.text} onChange={e => {
-          this.editor.updateShape({
-            id: shape.id,
-            type: 'counter',
-            props: { text: e.target.value },
-          })
-        }} />
+      <HTMLContainer style={baseStyle}>
+        <div>Table: {shape.props.text}</div>
       </HTMLContainer>
     )
   }

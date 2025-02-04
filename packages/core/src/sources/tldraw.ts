@@ -58,6 +58,10 @@ export const processTldraw = async (
     return 'other'
   }
 
+  const getId = (id: string) => {
+    return id.replace(/^shape:/, '')
+  }
+
   const getNodeMetadata = (node: any): ScrapedNode => {
     const type = getType(node)
     switch (type) {
@@ -66,7 +70,7 @@ export const processTldraw = async (
       case 'script':
         const script: ScrapedScript = {
           type: 'script',
-          id: node.state.id,
+          id: getId(node.state.id),
           next: getNext(node),
           ...autoFindText(node),
           variant: type
@@ -75,7 +79,7 @@ export const processTldraw = async (
       case 'subprocess':
         const subprocess: ScrapedSubprocess = {
           type: 'subprocess',
-          id: node.state.id,
+          id: getId(node.state.id),
           ...autoFindText(node),
           next: getNext(node),
           tableKey: getTableKey(findRawText(node)),
@@ -86,7 +90,7 @@ export const processTldraw = async (
         if ((node as any).connections.length === 0) {
           const end: ScrapedStart = {
             type: 'end',
-            id: node.state.id,
+            id: getId(node.state.id),
             text: 'end',
             raw: 'end'
           }
@@ -96,7 +100,7 @@ export const processTldraw = async (
         const isRoot = connection?.text?.startsWith('root:')
         const start: ScrapedStart = {
           type: isRoot ? 'root' : 'start',
-          id: node.state.id,
+          id: getId(node.state.id),
           text: sanitizeText(connection?.text?.replace('root:', '') || 'start'),
           next: getNext(node),
           raw: connection?.text?.replace('root:', '') || 'start'
@@ -105,7 +109,7 @@ export const processTldraw = async (
       case 'serviceCall':
         const serviceCall: ScrapedServiceCall = {
           type: 'serviceCall',
-          id: node.state.id,
+          id: getId(node.state.id),
           next: getNext(node),
           ...autoFindText(node)
         }
@@ -113,7 +117,7 @@ export const processTldraw = async (
       case 'userAction':
         const userAction: ScrapedUserAction = {
           type: 'userAction',
-          id: node.state.id,
+          id: getId(node.state.id),
           next: getNext(node),
           ...autoFindText(node),
           variant: 'userAction',
@@ -125,7 +129,7 @@ export const processTldraw = async (
       case 'gateway':
         const gateway: ScrapedGateway = {
           type: 'gateway',
-          id: node.state.id,
+          id: getId(node.state.id),
           ...autoFindText(node),
           variant: type,
           options: ((node as any).connections || []).reduce(
@@ -136,7 +140,7 @@ export const processTldraw = async (
         return gateway
       case 'table':
         const table: ScrapedTable = {
-          id: node.state.id,
+          id: getId(node.state.id),
           type: 'table',
           ...autoText(node.state.props.rows[0][0]),
           rows: node.state.props.rows
@@ -145,7 +149,7 @@ export const processTldraw = async (
       default: {
         return {
           type: 'other',
-          id: node.state.id,
+          id: getId(node.state.id),
           next: getNext(node),
           text: findText(node),
           raw: findRawText(node)
@@ -156,7 +160,7 @@ export const processTldraw = async (
 
   const processData = (data: any, acc: ProcessedNodes) => {
     for (const node of data) {
-      const id = node.state.id
+      const id = getId(node.state.id)
       if (acc[id]) return
       acc[id] = node
     }
@@ -167,11 +171,11 @@ export const processTldraw = async (
     const connections = Object.values(temp)
       .filter((n) => n.state.type === 'arrow' && n.state.typeName === 'shape')
       .map(n => {
-        const findBinding = (terminal: 'start' | 'end') => Object.values(temp).find(c =>
+        const findBinding = (terminal: 'start' | 'end') => getId(Object.values(temp).find(c =>
           c.state.type === 'arrow' &&
           c.state.typeName === 'binding' &&
           c.state.fromId === n.state.id &&
-          c.state.props?.terminal === terminal)?.state?.toId
+          c.state.props?.terminal === terminal)?.state?.toId)
         const from = findBinding('start')
         const to = findBinding('end')
         return { from, to, text: n.state.props?.text }
@@ -180,7 +184,7 @@ export const processTldraw = async (
       const node = temp[key]
       node.connections = connections
         .filter((c) => {
-          return c.from === node.state.id
+          return c.from === getId(node.state.id)
         })
         .map((c) => ({ id: c.to, text: c.text }))
     })

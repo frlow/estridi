@@ -7,6 +7,8 @@ import { EstridiConfig, FigmaConfig, Scraped, ScrapedStart } from './scraped'
 export * from './sources/tldraw.js'
 export * from './scraped.js'
 export * from './converter/tldrawConverter.js'
+export { loadFigmaDocument, processFigma } from './sources/figma.js'
+export { filterScraped }
 
 export type EstridiSourceConfig = {
   getDataFunc: (args: any) => Promise<any>

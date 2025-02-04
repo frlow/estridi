@@ -65,7 +65,6 @@ const writeTests = async (data: any) => {
       console.log('No root named \'main\' found!')
       return
     }
-    debugger
     const filesToWrite = await generateEstridiTests({
       target: 'playwright',
       scraped,

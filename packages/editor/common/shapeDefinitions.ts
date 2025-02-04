@@ -80,6 +80,14 @@ export const Shapes = {
     },
     icon: 'letter'
   },
+  table: {
+    name: 'table',
+    props: {
+      ...props,
+      rows: T.array
+    },
+    icon: 'circle'
+  },
   other: {
     name: 'other',
     props: {

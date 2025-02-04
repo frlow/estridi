@@ -11,6 +11,7 @@ import ServiceCall from './ServiceCall.tsx'
 import SignalSend from './SignalSend.tsx'
 import SignalListen from './SignalListen.tsx'
 import Other from './Other.tsx'
+import Table from './Table.tsx'
 
 const customShapeDefinitions: Record<ShapeName, TLShapeUtilConstructor<any, ShapeUtil<any>>> = {
   gateway: Gateway,
@@ -22,7 +23,8 @@ const customShapeDefinitions: Record<ShapeName, TLShapeUtilConstructor<any, Shap
   message: Message,
   start: Start,
   signalListen: SignalListen,
-  other: Other
+  other: Other,
+  table: Table
 }
 
 export const customShapes = Object.values(customShapeDefinitions)
@@ -34,7 +36,7 @@ export const customTools = ShapeNames.map(name => class extends BaseBoxShapeTool
 
 export const baseStyle: CSSProperties = {
   pointerEvents: 'all',
-  background: '#efefef',
+  background: 'rgba(64,115,177,0.7)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

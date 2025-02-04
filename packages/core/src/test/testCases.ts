@@ -3,7 +3,7 @@ import { processFigma } from '../sources/figma'
 import fs from 'node:fs'
 import { convertToTldraw } from '../converter/tldrawConverter'
 import { processTldraw } from '../sources/tldraw'
-import { Scraped, ScrapedNode } from '../scraped'
+import { Scraped } from '../scraped'
 import { expect } from 'vitest'
 import { autoText } from '../common/texts'
 
@@ -91,7 +91,7 @@ export const userActionTestCase: Scraped = [{
   'next': 'NextId',
   ...autoText('Some [text]'),
   'type': 'userAction',
-  variant: 'userAction'
+  variant: 'userAction',
 }]
 
 export const gatewayTestCase: Scraped = [{
@@ -240,9 +240,20 @@ export const subprocessLoopTestCase: Scraped = [{
     link: 'SubprocessRootId'
   }]
 
+const getExtra = () => ({ x: 0, y: 1000, width: 80, height: 80 })
 export const standardTestCase: Scraped = [
-  { id: 'RootId', type: 'root', ...autoText('main'), next: 'ServiceCallId' },
-  { id: 'ServiceCallId', type: 'serviceCall', ...autoText('/api/data'), next: 'ServiceCallErrorHandlingId' },
+  {
+    id: 'RootId',
+    type: 'root', ...autoText('main'),
+    next: 'ServiceCallId',
+    extra: { x: 0, y: 0, width: 80, height: 80 }
+  },
+  {
+    id: 'ServiceCallId',
+    type: 'serviceCall', ...autoText('/api/data'),
+    next: 'ServiceCallErrorHandlingId',
+    extra: { x: 350, y: 0, width: 80, height: 80 }
+  },
   {
     id: 'ServiceCallErrorHandlingId',
     type: 'gateway',
@@ -250,19 +261,30 @@ export const standardTestCase: Scraped = [
     options: {
       ShowErrorId: 'yes',
       ScriptId: 'no'
-    }
+    }, extra: { x: 700, y: 0, width: 80, height: 80 }
   },
-  { id: 'ShowErrorId', type: 'script', variant: 'message', ...autoText('Show an error message') },
-  { id: 'ScriptId', type: 'script', variant: 'script', ...autoText('Do something [here]'), next: 'UserActionId' },
+  {
+    id: 'ShowErrorId',
+    type: 'script',
+    variant: 'message', ...autoText('Show an error message'),
+    extra: { x: 700, y: -350, width: 80, height: 80 }
+  },
+  {
+    id: 'ScriptId',
+    type: 'script',
+    variant: 'script', ...autoText('Do something [here]'),
+    next: 'UserActionId',
+    extra: {x: 1100, y: 0, width: 80, height: 80}
+  },
   {
     id: 'UserActionId', type: 'userAction', variant: 'userAction', ...autoText('action'), next: 'BaseEndId', actions: {
       SubprocessId: 'Click'
-    }
+    }, extra: {x: 1450, y: 0, width: 400, height: 80}
   },
-  { id: 'BaseEndId', type: 'end', ...autoText('end') },
-  { id: 'SubprocessId', ...autoText('Next page'), type: 'subprocess', link: 'NextPageId' },
-  { id: 'NextPageId', type: 'start', ...autoText('Next page'), next: 'LinkId' },
-  { id: 'LinkId', type: 'script', variant: 'signalSend', ...autoText('Go to some page') }
+  { id: 'BaseEndId', type: 'end', ...autoText('end'), extra: {x: 2050, y: 0, width: 80, height: 80} },
+  { id: 'SubprocessId', ...autoText('Next page'), type: 'subprocess', link: 'NextPageId', extra: {x: 1500, y: 240, width: 80, height: 80} },
+  { id: 'NextPageId', type: 'start', ...autoText('Next page'), next: 'LinkId', extra: {x: 0, y: 500, width: 80, height: 80} },
+  { id: 'LinkId', type: 'script', variant: 'signalSend', ...autoText('Go to some page'), extra: {x: 350, y: 500, width: 80, height: 80} }
 ]
 
 export const getFigmaTestData = () => JSON.parse(fs.readFileSync('./src/sources/figma.json', 'utf8'))
