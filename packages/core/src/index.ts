@@ -3,6 +3,8 @@ import { getRootName } from './common/root.js'
 import { loadFigmaDocument, processFigma } from './sources/figma.js'
 import { generatePlaywright } from './targets/playwright'
 import { EstridiConfig, FigmaConfig, Scraped, ScrapedStart } from './scraped'
+import { format } from 'prettier'
+import fs from 'node:fs'
 
 export * from './sources/tldraw.js'
 export * from './scraped.js'
@@ -79,5 +81,7 @@ export const generateEstridiTests = async (args: {
   const target = targets[args.target || 'playwright']
   const { scraped, rootName } = await loadScrapedFromSource(args.scraped, args.rootName)
   const code = await target.generatorFunc(rootName, scraped)
-  return [{ code, fileName: target.getFileName(rootName) }]
+  const prettierOptions = fs.existsSync('.prettierrc') ? JSON.parse(fs.readFileSync('.prettierrc', 'utf8')) : {}
+  const formattedCode = await format(code, { parser: 'typescript', ...prettierOptions })
+  return [{ code: formattedCode, fileName: target.getFileName(rootName) }]
 }
