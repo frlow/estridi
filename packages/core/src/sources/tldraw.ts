@@ -203,6 +203,11 @@ export const processTldraw = async (
   processData(data.documents, nodes)
   const nodesWithConnections = mapConnections(nodes)
   const nodeValues = Object.values(nodesWithConnections)
-  const scraped = nodeValues.map((n) => getNodeMetadata(n))
+  const scraped = nodeValues.map((n) => {
+    const meta = getNodeMetadata(n)
+    if (n.state.x && n.state.y && n.state.props?.w && n.state.props?.h)
+      meta.extra = { x: n.state.x, y: n.state.y, height: n.state.props?.h, width: n.state.props?.w }
+    return meta
+  })
   return afterProcess({ scraped, nodes: nodesWithConnections, findText, getNext, isSignalListenInside })
 }

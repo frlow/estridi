@@ -10,6 +10,7 @@ export * from './sources/tldraw.js'
 export * from './scraped.js'
 export * from './converter/tldrawConverter.js'
 export { loadFigmaDocument, processFigma } from './sources/figma.js'
+export { processTldraw } from './sources/tldraw.js'
 export { filterScraped }
 
 export type EstridiSourceConfig = {

@@ -1,7 +1,7 @@
-import { describe, test } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import * as fs from 'node:fs'
 import { schema } from 'editor-common'
-import { convertToTldraw, filterScraped, loadFigmaDocument, processFigma } from 'core'
+import { convertToTldraw, filterScraped, loadFigmaDocument, processFigma, processTldraw } from 'core'
 import { standardTestCase } from 'core/test-cases'
 
 describe('validate', () => {
@@ -17,6 +17,32 @@ describe('validate', () => {
     for (const doc of document.documents) {
       const state = doc.state
       schema.validateRecord(null, state, 'initialize', null)
+    }
+  })
+
+  test.skip('example of broken', () => {
+    const example = JSON.parse(fs.readFileSync('./test/brokenExample.json', 'utf8'))
+    const a = 3
+    const b = 9
+    expect(example.documents[a]).toStrictEqual(example.documents[b])
+    debugger
+  })
+
+  test.skip('two node example', async () => {
+    const example = JSON.parse(fs.readFileSync('./test/twoNode.json', 'utf8'))
+    const scraped = await processTldraw(example)
+    const filtered = filterScraped(scraped, 'main')
+    const document = await convertToTldraw(filtered)
+    const trimDocument = (doc: any) => {
+      delete doc.lastChangedClock
+      delete doc.state.parentId
+      delete doc.state.index
+      delete doc.state.id
+    }
+    document.documents.forEach(doc => trimDocument(doc))
+    for (const exampleDoc of example.documents.filter(d => !['page', 'document'].includes(d.state.typeName))) {
+      trimDocument(exampleDoc)
+      expect(document.documents).toContainEqual(expect.objectContaining(exampleDoc))
     }
   })
 

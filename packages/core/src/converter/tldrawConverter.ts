@@ -9,14 +9,33 @@ export const convertToTldraw = async (scraped: Scraped) => {
       x: node?.extra?.x || 0,
       y: node?.extra?.y || 0,
       rotation: 0,
-      index: 'aaaaa',
+      index: 'a1',
       parentId: pageId,
       isLocked: false,
       opacity: 1,
       meta: {}
     })
   }
-  const children: any[] = []
+  const children: any[] = [...[{
+    'state': {
+      'gridSize': 10,
+      'name': '',
+      'meta': {},
+      'id': 'document:document',
+      'typeName': 'document'
+    },
+    'lastChangedClock': 0
+  },
+    {
+      'state': {
+        'meta': {},
+        'id': pageId,
+        'name': 'Page 1',
+        'index': 'a1',
+        'typeName': 'page'
+      },
+      'lastChangedClock': 0
+    }]]
   scraped.forEach(node => {
     const createConnector = ({ text, start, end, dotted }: {
       text?: string,
@@ -27,7 +46,7 @@ export const convertToTldraw = async (scraped: Scraped) => {
       const id = Math.random().toString()
       return [{
         'state': {
-          ...base(),
+          ...base(node),
           'id': `shape:${id}`,
           'type': 'arrow',
           'typeName': 'shape',
@@ -241,26 +260,6 @@ export const convertToTldraw = async (scraped: Scraped) => {
         break
     }
   })
-  children.push(...[{
-    'state': {
-      'gridSize': 10,
-      'name': '',
-      'meta': {},
-      'id': 'document:document',
-      'typeName': 'document'
-    },
-    'lastChangedClock': 0
-  },
-    {
-      'state': {
-        'meta': {},
-        'id': pageId,
-        'name': 'Page 1',
-        'index': 'a1',
-        'typeName': 'page'
-      },
-      'lastChangedClock': 0
-    }])
 
   return {
     'clock': 1,
