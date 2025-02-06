@@ -175,7 +175,7 @@ export const convertToTldraw = async (scraped: Scraped) => {
             }
           }
         })
-        if (node.next) children.push(...createConnector({ start: node.id, end: node.next, text: node.raw }))
+        if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
         break
       case 'userAction':
         children.push({
