@@ -5,6 +5,7 @@ import { getPathGatewayValuesForPath, getTestableNodes } from '../targets/codege
 import { findShortestPathToNode } from './shotestPath.js'
 import { autoText, getFigmaTestData } from '../test/testCases'
 import { Scraped } from '../scraped'
+import { convertToFigma } from '../converter/figmaConverter'
 
 describe('filter scraped', () => {
   test('filter', async () => {
@@ -19,7 +20,7 @@ describe('filter scraped', () => {
         },
         'id': '4',
         'next': 'end',
-        ...autoText("action"),
+        ...autoText('action'),
         'type': 'userAction',
         variant: 'userAction'
       },
@@ -63,7 +64,7 @@ describe('filter scraped', () => {
         'type': 'script',
         variant: 'script'
       },
-      { id: 'OtherId', type: 'script', variant: 'script', ...autoText('other') },
+      { id: 'OtherId', type: 'script', variant: 'script', ...autoText('other') }
     ]
 
     const filtered = filterScraped(scraped, 'demo')
@@ -183,5 +184,16 @@ describe('filter scraped', () => {
       }, {}))
     const diff = allGatewayOptions.filter(gw => !touchedGatewayOptions.includes(gw))
     expect(diff.length).toEqual(0)
+  })
+  test('filter unlinked tables', async () => {
+    const scraped: Scraped = [
+      { id: '0', type: 'root', ...autoText('demo'), next: '1' },
+      { id: '1', type: 'subprocess', ...autoText('Validate: Table1') },
+      { id: 'table1Id', type: 'table', rows: [['Table1']], ...autoText('Table1') },
+      { id: 'table2Id', type: 'table', rows: [['Table2']], ...autoText('Table2') }
+    ]
+    const processed = await processFigma(await convertToFigma(scraped))
+    const filtered = filterScraped(processed, 'demo')
+    expect(filtered.filter(n => n.type === 'table').length).toEqual(1)
   })
 })
