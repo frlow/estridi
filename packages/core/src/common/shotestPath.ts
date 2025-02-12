@@ -1,4 +1,5 @@
 import { Scraped, ScrapedNode, ScrapedStart } from '../scraped'
+import { getNodeConnections } from './filter'
 
 const findBlockRoot = (scraped: Scraped, blockPath: any[]): ScrapedStart | undefined => {
   if (blockPath.length === 0) return undefined
@@ -34,14 +35,12 @@ export const findShortestPathToNode = (scraped: Scraped, nodeId: string, blockPa
     const temp: ScrapedNode[][] = []
     for (const path of crawled) {
       const lastNode = path[path.length - 1] as any
-      const nodeIds = [
-        lastNode.next,
-        lastNode.link,
-        ...Object.keys(lastNode.options || {}),
-        ...Object.keys(lastNode.actions || {})
-      ].filter((id) => !!id)
+      const nodeIds = getNodeConnections(lastNode)
       for (const id of nodeIds) {
-        const newPath = [...path, scraped.find((n) => n.id === id)]
+        const current: any[] = [scraped.find((n) => n.id === id)]
+        if (current[0].variant === 'virtual')
+          current.push(scraped.find((n) => n.id === current[0].next))
+        const newPath = [...path, ...current]
         if (!validateGateways(newPath)) continue
         if (id === nodeId) {
           return [...blockPath, ...newPath]

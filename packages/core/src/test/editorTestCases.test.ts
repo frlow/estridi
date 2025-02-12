@@ -5,6 +5,7 @@ import { processTldraw } from '../sources/tldraw'
 import { filterScraped } from '../common/filter'
 import { parseRootNames } from '../index'
 import { format } from 'prettier'
+import { camelize } from '../common/texts'
 
 describe('test cases from editor', () => {
   const serverDataPath = path.join(import.meta.dirname, '..', '..', '..', 'editor', 'server', 'data.json')
@@ -18,7 +19,7 @@ describe('test cases from editor', () => {
     const code = `import { Scraped } from '../scraped'
 
 export const editorTestCases = {
-      ${cases.map(c => `${c.name}: ${JSON.stringify(c.code, null, 2)} as Scraped`).join(',\n')}
+      ${cases.map(c => `${camelize(c.name)}: ${JSON.stringify(c.code, null, 2)} as Scraped`).join(',\n')}
     } as const`
     fs.writeFileSync(savedDataPath, raw, 'utf8')
     const formattedCode = await format(code, { parser: 'typescript' })
