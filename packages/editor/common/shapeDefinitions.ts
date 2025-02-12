@@ -30,14 +30,14 @@ export const Shapes = {
     props: {
       ...props
     },
-    icon: 'letter'
+    icon: 'cross'
   },
   signalSend: {
     name: 'signalSend',
     props: {
       ...props
     },
-    icon: 'letter'
+    icon: 'cross'
   }, start: {
     name: 'start',
     props: {
@@ -50,35 +50,35 @@ export const Shapes = {
     props: {
       ...props
     },
-    icon: 'letter'
+    icon: 'cross'
   },
   serviceCall: {
     name: 'serviceCall',
     props: {
       ...props
     },
-    icon: 'letter'
+    icon: 'cross'
   },
   userAction: {
     name: 'userAction',
     props: {
       ...props
     },
-    icon: 'letter'
+    icon: 'cross'
   },
   gateway: {
     name: 'gateway',
     props: {
       ...props
     },
-    icon: 'letter'
+    icon: 'diamond'
   },
   signalListen: {
     name: 'signalListen',
     props: {
       ...props
     },
-    icon: 'letter'
+    icon: 'cross'
   },
   table: {
     name: 'table',
@@ -86,14 +86,21 @@ export const Shapes = {
       ...props,
       rows: T.array
     },
-    icon: 'circle'
+    icon: 'cross'
   },
   other: {
     name: 'other',
     props: {
       ...props
     },
-    icon: 'circle'
+    icon: 'cross'
+  },
+  connector: {
+    name: 'connector',
+    props: {
+      ...props
+    },
+    icon: 'diamond-black'
   }
 } as const
 export const ShapeNames: (keyof typeof Shapes)[] = Object.keys(Shapes) as (keyof typeof Shapes)[]

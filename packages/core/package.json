@@ -14,14 +14,14 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "figma-api": "2.0.1-beta"
+    "figma-api": "2.0.1-beta",
+    "prettier": "^3.4.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.1",
     "@types/node": "^22.10.7",
     "@vitest/coverage-v8": "^3.0.3",
     "@figma/rest-api-spec": "^0.23.0",
-    "prettier": "^3.4.2",
     "tsx": "^4.19.2",
     "vitest": "^3.0.3"
   },

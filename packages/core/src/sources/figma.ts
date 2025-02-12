@@ -1,11 +1,12 @@
 import * as Figma from 'figma-api'
-import { sanitizeText } from '../common/texts.js'
+import { autoText, sanitizeText } from '../common/texts.js'
 import { DocumentNode, Node } from '@figma/rest-api-spec'
 import { afterProcess, getTableKey } from './common'
 import { isNodeInside } from '../common/inside'
 import {
   FigmaConfig,
   Scraped,
+  ScrapedConnector,
   ScrapedGateway,
   ScrapedNode,
   ScrapedNodeTypes,
@@ -59,6 +60,7 @@ const getType = (node: Node): ScrapedNodeTypes => {
   if (node.name?.replace('04.', '').trim() === 'Gateway') return 'gateway'
   if (node.name?.replace('2.', '').trim() === 'Subprocess') return 'subprocess'
   if (node.name?.replace('1.', '').trim() === 'User action') return 'userAction'
+  if (node.name?.replace('10.', '').trim() === 'Connector') return 'connector'
   if (node.name?.replace('05.', '').trim() === 'Signal listen')
     return 'signalListen' as any
   return 'other'
@@ -187,6 +189,16 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         variant: 'userAction'
       }
       ret = userAction
+      break
+    }
+    case 'connector': {
+      const connector: ScrapedConnector = {
+        id: node.id,
+        type: 'connector',
+        ...autoText(''),
+        next: getNext(node)
+      }
+      ret = connector
       break
     }
     default: {

@@ -3,7 +3,7 @@ import { Shapes } from 'editor-common'
 import { BaseShape, baseStyle } from './index.ts'
 
 
-const shapeType = Shapes.table
+const shapeType = Shapes.connector
 type ShapeType = BaseShape<typeof shapeType>
 
 export default class extends BaseBoxShapeUtil<ShapeType> {
@@ -14,8 +14,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
     return {
       h: 80,
       w: 80,
-      text: '',
-      rows: []
+      text: ''
     }
   }
 
@@ -23,10 +22,10 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
     return false
   }
 
-  override component(shape: ShapeType) {
+  override component(_: ShapeType) {
     return (
-      <HTMLContainer style={baseStyle}>
-        <div>Table: {shape.props.text}</div>
+      <HTMLContainer style={{ ...baseStyle, background: 'black' }}>
+        <div>Connector</div>
       </HTMLContainer>
     )
   }

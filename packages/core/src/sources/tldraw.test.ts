@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import {
   autoText,
-  complexStringTestCase,
+  complexStringTestCase, connectorTestCase,
   endTestCase,
   gatewayTestCase,
   loopTestCase,
@@ -46,6 +46,7 @@ describe(`Load from ${parserName}`, () => {
     test('table', async () => await testTestCase(parser, tableTestCase))
     test('subprocess-actions', async () => await testTestCase(parser, subprocessActionsTestCase))
     test('loop', async () => await testTestCase(parser, loopTestCase))
+    test('connector', async () => await testTestCase(parser, connectorTestCase))
   })
 })
 

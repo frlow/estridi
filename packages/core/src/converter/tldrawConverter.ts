@@ -225,6 +225,20 @@ export const convertToTldraw = async (scraped: Scraped) => {
         })
         if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
         break
+      case 'connector':
+        children.push({
+          'state': {
+            ...base(node),
+            'id': `shape:${node.id}`,
+            'type': 'connector',
+            'props': {
+              'text': node.raw
+              , w: 80, h: 80
+            }
+          }
+        })
+        if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
+        break
       case 'gateway':
         children.push({
           'state': {

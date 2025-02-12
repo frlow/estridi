@@ -240,7 +240,13 @@ export const subprocessLoopTestCase: Scraped = [{
     link: 'SubprocessRootId'
   }]
 
-const getExtra = () => ({ x: 0, y: 1000, width: 80, height: 80 })
+export const connectorTestCase: Scraped = [{
+  'id': 'ConnectorId',
+  'next': 'NextId',
+  ...autoText(''),
+  'type': 'connector'
+}]
+
 export const standardTestCase: Scraped = [
   {
     id: 'RootId',

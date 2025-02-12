@@ -12,6 +12,7 @@ import SignalSend from './SignalSend.tsx'
 import SignalListen from './SignalListen.tsx'
 import Other from './Other.tsx'
 import Table from './Table.tsx'
+import Connector from './Connector.tsx'
 
 const customShapeDefinitions: Record<ShapeName, TLShapeUtilConstructor<any, ShapeUtil<any>>> = {
   gateway: Gateway,
@@ -24,7 +25,8 @@ const customShapeDefinitions: Record<ShapeName, TLShapeUtilConstructor<any, Shap
   start: Start,
   signalListen: SignalListen,
   other: Other,
-  table: Table
+  table: Table,
+  connector: Connector
 }
 
 export const customShapes = Object.values(customShapeDefinitions)

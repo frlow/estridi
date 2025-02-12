@@ -1,6 +1,6 @@
 {
   "name": "estridi",
-  "version": "1.0.0-beta122",
+  "version": "1.0.0-beta123",
   "description": "",
   "bin": {
     "estridi": "./dist/cli.js",
@@ -8,6 +8,9 @@
     "estridi-editor": "./dist/editor.js"
   },
   "type": "module",
+  "dependencies": {
+    "prettier": "^3.5.0"
+  },
   "scripts": {
     "test": "pnpm --parallel test run",
     "build": "pnpm --parallel build",

@@ -5,6 +5,7 @@ import { generatePlaywright } from './targets/playwright'
 import { EstridiConfig, FigmaConfig, Scraped, ScrapedStart } from './scraped'
 import { format } from 'prettier'
 import fs from 'node:fs'
+import { injectVirtualNodes } from './common/virtualNodes'
 
 export * from './sources/tldraw.js'
 export * from './scraped.js'
@@ -72,6 +73,7 @@ export const generateEstridiTests = async (args: {
   scraped: Scraped,
   target?: 'playwright',
   rootName?: string,
+  virtualNodes?: boolean
 }): Promise<{ code: string, fileName: string }[]> => {
   const targets: Record<EstridiTargets, EstridiTargetConfig> = {
     playwright: {
@@ -81,7 +83,8 @@ export const generateEstridiTests = async (args: {
   }
   const target = targets[args.target || 'playwright']
   const { scraped, rootName } = await loadScrapedFromSource(args.scraped, args.rootName)
-  const code = await target.generatorFunc(rootName, scraped)
+  const scrapedTemp = args.virtualNodes ? await injectVirtualNodes(scraped) : scraped
+  const code = await target.generatorFunc(rootName, scrapedTemp)
   const prettierOptions = fs.existsSync('.prettierrc') ? JSON.parse(fs.readFileSync('.prettierrc', 'utf8')) : {}
   const formattedCode = await format(code, { parser: 'typescript', ...prettierOptions })
   return [{ code: formattedCode, fileName: target.getFileName(rootName) }]

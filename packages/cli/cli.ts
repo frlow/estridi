@@ -8,6 +8,7 @@ program
   .option('-t, --target <string>')
   .option('-r, --root-name <string>')
   .option('-d, --directory <string>')
+  .option('-v, --virtual-nodes')
 
 program.parse()
 
@@ -26,7 +27,8 @@ const run = async () => {
       const filesToWrite = await generateEstridiTests({
         target: options.target,
         scraped,
-        rootName: rootName?.trim() || undefined
+        rootName: rootName?.trim() || undefined,
+        virtualNodes: options.virtualNodes
       })
       const dir = options.directory || 'tests'
       fs.mkdirSync(dir, { recursive: true })

@@ -193,7 +193,15 @@ export const convertToFigma = async (scraped: Scraped) => {
         })
         if (node.next) children.push(createConnector({ start: node.id, end: node.next }))
         break
-
+      case "connector":
+        children.push({
+          id: node.id,
+          name: '10. Connector'
+        })
+        if (node.next) children.push(createConnector({ start: node.id, end: node.next }))
+        break
+      default:
+        debugger
     }
   })
   return { id: 'document', children: [{ id: 'page', children }] }

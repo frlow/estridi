@@ -26,12 +26,18 @@ export type ScrapedNodeTypes =
   | 'gateway'
   | 'subprocess'
   | 'userAction'
+  | 'connector'
 export type ScrapedNodeType<T extends ScrapedNodeTypes> = T
 
 export type ScrapedOther = {
   type: ScrapedNodeType<'other'>
   next?: string
   data?: any
+} & BaseNode
+
+export type ScrapedConnector = {
+  type: ScrapedNodeType<'connector'>
+  next?: string
 } & BaseNode
 
 export type ScrapedTable = {
@@ -84,6 +90,7 @@ export type ScrapedNode =
   | ScrapedStart
   | ScrapedSubprocess
   | ScrapedUserAction
+  | ScrapedConnector
 export type Scraped = ScrapedNode[]
 
 export type FigmaConfig = {

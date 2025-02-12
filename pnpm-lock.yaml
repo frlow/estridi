@@ -6,7 +6,11 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    dependencies:
+      prettier:
+        specifier: ^3.5.0
+        version: 3.5.0
 
   packages/cli:
     dependencies:
@@ -32,6 +36,9 @@ importers:
       figma-api:
         specifier: 2.0.1-beta
         version: 2.0.1-beta
+      prettier:
+        specifier: ^3.4.2
+        version: 3.4.2
       typescript:
         specifier: '*'
         version: 5.7.3
@@ -48,9 +55,6 @@ importers:
       '@vitest/coverage-v8':
         specifier: ^3.0.3
         version: 3.0.4(vitest@3.0.4(@types/debug@4.1.12)(@types/node@22.10.10)(sass-embedded@1.82.0)(tsx@4.19.2))
-      prettier:
-        specifier: ^3.4.2
-        version: 3.4.2
       tsx:
         specifier: ^4.19.2
         version: 4.19.2
@@ -3081,6 +3085,11 @@ packages:
 
   prettier@3.4.2:
     resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
+    engines: {node: '>=14'}
+    hasBin: true
+
+  prettier@3.5.0:
+    resolution: {integrity: sha512-quyMrVt6svPS7CjQ9gKb3GLEX/rl3BCL2oa/QkNcXv4YNVBC9olt3s+H7ukto06q7B1Qz46PbrKLO34PR6vXcA==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -7371,6 +7380,8 @@ snapshots:
       which-pm: 3.0.0
 
   prettier@3.4.2: {}
+
+  prettier@3.5.0: {}
 
   prismjs@1.29.0: {}
 

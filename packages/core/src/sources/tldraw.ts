@@ -3,6 +3,7 @@ import { afterProcess, getTableKey } from './common'
 import { isNodeInside } from '../common/inside'
 import {
   Scraped,
+  ScrapedConnector,
   ScrapedGateway,
   ScrapedNode,
   ScrapedNodeTypes,
@@ -53,13 +54,13 @@ export const processTldraw = async (
     const types: ExtendedNodeTypes[] = [
       'script', 'end', 'gateway', 'root', 'script', 'serviceCall',
       'start', 'subprocess', 'table', 'userAction', 'message', 'signalSend',
-      'loop', 'parallel']
+      'loop', 'parallel', 'connector']
     if (types.includes(node.state?.type)) return node.state?.type
     return 'other'
   }
 
   const getId = (id: string) => {
-    return id.replace(/^shape:/, '')
+    return id?.replace(/^shape:/, '')
   }
 
   const getNodeMetadata = (node: any): ScrapedNode => {
@@ -146,6 +147,14 @@ export const processTldraw = async (
           rows: node.state.props.rows
         }
         return table
+      case 'connector':
+        const connector: ScrapedConnector = {
+          id: getId(node.state.id),
+          type: 'connector',
+          ...autoText(''),
+          next: getNext(node)
+        }
+        return connector
       default: {
         return {
           type: 'other',
