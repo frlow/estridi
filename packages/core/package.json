@@ -2,10 +2,6 @@
   "name": "core",
   "version": "1.0.0-beta120",
   "description": "",
-  "bin": {
-    "estridi": "./dist/cli.js",
-    "estridi-docs": "./dist/docs.js"
-  },
   "type": "module",
   "scripts": {
     "start": "tsx src/cli.ts -r + -u",
