@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { filterScraped } from '../../common/filter.js'
-import { generateHandlesTypeCode } from './handlesTypes.js'
-import { autoText } from '../../test/testCases'
+import { generateHandlesTypeCode, getHandlesObjectTypeCode } from './handlesTypes.js'
+import { autoText, standardTestCase } from '../../test/testCases'
 import { Scraped } from '../../scraped'
 
 describe('generate handles types', () => {
@@ -59,15 +59,6 @@ export type Demo<TState={}, TPageExtensions={}> = {
   })
 
   test('multiple calls to same serviceCall should only create one type', async () => {
-    // const scraped = await processFigma(
-    //   getBaseFigmaNode([
-    //     ...figmaNodes.start({ id: 'startId' }),
-    //     ...figmaConnectorNode({ text: 'root:demo', start: 'startId', end: 'serviceCall1Id' }),
-    //     ...figmaNodes.serviceCall({ id: 'serviceCall1Id', text: 'Some service call' }),
-    //     ...figmaConnectorNode({ start: 'serviceCall1Id', end: 'serviceCall2Id' }),
-    //     ...figmaNodes.serviceCall({ id: 'serviceCall2Id', text: 'Some service call' })
-    //   ])
-    // )
     const scraped: Scraped = [
       { id: 'startId', type: 'root', ...autoText('demo'), next: 'serviceCall1Id' },
       { id: 'serviceCall1Id', type: 'serviceCall', ...autoText('Some service call'), next: 'serviceCall2Id' },
@@ -105,8 +96,50 @@ export type Demo<TState={}, TPageExtensions={}> = {
   setup: (args: Omit<TestArgs<TState, TPageExtensions>, 'state'>) => Promise<TState>
   start: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   serviceCall_someServiceCall: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
-
   test_someServiceCall: TestFunction<TState, TPageExtensions>
+}
+`)
+  })
+
+
+})
+
+describe('handles type object code', () => {
+  test('normal case', async () => {
+    const filtered = filterScraped(standardTestCase, 'main')
+    const typesCode = getHandlesObjectTypeCode('demo', filtered, 'normal')
+    expect(typesCode).toEqual(`export type Demo<TState={}, TPageExtensions={}> = {
+  setup: (args: Omit<TestArgs<TState, TPageExtensions>, 'state'>) => Promise<TState>
+  start: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+  serviceCall_apiData: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+  action_click: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+  test_apiData: TestFunction<TState, TPageExtensions>
+  test_showAnErrorMessage: TestFunction<TState, TPageExtensions>
+  test_doSomethingHere: TestFunction<TState, TPageExtensions>
+  test_goToSomePage: TestFunction<TState, TPageExtensions>
+}
+`)
+  })
+
+  test('extended types for splitting handles into multiple files', async () => {
+    const filtered = filterScraped(standardTestCase, 'main')
+    const typesCode = getHandlesObjectTypeCode('main', filtered, 'extended')
+    expect(typesCode).toEqual(`export type Main<TState={}, TPageExtensions={}> = {
+  setup: (args: Omit<TestArgs<TState, TPageExtensions>, 'state'>) => Promise<TState>
+  start: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+} & MainRoot<TState, TPageExtensions> & MainNextPage<TState, TPageExtensions>
+
+export type MainRoot<TState={}, TPageExtensions={}> = {
+  serviceCall_apiData: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+  action_click: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+  test_apiData: TestFunction<TState, TPageExtensions>
+  test_showAnErrorMessage: TestFunction<TState, TPageExtensions>
+  test_doSomethingHere: TestFunction<TState, TPageExtensions>
+}
+
+
+export type MainNextPage<TState={}, TPageExtensions={}> = {
+  test_goToSomePage: TestFunction<TState, TPageExtensions>
 }
 `)
   })
