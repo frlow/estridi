@@ -20,7 +20,7 @@ describe('generate handles types', () => {
       { id: 'gatewayId', type: 'gateway', variant: 'gateway', ...autoText('Is something true?'), options: {} }
     ]
     const filtered = filterScraped(scraped, 'demo')
-    const handlesTypesText = generateHandlesTypeCode(filtered, 'demo')
+    const handlesTypesText = generateHandlesTypeCode(filtered, 'demo', false)
     expect(handlesTypesText).toEqual(`export const Gateways = [
   'Is something true'
 ] as const
@@ -129,7 +129,9 @@ describe('handles type object code', () => {
   start: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
 } & MainRoot<TState, TPageExtensions> & MainNextPage<TState, TPageExtensions>
 
-export type MainRoot<TState={}, TPageExtensions={}> = {
+export type HandlesGenerics<U = typeof handles> = U extends Main<infer A,infer B> ? [A, B] : never
+
+export type MainRoot<TState=HandlesGenerics[0], TPageExtensions=HandlesGenerics[1]> = {
   serviceCall_apiData: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   action_click: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   test_apiData: TestFunction<TState, TPageExtensions>
@@ -138,7 +140,7 @@ export type MainRoot<TState={}, TPageExtensions={}> = {
 }
 
 
-export type MainNextPage<TState={}, TPageExtensions={}> = {
+export type MainNextPage<TState=HandlesGenerics[0], TPageExtensions=HandlesGenerics[1]> = {
   test_goToSomePage: TestFunction<TState, TPageExtensions>
 }
 `)

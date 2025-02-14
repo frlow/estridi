@@ -9,8 +9,7 @@ import { _, camelize } from '../../common/texts.js'
 import { Scraped } from '../../scraped'
 import { processNode } from '../../common/filter'
 
-export type HandlesTypesExtended = 'extended' | 'extended-internal' | 'normal'
-export const getHandlesObjectTypeCode = (name: string, scraped: Scraped, extended: HandlesTypesExtended) => {
+export const getHandlesObjectTypeCode = (name: string, scraped: Scraped, extended: 'extended' | 'extended-internal' | 'normal') => {
   const setupCode = [
     `${_(1)}setup: (args: Omit<TestArgs<TState, TPageExtensions>, 'state'>) => Promise<TState>`,
     `${_(1)}start: (args: TestArgs<TState, TPageExtensions>) => Promise<void>`]
@@ -37,7 +36,8 @@ export const getHandlesObjectTypeCode = (name: string, scraped: Scraped, extende
       ...actionsLines,
       ...testLines
     ]
-    let code = `export type ${name.charAt(0).toUpperCase() + camelize(name.substring(1))}<TState={}, TPageExtensions={}> = {
+    const genericsTypeArgsCode = extended==="normal" ? '<TState={}, TPageExtensions={}>' : '<TState=HandlesGenerics[0], TPageExtensions=HandlesGenerics[1]>'
+    let code = `export type ${name.charAt(0).toUpperCase() + camelize(name.substring(1))}${genericsTypeArgsCode} = {
 ${lines.join('\n')}
 }
 `
@@ -57,11 +57,13 @@ ${setupCode.join('\n')}
     }).join(' & ')
     }
 
+export type HandlesGenerics<U = typeof handles> = U extends Main<infer A,infer B> ? [A, B] : never
+
 ${codeBlocks.map(block => block.block).join('\n\n')}`
   }
 }
 
-export const generateHandlesTypeCode = (scraped: Scraped, name: string, extended: HandlesTypesExtended = 'normal') => {
+export const generateHandlesTypeCode = (scraped: Scraped, name: string, extended: boolean) => {
   const gatewayNameLines = getGatewayNames(scraped).map(
     (text) => `${_(1)}'${text}'`
   )
@@ -87,7 +89,7 @@ export type TestFunction<TState, TPageExtensions> = (
 `
 
 
-  const handlesObjectTypeCode = getHandlesObjectTypeCode(name, scraped, extended)
+  const handlesObjectTypeCode = getHandlesObjectTypeCode(name, scraped, extended ? 'extended' : 'normal')
 
   const handlesTypeCode = `${typeDefCode}
 

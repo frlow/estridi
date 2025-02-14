@@ -4,6 +4,7 @@ import { _ } from '../../common/texts.js'
 import { getTestName } from './testScript.js'
 import { Scraped } from '../../scraped'
 import { getTestableNodeTree } from '../testableNodeTree'
+import { EstridiGeneratorOptions } from '../../index'
 
 const generateTestBlock = (scraped: Scraped, tree: ReturnType<typeof getTestableNodeTree>, usedBlockNamesInParent: Record<string, number>, indentation: number = 0) => {
   const testableNodes = tree.nodes.filter(n => n.id)
@@ -16,9 +17,9 @@ ${subflows.map(subflow => generateTestBlock(scraped, subflow, usedBlockNames, in
 ${_(indentation)}})`
 }
 
-export const generatePlaywright = async (name: string, scraped: Scraped) => {
+export const generatePlaywright = async (name: string, scraped: Scraped, options: EstridiGeneratorOptions) => {
   const testableNodeTree = getTestableNodeTree(scraped)
-  const handlesTypeCode = generateHandlesTypeCode(scraped, name)
+  const handlesTypeCode = generateHandlesTypeCode(scraped, name, options.splitHandles)
   return `import { BrowserContext, Page, test, expect } from '@playwright/test'
 import { handles } from './${name}.js'
 

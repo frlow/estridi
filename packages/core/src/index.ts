@@ -20,9 +20,11 @@ export type EstridiSourceConfig = {
 }
 
 export type EstridiTargetConfig = {
-  generatorFunc: (name: string, scraped: Scraped) => Promise<string>
+  generatorFunc: (name: string, scraped: Scraped, options: EstridiGeneratorOptions) => Promise<string>
   getFileName: (name: string) => string
 }
+
+export type EstridiGeneratorOptions = { splitHandles?: boolean }
 
 export type EstridiTargets = 'playwright'
 export type EstridiSources = 'figma'
@@ -73,7 +75,8 @@ export const generateEstridiTests = async (args: {
   scraped: Scraped,
   target?: 'playwright',
   rootName?: string,
-  virtualNodes?: boolean
+  virtualNodes?: boolean,
+  splitHandles?: boolean
 }): Promise<{ code: string, fileName: string }[]> => {
   const targets: Record<EstridiTargets, EstridiTargetConfig> = {
     playwright: {
@@ -84,7 +87,7 @@ export const generateEstridiTests = async (args: {
   const target = targets[args.target || 'playwright']
   const { scraped, rootName } = await loadScrapedFromSource(args.scraped, args.rootName)
   const scrapedTemp = args.virtualNodes ? await injectVirtualNodes(scraped) : scraped
-  const code = await target.generatorFunc(rootName, scrapedTemp)
+  const code = await target.generatorFunc(rootName, scrapedTemp, { splitHandles: args.splitHandles })
   const prettierOptions = fs.existsSync('.prettierrc') ? JSON.parse(fs.readFileSync('.prettierrc', 'utf8')) : {}
   const formattedCode = await format(code, { parser: 'typescript', ...prettierOptions })
   return [{ code: formattedCode, fileName: target.getFileName(rootName) }]
