@@ -13,7 +13,7 @@ import { Scraped } from '../../scraped'
 
 describe('playwright', () => {
   test('generate playwright test code', async () => {
-    const code = await generatePlaywright('main', standardTestCase)
+    const code = await generatePlaywright('main', standardTestCase, {})
     const filePath = path.join(
       __dirname,
       '../../test',
@@ -30,12 +30,12 @@ describe('playwright', () => {
   })
 
   test('loop should not crash', async () => {
-    const code = await generatePlaywright('main', loopTestCase)
+    const code = await generatePlaywright('main', loopTestCase, {})
     expect(code).toBeTruthy
   })
 
   test('subprocess loop should not crash', async () => {
-    const code = await generatePlaywright('main', subprocessLoopTestCase)
+    const code = await generatePlaywright('main', subprocessLoopTestCase, {})
     expect(code).toBeTruthy
   })
 
@@ -65,7 +65,7 @@ describe('playwright', () => {
     ]
 
     const filtered = filterScraped(scraped, 'demo')
-    const code = await generatePlaywright('main', filtered)
+    const code = await generatePlaywright('main', filtered, {})
     const offendingLine = code
       .split('\n')
       .find((line) => line.includes('"Content":'))

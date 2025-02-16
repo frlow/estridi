@@ -53,7 +53,7 @@ describe(`Load from ${parserName}`, () => {
 test('tldraw typical case', async () => {
   const scraped = await processTldraw(tlDrawTestCase)
   const filtered = filterScraped(scraped, 'main')
-  const code = await generatePlaywright('main', filtered)
+  const code = await generatePlaywright('main', filtered, {})
   expect(code).toBeTruthy()
 })
 
@@ -70,7 +70,7 @@ test('id with ":"', async () => {
   }]
   const tlDrawData = await convertToTldraw(scraped)
   const result = await processTldraw(tlDrawData)
-  debugger
+  expect(result).toBeTruthy()
 })
 
 const tlDrawTestCase = {
