@@ -19,20 +19,23 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
   }
 
   override canResize(_shape: ShapeType): boolean {
-    return false
+    return true
   }
 
   override component(shape: ShapeType) {
     return (
-      <HTMLContainer style={baseStyle}>
+      <HTMLContainer style={{ ...baseStyle, border: '2px solid black', overflow: 'hidden' }}>
         <div>Script</div>
-        <input value={shape.props.text} onChange={e => {
-          this.editor.updateShape({
-            id: shape.id,
-            type: 'counter',
-            props: { text: e.target.value },
-          })
-        }} />
+        <div contentEditable={true}
+             style={{ resize: 'none', overflow: 'visible', width: '200px', whiteSpace: 'pre-wrap' }}
+             onBlur={(e: any) => {
+               const text = e.target.innerText
+               this.editor.updateShape({
+                 id: shape.id,
+                 type: 'counter',
+                 props: { text }
+               })
+             }}>{shape.props.text}</div>
       </HTMLContainer>
     )
   }

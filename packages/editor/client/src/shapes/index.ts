@@ -46,4 +46,9 @@ export const baseStyle: CSSProperties = {
   gap: 8
 }
 
+export const internalInputStyle: CSSProperties = {
+  background: 'transparent',
+  border: "none"
+}
+
 export type BaseShape<T extends ShapeDefinition> = TLBaseShape<T['name'], ShapeProps<T['props']>>
