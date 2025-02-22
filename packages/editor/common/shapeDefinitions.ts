@@ -1,4 +1,5 @@
 import { T } from 'tldraw'
+import { icons } from './icons'
 
 export type ShapeProps<T> = {
   [K in keyof T]: ExtractGenericArgs<T[K]>
@@ -15,13 +16,15 @@ const props = {
 export type ShapeDefinition = {
   name: ShapeName,
   props: Record<string, T.Validator<any>>,
-  icon: string
+  icon: keyof typeof icons
 }
 export const Shapes = {
   message: {
     name: 'message',
     props: {
-      ...props
+      text: T.string,
+      w: T.positiveNumber,
+      h: T.positiveNumber
     },
     icon: 'letter'
   },
@@ -57,7 +60,7 @@ export const Shapes = {
     props: {
       ...props
     },
-    icon: 'cross'
+    icon: 'service-call'
   },
   userAction: {
     name: 'userAction',
@@ -78,7 +81,7 @@ export const Shapes = {
     props: {
       ...props
     },
-    icon: 'cross'
+    icon: 'service-call'
   },
   table: {
     name: 'table',
@@ -103,5 +106,7 @@ export const Shapes = {
     icon: 'diamond-black'
   }
 } as const
+
 export const ShapeNames: (keyof typeof Shapes)[] = Object.keys(Shapes) as (keyof typeof Shapes)[]
 export type ShapeName = keyof typeof Shapes
+

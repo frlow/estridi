@@ -24,8 +24,17 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
 
   override component(_: ShapeType) {
     return (
-      <HTMLContainer style={baseStyle}>
-        <div>Start</div>
+      <HTMLContainer style={{ ...baseStyle, background: 'transparent' }}>
+        <div style={{
+          width: '60px',
+          height: '60px',
+          borderRadius: '60px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          border: '4px solid black',
+          background: 'rgba(64,115,177,0.7)'
+        }}></div>
       </HTMLContainer>
     )
   }

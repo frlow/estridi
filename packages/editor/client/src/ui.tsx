@@ -8,18 +8,11 @@ import {
   useIsToolSelected,
   useTools
 } from 'tldraw'
-import { ShapeNames, Shapes } from 'editor-common'
+import { icons, ShapeNames, Shapes } from 'editor-common'
+
 
 export const customAssetUrls: TLUiAssetUrlOverrides = {
-  icons: {
-    'donut': '/donut.svg',
-    'circle': '/circle.svg',
-    'letter': '/letter.svg',
-    'letter-thin': '/letter-thin.svg',
-    diamond: "/diamond.svg",
-    "diamond-black": "/diamond-black.svg",
-    "cross": "/cross.svg"
-  }
+  icons
 }
 
 export const uiOverrides: TLUiOverrides = {
