@@ -33,7 +33,7 @@ export const Shapes = {
     props: {
       ...props
     },
-    icon: 'cross'
+    icon: 'page'
   },
   signalSend: {
     name: 'signalSend',
@@ -60,7 +60,7 @@ export const Shapes = {
     props: {
       ...props
     },
-    icon: 'service-call'
+    icon: 'gear'
   },
   userAction: {
     name: 'userAction',
@@ -81,7 +81,7 @@ export const Shapes = {
     props: {
       ...props
     },
-    icon: 'service-call'
+    icon: 'cross'
   },
   table: {
     name: 'table',

@@ -6,5 +6,6 @@ export const icons = {
   diamond: "/diamond.svg",
   "diamond-black": "/diamond-black.svg",
   "cross": "/cross.svg",
-  "service-call": "/service-call.svg"
+  "gear": "/gear.svg",
+  "page": "/page.svg"
 }as const

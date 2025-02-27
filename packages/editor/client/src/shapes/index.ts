@@ -10,9 +10,9 @@ import Gateway from './Gateway.tsx'
 import ServiceCall from './ServiceCall.tsx'
 import SignalSend from './SignalSend.tsx'
 import SignalListen from './SignalListen.tsx'
-import Other from './Other.tsx'
 import Table from './Table.tsx'
 import Connector from './Connector.tsx'
+import Other from './Other.tsx'
 
 const customShapeDefinitions: Record<ShapeName, TLShapeUtilConstructor<any, ShapeUtil<any>>> = {
   gateway: Gateway,

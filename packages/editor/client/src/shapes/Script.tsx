@@ -24,10 +24,10 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
 
   override component(shape: ShapeType) {
     return (
-      <HTMLContainer style={{ ...baseStyle, border: '2px solid black', overflow: 'hidden' }}>
-        <div>Script</div>
+      <HTMLContainer style={{ ...baseStyle, border: '2px solid black', overflow: 'hidden', borderRadius: "5px"}}>
+        <img src="/page-white.svg" alt="page" style={{height: "25px"}}/>
         <div contentEditable={true}
-             style={{ resize: 'none', overflow: 'visible', width: '200px', whiteSpace: 'pre-wrap' }}
+             style={{ resize: 'none', overflow: 'visible', whiteSpace: 'pre-wrap', color: "white", fontWeight: "bold" }}
              onBlur={(e: any) => {
                const text = e.target.innerText
                this.editor.updateShape({
@@ -35,7 +35,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
                  type: 'counter',
                  props: { text }
                })
-             }}>{shape.props.text}</div>
+             }}>{shape.props.text || "..."}</div>
       </HTMLContainer>
     )
   }

@@ -38,8 +38,8 @@ export const components: TLComponents = {
       acc[cur] = useIsToolSelected(tools[cur])
       return acc
     }, {} as any)
-    const toolItems = ShapeNames.map((shapeName, i) => <TldrawUiMenuItem key={i} {...tools[shapeName]}
-                                                                         isSelected={isSelected[shapeName]} />)
+    const toolItems = ShapeNames.filter(n => n !== 'other').map((shapeName, i) =>
+      <TldrawUiMenuItem key={i} {...tools[shapeName]} isSelected={isSelected[shapeName]} />)
     return (
       <DefaultToolbar {...props}>
         {toolItems}
