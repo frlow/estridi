@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx --watch ./server.ts",
-    "build": "pnpm dlx bun build --target=node --outfile=../../../dist/editor.js ./server.ts"
+    "build": "pnpm dlx bun build --target=node --outfile=../../../dist/editor.js ./server.ts --external prettier"
   },
   "keywords": [],
   "author": "",

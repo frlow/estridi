@@ -11,7 +11,10 @@ import { schema } from 'editor-common'
 const app = new WebSocketExpress()
 const router = new Router()
 
-const FILE = 'data.json'
+const rootDir = process.argv[2] || '.'
+fs.mkdirSync(rootDir, { recursive: true })
+const TEST_DIR = path.join(rootDir, 'tests')
+const FILE = path.join(rootDir, 's3d.json')
 const roomId = 'singleton'
 
 const initialSnapshot = fs.existsSync(FILE) ? JSON.parse(fs.readFileSync(FILE, 'utf8')) : undefined
@@ -60,22 +63,24 @@ const writeTests = async (data: any) => {
     const scraped = await processTldraw(data).catch(e => {
       throw e
     })
-    const roots = parseRootNames(scraped, 'main')
-    if (!roots.includes('main')) {
-      console.log('No root named \'main\' found!')
+    const roots = parseRootNames(scraped, '+')
+    if (roots.length===0) {
+      console.log('No roots found!')
       return
     }
-    const filesToWrite = await generateEstridiTests({
-      target: 'playwright',
-      scraped,
-      rootName: 'main'
-    }).catch(e => {
-      throw e
-    })
-    const dir = 'tests'
-    fs.mkdirSync(dir, { recursive: true })
-    for (const fileToWrite of filesToWrite)
-      fs.writeFileSync(path.join(dir, fileToWrite.fileName), fileToWrite.code, 'utf8')
+    for(const rootName of roots){
+      const filesToWrite = await generateEstridiTests({
+        target: 'playwright',
+        scraped,
+        rootName
+      }).catch(e => {
+        throw e
+      })
+      fs.mkdirSync(TEST_DIR, { recursive: true })
+      for (const fileToWrite of filesToWrite)
+        fs.writeFileSync(path.join(TEST_DIR, fileToWrite.fileName), fileToWrite.code, 'utf8')
+    }
+
   } catch (e) {
     console.log(e)
   }

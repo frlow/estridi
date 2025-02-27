@@ -6,7 +6,7 @@ import { BaseBoxShapeTool, ShapeUtil, TLBaseShape, TLShapeUtilConstructor } from
 import Script from './Script.tsx'
 import UserAction from './UserAction.tsx'
 import Subprocess from './Subprocess.tsx'
-import Gateway from './Gateway.tsx'
+import { Gateway, Loop } from './Gateway.tsx'
 import ServiceCall from './ServiceCall.tsx'
 import SignalSend from './SignalSend.tsx'
 import SignalListen from './SignalListen.tsx'
@@ -16,6 +16,7 @@ import Other from './Other.tsx'
 
 const customShapeDefinitions: Record<ShapeName, TLShapeUtilConstructor<any, ShapeUtil<any>>> = {
   gateway: Gateway,
+  loop: Loop,
   script: Script,
   serviceCall: ServiceCall,
   signalSend: SignalSend,
@@ -48,7 +49,7 @@ export const baseStyle: CSSProperties = {
 
 export const internalInputStyle: CSSProperties = {
   background: 'transparent',
-  border: "none"
+  border: 'none'
 }
 
 export type BaseShape<T extends ShapeDefinition> = TLBaseShape<T['name'], ShapeProps<T['props']>>

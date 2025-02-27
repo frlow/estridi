@@ -15,7 +15,8 @@
     "test": "pnpm --parallel test run",
     "build": "pnpm --parallel build",
     "docs": "pnpm --filter docs dev",
-    "editor": "pnpm --filter \"editor-*\" dev"
+    "editor": "pnpm --filter \"editor-*\" dev",
+    "requirements": "node dist/editor.js"
   },
   "keywords": [],
   "author": "",

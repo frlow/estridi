@@ -76,6 +76,13 @@ export const Shapes = {
     },
     icon: 'diamond'
   },
+  loop: {
+    name: 'loop',
+    props: {
+      ...props
+    },
+    icon: 'loop'
+  },
   signalListen: {
     name: 'signalListen',
     props: {

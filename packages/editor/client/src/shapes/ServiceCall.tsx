@@ -25,7 +25,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
   override component(shape: ShapeType) {
     return (
       <HTMLContainer style={{...baseStyle, background: "#59e351", border: "2px solid black", borderRadius: "5px"}}>
-        <div contentEditable={true} style={{ resize: 'none', overflow: 'visible', width: "200px", fontWeight: "bold" }} onBlur={(e: any) => {
+        <div contentEditable={true} style={{ resize: 'none', overflow: 'visible', fontWeight: "bold" }} onBlur={(e: any) => {
           this.editor.updateShape({
             id: shape.id,
             type: 'dummy',

@@ -7,5 +7,6 @@ export const icons = {
   "diamond-black": "/diamond-black.svg",
   "cross": "/cross.svg",
   "gear": "/gear.svg",
-  "page": "/page.svg"
+  "page": "/page.svg",
+  "loop": "/loop.svg"
 }as const
