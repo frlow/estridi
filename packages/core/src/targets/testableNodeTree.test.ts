@@ -1,7 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { getTestableNodeTree } from './testableNodeTree'
 import { autoText, standardTestCase } from '../test/testCases'
-import { generatePlaywright } from './playwright'
 import { Scraped } from '../scraped'
 
 describe('testable node tree', () => {
@@ -160,5 +159,42 @@ describe('testable node tree', () => {
       ],
       'blockPath': []
     })
+  })
+  test('dual subprocesses', async () => {
+    const scraped: Scraped = [
+      { id: 'root', next: 'sub1', type: 'root', ...autoText('main') },
+      { id: 'sub1', type: 'subprocess', link: 'sub1start', next: 'sub2', ...autoText('Sub1') },
+      { id: 'sub1start', next: 'script1', ...autoText('Sub1'), type: 'start' },
+      { id: 'script1', next: undefined, ...autoText('Script1'), type: 'script', variant: 'message' },
+      { id: 'sub2', type: 'subprocess', link: 'sub2start', next: undefined, ...autoText('Sub2') },
+      { id: 'sub2start', next: 'script2', ...autoText('Sub2'), type: 'start' },
+      { id: 'script2', next: undefined, ...autoText('Script2'), type: 'script', variant: 'message' }
+    ]
+    const tree = getTestableNodeTree(scraped)
+    const f = (id: string) => scraped.find(n => n.id === id)
+    const expected = {
+      "blockPath": [],
+      "name": "main",
+      nodes: [
+        {
+          'name': 'Sub1',
+          'nodes': [f('script1')],
+          'blockPath': [
+            f('root'),
+            f('sub1')
+          ]
+        },
+        {
+          'name': 'Sub2',
+          'nodes': [f('script2')],
+          'blockPath': [
+            f('root'),
+            f('sub1'),
+            f('sub2')
+          ]
+        }
+      ]
+    }
+    expect(tree).toStrictEqual(expected)
   })
 })
