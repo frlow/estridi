@@ -32,6 +32,7 @@ export const uiOverrides: TLUiOverrides = {
 }
 
 export const components: TLComponents = {
+  // StylePanel: ()=><div>DEMO</div>,
   Toolbar: (props) => {
     const tools = useTools()
     const isSelected = ShapeNames.reduce((acc, cur) => {

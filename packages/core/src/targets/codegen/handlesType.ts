@@ -30,7 +30,7 @@ export const getTestNames = (scraped: Scraped): string[] => {
 export const getServiceCallsCode = (scraped: Scraped) => {
   const serviceCallLines = getServiceCallNames(scraped).map(sc => `${_(1)}// ${sc.raw.replace(/\n/g, ' ')}
 ${_(1)}await handles.serviceCall_${camelize(sc.name)}(args)`)
-  return `const handleServiceCalls = async (args: TestArgs<any, any>)=>{
+  return `export const handleServiceCalls = async (args: TestArgs<any, any>)=>{
 ${serviceCallLines.join('\n')}
 }`
 }

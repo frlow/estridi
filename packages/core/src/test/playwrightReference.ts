@@ -79,7 +79,7 @@ export type TestFunction<TState, TPageExtensions> = (
 ) => Promise<void | (() => Promise<void>)>
 
 
-const handleServiceCalls = async (args: TestArgs<any, any>)=>{
+export const handleServiceCalls = async (args: TestArgs<any, any>)=>{
   // /api/data
   await handles.serviceCall_apiData(args)
 }
