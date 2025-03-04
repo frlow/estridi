@@ -57,6 +57,6 @@ describe('validate', () => {
     const scraped = await processFigma(figmaDoc)
     const filtered = filterScraped(scraped, 'main')
     const document = await convertToTldraw(filtered)
-    fs.writeFileSync('../server/data.json', JSON.stringify(document, null, 2), 'utf8')
+    fs.writeFileSync('../server/s3d.json', JSON.stringify(document, null, 2), 'utf8')
   }, 1000000)
 })
