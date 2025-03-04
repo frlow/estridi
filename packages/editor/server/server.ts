@@ -69,7 +69,7 @@ const writeTests = async (data: any) => {
       return
     }
     for(const rootName of roots){
-      const filesToWrite = await generateEstridiTests({
+      const fileToWrite = await generateEstridiTests({
         target: 'playwright',
         scraped,
         rootName
@@ -77,8 +77,8 @@ const writeTests = async (data: any) => {
         throw e
       })
       fs.mkdirSync(TEST_DIR, { recursive: true })
-      for (const fileToWrite of filesToWrite)
-        fs.writeFileSync(path.join(TEST_DIR, fileToWrite.fileName), fileToWrite.code, 'utf8')
+      fs.writeFileSync(path.join(TEST_DIR, fileToWrite.fileName), fileToWrite.code, 'utf8')
+
     }
 
   } catch (e) {

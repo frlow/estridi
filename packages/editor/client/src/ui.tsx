@@ -78,7 +78,7 @@ const ContextToolbarComponent = track(() => {
         }}
       >
         {TOOLS.map(({ value, icon }) => {
-          const isActive = editor.currentTool === value
+          const isActive = editor.getCurrentToolId() === value
           return (
             <div
               key={value}

@@ -11,6 +11,7 @@ export const icons = {
   loop: '/loop.svg',
   script: '/script.svg',
   triangle: '/triangle.svg',
+  'triangle-white': '/triangle-white.svg',
   'sub-process': '/sub-process.svg',
   'user-action': '/user-action.svg',
 } as const

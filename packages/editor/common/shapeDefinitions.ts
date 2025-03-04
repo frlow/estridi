@@ -106,14 +106,14 @@ export const Shapes = {
       ...props,
       color: T.literalEnum(...defaultColorNames),
     },
-    icon: 'cross',
+    icon: 'triangle-white',
   },
   table: {
     name: 'table',
     props: {
       ...props,
-      rows: T.array,
-      columns: T.array,
+      rows: T.arrayOf(T.any),
+      columns: T.arrayOf(T.any),
     },
     icon: 'cross',
   },
