@@ -10,7 +10,6 @@ export type BaseNode = {
     height: number
     x: number
     y: number
-    color: string
   }
 }
 

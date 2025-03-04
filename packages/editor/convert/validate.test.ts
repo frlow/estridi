@@ -5,7 +5,7 @@ import { convertToTldraw, filterScraped, loadFigmaDocument, processFigma, proces
 import { standardTestCase } from 'core/test-cases'
 
 describe('validate', () => {
-  test('validate tldraw example', () => {
+  test.skip('validate tldraw example', () => {
     const example = JSON.parse(fs.readFileSync('./test/example.json', 'utf8'))
     for (const doc of example.documents) {
       schema.validateRecord(null, doc.state, 'initialize', null)

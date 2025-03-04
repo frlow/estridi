@@ -116,17 +116,20 @@ export const convertToTldraw = async (scraped: Scraped) => {
 
     switch (node.type) {
       case 'script':
-        children.push({
+        const content = {
           'state': {
             ...base(node),
             'id': `shape:${node.id}`,
             'type': node.variant,
             'props': {
               'text': node.raw
-              , w: 80, h: 80
+              , w: 270, h: 80,
+              color: "light-blue"
             }
           }
-        })
+        }
+        if(node.variant==="message") (content.state.props as any).dash="solid"
+        children.push(content)
         if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
         break
       case 'subprocess':
@@ -137,7 +140,8 @@ export const convertToTldraw = async (scraped: Scraped) => {
             'type': 'subprocess',
             'props': {
               'text': node.raw
-              , w: 80, h: 80
+              , w: 400, h: 80,
+              color: "light-blue"
             }
           }
         })
@@ -152,7 +156,8 @@ export const convertToTldraw = async (scraped: Scraped) => {
             'id': `shape:${node.id}`,
             'type': 'start',
             props: {
-              w: 80, h: 80, text: ''
+              w: 80, h: 80, text: '',
+              color: "light-blue"
             }
           }
         })
@@ -170,8 +175,9 @@ export const convertToTldraw = async (scraped: Scraped) => {
             'type': 'serviceCall',
             'props': {
               'text': node.raw,
-              w: 80,
-              h: 80
+              w: 380,
+              h: 80,
+              color: "light-green"
             }
           }
         })
@@ -186,7 +192,8 @@ export const convertToTldraw = async (scraped: Scraped) => {
             'props': {
               'text': node.raw,
               h: node.extra?.height || 80,
-              w: node.extra?.width || (Object.keys(node.actions).length * 100 + 100)
+              w: node.extra?.width || (Object.keys(node.actions).length * 100 + 100),
+              color: "light-blue"
             },
             x: node.extra?.x || 0,
             y: node.extra?.y || 0
@@ -201,7 +208,8 @@ export const convertToTldraw = async (scraped: Scraped) => {
               'props': {
                 'text': value,
                 h: 80,
-                w: 80
+                w: 80,
+                color: "light-blue"
               },
               x: (node.extra?.x || 0) + 50 + (i * 100),
               y: (node.extra?.y || 0) + 50
@@ -247,7 +255,8 @@ export const convertToTldraw = async (scraped: Scraped) => {
             'type': node.variant,
             'props': {
               'text': node.raw
-              , w: 80, h: 80
+              , w: 80, h: 80,
+              color: "light-blue"
             }
           }
         })
@@ -263,6 +272,7 @@ export const convertToTldraw = async (scraped: Scraped) => {
             'type': 'table',
             'props': {
               'rows': node.rows,
+              "columns": [],
               text: node.text,
               h: 80, w: 80
             }
