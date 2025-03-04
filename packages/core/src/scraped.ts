@@ -1,15 +1,16 @@
 export { loadScrapedFromSource } from './index.js'
 
 export type BaseNode = {
-  id: string,
-  text: string,
-  raw: string,
-  distance?: number,
+  id: string
+  text: string
+  raw: string
+  distance?: number
   extra?: {
-    width: number,
-    height: number,
-    x: number,
+    width: number
+    height: number
+    x: number
     y: number
+    color: string
   }
 }
 

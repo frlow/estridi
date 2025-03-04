@@ -1,4 +1,4 @@
-import { T } from 'tldraw'
+import { defaultColorNames, T } from 'tldraw'
 import { icons } from './icons'
 
 export type ShapeProps<T> = {
@@ -10,110 +10,138 @@ type ExtractGenericArgs<T> = T extends T.Validator<infer U> ? U : never
 const props = {
   w: T.positiveNumber,
   h: T.positiveNumber,
-  text: T.string
+  text: T.string,
 }
 
 export type ShapeDefinition = {
-  name: ShapeName,
-  props: Record<string, T.Validator<any>>,
+  name: ShapeName
+  props: Record<string, T.Validator<any>>
   icon: keyof typeof icons
 }
 export const Shapes = {
   message: {
     name: 'message',
     props: {
-      text: T.string,
-      w: T.positiveNumber,
-      h: T.positiveNumber
+      ...props,
+      color: T.literalEnum(...defaultColorNames),
+      dash: T.literalEnum('solid', 'dashed', 'draw'),
     },
-    icon: 'letter'
+    icon: 'letter',
   },
   script: {
     name: 'script',
     props: {
-      ...props
+      ...props,
+      color: T.literalEnum(...defaultColorNames),
     },
-    icon: 'page'
+    icon: 'script',
   },
   signalSend: {
     name: 'signalSend',
     props: {
-      ...props
+      ...props,
+      color: T.literalEnum(...defaultColorNames),
     },
-    icon: 'cross'
-  }, start: {
+    icon: 'triangle',
+  },
+  start: {
     name: 'start',
     props: {
-      ...props
+      ...props,
+      color: T.literalEnum(...defaultColorNames),
     },
-    icon: 'circle'
+    icon: 'circle',
+  },
+  end: {
+    name: 'end',
+    props: {
+      ...props,
+      color: T.literalEnum(...defaultColorNames),
+    },
+    icon: 'circle',
   },
   subprocess: {
     name: 'subprocess',
     props: {
-      ...props
+      ...props,
+      color: T.literalEnum(...defaultColorNames),
     },
-    icon: 'cross'
+    icon: 'sub-process',
   },
   serviceCall: {
     name: 'serviceCall',
     props: {
-      ...props
+      ...props,
+      color: T.literalEnum(...defaultColorNames),
     },
-    icon: 'gear'
+    icon: 'gear',
   },
   userAction: {
     name: 'userAction',
     props: {
-      ...props
+      ...props,
+      color: T.literalEnum(...defaultColorNames),
     },
-    icon: 'cross'
+    icon: 'user-action',
   },
   gateway: {
     name: 'gateway',
     props: {
-      ...props
+      ...props,
+      color: T.literalEnum(...defaultColorNames),
     },
-    icon: 'diamond'
+    icon: 'diamond',
   },
   loop: {
     name: 'loop',
     props: {
-      ...props
+      ...props,
+      color: T.literalEnum(...defaultColorNames),
     },
-    icon: 'loop'
+    icon: 'loop',
   },
   signalListen: {
     name: 'signalListen',
     props: {
-      ...props
+      ...props,
+      color: T.literalEnum(...defaultColorNames),
     },
-    icon: 'cross'
+    icon: 'cross',
   },
   table: {
     name: 'table',
     props: {
       ...props,
-      rows: T.array
+      rows: T.array,
+      columns: T.array,
     },
-    icon: 'cross'
+    icon: 'cross',
   },
   other: {
     name: 'other',
     props: {
-      ...props
+      ...props,
     },
-    icon: 'cross'
+    icon: 'cross',
   },
   connector: {
     name: 'connector',
     props: {
-      ...props
+      ...props,
     },
-    icon: 'diamond-black'
-  }
+    icon: 'diamond-black',
+  },
+  customNote: {
+    name: 'customNote',
+    props: {
+      ...props,
+      color: T.literalEnum(...defaultColorNames),
+    },
+    icon: 'diamond-black',
+  },
 } as const
 
-export const ShapeNames: (keyof typeof Shapes)[] = Object.keys(Shapes) as (keyof typeof Shapes)[]
+export const ShapeNames: (keyof typeof Shapes)[] = Object.keys(
+  Shapes,
+) as (keyof typeof Shapes)[]
 export type ShapeName = keyof typeof Shapes
-

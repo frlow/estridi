@@ -1,15 +1,14 @@
 import { BaseBoxShapeUtil, HTMLContainer, useDefaultColorTheme } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape, figureStyles } from './index.ts'
-import { TextLabelWithAutoHeight } from './util/TextLabelWithAutoHeight.tsx'
+import { TextLabelWithAutoHeight } from './util/TextLabelWithAutoHeight'
+
+const shapeType = Shapes.customNote
+type ShapeType = BaseShape<typeof shapeType>
 
 const DEFAULT_WIDTH = 300
 const MIN_HEIGHT = 150
 const PADDING = 16
-const ICON_HEIGHT = 36
-
-const shapeType = Shapes.subprocess
-type ShapeType = BaseShape<typeof shapeType>
 
 export default class extends BaseBoxShapeUtil<ShapeType> {
   static override type = shapeType.name
@@ -19,8 +18,8 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
     return {
       h: MIN_HEIGHT,
       w: DEFAULT_WIDTH,
-      text: 'Sub process',
-      color: 'light-blue',
+      text: 'Note tag..',
+      color: 'grey',
     }
   }
 
@@ -50,39 +49,9 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
           shape={shape}
           isSelected={isSelected}
           padding={PADDING}
-          iconHeight={ICON_HEIGHT}
+          iconHeight={0}
           minHeight={MIN_HEIGHT}
         />
-        <svg
-          width="36"
-          height="36"
-          viewBox="0 0 36 36"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            x="1"
-            y="1"
-            width="34"
-            height="34"
-            rx="8"
-            fill="white"
-            stroke="black"
-            strokeWidth="2"
-          />
-          <path
-            d="M9 18H27"
-            stroke="black"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-          <path
-            d="M18 27L18 9"
-            stroke="black"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-        </svg>
       </HTMLContainer>
     )
   }

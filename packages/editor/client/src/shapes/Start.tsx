@@ -1,45 +1,65 @@
-import { BaseBoxShapeUtil, HTMLContainer } from 'tldraw'
+import { BaseBoxShapeUtil, HTMLContainer, useDefaultColorTheme } from 'tldraw'
 import { Shapes } from 'editor-common'
-import { BaseShape, baseStyle } from './index.ts'
+import { BaseShape } from './index.ts'
 
+const radius = 80
 
-const shapeType = Shapes.start
-type ShapeType = BaseShape<typeof shapeType>
+function createStartClass(variant: 'start' | 'end') {
+  const shapeType = Shapes[variant]
+  type ShapeType = BaseShape<typeof shapeType>
 
-export default class extends BaseBoxShapeUtil<ShapeType> {
-  static override type = shapeType.name
-  static override props = shapeType.props
+  return class extends BaseBoxShapeUtil<ShapeType> {
+    static override type = shapeType.name
+    static override props = shapeType.props
 
-  override getDefaultProps() {
-    return {
-      h: 80,
-      w: 80,
-      text: ''
+    override getDefaultProps(): ShapeType['props'] {
+      return {
+        h: radius,
+        w: radius,
+        text: '',
+        color: 'light-blue',
+      }
+    }
+
+    override canResize(_shape: ShapeType): boolean {
+      return false
+    }
+
+    override hideSelectionBoundsFg() {
+      return true
+    }
+
+    override component(shape: ShapeType) {
+      const theme = useDefaultColorTheme()
+
+      return (
+        <HTMLContainer>
+          <div
+            style={{
+              width: `${radius}px`,
+              height: `${radius}px`,
+              borderRadius: `${radius}px`,
+              border: { start: '4px solid black', end: '6px solid black' }[
+                variant
+              ],
+              background: theme[shape.props.color].solid,
+            }}
+          ></div>
+        </HTMLContainer>
+      )
+    }
+
+    override indicator(shape: ShapeType) {
+      return (
+        <circle
+          cx={shape.props.w / 2}
+          cy={shape.props.h / 2}
+          r={Math.min(shape.props.w, shape.props.h) / 2}
+        />
+      )
     }
   }
-
-  override canResize(_shape: ShapeType): boolean {
-    return false
-  }
-
-  override component(_: ShapeType) {
-    return (
-      <HTMLContainer style={{ ...baseStyle, background: 'transparent' }}>
-        <div style={{
-          width: '60px',
-          height: '60px',
-          borderRadius: '60px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          border: '4px solid black',
-          background: 'rgba(64,115,177,0.7)'
-        }}></div>
-      </HTMLContainer>
-    )
-  }
-
-  override indicator(shape: ShapeType) {
-    return <rect width={shape.props.w} height={shape.props.h} />
-  }
 }
+
+export const Start = createStartClass('start')
+export const End = createStartClass('end')
