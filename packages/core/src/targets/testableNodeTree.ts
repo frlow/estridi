@@ -2,9 +2,9 @@ import { Scraped, ScrapedNode, ScrapedStart } from '../scraped'
 import { getNodeConnections } from '../common/filter'
 import { findShortestPathToNode } from '../common/shotestPath'
 
+export type Block = { touched: string[], nodes: (ScrapedNode | Block)[], name: string, blockPath: ScrapedNode[] }
 export const getTestableNodeTree = (scraped: Scraped) => {
   const rootNode: ScrapedStart = scraped.find((n: ScrapedStart) => n.type === 'root') as ScrapedStart
-  type Block = { touched: string[], nodes: (ScrapedNode | Block)[], name: string, blockPath: ScrapedNode[] }
   type TreeNode = ScrapedNode & { block: Block }
   const rootBlock: Block = { touched: [], nodes: [], name: rootNode.text, blockPath: [] }
   const toProcess: TreeNode[] = [{ ...rootNode, block: rootBlock }]

@@ -2,13 +2,13 @@ import { generateHandlesTypeCode } from './handlesTypes.js'
 import { generateTest } from './common.js'
 import { _ } from '../../common/texts.js'
 import { getTestName } from './testScript.js'
-import { Scraped } from '../../scraped'
-import { getTestableNodeTree } from '../testableNodeTree'
+import { Scraped, ScrapedNode } from '../../scraped'
+import { Block, getTestableNodeTree } from '../testableNodeTree'
 import { EstridiGeneratorOptions } from '../../index'
 
 const generateTestBlock = (scraped: Scraped, tree: ReturnType<typeof getTestableNodeTree>, usedBlockNamesInParent: Record<string, number>, indentation: number = 0) => {
-  const testableNodes = tree.nodes.filter(n => n.id)
-  const subflows = tree.nodes.filter(n => n.blockPath)
+  const testableNodes = tree.nodes.filter(n => "id" in n && n.id) as ScrapedNode[]
+  const subflows = tree.nodes.filter(n => "blockPath" in n &&  n.blockPath) as Block[]
   const usedNames = {}
   const usedBlockNames = {}
   return `${_(indentation)}test.describe('${getTestName(tree.name, usedBlockNamesInParent)}', ()=>{

@@ -65,7 +65,7 @@ export type Demo<TState={}, TPageExtensions={}> = {
       { id: 'serviceCall2Id', type: 'serviceCall', ...autoText('Some service call') }
     ]
     const filtered = filterScraped(scraped, 'demo')
-    const handlesTypesText = generateHandlesTypeCode(filtered, 'demo')
+    const handlesTypesText = generateHandlesTypeCode(filtered, 'demo', false)
     expect(handlesTypesText).toEqual(`export const Gateways = [
 
 ] as const

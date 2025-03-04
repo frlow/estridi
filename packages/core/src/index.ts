@@ -77,7 +77,7 @@ export const generateEstridiTests = async (args: {
   rootName?: string,
   virtualNodes?: boolean,
   splitHandles?: boolean
-}): Promise<{ code: string, fileName: string }[]> => {
+}): Promise<{ code: string, fileName: string }> => {
   const targets: Record<EstridiTargets, EstridiTargetConfig> = {
     playwright: {
       getFileName: (name) => `${name}.spec.ts`,
@@ -90,5 +90,5 @@ export const generateEstridiTests = async (args: {
   const code = await target.generatorFunc(rootName, scrapedTemp, { splitHandles: args.splitHandles })
   const prettierOptions = fs.existsSync('.prettierrc') ? JSON.parse(fs.readFileSync('.prettierrc', 'utf8')) : {}
   const formattedCode = await format(code, { parser: 'typescript', ...prettierOptions })
-  return [{ code: formattedCode, fileName: target.getFileName(rootName) }]
+  return { code: formattedCode, fileName: target.getFileName(rootName) }
 }

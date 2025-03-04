@@ -25,7 +25,7 @@ const run = async () => {
     const roots = parseRootNames(scraped, options.rootName)
     for (const rootName of roots) {
       console.log('Root: ', rootName)
-      const filesToWrite = await generateEstridiTests({
+      const fileToWrite = await generateEstridiTests({
         target: options.target,
         scraped,
         rootName: rootName?.trim() || undefined,
@@ -34,8 +34,7 @@ const run = async () => {
       })
       const dir = options.directory || 'tests'
       fs.mkdirSync(dir, { recursive: true })
-      for (const fileToWrite of filesToWrite)
-        fs.writeFileSync(path.join(dir, fileToWrite.fileName), fileToWrite.code, 'utf8')
+      fs.writeFileSync(path.join(dir, fileToWrite.fileName), fileToWrite.code, 'utf8')
     }
     console.log('Done!')
   } catch (e) {
