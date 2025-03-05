@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import { Router, WebSocketExpress } from 'websocket-express'
 import fs, { writeFileSync } from 'node:fs'
-import { TLSocketRoom } from '@tldraw/sync-core'
+import { RoomSnapshot, TLSocketRoom } from '@tldraw/sync-core'
 import express from 'express'
 import { port } from 'editor-common/config'
 import path from 'node:path'
 import { generateEstridiTests, parseRootNames, processTldraw } from 'core'
-import { schema } from 'editor-common'
+import { migrateRoomSnapshot, schema } from 'editor-common'
 
 const app = new WebSocketExpress()
 const router = new Router()
@@ -17,7 +17,8 @@ const TEST_DIR = path.join(rootDir, 'tests')
 const FILE = path.join(rootDir, 's3d.json')
 const roomId = 'singleton'
 
-const initialSnapshot = fs.existsSync(FILE) ? JSON.parse(fs.readFileSync(FILE, 'utf8')) : undefined
+const initialSnapshot: RoomSnapshot = fs.existsSync(FILE) ? JSON.parse(fs.readFileSync(FILE, 'utf8')) : undefined
+migrateRoomSnapshot(initialSnapshot)
 
 const room = new TLSocketRoom({
   schema,
@@ -64,11 +65,11 @@ const writeTests = async (data: any) => {
       throw e
     })
     const roots = parseRootNames(scraped, '+')
-    if (roots.length===0) {
+    if (roots.length === 0) {
       console.log('No roots found!')
       return
     }
-    for(const rootName of roots){
+    for (const rootName of roots) {
       const fileToWrite = await generateEstridiTests({
         target: 'playwright',
         scraped,

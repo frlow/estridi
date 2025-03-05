@@ -1,12 +1,13 @@
 import { describe, expect, test } from 'vitest'
 import * as fs from 'node:fs'
-import { schema } from 'editor-common'
+import { migrateRoomSnapshot, schema } from 'editor-common'
 import { convertToTldraw, filterScraped, loadFigmaDocument, processFigma, processTldraw } from 'core'
 import { standardTestCase } from 'core/test-cases'
 
 describe('validate', () => {
-  test.skip('validate tldraw example', () => {
+  test('validate tldraw example', () => {
     const example = JSON.parse(fs.readFileSync('./test/example.json', 'utf8'))
+    migrateRoomSnapshot(example)
     for (const doc of example.documents) {
       schema.validateRecord(null, doc.state, 'initialize', null)
     }

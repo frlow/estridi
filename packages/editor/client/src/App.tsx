@@ -19,7 +19,7 @@ function App() {
   const store = useSync({
     uri: `${WORKER_URL}/`,
     assets: multiplayerAssets,
-    shapeUtils: useMemo(() => [...customShapes, ...defaultShapeUtils], []),
+    shapeUtils: useMemo(() => [...customShapes, ...defaultShapeUtils], [])
   })
   return (
     <Tldraw
