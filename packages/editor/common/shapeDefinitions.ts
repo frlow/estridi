@@ -1,4 +1,4 @@
-import { DefaultColorStyle, DefaultDashStyle, T } from 'tldraw'
+import { defaultColorNames, T } from 'tldraw'
 import { icons } from './icons'
 
 export type ShapeProps<T> = {
@@ -23,8 +23,8 @@ export const Shapes = {
     name: 'message',
     props: {
       ...props,
-      color: DefaultColorStyle,
-      dash: DefaultDashStyle,
+      color: T.literalEnum(...defaultColorNames),
+      dash: T.literalEnum("draw", "solid", "dashed", "dotted"),
     },
     icon: 'letter',
   },
@@ -32,7 +32,7 @@ export const Shapes = {
     name: 'script',
     props: {
       ...props,
-      color: DefaultColorStyle,
+      color: T.literalEnum(...defaultColorNames),
     },
     icon: 'script',
   },
@@ -40,7 +40,7 @@ export const Shapes = {
     name: 'signalSend',
     props: {
       ...props,
-      color: DefaultColorStyle,
+      color: T.literalEnum(...defaultColorNames),
     },
     icon: 'triangle',
   },
@@ -48,7 +48,7 @@ export const Shapes = {
     name: 'start',
     props: {
       ...props,
-      color: DefaultColorStyle,
+      color: T.literalEnum(...defaultColorNames),
     },
     icon: 'circle',
   },
@@ -56,7 +56,7 @@ export const Shapes = {
     name: 'end',
     props: {
       ...props,
-      color: DefaultColorStyle,
+      color: T.literalEnum(...defaultColorNames),
     },
     icon: 'circle',
   },
@@ -64,7 +64,7 @@ export const Shapes = {
     name: 'subprocess',
     props: {
       ...props,
-      color: DefaultColorStyle,
+      color: T.literalEnum(...defaultColorNames),
     },
     icon: 'sub-process',
   },
@@ -72,7 +72,7 @@ export const Shapes = {
     name: 'serviceCall',
     props: {
       ...props,
-      color: DefaultColorStyle,
+      color: T.literalEnum(...defaultColorNames),
     },
     icon: 'gear',
   },
@@ -80,7 +80,7 @@ export const Shapes = {
     name: 'userAction',
     props: {
       ...props,
-      color: DefaultColorStyle,
+      color: T.literalEnum(...defaultColorNames),
     },
     icon: 'user-action',
   },
@@ -88,7 +88,7 @@ export const Shapes = {
     name: 'gateway',
     props: {
       ...props,
-      color: DefaultColorStyle,
+      color: T.literalEnum(...defaultColorNames),
     },
     icon: 'diamond',
   },
@@ -96,7 +96,7 @@ export const Shapes = {
     name: 'loop',
     props: {
       ...props,
-      color: DefaultColorStyle,
+      color: T.literalEnum(...defaultColorNames),
     },
     icon: 'loop',
   },
@@ -104,7 +104,7 @@ export const Shapes = {
     name: 'signalListen',
     props: {
       ...props,
-      color: DefaultColorStyle,
+      color: T.literalEnum(...defaultColorNames),
     },
     icon: 'triangle-white',
   },
@@ -135,7 +135,7 @@ export const Shapes = {
     name: 'customNote',
     props: {
       ...props,
-      color: DefaultColorStyle,
+      color: T.literalEnum(...defaultColorNames),
     },
     icon: 'diamond-black',
   },
