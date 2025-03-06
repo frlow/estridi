@@ -18,7 +18,7 @@ const FILE = path.join(rootDir, 's3d.json')
 const roomId = 'singleton'
 
 const initialSnapshot: RoomSnapshot = fs.existsSync(FILE) ? JSON.parse(fs.readFileSync(FILE, 'utf8')) : undefined
-migrateRoomSnapshot(initialSnapshot)
+if (initialSnapshot) migrateRoomSnapshot(initialSnapshot)
 
 const room = new TLSocketRoom({
   schema,
