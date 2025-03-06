@@ -16,12 +16,15 @@
     "build": "pnpm --parallel build",
     "docs": "pnpm --filter docs dev",
     "editor": "pnpm --filter \"editor-*\" dev",
-    "requirements": "pnpm --filter \"editor-*\" build && node dist/editor.js"
+    "requirements": "concurrently \"pnpm --filter editor-client dev\" \"pnpm --filter editor-server dev ../../..\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "files": [
     "dist"
-  ]
+  ],
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
 }
