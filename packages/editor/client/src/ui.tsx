@@ -2,12 +2,9 @@ import {
   DefaultToolbar,
   DefaultToolbarContent,
   TLComponents,
-  TldrawUiIcon,
   TldrawUiMenuItem,
   TLUiAssetUrlOverrides,
   TLUiOverrides,
-  track,
-  useEditor,
   useIsToolSelected,
   useTools,
 } from 'tldraw'
@@ -33,6 +30,7 @@ export const uiOverrides: TLUiOverrides = {
   },
 }
 
+<<<<<<< Updated upstream
 const TOOLS = [
   { value: 'select', icon: 'tool-select' },
   { value: 'draw', icon: 'tool-draw' },
@@ -100,9 +98,78 @@ const ContextToolbarComponent = track(() => {
     </div>
   )
 })
+=======
+// const TOOLS = [
+//   { value: 'select', icon: 'tool-select' },
+//   { value: 'draw', icon: 'tool-draw' },
+//   { value: 'erase', icon: 'tool-erase' },
+//   { value: 'text', icon: 'tool-text' },
+//   { value: 'signalSend', icon: 'tool-signal-send' },
+//   { value: 'signalListen', icon: 'tool-signal-listen' },
+// ] as const
+//
+// const ContextToolbarComponent = track(() => {
+//   const editor = useEditor()
+//   const showToolbar = editor.isIn('select.idle')
+//   if (!showToolbar) return null
+//   const selectionRotatedPageBounds = editor.getSelectionRotatedPageBounds()
+//   if (!selectionRotatedPageBounds) return null
+//
+//   const pageCoordinates = editor.pageToViewport(
+//     selectionRotatedPageBounds.point,
+//   )
+//
+//   return (
+//     <div
+//       style={{
+//         position: 'absolute',
+//         pointerEvents: 'all',
+//         top: pageCoordinates.y - 42,
+//         left: pageCoordinates.x,
+//         width: selectionRotatedPageBounds.width * editor.getZoomLevel(),
+//         display: 'flex',
+//         justifyContent: 'center',
+//         alignItems: 'center',
+//       }}
+//       onPointerDown={(e) => e.stopPropagation()}
+//     >
+//       <div
+//         style={{
+//           borderRadius: 8,
+//           display: 'flex',
+//           boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.1)',
+//           background: 'var(--color-panel)',
+//           width: 'fit-content',
+//           alignItems: 'center',
+//         }}
+//       >
+//         {TOOLS.map(({ value, icon }) => {
+//           const isActive = editor.currentTool === value
+//           return (
+//             <div
+//               key={value}
+//               style={{
+//                 display: 'flex',
+//                 alignItems: 'center',
+//                 justifyContent: 'center',
+//                 height: 32,
+//                 width: 32,
+//                 background: isActive ? 'var(--color-muted-2)' : 'transparent',
+//               }}
+//               onClick={() => editor.setCurrentTool(value)}
+//             >
+//               <TldrawUiIcon icon={icon} />
+//             </div>
+//           )
+//         })}
+//       </div>
+//     </div>
+//   )
+// })
+>>>>>>> Stashed changes
 
 export const components: TLComponents = {
-  InFrontOfTheCanvas: ContextToolbarComponent,
+  // InFrontOfTheCanvas: ContextToolbarComponent,
   Toolbar: (props) => {
     const tools = useTools()
     const isSelected = ShapeNames.reduce((acc, cur) => {
