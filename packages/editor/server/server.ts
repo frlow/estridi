@@ -40,8 +40,9 @@ const room = new TLSocketRoom({
 
 // Simple usage:
 router.ws('/sync', async (req, res) => {
+  const sessionId = (req.query as any)?.['sessionId'] as string
   const ws = await res.accept()
-  room.handleSocketConnect({ sessionId: 'demo', socket: ws })
+  room.handleSocketConnect({ sessionId, socket: ws })
 })
 
 app.use(router)

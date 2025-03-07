@@ -17,7 +17,7 @@ DefaultColorThemePalette.lightMode['grey'].solid = '#E5E5E5'
 
 function App() {
   const store = useSync({
-    uri: `${WORKER_URL}/`,
+    uri: `${WORKER_URL}/sync`,
     assets: multiplayerAssets,
     shapeUtils: useMemo(() => [...customShapes, ...defaultShapeUtils], [])
   })
