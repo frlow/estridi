@@ -5,7 +5,8 @@ const SEQUENCE_ID = 'com.example.my-app'
 
 const Versions = createMigrationIds(SEQUENCE_ID, {
   // Migrations must start at 1 and be sequential integers.
-  AddColors: 1
+  AddColors: 1,
+  Target: 2
 })
 
 export const myMigrations = createMigrationSequence({
@@ -29,6 +30,17 @@ export const myMigrations = createMigrationSequence({
         record.state.props.color = 'light-blue'
         if (['message'].includes(record?.state?.type))
           record.state.props.dash = 'solid'
+      },
+      down() {}
+    },
+    {
+      id: Versions.Target,
+      scope: 'record',
+      filter: (record: any) => [
+        'start',
+      ].includes(record?.state?.type),
+      up(record: any) {
+        record.state.props.target = 'playwright'
       },
       down() {}
     }
