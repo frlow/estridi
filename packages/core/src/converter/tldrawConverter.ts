@@ -157,7 +157,8 @@ export const convertToTldraw = async (scraped: Scraped) => {
             'type': 'start',
             props: {
               w: 80, h: 80, text: '',
-              color: "light-blue"
+              color: "light-blue",
+              target: "playwright"
             }
           }
         })
