@@ -25,6 +25,7 @@ const room = new TLSocketRoom({
   initialSnapshot,
   onSessionRemoved(room, args) {
     console.log('client disconnected', args.sessionId, roomId)
+    room.closeSession(args.sessionId)
     if (args.numSessionsRemaining === 0) {
       console.log('closing room', roomId)
       room.close()

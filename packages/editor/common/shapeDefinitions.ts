@@ -115,7 +115,7 @@ export const Shapes = {
       rows: T.arrayOf(T.any),
       columns: T.arrayOf(T.any),
     },
-    icon: 'cross',
+    icon: 'table',
   },
   other: {
     name: 'other',
@@ -137,7 +137,7 @@ export const Shapes = {
       ...props,
       color: T.literalEnum(...defaultColorNames),
     },
-    icon: 'diamond-black',
+    icon: 'note',
   },
 } as const
 

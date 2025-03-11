@@ -14,4 +14,6 @@ export const icons = {
   'triangle-white': '/triangle-white.svg',
   'sub-process': '/sub-process.svg',
   'user-action': '/user-action.svg',
+  "table": "/table.svg",
+  "note": "/note.svg"
 } as const
