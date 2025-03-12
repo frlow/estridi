@@ -87,10 +87,19 @@ const handleServiceCalls = async (args: TestArgs<any, any>)=>{
 export type Main<TState={}, TPageExtensions={}> = {
   setup: (args: Omit<TestArgs<TState, TPageExtensions>, 'state'>) => Promise<TState>
   start: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+} & MainRoot<TState, TPageExtensions> & MainNextPage<TState, TPageExtensions>
+
+export type HandlesGenerics<U = typeof handles> = U extends Main<infer A,infer B> ? [A, B] : never
+
+export type MainRoot<TState=HandlesGenerics[0], TPageExtensions=HandlesGenerics[1]> = {
   serviceCall_apiData: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   action_click: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   test_apiData: TestFunction<TState, TPageExtensions>
   test_showAnErrorMessage: TestFunction<TState, TPageExtensions>
   test_doSomethingHere: TestFunction<TState, TPageExtensions>
+}
+
+
+export type MainNextPage<TState=HandlesGenerics[0], TPageExtensions=HandlesGenerics[1]> = {
   test_goToSomePage: TestFunction<TState, TPageExtensions>
 }

@@ -18,7 +18,8 @@
     "@tldraw/sync-core": "^3.7.2",
     "tldraw": "^3.7.2",
     "express": "^4.21.2",
-    "websocket-express": "^3.1.2"
+    "websocket-express": "^3.1.2",
+    "commander": "^13.1.0"
   },
   "devDependencies": {
     "tsx": "^4.19.2",

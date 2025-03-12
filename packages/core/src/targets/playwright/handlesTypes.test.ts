@@ -20,7 +20,7 @@ describe('generate handles types', () => {
       { id: 'gatewayId', type: 'gateway', variant: 'gateway', ...autoText('Is something true?'), options: {} }
     ]
     const filtered = filterScraped(scraped, 'demo')
-    const handlesTypesText = generateHandlesTypeCode(filtered, 'demo', false)
+    const handlesTypesText = generateHandlesTypeCode(filtered, 'demo')
     expect(handlesTypesText).toEqual(`export const Gateways = [
   'Is something true'
 ] as const
@@ -50,6 +50,11 @@ const handleServiceCalls = async (args: TestArgs<any, any>)=>{
 export type Demo<TState={}, TPageExtensions={}> = {
   setup: (args: Omit<TestArgs<TState, TPageExtensions>, 'state'>) => Promise<TState>
   start: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+} & DemoRoot<TState, TPageExtensions>
+
+export type HandlesGenerics<U = typeof handles> = U extends Main<infer A,infer B> ? [A, B] : never
+
+export type DemoRoot<TState=HandlesGenerics[0], TPageExtensions=HandlesGenerics[1]> = {
   serviceCall_someServiceCall: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   action_clickButton: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   test_someServiceCall: TestFunction<TState, TPageExtensions>
@@ -65,7 +70,7 @@ export type Demo<TState={}, TPageExtensions={}> = {
       { id: 'serviceCall2Id', type: 'serviceCall', ...autoText('Some service call') }
     ]
     const filtered = filterScraped(scraped, 'demo')
-    const handlesTypesText = generateHandlesTypeCode(filtered, 'demo', false)
+    const handlesTypesText = generateHandlesTypeCode(filtered, 'demo')
     expect(handlesTypesText).toEqual(`export const Gateways = [
 
 ] as const
@@ -95,6 +100,11 @@ const handleServiceCalls = async (args: TestArgs<any, any>)=>{
 export type Demo<TState={}, TPageExtensions={}> = {
   setup: (args: Omit<TestArgs<TState, TPageExtensions>, 'state'>) => Promise<TState>
   start: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+} & DemoRoot<TState, TPageExtensions>
+
+export type HandlesGenerics<U = typeof handles> = U extends Main<infer A,infer B> ? [A, B] : never
+
+export type DemoRoot<TState=HandlesGenerics[0], TPageExtensions=HandlesGenerics[1]> = {
   serviceCall_someServiceCall: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   test_someServiceCall: TestFunction<TState, TPageExtensions>
 }
@@ -111,11 +121,20 @@ describe('handles type object code', () => {
     expect(typesCode).toEqual(`export type Demo<TState={}, TPageExtensions={}> = {
   setup: (args: Omit<TestArgs<TState, TPageExtensions>, 'state'>) => Promise<TState>
   start: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+} & DemoRoot<TState, TPageExtensions> & DemoNextPage<TState, TPageExtensions>
+
+export type HandlesGenerics<U = typeof handles> = U extends Main<infer A,infer B> ? [A, B] : never
+
+export type DemoRoot<TState=HandlesGenerics[0], TPageExtensions=HandlesGenerics[1]> = {
   serviceCall_apiData: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   action_click: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
   test_apiData: TestFunction<TState, TPageExtensions>
   test_showAnErrorMessage: TestFunction<TState, TPageExtensions>
   test_doSomethingHere: TestFunction<TState, TPageExtensions>
+}
+
+
+export type DemoNextPage<TState=HandlesGenerics[0], TPageExtensions=HandlesGenerics[1]> = {
   test_goToSomePage: TestFunction<TState, TPageExtensions>
 }
 `)
@@ -123,7 +142,7 @@ describe('handles type object code', () => {
 
   test('extended types for splitting handles into multiple files', async () => {
     const filtered = filterScraped(standardTestCase, 'main')
-    const typesCode = getHandlesObjectTypeCode('main', filtered, 'extended')
+    const typesCode = getHandlesObjectTypeCode('main', filtered, 'normal')
     expect(typesCode).toEqual(`export type Main<TState={}, TPageExtensions={}> = {
   setup: (args: Omit<TestArgs<TState, TPageExtensions>, 'state'>) => Promise<TState>
   start: (args: TestArgs<TState, TPageExtensions>) => Promise<void>

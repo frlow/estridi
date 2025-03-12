@@ -9,7 +9,6 @@ program
   .option('-r, --root-name <string>')
   .option('-d, --directory <string>')
   .option('-v, --virtual-nodes')
-  .option('-s, --split-handles')
 
 program.parse()
 
@@ -30,7 +29,6 @@ const run = async () => {
         scraped,
         rootName: rootName?.trim() || undefined,
         virtualNodes: options.virtualNodes,
-        splitHandles: options.splitHandles
       })
       const dir = options.directory || 'tests'
       fs.mkdirSync(dir, { recursive: true })

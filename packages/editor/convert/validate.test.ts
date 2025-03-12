@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import * as fs from 'node:fs'
 import { migrateRoomSnapshot, schema } from 'editor-common'
 import { convertToTldraw, filterScraped, loadFigmaDocument, processFigma, processTldraw } from 'core'
-import { standardTestCase } from 'core/test-cases'
+import { standardTestCase, tableTestCase } from 'core/test-cases'
 
 describe('validate', () => {
   test('validate tldraw example', () => {
@@ -18,6 +18,14 @@ describe('validate', () => {
     for (const doc of document.documents) {
       const state = doc.state
       schema.validateRecord(null, state, 'initialize', null)
+    }
+  })
+
+  test('validate generated table case', async () => {
+    const document = await convertToTldraw(tableTestCase)
+    for (const doc of document.documents) {
+      const state = doc.state
+      const record = schema.validateRecord(null, state, 'initialize', null)
     }
   })
 

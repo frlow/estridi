@@ -7,11 +7,23 @@ import { port } from 'editor-common/config'
 import path from 'node:path'
 import { generateEstridiTests, parseRootNames, processTldraw } from 'core'
 import { migrateRoomSnapshot, schema } from 'editor-common'
+import { program } from 'commander'
+
+program
+  .option('-d, --directory <string>', 'output directory', '.')
+  .option('-s, --skip-tests', 'Skip test generation', false)
+
+program.parse()
+
+const options = program.opts()
+
+const rootDir = options.directory
+console.log(`Target directory: ${path.resolve(rootDir)}
+Output tests: ${!options.skipTests}`)
 
 const app = new WebSocketExpress()
 const router = new Router()
 
-const rootDir = process.argv[2] || '.'
 fs.mkdirSync(rootDir, { recursive: true })
 const TEST_DIR = path.join(rootDir, 'tests')
 const FILE = path.join(rootDir, 's3d.json')
@@ -56,6 +68,7 @@ server.listen(port)
 
 let timeout: NodeJS.Timeout
 const updateTestTimer = (data: any) => {
+  if (options.skipTests) return
   if (timeout) clearTimeout(timeout)
   timeout = setTimeout(() => writeTests(data), 500)
 }

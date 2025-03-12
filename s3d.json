@@ -1,5 +1,5 @@
 {
-  "clock": 36889,
+  "clock": 37195,
   "tombstones": {
     "shape:xFtWYExKIEzvn4p2G6UJp": 396,
     "shape:ZsQ0ZV2fp2cvQFBsmf83-": 488,
@@ -1210,8 +1210,8 @@
     },
     {
       "state": {
-        "x": 4540,
-        "y": -500,
+        "x": 4520,
+        "y": -520,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
@@ -1226,32 +1226,40 @@
           "text": "",
           "rows": [
             {
-              "make": "Tesla",
-              "model": "Model Y"
+              "type": "connector",
+              "properties": "next"
             },
             {
-              "make": "Ford",
-              "model": "F-Series"
+              "type": "table",
+              "properties": "rows"
             },
             {
-              "make": "Toyota",
-              "model": "Corolla"
+              "type": "script",
+              "properties": "variant, next"
+            },
+            {
+              "type": "message",
+              "properties": "variant, next"
+            },
+            {
+              "type": "signal send",
+              "properties": "variant, next"
             }
           ],
           "columns": [
             {
-              "field": "make",
+              "field": "type",
               "flex": 1
             },
             {
-              "field": "model",
+              "field": "properties",
               "flex": 1
             }
           ]
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 25319
+      "lastChangedClock": 37195
     },
     {
       "state": {
