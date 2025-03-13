@@ -5,7 +5,6 @@ import {
   ShapeUtil,
   TEXT_PROPS,
   TextLabel,
-  TL_CANVAS_UI_COLOR_TYPES,
   useDefaultColorTheme,
 } from 'tldraw'
 import { BaseShape, figureStyles } from './index'

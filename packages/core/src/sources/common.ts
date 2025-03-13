@@ -2,7 +2,7 @@ import { ProcessedNodes } from './tldraw'
 import { Scraped, ScrapedSubprocess, ScrapedUserAction } from '../scraped'
 
 export const getTableKey = (text: string) => {
-  const splitResult = text.split(':')
+  const splitResult = text?.split(':')||[]
   if (splitResult.length !== 2) return undefined
   return splitResult[1].trim()
 }

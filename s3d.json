@@ -1,5 +1,5 @@
 {
-  "clock": 37195,
+  "clock": 42882,
   "tombstones": {
     "shape:xFtWYExKIEzvn4p2G6UJp": 396,
     "shape:ZsQ0ZV2fp2cvQFBsmf83-": 488,
@@ -87,7 +87,10 @@
     "binding:D2o6Q8srkdgEjduBwGXnI": 29461,
     "shape:BadDfMxCqkjLeVKBbyRp9": 29461,
     "binding:fZYRXUCzGRUgDMwcuP93Z": 29665,
-    "shape:tMLOBMfviNd6ut_9lLJyr": 34498
+    "shape:tMLOBMfviNd6ut_9lLJyr": 34498,
+    "shape:ZIx9QdfXBPqAKerSDv0T6": 37732,
+    "shape:FE735uy7U1jfDe8M5bw85": 40376,
+    "shape:6djHdgLiyQQBbBF4rVKFR": 40599
   },
   "schema": {
     "schemaVersion": 2,
@@ -118,23 +121,27 @@
       "com.tldraw.shape.note": 8,
       "com.tldraw.shape.text": 2,
       "com.tldraw.shape.video": 2,
-      "com.tldraw.shape.message": 0,
-      "com.tldraw.shape.script": 0,
-      "com.tldraw.shape.signalSend": 0,
       "com.tldraw.shape.start": 0,
-      "com.tldraw.shape.end": 0,
-      "com.tldraw.shape.subprocess": 0,
-      "com.tldraw.shape.serviceCall": 0,
-      "com.tldraw.shape.userAction": 0,
+      "com.tldraw.shape.message": 0,
       "com.tldraw.shape.gateway": 0,
-      "com.tldraw.shape.loop": 0,
-      "com.tldraw.shape.signalListen": 0,
-      "com.tldraw.shape.table": 0,
-      "com.tldraw.shape.other": 0,
       "com.tldraw.shape.connector": 0,
+      "com.tldraw.shape.serviceCall": 0,
+      "com.tldraw.shape.subprocess": 0,
+      "com.tldraw.shape.script": 0,
       "com.tldraw.shape.customNote": 0,
+      "com.tldraw.shape.table": 0,
+      "com.tldraw.shape.userAction": 0,
+      "com.tldraw.shape.signalSend": 0,
+      "com.tldraw.shape.signalListen": 0,
+      "com.tldraw.shape.loop": 0,
+      "com.tldraw.shape.parallel": 0,
+      "com.tldraw.shape.timer": 0,
+      "com.tldraw.shape.error": 0,
+      "com.tldraw.shape.softError": 0,
+      "com.tldraw.shape.end": 0,
+      "com.tldraw.shape.other": 0,
       "com.tldraw.binding.arrow": 0,
-      "com.example.my-app": 2
+      "com.example.my-app": 4
     }
   },
   "documents": [
@@ -251,7 +258,7 @@
           },
           "arrowheadStart": "none",
           "arrowheadEnd": "arrow",
-          "text": "_root:cli",
+          "text": "root:cli",
           "labelPosition": 0.5,
           "font": "mono",
           "scale": 1
@@ -260,7 +267,7 @@
         "index": "a9020",
         "typeName": "shape"
       },
-      "lastChangedClock": 30551
+      "lastChangedClock": 41206
     },
     {
       "state": {
@@ -553,7 +560,6 @@
         "props": {
           "h": 80,
           "w": 80,
-          "text": "",
           "color": "light-blue",
           "target": "vitest"
         },
@@ -596,7 +602,6 @@
         "props": {
           "h": 80,
           "w": 80,
-          "text": "",
           "color": "light-blue"
         },
         "typeName": "shape"
@@ -696,13 +701,12 @@
         "props": {
           "h": 80,
           "w": 80,
-          "text": "",
           "color": "light-blue",
-          "target": "vitest"
+          "target": "playwright"
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 33880
+      "lastChangedClock": 42010
     },
     {
       "state": {
@@ -919,13 +923,12 @@
         "props": {
           "h": 80,
           "w": 80,
-          "text": "",
           "color": "light-blue",
-          "target": "vitest"
+          "target": "playwright"
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 34127
+      "lastChangedClock": 42187
     },
     {
       "state": {
@@ -1161,10 +1164,10 @@
           "scale": 1
         },
         "parentId": "shape:MR3KFatbRgxGkexkhERWp",
-        "index": "a6j20",
+        "index": "a8jWS",
         "typeName": "shape"
       },
-      "lastChangedClock": 23779
+      "lastChangedClock": 41305
     },
     {
       "state": {
@@ -1210,8 +1213,8 @@
     },
     {
       "state": {
-        "x": 4520,
-        "y": -520,
+        "x": 4140,
+        "y": -420,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
@@ -1221,45 +1224,78 @@
         "parentId": "page:wgUkdZQZaqGxB7s-FUAOH",
         "index": "aU6Mr",
         "props": {
-          "h": 300,
-          "w": 400,
-          "text": "",
+          "h": 450,
+          "w": 540,
           "rows": [
-            {
-              "type": "connector",
-              "properties": "next"
-            },
-            {
-              "type": "table",
-              "properties": "rows"
-            },
-            {
-              "type": "script",
-              "properties": "variant, next"
-            },
-            {
-              "type": "message",
-              "properties": "variant, next"
-            },
-            {
-              "type": "signal send",
-              "properties": "variant, next"
-            }
-          ],
-          "columns": [
-            {
-              "field": "type",
-              "flex": 1
-            },
-            {
-              "field": "properties",
-              "flex": 1
-            }
+            [
+              "Node Type",
+              "Properties"
+            ],
+            [
+              "connector",
+              "next"
+            ],
+            [
+              "table",
+              "rows"
+            ],
+            [
+              "script",
+              "variant, next"
+            ],
+            [
+              "message",
+              "variant, next"
+            ],
+            [
+              "signal send",
+              "variant, next"
+            ],
+            [
+              "service call",
+              "next"
+            ],
+            [
+              "start",
+              "next"
+            ],
+            [
+              "root",
+              "next"
+            ],
+            [
+              "end",
+              "next"
+            ],
+            [
+              "gateway",
+              "options, variant"
+            ],
+            [
+              "loop",
+              "options, variant"
+            ],
+            [
+              "parallel",
+              "options, variant"
+            ],
+            [
+              "subprocess",
+              "next, link, tableKey"
+            ],
+            [
+              "user action",
+              "next, actions"
+            ],
+            [
+              "subprocess with action",
+              "next, actions"
+            ]
           ]
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 37195
+      "lastChangedClock": 42775
     },
     {
       "state": {
@@ -1455,11 +1491,11 @@
           "h": 191,
           "w": 300,
           "text": "Load From Figma API",
-          "color": "light-green"
+          "color": "green"
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 29861
+      "lastChangedClock": 42882
     },
     {
       "state": {
@@ -1574,7 +1610,6 @@
         "props": {
           "h": 80,
           "w": 80,
-          "text": "",
           "color": "light-blue"
         },
         "typeName": "shape"
@@ -1625,8 +1660,7 @@
         "index": "a69Ig",
         "props": {
           "h": 43,
-          "w": 43,
-          "text": ""
+          "w": 43
         },
         "typeName": "shape"
       },
@@ -1725,7 +1759,6 @@
         "props": {
           "h": 80,
           "w": 80,
-          "text": "",
           "color": "light-blue"
         },
         "typeName": "shape"
@@ -1809,6 +1842,26 @@
         "typeName": "binding"
       },
       "lastChangedClock": 35955
+    },
+    {
+      "state": {
+        "meta": {},
+        "id": "binding:iEgArmvVcYZGwwItbkHgH",
+        "type": "arrow",
+        "fromId": "shape:TDjQ5XpnI3C6YfNGs7TEq",
+        "toId": "shape:7J0qjCXNRluDzC3QgO0fA",
+        "props": {
+          "isPrecise": true,
+          "isExact": false,
+          "normalizedAnchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "terminal": "end"
+        },
+        "typeName": "binding"
+      },
+      "lastChangedClock": 41305
     }
   ]
 }

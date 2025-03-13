@@ -23,7 +23,7 @@ export const processTldraw = async (
   data: { documents: any[] }
 ): Promise<Scraped> => {
   const findRawText = (node: any): string => {
-    const text = node.state?.props?.text
+    const text = node.state?.props?.text || ''
     if ((text || '').trim() === '') {
       const parent = data.documents.find(n => n.state.id === node.state.parentId)
       const parentType = parent?.state?.type
@@ -104,7 +104,8 @@ export const processTldraw = async (
           id: getId(node.state.id),
           text: sanitizeText(connection?.text?.replace('root:', '') || 'start'),
           next: getNext(node),
-          raw: connection?.text?.replace('root:', '') || 'start'
+          raw: connection?.text?.replace('root:', '') || 'start',
+          extra: { target: node.state.props.target }
         }
         return start
       case 'serviceCall':
@@ -215,7 +216,7 @@ export const processTldraw = async (
   const scraped = nodeValues.map((n) => {
     const meta = getNodeMetadata(n)
     if (n.state.x && n.state.y && n.state.props?.w && n.state.props?.h)
-      meta.extra = { x: n.state.x, y: n.state.y, height: n.state.props?.h, width: n.state.props?.w }
+      meta.extra = { ...meta.extra, x: n.state.x, y: n.state.y, height: n.state.props?.h, width: n.state.props?.w }
     return meta
   })
   return afterProcess({ scraped, nodes: nodesWithConnections, findText, getNext, isSignalListenInside })

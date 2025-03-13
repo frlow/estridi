@@ -308,7 +308,6 @@ export const convertToTldraw = async (scraped: Scraped) => {
             type: 'table',
             props: {
               rows: node.rows,
-              columns: [],
               h: 80,
               w: 80,
             },

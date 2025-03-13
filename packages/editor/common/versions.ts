@@ -8,6 +8,7 @@ const Versions = createMigrationIds(SEQUENCE_ID, {
   AddColors: 1,
   Target: 2,
   SymbolUpgrade: 3,
+  SimplifyTable: 4
 })
 
 export const myMigrations = createMigrationSequence({
@@ -26,14 +27,15 @@ export const myMigrations = createMigrationSequence({
           'signalSend',
           'signalListen',
           'script',
-          'message',
+          'message'
         ].includes(record?.state?.type),
       up(record: any) {
         record.state.props.color = 'light-blue'
         if (['message'].includes(record?.state?.type))
           record.state.props.dash = 'solid'
       },
-      down() {},
+      down() {
+      }
     },
     {
       id: Versions.Target,
@@ -42,24 +44,36 @@ export const myMigrations = createMigrationSequence({
       up(record: any) {
         record.state.props.target = 'playwright'
       },
-      down() {},
+      down() {
+      }
     },
     {
       id: Versions.SymbolUpgrade,
       scope: 'record',
       filter: (record: any) =>
-        ['start', 'signalSend', 'userAction'].includes(record?.state?.type),
+        ['start', 'signalSend', 'userAction', 'root', 'end', 'table', 'connector'].includes(record?.state?.type),
       up(record: any) {
-        if (['start', 'userAction'].includes(record?.state?.type)) {
+        if (['start', 'userAction', 'end', 'root', 'table', 'connector'].includes(record?.state?.type)) {
           delete record.state.props.text
         }
         if (['signalSend'].includes(record?.state?.type)) {
           record.state.props.dash = 'solid'
         }
       },
-      down() {},
+      down() {
+      }
     },
-  ],
+    {
+      id: Versions.SimplifyTable,
+      scope: 'record',
+      filter: (record: any) => record?.state?.type === 'table',
+      up(record: any) {
+        debugger
+      },
+      down() {
+      }
+    }
+  ]
 })
 
 export const migrateRoomSnapshot = (snapshot: any) => {

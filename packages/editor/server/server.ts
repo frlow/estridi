@@ -5,7 +5,7 @@ import { RoomSnapshot, TLSocketRoom } from '@tldraw/sync-core'
 import express from 'express'
 import { port } from 'editor-common/config'
 import path from 'node:path'
-import { generateEstridiTests, parseRootNames, processTldraw } from 'core'
+import { generateEstridiTests, parseRoots, processTldraw } from 'core'
 import { migrateRoomSnapshot, schema } from 'editor-common'
 import { program } from 'commander'
 
@@ -79,16 +79,16 @@ const writeTests = async (data: any) => {
     const scraped = await processTldraw(data).catch(e => {
       throw e
     })
-    const roots = parseRootNames(scraped, '+')
+    const roots = parseRoots(scraped, '+')
     if (roots.length === 0) {
       console.log('No roots found!')
       return
     }
-    for (const rootName of roots) {
+    for (const root of roots) {
       const fileToWrite = await generateEstridiTests({
-        target: 'playwright',
+        target: root.extra?.target || 'playwright',
         scraped,
-        rootName
+        rootName: root.raw
       }).catch(e => {
         throw e
       })

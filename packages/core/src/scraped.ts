@@ -6,10 +6,11 @@ export type BaseNode = {
   raw: string
   distance?: number
   extra?: {
-    width: number
-    height: number
-    x: number
-    y: number
+    target?: string
+    width?: number
+    height?: number
+    x?: number
+    y?: number
   }
 }
 

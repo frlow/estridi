@@ -89,9 +89,9 @@ export const userActionTestCase: Scraped = [{
   },
   'id': 'UserActionId',
   'next': 'NextId',
-  ...autoText('Some [text]'),
   'type': 'userAction',
   variant: 'userAction',
+  ...autoText('')
 }]
 
 export const gatewayTestCase: Scraped = [{
@@ -163,8 +163,8 @@ export const subprocessActionsTestCase: Scraped = [{
   },
   'id': 'SubprocessId',
   'next': 'NextId',
-  ...autoText('External component'),
   'type': 'userAction',
+  ...autoText(''),
   variant: 'subprocess'
 }]
 
@@ -280,17 +280,32 @@ export const standardTestCase: Scraped = [
     type: 'script',
     variant: 'script', ...autoText('Do something [here]'),
     next: 'UserActionId',
-    extra: {x: 1100, y: 0, width: 80, height: 80}
+    extra: { x: 1100, y: 0, width: 80, height: 80 }
   },
   {
     id: 'UserActionId', type: 'userAction', variant: 'userAction', ...autoText('action'), next: 'BaseEndId', actions: {
       SubprocessId: 'Click'
-    }, extra: {x: 1450, y: 0, width: 400, height: 80}
+    }, extra: { x: 1450, y: 0, width: 400, height: 80 }
   },
-  { id: 'BaseEndId', type: 'end', ...autoText('end'), extra: {x: 2050, y: 0, width: 80, height: 80} },
-  { id: 'SubprocessId', ...autoText('Next page'), type: 'subprocess', link: 'NextPageId', extra: {x: 1500, y: 240, width: 80, height: 80} },
-  { id: 'NextPageId', type: 'start', ...autoText('Next page'), next: 'LinkId', extra: {x: 0, y: 500, width: 80, height: 80} },
-  { id: 'LinkId', type: 'script', variant: 'signalSend', ...autoText('Go to some page'), extra: {x: 350, y: 500, width: 80, height: 80} }
+  { id: 'BaseEndId', type: 'end', ...autoText('end'), extra: { x: 2050, y: 0, width: 80, height: 80 } },
+  {
+    id: 'SubprocessId', ...autoText('Next page'),
+    type: 'subprocess',
+    link: 'NextPageId',
+    extra: { x: 1500, y: 240, width: 80, height: 80 }
+  },
+  {
+    id: 'NextPageId',
+    type: 'start', ...autoText('Next page'),
+    next: 'LinkId',
+    extra: { x: 0, y: 500, width: 80, height: 80 }
+  },
+  {
+    id: 'LinkId',
+    type: 'script',
+    variant: 'signalSend', ...autoText('Go to some page'),
+    extra: { x: 350, y: 500, width: 80, height: 80 }
+  }
 ]
 
 export const getFigmaTestData = () => JSON.parse(fs.readFileSync('./src/sources/figma.json', 'utf8'))

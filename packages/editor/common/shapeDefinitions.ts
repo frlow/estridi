@@ -9,7 +9,7 @@ type ExtractGenericArgs<T> = T extends T.Validatable<infer U> ? U : never
 
 const props = {
   w: T.positiveNumber,
-  h: T.positiveNumber,
+  h: T.positiveNumber
 }
 
 export type ShapeDefinition = {
@@ -20,7 +20,7 @@ export type ShapeDefinition = {
 export type TargetStyle = T.TypeOf<typeof targetStyle>
 export const targetStyle = StyleProp.defineEnum('start:target', {
   defaultValue: 'playwright',
-  values: ['playwright', 'vitest'],
+  values: ['playwright', 'vitest']
 })
 
 export const Shapes = {
@@ -29,9 +29,9 @@ export const Shapes = {
     props: {
       ...props,
       color: DefaultColorStyle,
-      target: targetStyle,
+      target: targetStyle
     },
-    icon: 'start-icon',
+    icon: 'start-icon'
   },
   message: {
     name: 'message',
@@ -39,23 +39,23 @@ export const Shapes = {
       ...props,
       text: T.string,
       color: DefaultColorStyle,
-      dash: DefaultDashStyle,
+      dash: DefaultDashStyle
     },
-    icon: 'message-icon',
+    icon: 'message-icon'
   },
   gateway: {
     name: 'gateway',
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
+      color: DefaultColorStyle
     },
-    icon: 'gateway-icon',
+    icon: 'gateway-icon'
   },
   connector: {
     name: 'connector',
     props: { ...props },
-    icon: 'connector-icon',
+    icon: 'connector-icon'
   },
   serviceCall: {
     name: 'serviceCall',
@@ -64,9 +64,9 @@ export const Shapes = {
       w: T.number,
       h: T.number,
       text: T.string,
-      color: DefaultColorStyle,
+      color: DefaultColorStyle
     },
-    icon: 'service-call-icon',
+    icon: 'service-call-icon'
   },
   subprocess: {
     name: 'subprocess',
@@ -75,36 +75,35 @@ export const Shapes = {
       w: T.number,
       h: T.number,
       text: T.string,
-      color: DefaultColorStyle,
+      color: DefaultColorStyle
     },
-    icon: 'sub-process-icon',
+    icon: 'sub-process-icon'
   },
   script: {
     name: 'script',
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
+      color: DefaultColorStyle
     },
-    icon: 'script-icon',
+    icon: 'script-icon'
   },
   customNote: {
     name: 'customNote',
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
+      color: DefaultColorStyle
     },
-    icon: 'custom-note-icon',
+    icon: 'custom-note-icon'
   },
   table: {
     name: 'table',
     props: {
       ...props,
-      columns: T.any,
-      rows: T.any,
+      rows: T.arrayOf(T.arrayOf(T.string))
     },
-    icon: 'table-icon',
+    icon: 'table-icon'
   },
   userAction: {
     name: 'userAction',
@@ -112,9 +111,9 @@ export const Shapes = {
       ...props,
       w: T.number,
       h: T.number,
-      color: DefaultColorStyle,
+      color: DefaultColorStyle
     },
-    icon: 'user-action-icon',
+    icon: 'user-action-icon'
   },
   signalSend: {
     name: 'signalSend',
@@ -122,36 +121,36 @@ export const Shapes = {
       ...props,
       text: T.string,
       dash: DefaultDashStyle,
-      color: DefaultColorStyle,
+      color: DefaultColorStyle
     },
-    icon: 'signal-send-icon',
+    icon: 'signal-send-icon'
   },
   signalListen: {
     name: 'signalListen',
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
+      color: DefaultColorStyle
     },
-    icon: 'signal-listen-icon',
+    icon: 'signal-listen-icon'
   },
   loop: {
     name: 'loop',
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
+      color: DefaultColorStyle
     },
-    icon: 'loop-icon',
+    icon: 'loop-icon'
   },
   parallel: {
     name: 'parallel',
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
+      color: DefaultColorStyle
     },
-    icon: 'parallel-icon',
+    icon: 'parallel-icon'
   },
   timer: {
     name: 'timer',
@@ -159,44 +158,44 @@ export const Shapes = {
       ...props,
       text: T.string,
       color: DefaultColorStyle,
-      dash: DefaultDashStyle,
+      dash: DefaultDashStyle
     },
-    icon: 'timer-icon',
+    icon: 'timer-icon'
   },
   error: {
     name: 'error',
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
+      color: DefaultColorStyle
     },
-    icon: 'error-icon',
+    icon: 'error-icon'
   },
   softError: {
     name: 'softError',
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
+      color: DefaultColorStyle
     },
-    icon: 'soft-error-icon',
+    icon: 'soft-error-icon'
   },
   end: {
     name: 'end',
     props: {
       ...props,
-      color: DefaultColorStyle,
+      color: DefaultColorStyle
     },
-    icon: 'end-icon',
+    icon: 'end-icon'
   },
   other: {
     name: 'other',
     props: { text: T.string, ...props },
-    icon: 'cross',
-  },
+    icon: 'cross'
+  }
 } as const
 
 export const ShapeNames: (keyof typeof Shapes)[] = Object.keys(
-  Shapes,
+  Shapes
 ) as (keyof typeof Shapes)[]
 export type ShapeName = keyof typeof Shapes
