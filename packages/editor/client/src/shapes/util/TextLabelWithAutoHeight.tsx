@@ -1,5 +1,6 @@
 import {
   LABEL_FONT_SIZES,
+  loopToHtmlElement,
   TEXT_PROPS,
   TextLabel,
   TLShapeId,
@@ -26,15 +27,21 @@ export function TextLabelWithAutoHeight({
 }) {
   const editor = useEditor()
   const textRef = useRef<HTMLDivElement>(null)
+  const firstRun = useRef(true)
 
-  // Update height after render when we have the actual DOM element
   useEffect(() => {
+    if (firstRun.current) {
+      firstRun.current = false
+      return
+    }
     if (textRef.current) {
       const textHeight = textRef.current.offsetHeight
-      const newHeight = Math.max(minHeight, textHeight + iconHeight)
+      const newHeight = Math.max(
+        minHeight,
+        textHeight + iconHeight + padding * 2,
+      )
 
       if (Math.abs(newHeight - shape.props.h) > 5) {
-        // Only update if the difference is significant (>5px)
         editor.updateShapes([
           {
             id: shape.id,
@@ -47,7 +54,7 @@ export function TextLabelWithAutoHeight({
         ])
       }
     }
-  }, [shape.props.text, shape.props.w, editor, shape.id, shape.type])
+  }, [shape.props.text, shape.props.h, editor, shape.id, shape.type])
 
   return (
     <div ref={textRef}>

@@ -16,7 +16,7 @@ import {
 import Script from './Script.tsx'
 import UserAction from './UserAction.tsx'
 import Subprocess from './Subprocess.tsx'
-import { Gateway, Loop } from './Gateway.tsx'
+import { Gateway, Loop, Parallel } from './Gateway.tsx'
 import ServiceCall from './ServiceCall.tsx'
 import SignalSend from './SignalSend.tsx'
 import SignalListen from './SignalListen.tsx'
@@ -24,6 +24,8 @@ import Table from './Table.tsx'
 import Connector from './Connector.tsx'
 import Note from './Note.tsx'
 import Other from './Other.tsx'
+import { Error, SoftError } from './Error.tsx'
+import Timer from './Timer.tsx'
 
 const customShapeDefinitions: Record<
   ShapeName,
@@ -44,6 +46,10 @@ const customShapeDefinitions: Record<
   other: Other,
   table: Table,
   connector: Connector,
+  error: Error,
+  softError: SoftError,
+  timer: Timer,
+  parallel: Parallel,
 }
 
 export const customShapes = Object.values(customShapeDefinitions)

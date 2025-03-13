@@ -1,41 +1,43 @@
 import {
+  BaseBoxShapeUtil,
+  DefaultColorStyle,
+  Geometry2d,
   HTMLContainer,
   LABEL_FONT_SIZES,
   Rectangle2d,
-  ShapeUtil,
   TEXT_PROPS,
   TextLabel,
-  TL_CANVAS_UI_COLOR_TYPES,
   useDefaultColorTheme,
+  useTools,
 } from 'tldraw'
-import { BaseShape, figureStyles } from './index'
-import { CSSProperties } from 'react'
 import { Shapes } from 'editor-common'
+import { BaseShape, figureStyles } from './index.ts'
+import { CSSProperties } from 'react'
 
-const shapeType = Shapes.message
+const shapeType = Shapes.timer
 type ShapeType = BaseShape<typeof shapeType>
 
 const radius = 90
 
-export default class extends ShapeUtil<ShapeType> {
+export default class extends BaseBoxShapeUtil<ShapeType> {
   static override type = shapeType.name
   static override props = shapeType.props
 
-  getDefaultProps(): ShapeType['props'] {
+  override getDefaultProps(): ShapeType['props'] {
     return {
       w: radius,
       h: radius,
-      text: 'Edit me..',
+      text: 'Signal listen',
       color: 'light-blue',
-      dash: 'solid',
+      dash: 'dashed',
     }
   }
 
-  override canEdit = () => true
   override canResize = () => false
+  override canEdit = () => true
   override hideSelectionBoundsFg = () => true
 
-  override getGeometry() {
+  override getGeometry(_: ShapeType): Geometry2d {
     return new Rectangle2d({
       width: radius,
       height: radius,
@@ -64,7 +66,7 @@ export default class extends ShapeUtil<ShapeType> {
               background: theme[shape.props.color].solid,
             }}
           >
-            <img src="./message.svg" alt="message" draggable={false} />
+            <img height="60px" draggable={false} src="/timer.svg" />
           </div>
           <TextLabel
             shapeId={shape.id}

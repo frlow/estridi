@@ -1,0 +1,8 @@
+.ag-theme-quartz {
+    --ag-row-height: 25px;
+}
+
+.ag-cell {
+    display: flex;
+    align-items: center;
+}

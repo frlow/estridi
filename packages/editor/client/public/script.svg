@@ -1,6 +1,6 @@
-<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="1" y="1" width="28" height="28" rx="4" stroke="black" stroke-width="2"/>
-    <path d="M19.3721 11.1818L23.8996 14.5003C24.4447 14.8998 24.4447 15.7138 23.8996 16.1134L19.3721 19.4318" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="bevel"/>
-    <path d="M10.6279 11.1818L6.10043 14.5003C5.55532 14.8998 5.55532 15.7138 6.10043 16.1134L10.6279 19.4318" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="bevel"/>
-    <path d="M13.2092 21L16.7267 9" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="bevel"/>
+<svg width="35" height="44" viewBox="0 0 35 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M29.7121 42C31.5909 42 33 40.2609 33 38.5217V15.913C33 14.6087 32.573 13.3439 31.3774 12.2372C30.1818 11.1304 23.6061 4.6087 22.197 3.30435C20.7879 2 19.8485 2 17.9697 2H5.28788C2.93939 2 2 3.30435 2 5.04348V38.9565C2 41.1304 2.93939 42 4.81818 42H29.7121Z" fill="white" stroke="black" stroke-width="3" stroke-linejoin="round"/>
+<path d="M22.6666 19.0588L27.2745 22.3639C27.8307 22.7629 27.8307 23.5901 27.2745 23.9891L22.6666 27.2941" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="bevel"/>
+<path d="M12.3334 19.0588L7.72553 22.3639C7.16931 22.7629 7.16931 23.5901 7.72552 23.9891L12.3334 27.2941" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="bevel"/>
+<path d="M15.7778 28.4706L19.2222 17.2941" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="bevel"/>
 </svg>

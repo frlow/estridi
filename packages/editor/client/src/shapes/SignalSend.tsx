@@ -23,10 +23,11 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
 
   override getDefaultProps(): ShapeType['props'] {
     return {
-      h: radius,
       w: radius,
+      h: radius,
       text: 'Signal send',
-      color: 'light-blue',
+      color: 'light-green',
+      dash: 'solid',
     }
   }
 
@@ -59,24 +60,11 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
               justifyContent: 'center',
               alignItems: 'center',
               border: figureStyles.border,
+              borderStyle: shape.props.dash,
               background: theme[shape.props.color].solid,
             }}
           >
-            <svg
-              width="42"
-              height="36"
-              viewBox="0 0 42 36"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M21.6808 1.87239L40.4022 33.4472C40.6465 33.8593 40.384 34.5 39.7214 34.5H2.27861C1.616 34.5 1.35353 33.8593 1.59782 33.4472L20.3192 1.87239C20.6136 1.37587 21.3864 1.37587 21.6808 1.87239Z"
-                fill="black"
-                stroke="black"
-                strokeWidth="3"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <img src="./signal-send.svg" alt="signal send" draggable={false} />
           </div>
           <TextLabel
             shapeId={shape.id}
@@ -101,12 +89,12 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
     )
   }
 
-  override indicator(shape: ShapeType) {
+  override indicator() {
     return (
       <circle
-        cx={shape.props.w / 2}
-        cy={shape.props.h / 2}
-        r={Math.min(shape.props.w, shape.props.h) / 2}
+        cx={radius / 2}
+        cy={radius / 2}
+        r={Math.min(radius, radius) / 2}
       />
     )
   }

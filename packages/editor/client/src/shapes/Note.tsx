@@ -27,6 +27,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
   override hideSelectionBoundsFg = () => true
   override hideResizeHandles = () => false
   override canResize = () => true
+  override hideRotateHandle = () => true
 
   override component(shape: ShapeType) {
     const isSelected = shape.id === this.editor.getOnlySelectedShapeId()

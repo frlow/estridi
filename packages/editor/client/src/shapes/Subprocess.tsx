@@ -53,36 +53,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
           iconHeight={ICON_HEIGHT}
           minHeight={MIN_HEIGHT}
         />
-        <svg
-          width="36"
-          height="36"
-          viewBox="0 0 36 36"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            x="1"
-            y="1"
-            width="34"
-            height="34"
-            rx="8"
-            fill="white"
-            stroke="black"
-            strokeWidth="2"
-          />
-          <path
-            d="M9 18H27"
-            stroke="black"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-          <path
-            d="M18 27L18 9"
-            stroke="black"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-        </svg>
+        <img src="./sub-process.svg" alt="subprocess" />
       </HTMLContainer>
     )
   }

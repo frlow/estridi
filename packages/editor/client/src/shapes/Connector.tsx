@@ -5,20 +5,17 @@ import { BaseShape } from './index.ts'
 const shapeType = Shapes.connector
 type ShapeType = BaseShape<typeof shapeType>
 
-// When a square of 30x30 is rotated 45 degrees, its bounding box becomes larger
-// The width/height of this bounding box is approximately: side length * sqrt(2)
-const squareSize = 30
-const boundingBoxSize = Math.ceil(squareSize * Math.sqrt(2)) // ≈ 42
+const squareSize = 50
+const boundingBoxSize = Math.ceil(squareSize * Math.sqrt(2))
 
 export default class extends BaseBoxShapeUtil<ShapeType> {
   static override type = shapeType.name
   static override props = shapeType.props
 
-  override getDefaultProps() {
+  override getDefaultProps(): ShapeType['props'] {
     return {
-      h: boundingBoxSize,
-      w: boundingBoxSize,
-      text: '',
+      h: squareSize,
+      w: squareSize,
     }
   }
 
@@ -29,7 +26,6 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
       isFilled: true,
     })
   }
-
   override canResize = () => false
   override hideSelectionBoundsFg = () => true
 
@@ -45,7 +41,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
             transform: 'translate(-50%, -50%) rotate(45deg)',
             height: `${squareSize}px`,
             width: `${squareSize}px`,
-            borderRadius: '5px',
+            borderRadius: '10px',
           }}
         ></div>
       </HTMLContainer>
@@ -62,7 +58,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
         y={center - squareSize / 2}
         width={squareSize}
         height={squareSize}
-        rx={5}
+        rx={10}
         transform={`rotate(45 ${center} ${center})`}
       />
     )

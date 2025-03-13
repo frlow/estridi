@@ -2,14 +2,17 @@ import {
   BaseBoxShapeUtil,
   HTMLContainer,
   Rectangle2d,
+  TLUiEventSource,
   useDefaultColorTheme,
+  useTools,
 } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
+import { useEffect } from 'react'
 
 const radius = 90
 
-function createStartClass(variant: 'start' | 'end') {
+function createStartClass(variant: 'error' | 'softError') {
   const shapeType = Shapes[variant]
   type ShapeType = BaseShape<typeof shapeType>
 
@@ -18,20 +21,17 @@ function createStartClass(variant: 'start' | 'end') {
     static override props = shapeType.props
 
     override getDefaultProps(): ShapeType['props'] {
-      return variant === 'start' ? {
-        h: radius,
+      return {
         w: radius,
+        h: radius,
+        text: '',
         color: 'light-blue',
-        target: 'playwright'
-      } : {
-        h: radius,
-        w: radius,
-        color: 'light-blue'
       }
     }
 
-    override canEdit = () => false
+    override canEdit = () => true
     override canResize = () => false
+    override hideSelectionBoundsBg = () => true
     override hideSelectionBoundsFg = () => true
 
     override getGeometry() {
@@ -45,10 +45,6 @@ function createStartClass(variant: 'start' | 'end') {
     override component(shape: ShapeType) {
       const theme = useDefaultColorTheme()
 
-      const color = ('target' in shape.props
-      && shape.props.target === 'vitest') ?
-        theme['light-green'] :
-        theme['light-blue']
       return (
         <HTMLContainer>
           <div
@@ -56,12 +52,19 @@ function createStartClass(variant: 'start' | 'end') {
               width: `${radius}px`,
               height: `${radius}px`,
               borderRadius: `${radius}px`,
-              border: { start: '2px solid black', end: '6px solid black' }[
-                variant
-                ],
-              background: color.solid
+              border: '4px solid black',
+              background: theme[shape.props.color].solid,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
-          ></div>
+          >
+            <img
+              height="60px"
+              draggable={false}
+              src={variant === 'error' ? '/error.svg' : '/soft-error.svg'}
+            />
+          </div>
         </HTMLContainer>
       )
     }
@@ -78,5 +81,5 @@ function createStartClass(variant: 'start' | 'end') {
   }
 }
 
-export const Start = createStartClass('start')
-export const End = createStartClass('end')
+export const Error = createStartClass('error')
+export const SoftError = createStartClass('softError')

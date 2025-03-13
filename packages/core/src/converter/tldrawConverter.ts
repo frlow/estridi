@@ -1,10 +1,9 @@
 import { Scraped, ScrapedNode } from '../scraped'
 
-
 export const convertToTldraw = async (scraped: Scraped) => {
   const pageId = 'page:page1Id'
   const base = (node?: ScrapedNode) => {
-    return ({
+    return {
       typeName: 'shape',
       x: node?.extra?.x || 0,
       y: node?.extra?.y || 0,
@@ -13,271 +12,307 @@ export const convertToTldraw = async (scraped: Scraped) => {
       parentId: pageId,
       isLocked: false,
       opacity: 1,
-      meta: {}
-    })
+      meta: {},
+    }
   }
-  const children: any[] = [...[{
-    'state': {
-      'gridSize': 10,
-      'name': '',
-      'meta': {},
-      'id': 'document:document',
-      'typeName': 'document'
-    },
-    'lastChangedClock': 0
-  },
-    {
-      'state': {
-        'meta': {},
-        'id': pageId,
-        'name': 'Page 1',
-        'index': 'a1',
-        'typeName': 'page'
+  const children: any[] = [
+    ...[
+      {
+        state: {
+          gridSize: 10,
+          name: '',
+          meta: {},
+          id: 'document:document',
+          typeName: 'document',
+        },
+        lastChangedClock: 0,
       },
-      'lastChangedClock': 0
-    }]]
-  scraped.forEach(node => {
-    const createConnector = ({ text, start, end, dotted }: {
-      text?: string,
-      start: string,
-      end?: string,
+      {
+        state: {
+          meta: {},
+          id: pageId,
+          name: 'Page 1',
+          index: 'a1',
+          typeName: 'page',
+        },
+        lastChangedClock: 0,
+      },
+    ],
+  ]
+  scraped.forEach((node) => {
+    const createConnector = ({
+      text,
+      start,
+      end,
+      dotted,
+    }: {
+      text?: string
+      start: string
+      end?: string
       dotted?: boolean
     }) => {
       const id = Math.random().toString()
-      return [{
-        'state': {
-          ...base(node),
-          'id': `shape:${id}`,
-          'type': 'arrow',
-          'typeName': 'shape',
-          props: {
-            'text': text || '',
-            'dash': 'draw',
-            'size': 's',
-            'fill': 'none',
-            'color': 'black',
-            'labelColor': 'black',
-            'bend': 0,
-            'start': {
-              'x': 0,
-              'y': 0
-            },
-            'end': {
-              'x': 0,
-              'y': 0
-            },
-            'arrowheadStart': 'none',
-            'arrowheadEnd': 'arrow',
-            'labelPosition': 0.5,
-            'font': 'draw',
-            'scale': 1
-          }
-        }
-      },
+      return [
         {
-          'state': {
-            'id': `binding:start_${id}`,
-            'type': 'arrow',
-            'fromId': `shape:${id}`,
-            'toId': `shape:${start}`,
-            'meta': {},
-            'props': {
-              'terminal': 'start',
-              'isPrecise': true,
-              'isExact': false,
-              'normalizedAnchor': {
-                'x': 0.5,
-                'y': 0.5
-              }
+          state: {
+            ...base(node),
+            id: `shape:${id}`,
+            type: 'arrow',
+            typeName: 'shape',
+            props: {
+              text: text || '',
+              dash: 'draw',
+              size: 's',
+              fill: 'none',
+              color: 'black',
+              labelColor: 'black',
+              bend: 0,
+              start: {
+                x: 0,
+                y: 0,
+              },
+              end: {
+                x: 0,
+                y: 0,
+              },
+              arrowheadStart: 'none',
+              arrowheadEnd: 'arrow',
+              labelPosition: 0.5,
+              font: 'draw',
+              scale: 1,
             },
-            'typeName': 'binding'
-          }
+          },
         },
         {
-          'state': {
-            'id': `binding:end_${id}`,
-            'type': 'arrow',
-            'fromId': `shape:${id}`,
-            'toId': `shape:${end}`,
-            'meta': {},
-            'props': {
-              'terminal': 'end',
-              'isPrecise': true,
-              'isExact': false,
-              'normalizedAnchor': {
-                'x': 0.5,
-                'y': 0.5
-              }
+          state: {
+            id: `binding:start_${id}`,
+            type: 'arrow',
+            fromId: `shape:${id}`,
+            toId: `shape:${start}`,
+            meta: {},
+            props: {
+              terminal: 'start',
+              isPrecise: true,
+              isExact: false,
+              normalizedAnchor: {
+                x: 0.5,
+                y: 0.5,
+              },
             },
-            'typeName': 'binding'
-          }
-        }]
+            typeName: 'binding',
+          },
+        },
+        {
+          state: {
+            id: `binding:end_${id}`,
+            type: 'arrow',
+            fromId: `shape:${id}`,
+            toId: `shape:${end}`,
+            meta: {},
+            props: {
+              terminal: 'end',
+              isPrecise: true,
+              isExact: false,
+              normalizedAnchor: {
+                x: 0.5,
+                y: 0.5,
+              },
+            },
+            typeName: 'binding',
+          },
+        },
+      ]
     }
 
     switch (node.type) {
       case 'script':
         const content = {
-          'state': {
+          state: {
             ...base(node),
-            'id': `shape:${node.id}`,
-            'type': node.variant,
-            'props': {
-              'text': node.raw
-              , w: 270, h: 80,
-              color: "light-blue"
-            }
-          }
+            id: `shape:${node.id}`,
+            type: node.variant,
+            props: {
+              text: node.raw,
+              w: 270,
+              h: 80,
+              color: 'light-blue',
+            },
+          },
         }
-        if(node.variant==="message") (content.state.props as any).dash="solid"
+        if (['message', 'signalSend'].includes(node.variant))
+          (content.state.props as any).dash = 'solid'
         children.push(content)
-        if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
+        if (node.next)
+          children.push(...createConnector({ start: node.id, end: node.next }))
         break
       case 'subprocess':
         children.push({
-          'state': {
+          state: {
             ...base(node),
-            'id': `shape:${node.id}`,
-            'type': 'subprocess',
-            'props': {
-              'text': node.raw
-              , w: 400, h: 80,
-              color: "light-blue"
-            }
-          }
+            id: `shape:${node.id}`,
+            type: 'subprocess',
+            props: {
+              text: node.raw,
+              w: 400,
+              h: 80,
+              color: 'light-blue',
+            },
+          },
         })
-        if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
+        if (node.next)
+          children.push(...createConnector({ start: node.id, end: node.next }))
         break
       case 'root':
       case 'end':
       case 'start':
         children.push({
-          'state': {
+          state: {
             ...base(node),
-            'id': `shape:${node.id}`,
-            'type': 'start',
+            id: `shape:${node.id}`,
+            type: 'start',
             props: {
-              w: 80, h: 80, text: '',
-              color: "light-blue",
-              target: "playwright"
-            }
-          }
+              w: 80,
+              h: 80,
+              color: 'light-blue',
+              target: 'playwright',
+            },
+          },
         })
-        if (node.next) children.push(...createConnector({
-          start: node.id,
-          end: node.next,
-          text: node.type === 'root' ? `root:${node.raw}` : node.raw
-        }))
+        if (node.next)
+          children.push(
+            ...createConnector({
+              start: node.id,
+              end: node.next,
+              text: node.type === 'root' ? `root:${node.raw}` : node.raw,
+            }),
+          )
         break
       case 'serviceCall':
         children.push({
-          'state': {
+          state: {
             ...base(node),
-            'id': `shape:${node.id}`,
-            'type': 'serviceCall',
-            'props': {
-              'text': node.raw,
+            id: `shape:${node.id}`,
+            type: 'serviceCall',
+            props: {
+              text: node.raw,
               w: 380,
               h: 80,
-              color: "light-green"
-            }
-          }
+              color: 'light-green',
+            },
+          },
         })
-        if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
+        if (node.next)
+          children.push(...createConnector({ start: node.id, end: node.next }))
         break
       case 'userAction':
         children.push({
-          'state': {
+          state: {
             ...base(node),
-            'id': `shape:${node.id}`,
-            'type': node.variant,
-            'props': {
-              'text': node.raw,
+            id: `shape:${node.id}`,
+            type: node.variant,
+            props: {
               h: node.extra?.height || 80,
-              w: node.extra?.width || (Object.keys(node.actions).length * 100 + 100),
-              color: "light-blue"
+              w:
+                node.extra?.width ||
+                Object.keys(node.actions).length * 100 + 100,
+              color: 'light-blue',
             },
             x: node.extra?.x || 0,
-            y: node.extra?.y || 0
-          }
+            y: node.extra?.y || 0,
+          },
         })
         Object.entries(node.actions).forEach(([key, value], i) => {
           children.push({
-            'state': {
+            state: {
               ...base(node),
               id: `shape:${node.id}_action_${i}`,
-              'type': 'signalListen',
-              'props': {
-                'text': value,
+              type: 'signalListen',
+              props: {
+                text: value,
                 h: 80,
                 w: 80,
-                color: "light-blue"
+                color: 'light-blue',
               },
-              x: (node.extra?.x || 0) + 50 + (i * 100),
-              y: (node.extra?.y || 0) + 50
-            }
+              x: (node.extra?.x || 0) + 50 + i * 100,
+              y: (node.extra?.y || 0) + 50,
+            },
           })
-          children.push(...createConnector({ start: `${node.id}_action_${i}`, end: key }))
+          children.push(
+            ...createConnector({ start: `${node.id}_action_${i}`, end: key }),
+          )
         })
-        if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
+        if (node.next)
+          children.push(...createConnector({ start: node.id, end: node.next }))
         break
       case 'other':
         children.push({
-          'state': {
+          state: {
             ...base(node),
-            'id': `shape:${node.id}`,
-            'type': 'other',
-            'props': {
-              'text': node.raw
-              , w: 80, h: 80
-            }
-          }
+            id: `shape:${node.id}`,
+            type: 'other',
+            props: {
+              text: node.raw,
+              w: 80,
+              h: 80,
+            },
+          },
         })
-        if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
+        if (node.next)
+          children.push(...createConnector({ start: node.id, end: node.next }))
         break
       case 'connector':
         children.push({
-          'state': {
+          state: {
             ...base(node),
-            'id': `shape:${node.id}`,
-            'type': 'connector',
-            'props': {
-              'text': node.raw
-              , w: 80, h: 80
-            }
-          }
+            id: `shape:${node.id}`,
+            type: 'connector',
+            props: {
+              text: node.raw,
+              w: 80,
+              h: 80,
+            },
+          },
         })
-        if (node.next) children.push(...createConnector({ start: node.id, end: node.next }))
+        if (node.next)
+          children.push(...createConnector({ start: node.id, end: node.next }))
         break
       case 'gateway':
         children.push({
-          'state': {
+          state: {
             ...base(node),
-            'id': `shape:${node.id}`,
-            'type': node.variant,
-            'props': {
-              'text': node.raw
-              , w: 80, h: 80,
-              color: "light-blue"
-            }
-          }
+            id: `shape:${node.id}`,
+            type: node.variant,
+            props: {
+              text: node.raw,
+              w: 80,
+              h: 80,
+              color: 'light-blue',
+            },
+          },
         })
-        Object.entries(node.options || {}).forEach(option => {
-          children.push(...createConnector({ start: node.id, end: option[0], text: option[1] }))
+        Object.entries(node.options || {}).forEach((option) => {
+          children.push(
+            ...createConnector({
+              start: node.id,
+              end: option[0],
+              text: option[1],
+            }),
+          )
         })
         break
       case 'table':
         children.push({
-          'state': {
+          state: {
             ...base(node),
-            'id': `shape:${node.id}`,
-            'type': 'table',
-            'props': {
-              'rows': node.rows,
-              "columns": [],
-              text: node.text,
-              h: 80, w: 80
-            }
-          }
+            id: `shape:${node.id}`,
+            type: 'table',
+            props: {
+              rows: node.rows,
+              columns: [],
+              h: 80,
+              w: 80,
+            },
+          },
         })
         break
       default:
@@ -287,11 +322,11 @@ export const convertToTldraw = async (scraped: Scraped) => {
   })
 
   return {
-    'clock': 1,
-    'tombstones': {},
-    'schema': {
-      'schemaVersion': 2,
-      'sequences': {
+    clock: 1,
+    tombstones: {},
+    schema: {
+      schemaVersion: 2,
+      sequences: {
         'com.tldraw.store': 4,
         'com.tldraw.asset': 1,
         'com.tldraw.camera': 1,
@@ -328,9 +363,9 @@ export const convertToTldraw = async (scraped: Scraped) => {
         'com.tldraw.shape.gateway': 0,
         'com.tldraw.shape.signalListen': 0,
         'com.tldraw.shape.other': 0,
-        'com.tldraw.binding.arrow': 0
-      }
+        'com.tldraw.binding.arrow': 0,
+      },
     },
-    'documents': children
+    documents: children,
   }
 }
