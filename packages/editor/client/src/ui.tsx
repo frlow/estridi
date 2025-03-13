@@ -5,15 +5,12 @@ import {
   DefaultToolbar,
   DefaultToolbarContent,
   TLComponents,
-  TldrawUiMenuItem,
   TLUiAssetUrlOverrides,
   TLUiOverrides,
   useEditor,
-  useIsToolSelected,
   useRelevantStyles,
-  useTools
 } from 'tldraw'
-import { icons, ShapeNames, Shapes, targetStyle } from 'editor-common'
+import { icons, Shapes, targetStyle } from 'editor-common'
 import { useState } from 'react'
 
 export const customAssetUrls: TLUiAssetUrlOverrides = {
@@ -45,10 +42,6 @@ export const uiOverrides: TLUiOverrides = {
 
     return tools
   }
-}
-
-export const TargetSelector = () => {
-
 }
 
 const CustomStylePanel = () => {
@@ -195,24 +188,9 @@ export const components: TLComponents = {
   StylePanel: CustomStylePanel,
   InFrontOfTheCanvas: CustomRightMenu,
   Toolbar: (props) => {
-    const tools = useTools()
-    const isSelected = ShapeNames.reduce((acc, cur) => {
-      acc[cur] = useIsToolSelected(tools[cur])
-      return acc
-    }, {} as any)
-    const toolItems = ShapeNames.filter((n) => n !== 'other').map(
-      (shapeName, i) => (
-        <TldrawUiMenuItem
-          key={i}
-          {...tools[shapeName]}
-          isSelected={isSelected[shapeName]}
-        />
-      )
-    )
     return (
       <DefaultToolbar {...props}>
-        {toolItems}
-        <DefaultToolbarContent />
+        <DefaultToolbarContent/>
       </DefaultToolbar>
     )
   }

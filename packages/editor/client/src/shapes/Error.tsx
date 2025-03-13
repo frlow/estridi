@@ -2,13 +2,10 @@ import {
   BaseBoxShapeUtil,
   HTMLContainer,
   Rectangle2d,
-  TLUiEventSource,
   useDefaultColorTheme,
-  useTools,
 } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
-import { useEffect } from 'react'
 
 const radius = 90
 

@@ -47,7 +47,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
         }}
       >
         <div>
-          <img src="./script.svg" alt="script" draggable={false} />
+          <img src="/script.svg" alt="script" draggable={false} />
         </div>
         <TextLabelWithAutoHeight
           shape={shape}
