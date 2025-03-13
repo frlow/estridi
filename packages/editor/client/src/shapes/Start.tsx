@@ -18,16 +18,18 @@ function createStartClass(variant: 'start' | 'end') {
     static override props = shapeType.props
 
     override getDefaultProps(): ShapeType['props'] {
-      return variant === 'start' ? {
-        h: radius,
-        w: radius,
-        color: 'light-blue',
-        target: 'playwright'
-      } : {
-        h: radius,
-        w: radius,
-        color: 'light-blue'
-      }
+      return variant === 'start'
+        ? {
+            h: radius,
+            w: radius,
+            color: 'light-blue',
+            target: 'playwright',
+          }
+        : {
+            h: radius,
+            w: radius,
+            color: 'green',
+          }
     }
 
     override canEdit = () => false
@@ -45,10 +47,10 @@ function createStartClass(variant: 'start' | 'end') {
     override component(shape: ShapeType) {
       const theme = useDefaultColorTheme()
 
-      const color = ('target' in shape.props
-      && shape.props.target === 'vitest') ?
-        theme['light-green'] :
-        theme['light-blue']
+      const color =
+        'target' in shape.props && shape.props.target === 'vitest'
+          ? theme['green']
+          : theme['light-blue']
       return (
         <HTMLContainer>
           <div
@@ -56,10 +58,10 @@ function createStartClass(variant: 'start' | 'end') {
               width: `${radius}px`,
               height: `${radius}px`,
               borderRadius: `${radius}px`,
-              border: { start: '2px solid black', end: '6px solid black' }[
+              border: { start: '4px solid black', end: '6px solid black' }[
                 variant
-                ],
-              background: color.solid
+              ],
+              background: color.solid,
             }}
           ></div>
         </HTMLContainer>
