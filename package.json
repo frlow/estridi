@@ -16,8 +16,8 @@
     "build": "pnpm --parallel build",
     "docs": "pnpm --filter docs dev",
     "editor": "pnpm --filter \"editor-*\" dev",
-    "requirements": "concurrently \"pnpm --filter editor-client dev\" \"pnpm --filter editor-server dev -d '../../..' -s\"",
-    "test-cases": "concurrently \"pnpm --filter editor-client dev\" \"pnpm --filter editor-server dev -d '../../core/src/test' -s\""
+    "requirements": "concurrently \"pnpm --filter editor-client dev\" \"pnpm --filter editor-server dev -d \"../../..\" -s\"",
+    "test-cases": "concurrently \"pnpm --filter editor-client dev\" \"pnpm --filter editor-server dev -d \"../../core/src/test\" -s\""
   },
   "keywords": [],
   "author": "",
