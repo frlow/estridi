@@ -1,6 +1,5 @@
 import {
   LABEL_FONT_SIZES,
-  loopToHtmlElement,
   TEXT_PROPS,
   TextLabel,
   TLShapeId,

@@ -67,7 +67,7 @@ export const myMigrations = createMigrationSequence({
       id: Versions.SimplifyTable,
       scope: 'record',
       filter: (record: any) => record?.state?.type === 'table',
-      up(record: any) {
+      up(_: any) {
         debugger
       },
       down() {

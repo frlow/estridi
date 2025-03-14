@@ -76,28 +76,3 @@ test('position imported from figma', async () => {
   expect(subprocess.extra.width).toEqual(231)
   expect(subprocess.extra.height).toEqual(100)
 })
-
-
-//     test('scriptWithGroupedText', async () => {
-//       const scriptWithGroupedText = (await getDocument('scriptWithGroupedText')).find(node => node.type === 'script')
-//       expect(scriptWithGroupedText).toStrictEqual({
-//         'id': 'ScriptWithGroupedTextId',
-//         'next': 'NextId',
-//         'text': 'Grouped Text',
-//         'raw': 'Grouped Text',
-//         'type': 'script'
-//       })
-//     })
-
-
-//     test('dotted', async () => {
-//       const dotted = (await getDocument('dotted')).find(node => node.type === 'serviceCall')
-//       expect(dotted).toStrictEqual({
-//         'id': 'ServiceCallId',
-//         'next': undefined,
-//         'text': 'Service Call',
-//         raw: 'Service Call',
-//         'type': 'serviceCall'
-//       })
-//     })
-

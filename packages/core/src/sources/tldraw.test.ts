@@ -1,7 +1,8 @@
 import { describe, expect, test } from 'vitest'
 import {
   autoText,
-  complexStringTestCase, connectorTestCase,
+  complexStringTestCase,
+  connectorTestCase,
   endTestCase,
   gatewayTestCase,
   loopTestCase,
@@ -24,6 +25,7 @@ import { generatePlaywright } from '../targets/playwright'
 import { filterScraped } from '../common/filter'
 import { Scraped } from '../scraped'
 import { convertToTldraw } from '../converter/tldrawConverter'
+import { getTestCase } from '../test/editorTestCases'
 
 const parserName: keyof typeof parsers = 'tldraw'
 const parser = parsers[parserName]

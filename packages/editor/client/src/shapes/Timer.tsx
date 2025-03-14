@@ -1,6 +1,5 @@
 import {
   BaseBoxShapeUtil,
-  DefaultColorStyle,
   Geometry2d,
   HTMLContainer,
   LABEL_FONT_SIZES,
@@ -8,7 +7,6 @@ import {
   TEXT_PROPS,
   TextLabel,
   useDefaultColorTheme,
-  useTools,
 } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape, figureStyles } from './index.ts'

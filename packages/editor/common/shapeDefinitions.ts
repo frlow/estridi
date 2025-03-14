@@ -191,7 +191,7 @@ export const Shapes = {
   other: {
     name: 'other',
     props: { text: T.string, ...props },
-    icon: 'cross'
+    icon: 'error-icon'
   }
 } as const
 
