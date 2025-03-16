@@ -16,3 +16,4 @@ example/
 test-results/
 demo/
 /demo/
+.pnpm-store/
