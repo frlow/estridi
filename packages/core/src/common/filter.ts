@@ -1,12 +1,17 @@
 import { Scraped, ScrapedNode, ScrapedStart, ScrapedSubprocess } from '../scraped'
 
 export const getNodeConnections = (node: any, ignoreLinks?: boolean): string[] => {
-  return [
+  const possibleConnections = [
     node.next,
     ...Object.keys(node.options || {}),
     ...Object.keys(node.actions || {}),
     (ignoreLinks ? undefined : node.link)
-  ].filter(((n, index, array) => n && array.indexOf(n) === index))
+  ]
+  const definedConnections = possibleConnections.filter(c=>c)
+  const uniqueConnections = definedConnections.filter(((n, index, arr) => {
+    return n && arr.indexOf(n) === index
+  }))
+  return uniqueConnections
 }
 
 export const processNode = ({ distance = 0, node, scraped, acc = {}, ignoreLinks }: {
