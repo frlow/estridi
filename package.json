@@ -27,5 +27,8 @@
   ],
   "devDependencies": {
     "concurrently": "^9.1.2"
+  },
+  "volta": {
+    "node": "23.10.0"
   }
 }
