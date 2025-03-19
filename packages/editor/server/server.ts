@@ -11,21 +11,18 @@ import { program } from 'commander'
 
 program
   .option('-d, --directory <string>', 'output directory', '.')
-  .option('-s, --skip-tests', 'Skip test generation', false)
 
 program.parse()
 
 const options = program.opts()
 
 const rootDir = options.directory
-console.log(`Target directory: ${path.resolve(rootDir)}
-Output tests: ${!options.skipTests}`)
+console.log(`Target directory: ${path.resolve(rootDir)}`)
 
 const app = new WebSocketExpress()
 const router = new Router()
 
 fs.mkdirSync(rootDir, { recursive: true })
-const TEST_DIR = path.join(rootDir, 'tests')
 const FILE = path.join(rootDir, 's3d.json')
 const roomId = 'singleton'
 
@@ -71,7 +68,6 @@ server.listen(port)
 
 let timeout: NodeJS.Timeout
 const updateTestTimer = (data: any) => {
-  if (options.skipTests) return
   if (timeout) clearTimeout(timeout)
   timeout = setTimeout(() => writeTests(data), 500)
 }
@@ -88,15 +84,17 @@ const writeTests = async (data: any) => {
       return
     }
     for (const root of roots) {
+      if(!root.extra?.target) continue
       const fileToWrite = await generateEstridiTests({
-        target: root.extra?.target || 'playwright',
+        target: root.extra?.target,
         scraped,
         rootName: root.raw
       }).catch(e => {
         throw e
       })
-      fs.mkdirSync(TEST_DIR, { recursive: true })
-      fs.writeFileSync(path.join(TEST_DIR, fileToWrite.fileName), fileToWrite.code, 'utf8')
+      const testDir = path.join(rootDir, root.extra?.testDir || 'tests')
+      fs.mkdirSync(testDir, { recursive: true })
+      fs.writeFileSync(path.join(testDir, fileToWrite.fileName), fileToWrite.code, 'utf8')
 
     }
 

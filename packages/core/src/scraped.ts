@@ -7,6 +7,7 @@ export type BaseNode = {
   distance?: number
   extra?: {
     target?: string
+    testDir?: string
     width?: number
     height?: number
     x?: number

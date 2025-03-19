@@ -21,7 +21,11 @@ export type EstridiSourceConfig = {
 }
 
 export type EstridiTargetConfig = {
-  generatorFunc: (name: string, scraped: Scraped, options: EstridiGeneratorOptions) => Promise<string>
+  generatorFunc: (
+    name: string,
+    scraped: Scraped,
+    options: EstridiGeneratorOptions,
+  ) => Promise<string>
   getFileName: (name: string) => string
 }
 
@@ -41,19 +45,21 @@ export const getSource = (config: EstridiConfig) => {
   const sources: Record<EstridiSources, EstridiSourceConfig> = {
     figma: {
       processFunc: processFigma,
-      getDataFunc: loadFigmaDocument
-    }
+      getDataFunc: loadFigmaDocument,
+    },
   }
   const source = sources[sourceName]
   if (!source) throw 'Invalid source'
   return source
 }
 
-export const loadScrapedFromSource = async (scraped: Scraped, rootName?: string) => {
+export const loadScrapedFromSource = async (
+  scraped: Scraped,
+  rootName?: string,
+) => {
   const foundRootName = getRootName(scraped, rootName)
   if (!foundRootName) {
-    const roots = scraped
-      .filter((node: ScrapedStart) => node.type === 'root')
+    const roots = scraped.filter((node: ScrapedStart) => node.type === 'root')
     throw `Root could not be found, use one of the following root nodes:
 ${roots.map((r: ScrapedStart) => r.raw).join('\n')}`
   }
@@ -67,33 +73,48 @@ export const loadScraped = async (config: EstridiConfig) => {
   return await source.processFunc(data)
 }
 
-export const parseRoots = (scraped: Scraped, rootName: string | undefined): ScrapedStart[] => {
-  const allRoots = scraped.filter((n: ScrapedStart) => n.type === 'root') as ScrapedStart[]
+export const parseRoots = (
+  scraped: Scraped,
+  rootName: string | undefined,
+): ScrapedStart[] => {
+  const allRoots = scraped.filter(
+    (n: ScrapedStart) => n.type === 'root',
+  ) as ScrapedStart[]
   if (rootName === '+') return allRoots
-  return allRoots.filter(r => rootName.split(',').includes(r.text))
+  return allRoots.filter((r) => rootName.split(',').includes(r.text))
 }
 
 export const generateEstridiTests = async (args: {
-  scraped: Scraped,
-  target?: string,
-  rootName?: string,
+  scraped: Scraped
+  target?: string
+  rootName?: string
   virtualNodes?: boolean
-}): Promise<{ code: string, fileName: string }> => {
+}): Promise<{ code: string; fileName: string }> => {
   const targets: Record<EstridiTargets, EstridiTargetConfig> = {
     playwright: {
       getFileName: (name) => `${name}.spec.ts`,
-      generatorFunc: generatePlaywright
+      generatorFunc: generatePlaywright,
     },
     vitest: {
-      getFileName: name => `${name}.test.ts`,
-      generatorFunc: generateVitest
-    }
+      getFileName: (name) => `${name}.test.ts`,
+      generatorFunc: generateVitest,
+    },
   }
   const target = targets[args.target || 'playwright']
-  const { scraped, rootName } = await loadScrapedFromSource(args.scraped, args.rootName)
-  const scrapedTemp = args.virtualNodes ? await injectVirtualNodes(scraped) : scraped
+  const { scraped, rootName } = await loadScrapedFromSource(
+    args.scraped,
+    args.rootName,
+  )
+  const scrapedTemp = args.virtualNodes
+    ? await injectVirtualNodes(scraped)
+    : scraped
   const code = await target.generatorFunc(rootName, scrapedTemp, {})
-  const prettierOptions = fs.existsSync('.prettierrc') ? JSON.parse(fs.readFileSync('.prettierrc', 'utf8')) : {}
-  const formattedCode = await format(code, { parser: 'typescript', ...prettierOptions })
+  const prettierOptions = fs.existsSync('.prettierrc')
+    ? JSON.parse(fs.readFileSync('.prettierrc', 'utf8'))
+    : {}
+  const formattedCode = await format(code, {
+    parser: 'typescript',
+    ...prettierOptions,
+  }).catch(() => code)
   return { code: formattedCode, fileName: target.getFileName(rootName) }
 }

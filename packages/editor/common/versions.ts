@@ -42,7 +42,8 @@ export const myMigrations = createMigrationSequence({
       scope: 'record',
       filter: (record: any) => ['start'].includes(record?.state?.type),
       up(record: any) {
-        record.state.props.target = 'playwright'
+        record.state.props.target = 'none'
+        record.state.props.testDir = ''
       },
       down() { },
     },
