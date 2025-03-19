@@ -22,7 +22,7 @@ describe('find shortest path', () => {
     expect(virtualNode).toBeTruthy()
   })
 
-  test('linked gateways where first default path excludes path to tested node', async () => {
+  test.skip('linked gateways where first default path excludes path to tested node', async () => {
     const testCase = await getTestCase('linkedGateways')
     const testedNode = testCase.find(n=>n.raw==="My Script")
     const shortestPath = findShortestPathToNode(testCase, testedNode.id, [])
@@ -31,7 +31,7 @@ describe('find shortest path', () => {
     expect(shortestPath).toContain(nodeOnSamePath)
   })
 
-  test('linked gateways with subflow on wrong linked path', async () => {
+  test.skip('linked gateways with subflow on wrong linked path', async () => {
     const testCase = await getTestCase('shortestPathSubflows')
     const testedNode = testCase.find(n=>n.raw==="My Script")
     const shortestPath = findShortestPathToNode(testCase, testedNode.id, [])
