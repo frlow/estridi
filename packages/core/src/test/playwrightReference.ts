@@ -1,5 +1,6 @@
 // @ts-nocheck
-import { BrowserContext, Page, test, expect } from '@playwright/test'
+import type { BrowserContext, Page} from '@playwright/test'
+import { test, expect } from '@playwright/test'
 import { handles } from './main.js'
 
 test.describe('main', ()=>{

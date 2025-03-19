@@ -1,7 +1,7 @@
 import {
+  DefaultColorStyle,
   DefaultStylePanel,
   DefaultStylePanelContent,
-  DefaultColorStyle,
   DefaultToolbar,
   DefaultToolbarContent,
   TLComponents,
@@ -10,11 +10,11 @@ import {
   useEditor,
   useRelevantStyles,
 } from 'tldraw'
-import { icons, Shapes, targetStyle } from 'editor-common'
+import {icons, Shapes, targetStyle, testDirStyle} from 'editor-common'
 import { useState } from 'react'
 
 export const customAssetUrls: TLUiAssetUrlOverrides = {
-  icons
+  icons,
 }
 
 export const uiOverrides: TLUiOverrides = {
@@ -36,12 +36,12 @@ export const uiOverrides: TLUiOverrides = {
         id: shape.name,
         icon: shape.icon,
         label: shape.name,
-        onSelect: () => editor.setCurrentTool(shape.name)
+        onSelect: () => editor.setCurrentTool(shape.name),
       }
     })
 
     return tools
-  }
+  },
 }
 
 const CustomStylePanel = () => {
@@ -49,17 +49,35 @@ const CustomStylePanel = () => {
   const styles = useRelevantStyles()
   if (!styles) return null
   const target = styles.get(targetStyle)
-  return <DefaultStylePanel>
-    <DefaultStylePanelContent styles={styles} />
-    {target !== undefined &&
-      <select value={target.type === 'mixed' ? '' : target.value} onChange={(e) => {
-        editor.markHistoryStoppingPoint()
-        const value = targetStyle.validate(e.currentTarget.value)
-        editor.setStyleForSelectedShapes(targetStyle, value)
-      }}>
-        {targetStyle.values.map(v => <option key={v} value={v}>{v}</option>)}
-      </select>}
-  </DefaultStylePanel>
+    const testDir = styles.get(testDirStyle)
+  return (
+    <DefaultStylePanel>
+      <DefaultStylePanelContent styles={styles} />
+      {target !== undefined && (
+        <>
+          <select
+            value={target.type === 'mixed' ? '' : target.value}
+            onChange={(e) => {
+              editor.markHistoryStoppingPoint()
+              const value = targetStyle.validate(e.currentTarget.value)
+              editor.setStyleForSelectedShapes(targetStyle, value)
+            }}
+          >
+            {targetStyle.values.map((v) => (
+              <option key={v} value={v}>
+                {v}
+              </option>
+            ))}
+          </select>
+            <input placeholder="./tests" value={testDir!.type === 'mixed' ? '' : testDir!.value} onChange={e=>{
+                editor.markHistoryStoppingPoint()
+                const value = testDirStyle.validate(e.currentTarget.value)
+                editor.setStyleForSelectedShapes(testDirStyle, value)
+            }}/>
+        </>
+      )}
+    </DefaultStylePanel>
+  )
 }
 
 const shapeGroups: Array<Array<string>> = [
@@ -190,8 +208,8 @@ export const components: TLComponents = {
   Toolbar: (props) => {
     return (
       <DefaultToolbar {...props}>
-        <DefaultToolbarContent/>
+        <DefaultToolbarContent />
       </DefaultToolbar>
     )
-  }
+  },
 }

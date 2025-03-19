@@ -1,5 +1,5 @@
 {
-  "clock": 100974,
+  "clock": 106548,
   "tombstones": {
     "shape:xFtWYExKIEzvn4p2G6UJp": 396,
     "shape:ZsQ0ZV2fp2cvQFBsmf83-": 488,
@@ -262,7 +262,7 @@
     },
     {
       "state": {
-        "x": 360,
+        "x": 371.75,
         "y": 280,
         "rotation": 0,
         "isLocked": false,
@@ -278,12 +278,12 @@
           "labelColor": "black",
           "bend": 0,
           "start": {
-            "x": -50,
+            "x": -159.1136363636365,
             "y": -5
           },
           "end": {
-            "x": 170,
-            "y": -10
+            "x": 332.25,
+            "y": -5
           },
           "arrowheadStart": "none",
           "arrowheadEnd": "arrow",
@@ -296,7 +296,7 @@
         "index": "a9020",
         "typeName": "shape"
       },
-      "lastChangedClock": 46041
+      "lastChangedClock": 105630
     },
     {
       "state": {
@@ -306,17 +306,17 @@
         "fromId": "shape:QzEa-O0RlnDZqtvedHHvi",
         "toId": "shape:lI_t0iMAE9ggmbVs-bUsV",
         "props": {
-          "isPrecise": false,
+          "isPrecise": true,
           "isExact": false,
           "normalizedAnchor": {
-            "x": 0.50375,
-            "y": 0.45166666666666666
+            "x": 0.5391666666666667,
+            "y": 0.5
           },
           "terminal": "end"
         },
         "typeName": "binding"
       },
-      "lastChangedClock": 6453
+      "lastChangedClock": 105630
     },
     {
       "state": {
@@ -534,7 +534,7 @@
     },
     {
       "state": {
-        "x": 230,
+        "x": 167.6363636363635,
         "y": 230,
         "rotation": 0,
         "isLocked": false,
@@ -548,11 +548,12 @@
           "h": 80,
           "w": 80,
           "color": "light-blue",
-          "target": "playwright"
+          "target": "vitest",
+          "testDir": "./packages/core2/tests"
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 91731
+      "lastChangedClock": 106548
     },
     {
       "state": {
@@ -562,17 +563,17 @@
         "fromId": "shape:QzEa-O0RlnDZqtvedHHvi",
         "toId": "shape:i0ecjam-xvF6fxsrjR8Ax",
         "props": {
-          "isPrecise": false,
+          "isPrecise": true,
           "isExact": false,
           "normalizedAnchor": {
-            "x": 0.5296875,
-            "y": 0.3828125
+            "x": 0.5,
+            "y": 0.5
           },
           "terminal": "start"
         },
         "typeName": "binding"
       },
-      "lastChangedClock": 7907
+      "lastChangedClock": 105630
     },
     {
       "state": {
@@ -590,11 +591,12 @@
           "h": 80,
           "w": 80,
           "color": "light-blue",
-          "target": "playwright"
+          "target": "none",
+          "testDir": ""
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 42010
+      "lastChangedClock": 101191
     },
     {
       "state": {
@@ -812,7 +814,8 @@
           "h": 80,
           "w": 80,
           "color": "light-blue",
-          "target": "playwright"
+          "target": "none",
+          "testDir": ""
         },
         "typeName": "shape"
       },
@@ -1312,8 +1315,8 @@
           },
           "arrowheadStart": "none",
           "arrowheadEnd": "arrow",
-          "text": "",
-          "labelPosition": 0.5,
+          "text": "yes",
+          "labelPosition": 0.13031875434544138,
           "font": "draw",
           "scale": 1
         },
@@ -1321,7 +1324,7 @@
         "index": "aC49o",
         "typeName": "shape"
       },
-      "lastChangedClock": 26317
+      "lastChangedClock": 102773
     },
     {
       "state": {
@@ -1452,7 +1455,7 @@
           },
           "arrowheadStart": "none",
           "arrowheadEnd": "arrow",
-          "text": "",
+          "text": "no",
           "labelPosition": 0.5,
           "font": "draw",
           "scale": 1
@@ -1461,7 +1464,7 @@
         "index": "aHBx1",
         "typeName": "shape"
       },
-      "lastChangedClock": 29697
+      "lastChangedClock": 102805
     },
     {
       "state": {
@@ -1829,7 +1832,8 @@
           "h": 90,
           "w": 90,
           "color": "black",
-          "target": "playwright"
+          "target": "none",
+          "testDir": ""
         },
         "typeName": "shape"
       },
@@ -2430,7 +2434,7 @@
           },
           "arrowheadStart": "none",
           "arrowheadEnd": "arrow",
-          "text": "",
+          "text": "yes",
           "labelPosition": 0.5,
           "font": "draw",
           "scale": 1
@@ -2439,7 +2443,7 @@
         "index": "aD6e5",
         "typeName": "shape"
       },
-      "lastChangedClock": 56361
+      "lastChangedClock": 103393
     },
     {
       "state": {
@@ -2508,7 +2512,7 @@
           },
           "arrowheadStart": "none",
           "arrowheadEnd": "arrow",
-          "text": "",
+          "text": "no",
           "labelPosition": 0.5,
           "font": "draw",
           "scale": 1
@@ -2517,7 +2521,7 @@
         "index": "aBk9z",
         "typeName": "shape"
       },
-      "lastChangedClock": 56361
+      "lastChangedClock": 103425
     },
     {
       "state": {
@@ -2787,7 +2791,7 @@
           },
           "arrowheadStart": "none",
           "arrowheadEnd": "arrow",
-          "text": "",
+          "text": "no",
           "labelPosition": 0.5,
           "font": "draw",
           "scale": 1
@@ -2796,7 +2800,7 @@
         "index": "aI6SS",
         "typeName": "shape"
       },
-      "lastChangedClock": 57220
+      "lastChangedClock": 104047
     },
     {
       "state": {
@@ -3670,8 +3674,8 @@
     },
     {
       "state": {
-        "x": 4757.172484978881,
-        "y": 649.2598849065166,
+        "x": 4779.714051725484,
+        "y": 647.2551280962052,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
@@ -3687,7 +3691,7 @@
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 89476
+      "lastChangedClock": 104120
     },
     {
       "state": {
@@ -3804,11 +3808,12 @@
           "h": 80,
           "w": 80,
           "color": "light-blue",
-          "target": "playwright"
+          "target": "none",
+          "testDir": ""
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 65804
+      "lastChangedClock": 101797
     },
     {
       "state": {
@@ -4265,11 +4270,12 @@
           "h": 90,
           "w": 90,
           "color": "black",
-          "target": "playwright"
+          "target": "none",
+          "testDir": ""
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 70028
+      "lastChangedClock": 101867
     },
     {
       "state": {
