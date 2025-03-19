@@ -56,7 +56,7 @@ ${setupCode.join('\n')}
     }).join(' & ')
     }
 
-export type HandlesGenerics<U = typeof handles> = U extends Main<infer A,infer B> ? [A, B] : never
+export type HandlesGenerics<U = typeof handles> = U extends ${name.charAt(0).toUpperCase() + camelize(name.substring(1))}<infer A,infer B> ? [A, B] : never
 
 ${codeBlocks.map(block => block.block).join('\n\n')}`
   }
