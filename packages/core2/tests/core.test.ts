@@ -25,7 +25,6 @@ describe("core", () => {
         }) => {
           const gateways: GatewayCollection = {
             "Source type": "figma",
-            "Process each node": "",
           };
           const state = await handles.setup({ gateways, tableRow } as any);
           const args = { gateways, state, tableRow } as any;
@@ -36,6 +35,14 @@ describe("core", () => {
           await handles.start(args);
           expect(await testFunc(args)).toBeUndefined();
         };
+
+        test("base", async () => {
+          const tableRow = {
+            Id: "base",
+            Properties: "",
+          };
+          await testNode({ tableRow });
+        });
 
         test("connector", async () => {
           const tableRow = {
@@ -380,8 +387,6 @@ export const Gateways = [
   "Virtual nodes enabled",
   "More than one root in document",
   "Source type",
-  "Process each node",
-  "More nodes",
 ] as const;
 
 export type GatewayKey = (typeof Gateways)[number];
