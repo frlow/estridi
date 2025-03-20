@@ -12,5 +12,8 @@
   "packageManager": "pnpm@10.6.3",
   "dependencies": {
     "vitest": "^3.0.9"
+  },
+  "devDependencies": {
+    "core": "workspace:*"
   }
 }
