@@ -1,20 +1,11 @@
 import type { Core } from './core.test'
 import { generateTestFile, GenerateTestFileConfig } from '../src'
-import {
-  getProcessFigmaStates,
-  processFigmaHandles,
-} from './flows/processFigma'
-import { States } from './utils/States'
+import { processFigmaHandles } from './flows/processFigma'
 
-export const handles: Core<{ states: States }> = {
+export const handles: Core = {
   ...processFigmaHandles,
   async setup(args) {
-    const processFigmaStates = await getProcessFigmaStates()
-    return {
-      states: {
-        ...processFigmaStates,
-      },
-    }
+    return {}
   },
   async start(args) {
     const target = args.gateways['Source type'] || 'figma'

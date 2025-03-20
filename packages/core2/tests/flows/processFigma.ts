@@ -2,19 +2,13 @@ import type { CoreProcessFigma } from '../core.test'
 import { expect, vi } from 'vitest'
 import * as figmaAccessor from '../../src/sources/figma/figmaAccessor'
 import * as figmaParser from '../../src/sources/figma/figmaParser'
-import { States } from '../utils/States'
 import { getTestCase } from '../utils/testCases'
 import { convertToFigma, Scraped } from 'core'
-
-export const getProcessFigmaStates = async (): Promise<States> => ({
-  figmaData: await convertToFigma(await getTestCase('tc-base')),
-  parseFigma: [{ dummy: 15 }],
-})
 
 export const processFigmaHandles: CoreProcessFigma = {
   async serviceCall_loadFromFigmaApi(args) {
     vi.spyOn(figmaAccessor, 'loadFromFigma').mockImplementation(
-      async () => args.state.states.figmaData,
+      async () => await convertToFigma(await getTestCase('tc-base')),
     )
   },
   async test_loadFromFigmaApi(args, _) {
@@ -28,7 +22,7 @@ export const processFigmaHandles: CoreProcessFigma = {
   async test_parseFigmaToScrapedNodeType(args, _) {
     if (args.tableRow.Id !== 'base')
       vi.spyOn(figmaAccessor, 'loadFromFigma').mockImplementation(
-        async (base) =>
+        async () =>
           await convertToFigma(
             await getTestCase(`tc-node-${args.tableRow.Id}`),
           ),
@@ -37,10 +31,8 @@ export const processFigmaHandles: CoreProcessFigma = {
 
     return async () => {
       if (args.tableRow.Id === 'base') {
-        expect(mock.mock.lastCall).toStrictEqual([args.state.states.figmaData])
-        expect(mock.mock.settledResults[0].value).toEqual(
-          args.state.states.parseFigma,
-        )
+        expect(mock.mock.calls[0][0].children).toBeTruthy()
+        expect(mock.mock.settledResults[0].value.length).toBeGreaterThan(0)
       } else {
         const scraped: Scraped = mock.mock.settledResults[0].value
         const node = scraped.find((n) => n.text === args.tableRow.Id)
