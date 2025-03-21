@@ -4,6 +4,7 @@ import * as figmaAccessor from '../../src/sources/figma/figmaAccessor'
 import * as figmaParser from '../../src/sources/figma/figmaParser'
 import { getTestCase } from '../utils/testCases'
 import { convertToFigma, Scraped } from 'core'
+import { expectedNodes } from './expectedNodes'
 
 export const processFigmaHandles: CoreProcessFigma = {
   async serviceCall_loadFromFigmaApi(args) {
@@ -35,28 +36,19 @@ export const processFigmaHandles: CoreProcessFigma = {
         expect(mock.mock.settledResults[0].value.length).toBeGreaterThan(0)
       } else {
         const scraped: Scraped = mock.mock.settledResults[0].value
-        const node = scraped.find((n) => n.text === args.tableRow.Id)
-        const idRegexp = /^[a-zA-Z0-9\-]{21}$/
-        const expected: Record<string, any> = {
-          message: {
-            id: expect.stringMatching(idRegexp),
-            next: expect.stringMatching(idRegexp),
-            raw: 'message',
-            text: 'message',
-            type: 'script',
-            variant: 'message',
-          },
-          script: {
-            id: expect.stringMatching(idRegexp),
-            next: expect.stringMatching(idRegexp),
-            raw: 'script',
-            text: 'script',
-            type: 'script',
-            variant: 'script',
-          },
+        const overrides = {
+          subprocessTable: 'subprocess',
+          subprocessActions: 'userAction',
         }
-        expect(expected[args.tableRow.Id]).toBeTruthy()
-        expect(node).toEqual(expected[args.tableRow.Id])
+        const node = scraped.find(
+          (n) =>
+            (overrides[args.tableRow.Id] &&
+              n.type === overrides[args.tableRow.Id]) ||
+            n.type === args.tableRow.Id ||
+            (n as any).variant === args.tableRow.Id,
+        )
+        expect(expectedNodes[args.tableRow.Id]).toBeTruthy()
+        expect(node).toEqual(expectedNodes[args.tableRow.Id])
       }
     }
   },
