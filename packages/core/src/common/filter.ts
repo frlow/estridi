@@ -34,7 +34,7 @@ export const processNode = ({ distance = 0, node, scraped, acc = {}, ignoreLinks
     ignoreLinks
   }))
   if ((node as ScrapedSubprocess).tableKey) {
-    const table = scraped.find(n => n.type === 'table' && n.text === (node as ScrapedSubprocess).tableKey)
+    const table = scraped.find(n => n.type === 'table' && n.raw === (node as ScrapedSubprocess).tableKey)
     if (table && !acc[table.id]) acc[table.id] = table
   }
   return acc

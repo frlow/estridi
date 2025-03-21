@@ -25,7 +25,7 @@ const run = async () => {
     for (const root of roots) {
       console.log('Root: ', root.raw)
       const fileToWrite = await generateEstridiTests({
-        target: options.target,
+        target: options.target || "playwright",
         scraped,
         rootName: root.raw?.trim() || undefined,
         virtualNodes: options.virtualNodes,

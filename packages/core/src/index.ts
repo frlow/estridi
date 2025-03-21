@@ -91,6 +91,7 @@ export const generateEstridiTests = async (args: {
   rootName?: string
   virtualNodes?: boolean
 }): Promise<{ code: string; fileName: string }> => {
+  if(!args.target || args.target==="none") return undefined
   const targets: Record<EstridiTargets, EstridiTargetConfig> = {
     playwright: {
       getFileName: (name) => `${name}.spec.ts`,
@@ -101,7 +102,7 @@ export const generateEstridiTests = async (args: {
       generatorFunc: generateVitest,
     },
   }
-  const target = targets[args.target || 'playwright']
+  const target = targets[args.target]
   const { scraped, rootName } = await loadScrapedFromSource(
     args.scraped,
     args.rootName,

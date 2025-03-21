@@ -76,17 +76,17 @@ describe("core", () => {
           await testNode({ tableRow });
         });
 
-        test("signal send", async () => {
+        test("signalSend", async () => {
           const tableRow = {
-            Id: "signal send",
+            Id: "signalSend",
             Properties: "variant, next",
           };
           await testNode({ tableRow });
         });
 
-        test("service call", async () => {
+        test("serviceCall", async () => {
           const tableRow = {
-            Id: "service call",
+            Id: "serviceCall",
             Properties: "next",
           };
           await testNode({ tableRow });
@@ -143,22 +143,30 @@ describe("core", () => {
         test("subprocess", async () => {
           const tableRow = {
             Id: "subprocess",
+            Properties: "next, link",
+          };
+          await testNode({ tableRow });
+        });
+
+        test("subprocessTable", async () => {
+          const tableRow = {
+            Id: "subprocessTable",
             Properties: "next, link, tableKey",
           };
           await testNode({ tableRow });
         });
 
-        test("user action", async () => {
+        test("subprocessActions", async () => {
           const tableRow = {
-            Id: "user action",
+            Id: "subprocessActions",
             Properties: "next, actions",
           };
           await testNode({ tableRow });
         });
 
-        test("subprocess with action", async () => {
+        test("userAction", async () => {
           const tableRow = {
-            Id: "subprocess with action",
+            Id: "userAction",
             Properties: "next, actions",
           };
           await testNode({ tableRow });
@@ -284,38 +292,65 @@ describe("core", () => {
       await handles.start(args);
       expect(await testFunc(args)).toBeUndefined();
     });
-    test("Inject virtual nodes", async () => {
-      const gateways: GatewayCollection = {
-        "Any roots in document": "yes",
-        "Selected Roots": "all",
-        "Each root": "",
-        "Virtual nodes enabled": "yes",
-      };
-      const state = await handles.setup({ gateways } as any);
-      const args = { gateways, state } as any;
-      await handleServiceCalls(args);
+    describe("Inject Virtual Node Virtual Node Cases", () => {
+      const testNode = async ({
+        tableRow,
+      }: {
+        tableRow: Record<string, string>;
+      }) => {
+        const gateways: GatewayCollection = {
+          "Any roots in document": "yes",
+          "Selected Roots": "all",
+          "Each root": "",
+          "Virtual nodes enabled": "yes",
+        };
+        const state = await handles.setup({ gateways, tableRow } as any);
+        const args = { gateways, state, tableRow } as any;
+        await handleServiceCalls(args);
 
-      let testFunc = handles.test_injectVirtualNodes;
-      if (testFunc.length === 2) testFunc = (await testFunc(args)) as any;
-      await handles.start(args);
-      expect(await testFunc(args)).toBeUndefined();
+        let testFunc = handles.test_injectVirtualNodeVirtualNodeCases;
+        if (testFunc.length === 2) testFunc = (await testFunc(args)) as any;
+        await handles.start(args);
+        expect(await testFunc(args)).toBeUndefined();
+      };
+
+      test("base", async () => {
+        const tableRow = {
+          Id: "base",
+        };
+        await testNode({ tableRow });
+      });
     });
   });
   describe("Generate Test File", () => {
     describe("Generate Playwright", () => {
-      test("Generate testable node tree", async () => {
-        const gateways: GatewayCollection = {
-          "Target Type": "playwright",
-          "": "",
-        };
-        const state = await handles.setup({ gateways } as any);
-        const args = { gateways, state } as any;
-        await handleServiceCalls(args);
+      describe("Generate Testable Node Tree Testable Node Tree Cases", () => {
+        const testNode = async ({
+          tableRow,
+        }: {
+          tableRow: Record<string, string>;
+        }) => {
+          const gateways: GatewayCollection = {
+            "Target Type": "playwright",
+            "": "",
+          };
+          const state = await handles.setup({ gateways, tableRow } as any);
+          const args = { gateways, state, tableRow } as any;
+          await handleServiceCalls(args);
 
-        let testFunc = handles.test_generateTestableNodeTree;
-        if (testFunc.length === 2) testFunc = (await testFunc(args)) as any;
-        await handles.start(args);
-        expect(await testFunc(args)).toBeUndefined();
+          let testFunc =
+            handles.test_generateTestableNodeTreeTestableNodeTreeCases;
+          if (testFunc.length === 2) testFunc = (await testFunc(args)) as any;
+          await handles.start(args);
+          expect(await testFunc(args)).toBeUndefined();
+        };
+
+        test("base", async () => {
+          const tableRow = {
+            Id: "base",
+          };
+          await testNode({ tableRow });
+        });
       });
       test("Generate type objects", async () => {
         const gateways: GatewayCollection = {
@@ -438,7 +473,10 @@ export type CoreGeneratePlaywright<
   TState = HandlesGenerics[0],
   TPageExtensions = HandlesGenerics[1],
 > = {
-  test_generateTestableNodeTree: TestFunction<TState, TPageExtensions>;
+  test_generateTestableNodeTreeTestableNodeTreeCases: TestFunction<
+    TState,
+    TPageExtensions
+  >;
   test_generateTestBlock: TestFunction<TState, TPageExtensions>;
   test_generateTestFile: TestFunction<TState, TPageExtensions>;
   test_generateTypeObjects: TestFunction<TState, TPageExtensions>;
@@ -453,7 +491,7 @@ export type CorePrepareTestableNodes<
   test_selectListedNodes: TestFunction<TState, TPageExtensions>;
   test_filterNodesConnectedToRoot: TestFunction<TState, TPageExtensions>;
   test_filterConnectedTables: TestFunction<TState, TPageExtensions>;
-  test_injectVirtualNodes: TestFunction<TState, TPageExtensions>;
+  test_injectVirtualNodeVirtualNodeCases: TestFunction<TState, TPageExtensions>;
   test_selectAllRoots: TestFunction<TState, TPageExtensions>;
   test_multipleRootsFound: TestFunction<TState, TPageExtensions>;
   test_selectSingleRoot: TestFunction<TState, TPageExtensions>;
