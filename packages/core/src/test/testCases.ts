@@ -174,31 +174,31 @@ export const loopTestCase: Scraped = [{
   next: 'LoopId',
   ...autoText('loop')
 },
-  {
-    id: 'LoopId',
-    type: 'gateway',
-    variant: 'loop',
-    options: {
-      ScriptId: 'any text'
-    },
-    ...autoText('loop')
+{
+  id: 'LoopId',
+  type: 'gateway',
+  variant: 'loop',
+  options: {
+    ScriptId: 'any text'
   },
-  {
-    type: 'script',
-    ...autoText('Script'),
-    id: 'ScriptId',
-    variant: 'script',
-    next: 'LoopReturnId'
-  },
-  {
-    id: 'LoopReturnId',
-    type: 'gateway',
-    variant: 'gateway',
-    ...autoText('loop return'),
-    options: {
-      LoopId: 'yes'
-    }
-  }]
+  ...autoText('loop')
+},
+{
+  type: 'script',
+  ...autoText('Script'),
+  id: 'ScriptId',
+  variant: 'script',
+  next: 'LoopReturnId'
+},
+{
+  id: 'LoopReturnId',
+  type: 'gateway',
+  variant: 'gateway',
+  ...autoText('loop return'),
+  options: {
+    LoopId: 'yes'
+  }
+}]
 
 export const subprocessLoopTestCase: Scraped = [{
   id: 'StartId',
@@ -206,39 +206,39 @@ export const subprocessLoopTestCase: Scraped = [{
   next: 'SubprocessId',
   ...autoText('subloop')
 },
-  {
-    id: 'SubprocessId',
-    type: 'subprocess',
-    ...autoText('Sub Start'),
-    link: 'SubprocessRootId'
-  },
-  {
-    id: 'SubprocessRootId',
-    type: 'start',
-    next: 'ScriptId',
-    ...autoText('Sub Start')
-  },
-  {
-    id: 'ScriptId',
-    type: 'script',
-    variant: 'script',
-    ...autoText('Do thing'),
-    next: 'UserActionId'
-  },
-  {
-    id: 'UserActionId',
-    type: 'userAction',
-    ...autoText('action'),
-    variant: 'userAction',
-    actions: {
-      SubprocessLoopId: 'Click'
-    }
-  }, {
-    id: 'SubprocessLoopId',
-    type: 'subprocess',
-    ...autoText('Sub Start'),
-    link: 'SubprocessRootId'
-  }]
+{
+  id: 'SubprocessId',
+  type: 'subprocess',
+  ...autoText('Sub Start'),
+  link: 'SubprocessRootId'
+},
+{
+  id: 'SubprocessRootId',
+  type: 'start',
+  next: 'ScriptId',
+  ...autoText('Sub Start')
+},
+{
+  id: 'ScriptId',
+  type: 'script',
+  variant: 'script',
+  ...autoText('Do thing'),
+  next: 'UserActionId'
+},
+{
+  id: 'UserActionId',
+  type: 'userAction',
+  ...autoText('action'),
+  variant: 'userAction',
+  actions: {
+    SubprocessLoopId: 'Click'
+  }
+}, {
+  id: 'SubprocessLoopId',
+  type: 'subprocess',
+  ...autoText('Sub Start'),
+  link: 'SubprocessRootId'
+}]
 
 export const connectorTestCase: Scraped = [{
   'id': 'ConnectorId',

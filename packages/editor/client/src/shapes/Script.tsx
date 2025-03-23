@@ -1,66 +1,90 @@
-import { BaseBoxShapeUtil, HTMLContainer, useDefaultColorTheme } from 'tldraw'
+import { BaseBoxShapeUtil, HTMLContainer, toRichText } from 'tldraw'
 import { Shapes } from 'editor-common'
-import { BaseShape, figureStyles } from './index.ts'
+import { BaseShape } from './index.ts'
 import { TextLabelWithAutoHeight } from './util/TextLabelWithAutoHeight'
+import {
+  BLUE,
+  BORDER,
+  BORDER_RADIUS,
+  GREEN,
+  RECTANGLE_DEFAULT_HEIGHT,
+  RECTANGLE_DEFAULT_WIDTH,
+  RECTANGLE_ICON_HEIGHT,
+  RECTANGLE_ICON_PADDING,
+} from './util/constants.ts'
 
-const shapeType = Shapes.script
-type ShapeType = BaseShape<typeof shapeType>
+function createScriptClass(variant: 'script-fe' | 'script-be') {
+  const shapeType = Shapes[variant]
+  type ShapeType = BaseShape<typeof shapeType>
+  const isFe = variant.includes('fe')
 
-const DEFAULT_WIDTH = 300
-const MIN_HEIGHT = 150
-const PADDING = 16
-const ICON_HEIGHT = 36
+  return class extends BaseBoxShapeUtil<ShapeType> {
+    static override type = shapeType.name
+    static override props = shapeType.props
 
-export default class extends BaseBoxShapeUtil<ShapeType> {
-  static override type = shapeType.name
-  static override props = shapeType.props
+    override getDefaultProps(): ShapeType['props'] {
+      return {
+        h: RECTANGLE_DEFAULT_HEIGHT,
+        w: RECTANGLE_DEFAULT_WIDTH,
+        richText: toRichText('Script tag..'),
+      }
+    }
 
-  override getDefaultProps(): ShapeType['props'] {
-    return {
-      h: MIN_HEIGHT,
-      w: DEFAULT_WIDTH,
-      text: 'Script tag..',
-      color: 'light-blue',
+    override canEdit = () => true
+    override hideSelectionBoundsFg = () => true
+    override hideResizeHandles = () => false
+    override canResize = () => true
+
+    override component(shape: ShapeType) {
+      const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+
+      return (
+        <HTMLContainer
+          style={{
+            background: isFe ? BLUE : GREEN,
+            border: BORDER,
+            padding: '1rem',
+            borderRadius: BORDER_RADIUS,
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height: `${RECTANGLE_ICON_HEIGHT}px`,
+            }}
+          >
+            <img
+              src="/script.svg"
+              alt="script"
+              draggable={false}
+              onError={(e) => {
+                console.error(`Failed to load image: /script.svg`, e)
+                // Set a fallback background color
+                ;(e.target as HTMLImageElement).style.backgroundColor = '#ddd'
+              }}
+            />
+          </div>
+          <TextLabelWithAutoHeight
+            shape={shape}
+            isSelected={isSelected}
+            padding={RECTANGLE_ICON_PADDING}
+            iconHeight={RECTANGLE_ICON_HEIGHT}
+            minHeight={RECTANGLE_DEFAULT_HEIGHT}
+          />
+        </HTMLContainer>
+      )
+    }
+
+    override indicator(shape: ShapeType) {
+      return (
+        <rect width={shape.props.w} height={shape.props.h} rx="10" ry="10" />
+      )
     }
   }
-
-  override canEdit = () => true
-  override hideSelectionBoundsFg = () => true
-  override hideResizeHandles = () => false
-  override canResize = () => true
-
-  override component(shape: ShapeType) {
-    const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
-    const theme = useDefaultColorTheme()
-
-    return (
-      <HTMLContainer
-        style={{
-          background: theme[shape.props.color].solid,
-          border: figureStyles.border,
-          padding: '1rem',
-          borderRadius: '10px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <div>
-          <img src="/script.svg" alt="script" draggable={false} />
-        </div>
-        <TextLabelWithAutoHeight
-          shape={shape}
-          isSelected={isSelected}
-          padding={PADDING}
-          iconHeight={ICON_HEIGHT}
-          minHeight={MIN_HEIGHT}
-        />
-      </HTMLContainer>
-    )
-  }
-
-  override indicator(shape: ShapeType) {
-    return <rect width={shape.props.w} height={shape.props.h} rx="10" ry="10" />
-  }
 }
+
+export const Script = createScriptClass('script-fe')
+export const ScriptBe = createScriptClass('script-be')

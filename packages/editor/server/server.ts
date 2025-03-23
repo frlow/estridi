@@ -48,6 +48,9 @@ const room = new TLSocketRoom({
     const data = room.getCurrentSnapshot()
     writeFileSync(FILE, JSON.stringify(data, null, 2))
     updateTestTimer(data)
+  },
+  onError(error) {
+    console.error('Sync Error:', error)
   }
 })
 

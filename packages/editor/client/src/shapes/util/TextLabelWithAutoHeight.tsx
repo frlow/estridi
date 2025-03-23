@@ -1,7 +1,7 @@
 import {
   LABEL_FONT_SIZES,
   TEXT_PROPS,
-  TextLabel,
+  RichTextLabel,
   TLShapeId,
   useEditor,
 } from 'tldraw'
@@ -17,7 +17,7 @@ export function TextLabelWithAutoHeight({
   shape: {
     id: TLShapeId
     type: string
-    props: { text: string; w: number; h: number }
+    props: { richText?: any; w: number; h: number }
   }
   isSelected: boolean
   padding: number
@@ -53,11 +53,18 @@ export function TextLabelWithAutoHeight({
         ])
       }
     }
-  }, [shape.props.text, shape.props.h, editor, shape.id, shape.type])
+  }, [
+    shape.props.richText,
+    shape.props.h,
+    editor,
+    shape.id,
+    shape.type,
+    shape.props.w,
+  ])
 
   return (
     <div ref={textRef}>
-      <TextLabel
+      <RichTextLabel
         style={{ position: 'relative', textShadow: 'none' }}
         shapeId={shape.id}
         type="text"
@@ -66,7 +73,7 @@ export function TextLabelWithAutoHeight({
         lineHeight={TEXT_PROPS.lineHeight}
         align="middle"
         verticalAlign="middle"
-        text={shape.props.text}
+        richText={shape.props.richText}
         isSelected={isSelected}
         labelColor="black"
         wrap

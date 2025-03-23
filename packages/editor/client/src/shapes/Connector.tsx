@@ -1,6 +1,7 @@
 import { BaseBoxShapeUtil, HTMLContainer, Rectangle2d } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
+import { BORDER_RADIUS } from './util/constants.ts'
 
 const shapeType = Shapes.connector
 type ShapeType = BaseShape<typeof shapeType>
@@ -29,7 +30,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
   override canResize = () => false
   override hideSelectionBoundsFg = () => true
 
-  override component(_: ShapeType) {
+  override component() {
     return (
       <HTMLContainer>
         <div
@@ -41,14 +42,14 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
             transform: 'translate(-50%, -50%) rotate(45deg)',
             height: `${squareSize}px`,
             width: `${squareSize}px`,
-            borderRadius: '10px',
+            borderRadius: BORDER_RADIUS,
           }}
         ></div>
       </HTMLContainer>
     )
   }
 
-  override indicator(_: ShapeType) {
+  override indicator() {
     // Center of the bounding box
     const center = boundingBoxSize / 2
 

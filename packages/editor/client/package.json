@@ -9,15 +9,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tldraw/sync": "^3.7.2",
-    "@tldraw/tlschema": "^3.9.0",
-    "ag-grid-community": "^33.1.1",
-    "ag-grid-react": "^33.1.1",
+    "@tldraw/editor": "^3.10.3",
+    "@tldraw/sync": "^3.10.3",
+    "@tldraw/tlschema": "^3.10.3",
+    "@tldraw/utils": "^3.10.3",
     "editor-common": "workspace:*",
     "express": "^5.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tldraw": "^3.7.2"
+    "tldraw": "^3.10.3",
+    "classnames": "^2.5.1"
   },
   "devDependencies": {
     "@types/react": "^19.0.8",

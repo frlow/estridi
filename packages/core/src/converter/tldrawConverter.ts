@@ -1,5 +1,26 @@
 import { Scraped, ScrapedNode } from '../scraped'
 
+export function toRichText(text: string) {
+  const lines = text.split('\n')
+  const content = lines.map((text) => {
+    if (!text) {
+      return {
+        type: 'paragraph',
+      }
+    }
+
+    return {
+      type: 'paragraph',
+      content: [{ type: 'text', text }],
+    }
+  })
+
+  return {
+    type: 'doc',
+    content,
+  }
+}
+
 export const convertToTldraw = async (scraped: Scraped) => {
   const pageId = 'page:page1Id'
   const base = (node?: ScrapedNode) => {
@@ -130,17 +151,14 @@ export const convertToTldraw = async (scraped: Scraped) => {
           state: {
             ...base(node),
             id: `shape:${node.id}`,
-            type: node.variant,
+            type: 'script-fe',
             props: {
-              text: node.raw,
+              richText: toRichText(node.raw),
               w: 270,
               h: 80,
-              color: 'light-blue',
             },
           },
         }
-        if (['message', 'signalSend'].includes(node.variant))
-          (content.state.props as any).dash = 'solid'
         children.push(content)
         if (node.next)
           children.push(...createConnector({ start: node.id, end: node.next }))
@@ -150,12 +168,11 @@ export const convertToTldraw = async (scraped: Scraped) => {
           state: {
             ...base(node),
             id: `shape:${node.id}`,
-            type: 'subprocess',
+            type: 'subprocess-fe',
             props: {
-              text: node.raw,
+              richText: toRichText(node.raw),
               w: 400,
               h: 80,
-              color: 'light-blue',
             },
           },
         })
@@ -169,11 +186,10 @@ export const convertToTldraw = async (scraped: Scraped) => {
           state: {
             ...base(node),
             id: `shape:${node.id}`,
-            type: 'start',
+            type: 'start-fe',
             props: {
               w: 80,
               h: 80,
-              color: 'light-blue',
               target: 'playwright',
             },
           },
@@ -192,12 +208,11 @@ export const convertToTldraw = async (scraped: Scraped) => {
           state: {
             ...base(node),
             id: `shape:${node.id}`,
-            type: 'serviceCall',
+            type: 'service-call-fe',
             props: {
-              text: node.raw,
+              richText: toRichText(node.raw),
               w: 380,
               h: 80,
-              color: 'light-green',
             },
           },
         })
@@ -209,13 +224,12 @@ export const convertToTldraw = async (scraped: Scraped) => {
           state: {
             ...base(node),
             id: `shape:${node.id}`,
-            type: node.variant,
+            type: 'user-action',
             props: {
               h: node.extra?.height || 80,
               w:
                 node.extra?.width ||
                 Object.keys(node.actions).length * 100 + 100,
-              color: 'light-blue',
             },
             x: node.extra?.x || 0,
             y: node.extra?.y || 0,
@@ -226,12 +240,11 @@ export const convertToTldraw = async (scraped: Scraped) => {
             state: {
               ...base(node),
               id: `shape:${node.id}_action_${i}`,
-              type: 'signalListen',
+              type: 'signal-listen-fe',
               props: {
                 text: value,
                 h: 80,
                 w: 80,
-                color: 'light-blue',
               },
               x: (node.extra?.x || 0) + 50 + i * 100,
               y: (node.extra?.y || 0) + 50,
@@ -281,12 +294,11 @@ export const convertToTldraw = async (scraped: Scraped) => {
           state: {
             ...base(node),
             id: `shape:${node.id}`,
-            type: node.variant,
+            type: 'gateway-fe',
             props: {
               text: node.raw,
               w: 80,
               h: 80,
-              color: 'light-blue',
             },
           },
         })
@@ -305,7 +317,7 @@ export const convertToTldraw = async (scraped: Scraped) => {
           state: {
             ...base(node),
             id: `shape:${node.id}`,
-            type: 'table',
+            type: 'table-fe',
             props: {
               rows: node.rows,
               h: 80,

@@ -15,8 +15,8 @@
     "editor-common": "workspace:*",
     "core": "workspace:*",
     "ws": "^8.18.0",
-    "@tldraw/sync-core": "^3.7.2",
-    "tldraw": "^3.7.2",
+    "@tldraw/sync-core": "^3.10.3",
+    "tldraw": "^3.10.3",
     "express": "^4.21.2",
     "websocket-express": "^3.1.2",
     "commander": "^13.1.0"

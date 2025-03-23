@@ -1,100 +1,117 @@
 import {
   HTMLContainer,
   LABEL_FONT_SIZES,
+  PlainTextLabel,
   Rectangle2d,
   ShapeUtil,
   TEXT_PROPS,
-  TextLabel,
-  useDefaultColorTheme,
 } from 'tldraw'
-import { BaseShape, figureStyles } from './index'
+import { BaseShape } from './index'
 import { CSSProperties } from 'react'
-import { Shapes } from 'editor-common'
+import { ShapeName, Shapes } from 'editor-common'
+import { BLUE, BORDER, CIRCLE_RADIUS, INTER_BORDER } from './util/constants'
 
-const shapeType = Shapes.message
-type ShapeType = BaseShape<typeof shapeType>
+function createMessageClass(variant: 'message' | 'message-inter') {
+  const shapeType = Shapes[variant]
+  type ShapeType = BaseShape<typeof shapeType>
+  const isIntermediate = variant.includes('inter')
 
-const radius = 90
+  return class extends ShapeUtil<ShapeType> {
+    static override type = shapeType.name
+    static override props = shapeType.props
+    static transformations = {
+      message: [
+        { value: 'message-inter' as ShapeName, icon: 'message-inter-preview' },
+      ],
+      'message-inter': [
+        { value: 'message' as ShapeName, icon: 'message-preview' },
+      ],
+    }[variant]
 
-export default class extends ShapeUtil<ShapeType> {
-  static override type = shapeType.name
-  static override props = shapeType.props
+    getDefaultProps(): ShapeType['props'] {
+      return {
+        w: CIRCLE_RADIUS,
+        h: CIRCLE_RADIUS,
+        text: 'Edit me...',
+      }
+    }
 
-  getDefaultProps(): ShapeType['props'] {
-    return {
-      w: radius,
-      h: radius,
-      text: 'Edit me..',
-      color: 'light-blue',
-      dash: 'solid',
+    override canEdit = () => true
+    override canResize = () => false
+    override hideSelectionBoundsFg = () => true
+
+    override getGeometry() {
+      return new Rectangle2d({
+        width: CIRCLE_RADIUS,
+        height: CIRCLE_RADIUS,
+        isFilled: true,
+      })
+    }
+
+    override component(shape: ShapeType) {
+      const style: CSSProperties = { pointerEvents: 'all' }
+      const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+
+      return (
+        <HTMLContainer style={style}>
+          <div>
+            <div
+              style={{
+                width: `${CIRCLE_RADIUS}px`,
+                height: `${CIRCLE_RADIUS}px`,
+                borderRadius: `${CIRCLE_RADIUS}px`,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                border: isIntermediate ? INTER_BORDER : BORDER,
+                background: BLUE,
+              }}
+            >
+              <img
+                src="./message.svg"
+                alt="message"
+                draggable={false}
+                onError={(e) => {
+                  console.error(`Failed to load image: ./message.svg`, e)
+                  // Set a fallback background color
+                  ;(e.target as HTMLImageElement).style.backgroundColor = '#ddd'
+                }}
+              />
+            </div>
+            <PlainTextLabel
+              shapeId={shape.id}
+              type="text"
+              labelColor="black"
+              style={{
+                position: 'absolute',
+                top: `${CIRCLE_RADIUS}px`,
+              }}
+              font="sans"
+              textWidth={130}
+              fontSize={LABEL_FONT_SIZES['m']}
+              lineHeight={TEXT_PROPS.lineHeight}
+              align="middle"
+              verticalAlign="start"
+              isSelected={isSelected}
+              wrap
+              text={shape.props.text}
+            />
+          </div>
+        </HTMLContainer>
+      )
+    }
+
+    override indicator() {
+      return (
+        <circle
+          cx={CIRCLE_RADIUS / 2}
+          cy={CIRCLE_RADIUS / 2}
+          r={Math.min(CIRCLE_RADIUS, CIRCLE_RADIUS) / 2}
+        />
+      )
     }
   }
-
-  override canEdit = () => true
-  override canResize = () => false
-  override hideSelectionBoundsFg = () => true
-
-  override getGeometry() {
-    return new Rectangle2d({
-      width: radius,
-      height: radius,
-      isFilled: true,
-    })
-  }
-
-  override component(shape: ShapeType) {
-    const style: CSSProperties = { pointerEvents: 'all' }
-    const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
-    const theme = useDefaultColorTheme()
-
-    return (
-      <HTMLContainer style={style}>
-        <div>
-          <div
-            style={{
-              width: `${radius}px`,
-              height: `${radius}px`,
-              borderRadius: `${radius}px`,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              border: figureStyles.border,
-              borderStyle: shape.props.dash,
-              background: theme[shape.props.color].solid,
-            }}
-          >
-            <img src="./message.svg" alt="message" draggable={false} />
-          </div>
-          <TextLabel
-            shapeId={shape.id}
-            type="text"
-            labelColor="black"
-            style={{
-              position: 'absolute',
-              top: `${radius}px`,
-            }}
-            font="sans"
-            textWidth={130}
-            fontSize={LABEL_FONT_SIZES['m']}
-            lineHeight={TEXT_PROPS.lineHeight}
-            align="middle"
-            verticalAlign="start"
-            text={shape.props.text}
-            isSelected={isSelected}
-            wrap
-          />
-        </div>
-      </HTMLContainer>
-    )
-  }
-
-  override indicator() {
-    return (
-      <circle
-        cx={radius / 2}
-        cy={radius / 2}
-        r={Math.min(radius, radius) / 2}
-      />
-    )
-  }
 }
+
+export const Message = createMessageClass('message')
+export const MessageIntermediate = createMessageClass('message-inter')

@@ -1,6 +1,7 @@
 import { CSSProperties } from 'react'
-import Message from './Message.tsx'
-import { Start, End } from './Start.tsx'
+import { Message, MessageIntermediate } from './Message.tsx'
+import { StartFE, StartBE } from './Start.tsx'
+import { EndFe, EndBe } from './End.tsx'
 import {
   ShapeDefinition,
   ShapeName,
@@ -13,43 +14,98 @@ import {
   TLBaseShape,
   TLShapeUtilConstructor,
 } from 'tldraw'
-import Script from './Script.tsx'
+import { Script, ScriptBe } from './Script.tsx'
 import UserAction from './UserAction.tsx'
-import Subprocess from './Subprocess.tsx'
-import { Gateway, Loop, Parallel } from './Gateway.tsx'
-import ServiceCall from './ServiceCall.tsx'
-import SignalSend from './SignalSend.tsx'
-import SignalListen from './SignalListen.tsx'
-import Table from './Table.tsx'
+import { SubprocessFE, SubprocessBE } from './Subprocess.tsx'
+import {
+  GatewayFe,
+  GatewayBe,
+  LoopFe,
+  LoopBe,
+  ParallelFe,
+  ParallelBe,
+} from './Gateway.tsx'
+import {
+  ServiceCallFe,
+  ServiceCallBe,
+  ServiceCallBeExternal,
+} from './ServiceCall.tsx'
+import {
+  SignalSendFe,
+  SignalSendBe,
+  SignalSendFeInter,
+  SignalSendBeInter,
+} from './SignalSend.tsx'
+import {
+  SignalListenFe,
+  SignalListenBe,
+  SignalListenFeInter,
+  SignalListenBeInter,
+} from './SignalListen.tsx'
+import { TableBE, TableFE } from './Table.tsx'
 import Connector from './Connector.tsx'
-import Note from './Note.tsx'
+import CustomNote from './CustomNote.tsx'
 import Other from './Other.tsx'
-import { Error, SoftError } from './Error.tsx'
-import Timer from './Timer.tsx'
+import { HardError, SoftError } from './Error.tsx'
+import {
+  NotStarted,
+  InProgress,
+  TestDone,
+  DevDone,
+  TestFailed,
+} from './TestResult.tsx'
+import { TimerFE, TimerBE } from './Timer.tsx'
+import { FrameShapeUtil } from './frame/FrameShapeUtil.tsx'
+import Database from './Database.tsx'
 
 const customShapeDefinitions: Record<
   ShapeName,
   TLShapeUtilConstructor<any, ShapeUtil<any>>
 > = {
-  customNote: Note,
-  gateway: Gateway,
-  loop: Loop,
-  script: Script,
-  serviceCall: ServiceCall,
-  signalSend: SignalSend,
-  subprocess: Subprocess,
-  userAction: UserAction,
+  'custom-note': CustomNote,
+  'gateway-fe': GatewayFe,
+  'gateway-be': GatewayBe,
+  'loop-fe': LoopFe,
+  'loop-be': LoopBe,
+  'parallel-fe': ParallelFe,
+  'parallel-be': ParallelBe,
+  'script-fe': Script,
+  'script-be': ScriptBe,
+  'service-call-fe': ServiceCallFe,
+  'service-call-be': ServiceCallBe,
+  'service-call-be-external': ServiceCallBeExternal,
+  'signal-send-fe': SignalSendFe,
+  'signal-send-be': SignalSendBe,
+  'signal-send-fe-inter': SignalSendFeInter,
+  'signal-send-be-inter': SignalSendBeInter,
+  'signal-listen-fe': SignalListenFe,
+  'signal-listen-be': SignalListenBe,
+  'signal-listen-fe-inter': SignalListenFeInter,
+  'signal-listen-be-inter': SignalListenBeInter,
+  'subprocess-fe': SubprocessFE,
+  'subprocess-be': SubprocessBE,
+  'user-action': UserAction,
   message: Message,
-  start: Start,
-  end: End,
-  signalListen: SignalListen,
+  'message-inter': MessageIntermediate,
+  'start-fe': StartFE,
+  'start-be': StartBE,
+  'end-fe': EndFe,
+  'end-be': EndBe,
   other: Other,
-  table: Table,
+  'table-fe': TableFE,
+  'table-be': TableBE,
   connector: Connector,
-  error: Error,
-  softError: SoftError,
-  timer: Timer,
-  parallel: Parallel,
+  error: HardError,
+  'soft-error': SoftError,
+  'timer-fe': TimerFE,
+  'timer-be': TimerBE,
+  'not-started': NotStarted,
+  'in-progress': InProgress,
+  'test-done': TestDone,
+  'dev-done': DevDone,
+  'test-failed': TestFailed,
+  frame: FrameShapeUtil,
+  database: Database,
 }
 
 export const customShapes = Object.values(customShapeDefinitions)

@@ -1,4 +1,9 @@
-import { BaseBoxShapeUtil, useDefaultColorTheme, stopEventPropagation, HTMLContainer } from 'tldraw'
+import {
+  BaseBoxShapeUtil,
+  useDefaultColorTheme,
+  stopEventPropagation,
+  HTMLContainer,
+} from 'tldraw'
 
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
@@ -19,7 +24,11 @@ interface TableControlButtonProps {
   style?: React.CSSProperties
 }
 
-const TableControlButton = ({ onClick, children, style }: TableControlButtonProps) => (
+const TableControlButton = ({
+  onClick,
+  children,
+  style,
+}: TableControlButtonProps) => (
   <>
     <style>{tableControlButtonStyles}</style>
     <button
@@ -50,204 +59,244 @@ interface TableControlGroupProps {
   style?: React.CSSProperties
 }
 
-const TableControlGroup = ({ orientation, onAdd, onRemove, style }: TableControlGroupProps) => {
+const TableControlGroup = ({
+  orientation,
+  onAdd,
+  onRemove,
+  style,
+}: TableControlGroupProps) => {
   const isVertical = orientation === 'vertical'
-  const buttonSize = isVertical ? { width: '20px', height: '25px' } : { width: '35px', height: '20px' }
+  const buttonSize = isVertical
+    ? { width: '20px', height: '25px' }
+    : { width: '35px', height: '20px' }
 
   return (
-    <div style={{
-      position: 'absolute',
-      display: 'flex',
-      flexDirection: isVertical ? 'column' : 'row',
-      background: '#ffcc00',
-      borderRadius: '1rem',
-      overflow: 'hidden',
-      ...style,
-    }}>
+    <div
+      style={{
+        position: 'absolute',
+        display: 'flex',
+        flexDirection: isVertical ? 'column' : 'row',
+        background: '#ffcc00',
+        borderRadius: '1rem',
+        overflow: 'hidden',
+        ...style,
+      }}
+    >
       <TableControlButton
         onClick={onAdd}
         style={{
           ...buttonSize,
-          [isVertical ? 'borderBottom' : 'borderRight']: '1px solid rgba(255,255,255,0.2)',
+          [isVertical ? 'borderBottom' : 'borderRight']:
+            '1px solid rgba(255,255,255,0.2)',
         }}
       >
         +
       </TableControlButton>
-      <TableControlButton
-        onClick={onRemove}
-        style={buttonSize}
-      >
+      <TableControlButton onClick={onRemove} style={buttonSize}>
         -
       </TableControlButton>
     </div>
   )
 }
 
-const shapeType = Shapes.table
-type ShapeType = BaseShape<typeof shapeType>
+function createTableClass(variant: 'table-fe' | 'table-be') {
+  const shapeType = Shapes[variant]
+  type ShapeType = BaseShape<typeof shapeType>
+  const isFe = variant.includes('fe')
 
-export default class extends BaseBoxShapeUtil<ShapeType> {
-  static override type = shapeType.name
-  static override props = shapeType.props
+  return class extends BaseBoxShapeUtil<ShapeType> {
+    static override type = shapeType.name
+    static override props = shapeType.props
 
-  override canScroll = () => false
-  override canEdit = () => true
+    override canScroll = () => false
+    override canEdit = () => true
 
-  override getDefaultProps() {
-    return {
-      w: 200,
-      h: 80,
-      rows: [['col1', 'col2'], ['row1', 'row2']],
-    }
-  }
-
-  override component(shape: ShapeType) {
-    const theme = useDefaultColorTheme()
-    const editor = this.editor
-    const isEditing = editor.getEditingShapeId() === shape.id
-    const tableRef = useRef<HTMLTableElement>(null)
-    const firstRender = useRef(true)
-
-    useEffect(() => {
-      if (tableRef.current && !firstRender.current) {
-        const table = tableRef.current
-        editor.updateShape({
-          id: shape.id,
-          type: shapeType.name,
-          props: {
-            ...shape.props,
-            h: table.offsetHeight,
-            w: table.offsetWidth
-          },
-        })
+    override getDefaultProps() {
+      return {
+        w: isFe ? 400 : 350,
+        h: isFe ? 140 : 100,
+        rows: isFe
+          ? [
+              ['Label', 'Component type', 'Properties', 'Special requirements'],
+              ['Label', 'Component type', 'Properties', 'Special requirements'],
+            ]
+          : [
+              ['Code', 'Message'],
+              ['100', 'System error'],
+            ],
       }
-      firstRender.current = false
-    }, [shape.props.rows])
-
-    const handleCellEdit = (value: string, rowIndex: number, colIndex: number) => {
-      const newRows = shape.props.rows.map((row, ri) =>
-        ri === rowIndex
-          ? row.map((cell, ci) => (ci === colIndex ? value : cell))
-          : row
-      )
-
-      editor.updateShapes([
-        {
-          id: shape.id,
-          type: shape.type,
-          props: {
-            ...shape.props,
-            rows: newRows,
-          },
-        },
-      ])
     }
 
-    return (
-      <HTMLContainer
-        style={{
-          width: shape.props.w,
-          height: shape.props.h,
-          pointerEvents: isEditing ? 'all' : undefined,
-          position: 'relative',
-        }}
-        onPointerDown={isEditing ? stopEventPropagation : undefined}
-      >
-        {isEditing && (
-          <div style={{
-            position: 'absolute',
-            top: '-24px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            background: '#ffcc00',
-            color: 'black',
-            padding: '2px 8px',
-            borderRadius: '4px',
-            fontSize: '12px',
-            fontWeight: 500,
-          }}>
-            editing
-          </div>
-        )}
-        <table
-          ref={tableRef}
+    override component(shape: ShapeType) {
+      const theme = useDefaultColorTheme()
+      const editor = this.editor
+      const isEditing = editor.getEditingShapeId() === shape.id
+      const tableRef = useRef<HTMLTableElement>(null)
+      const firstRender = useRef(true)
+
+      useEffect(() => {
+        if (tableRef.current && !firstRender.current) {
+          const table = tableRef.current
+          editor.updateShape({
+            id: shape.id,
+            type: shapeType.name,
+            props: {
+              ...shape.props,
+              h: table.offsetHeight,
+              w: table.offsetWidth,
+            },
+          })
+        }
+        firstRender.current = false
+      }, [shape.props.rows])
+
+      const handleCellEdit = (
+        value: string,
+        rowIndex: number,
+        colIndex: number,
+      ) => {
+        const newRows = shape.props.rows.map((row, ri) =>
+          ri === rowIndex
+            ? row.map((cell, ci) => (ci === colIndex ? value : cell))
+            : row,
+        )
+
+        editor.updateShapes([
+          {
+            id: shape.id,
+            type: shape.type,
+            props: {
+              ...shape.props,
+              rows: newRows,
+            },
+          },
+        ])
+      }
+
+      return (
+        <HTMLContainer
           style={{
-            background: theme.background,
-            height: '100%',
-            width: '100%',
-            flex: 'auto',
-            borderCollapse: 'separate',
-            borderRadius: '8px',
-            overflow: 'hidden',
-            border: `2px solid ${isEditing ? '#ffcc00' : '#cccccc'}`,
-            borderSpacing: 0,
-            boxShadow: isEditing ? '0 0 0 2px rgba(255, 204, 0, 0.2)' : 'none',
-            transition: 'border-color 0.5s, box-shadow 0.5s',
-            fontSize: '1rem',
-          }}>
-          <thead>
-            <tr style={{ textAlign: 'left' }}>
-              {(shape.props.rows[0] || []).map((header, colIndex) => {
-                return (
-                  <th
-                    key={colIndex}
-                    style={{
-                      padding: '8px',
-                      borderRight: colIndex === shape.props.rows[0].length - 1 ? 'none' : '1px solid #ccc',
-                      borderBottom: '1px solid #ccc',
-                      background: '#f0f0f0',
-                    }}
-                  >
-                    <div
-                      contentEditable
-                      suppressContentEditableWarning
-                      onClick={() => handleCellEdit(header, 0, colIndex)}
+            width: shape.props.w,
+            height: shape.props.h,
+            pointerEvents: isEditing ? 'all' : undefined,
+            position: 'relative',
+          }}
+          onPointerDown={isEditing ? stopEventPropagation : undefined}
+        >
+          {isEditing && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '-24px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: '#ffcc00',
+                color: 'black',
+                padding: '2px 8px',
+                borderRadius: '4px',
+                fontSize: '12px',
+                fontWeight: 500,
+              }}
+            >
+              editing
+            </div>
+          )}
+          <table
+            ref={tableRef}
+            style={{
+              background: theme.background,
+              height: '100%',
+              width: '100%',
+              flex: 'auto',
+              borderCollapse: 'separate',
+              borderRadius: '8px',
+              overflow: 'hidden',
+              border: `2px solid ${isEditing ? '#ffcc00' : '#cccccc'}`,
+              borderSpacing: 0,
+              boxShadow: isEditing
+                ? '0 0 0 2px rgba(255, 204, 0, 0.2)'
+                : 'none',
+              transition: 'border-color 0.5s, box-shadow 0.5s',
+              fontSize: '1rem',
+            }}
+          >
+            <thead>
+              <tr style={{ textAlign: 'left' }}>
+                {(shape.props.rows[0] || []).map((header, colIndex) => {
+                  return (
+                    <th
+                      key={colIndex}
                       style={{
-                        minHeight: '1em',
-                        outline: 'none',
-                        display: 'flex',
-                        alignItems: 'center',
+                        padding: '8px',
+                        borderRight:
+                          colIndex === shape.props.rows[0].length - 1
+                            ? 'none'
+                            : '1px solid #ccc',
+                        borderBottom: '1px solid #ccc',
+                        background: '#f0f0f0',
                       }}
                     >
-                      {header}
-                    </div>
-                  </th>
-                )
-              })}
-            </tr>
-          </thead>
-          <tbody>
-            {shape.props.rows.slice(1).map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {row.map((value, colIndex) => (
-                  <td
-                    key={colIndex}
-                    style={{
-                      padding: '8px',
-                      borderRight: colIndex === row.length - 1 ? 'none' : '1px solid #ccc',
-                      borderBottom: rowIndex === shape.props.rows.length - 2 ? 'none' : '1px solid #ccc',
-                    }}
-                  >
-                    <div
-                      contentEditable
-                      suppressContentEditableWarning
-                      onBlur={(e) => handleCellEdit(e.target.textContent || '', rowIndex + 1, colIndex)}
-                      style={{
-                        minHeight: '1em',
-                        outline: 'none',
-                        cursor: isEditing ? 'text' : 'default'
-                      }}
-                    >
-                      {value}
-                    </div>
-                  </td>
-                ))}
+                      <div
+                        contentEditable
+                        suppressContentEditableWarning
+                        onClick={() => handleCellEdit(header, 0, colIndex)}
+                        style={{
+                          minHeight: '1em',
+                          outline: 'none',
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        {header}
+                      </div>
+                    </th>
+                  )
+                })}
               </tr>
-            ))}
-          </tbody>
-        </table>
-        {
-          isEditing && (
+            </thead>
+            <tbody>
+              {shape.props.rows.slice(1).map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  {row.map((value, colIndex) => (
+                    <td
+                      key={colIndex}
+                      style={{
+                        padding: '8px',
+                        borderRight:
+                          colIndex === row.length - 1
+                            ? 'none'
+                            : '1px solid #ccc',
+                        borderBottom:
+                          rowIndex === shape.props.rows.length - 2
+                            ? 'none'
+                            : '1px solid #ccc',
+                      }}
+                    >
+                      <div
+                        contentEditable
+                        suppressContentEditableWarning
+                        onBlur={(e) =>
+                          handleCellEdit(
+                            e.target.textContent || '',
+                            rowIndex + 1,
+                            colIndex,
+                          )
+                        }
+                        style={{
+                          minHeight: '1em',
+                          outline: 'none',
+                          cursor: isEditing ? 'text' : 'default',
+                        }}
+                      >
+                        {value}
+                      </div>
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {isEditing && (
             <>
               <TableControlGroup
                 orientation="vertical"
@@ -256,13 +305,13 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
                   right: '-25px',
                 }}
                 onAdd={() => {
-                  const newRows = [...shape.props.rows];
-                  newRows[0] = newRows[0].concat('Column');
+                  const newRows = [...shape.props.rows]
+                  newRows[0] = newRows[0].concat('Column')
                   newRows.forEach((_, i) => {
                     if (i !== 0) {
-                      newRows[i] = newRows[i].concat('');
+                      newRows[i] = newRows[i].concat('')
                     }
-                  });
+                  })
 
                   editor.updateShape({
                     type: shapeType.name,
@@ -274,8 +323,10 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
                   })
                 }}
                 onRemove={() => {
-                  if (shape.props.rows[0].length <= 1) return;
-                  const newRows = shape.props.rows.map(row => row.slice(0, -1));
+                  if (shape.props.rows[0].length <= 1) return
+                  const newRows = shape.props.rows.map((row) =>
+                    row.slice(0, -1),
+                  )
 
                   editor.updateShape({
                     type: shapeType.name,
@@ -295,9 +346,9 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
                   transform: 'translateX(-50%)',
                 }}
                 onAdd={() => {
-                  const newRows = [...shape.props.rows];
-                  const emptyRow = Array(shape.props.rows[0].length).fill('');
-                  newRows.push(emptyRow);
+                  const newRows = [...shape.props.rows]
+                  const emptyRow = Array(shape.props.rows[0].length).fill('')
+                  newRows.push(emptyRow)
 
                   editor.updateShape({
                     type: shapeType.name,
@@ -309,8 +360,8 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
                   })
                 }}
                 onRemove={() => {
-                  if (shape.props.rows.length <= 2) return;
-                  const newRows = shape.props.rows.slice(0, -1);
+                  if (shape.props.rows.length <= 2) return
+                  const newRows = shape.props.rows.slice(0, -1)
 
                   editor.updateShape({
                     type: shapeType.name,
@@ -323,13 +374,16 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
                 }}
               />
             </>
-          )
-        }
-      </HTMLContainer >
-    )
-  }
+          )}
+        </HTMLContainer>
+      )
+    }
 
-  override indicator(shape: ShapeType) {
-    return <rect width={shape.props.w} height={shape.props.h} rx={8} ry={8} />
+    override indicator(shape: ShapeType) {
+      return <rect width={shape.props.w} height={shape.props.h} rx={8} ry={8} />
+    }
   }
 }
+
+export const TableFE = createTableClass('table-fe')
+export const TableBE = createTableClass('table-be')

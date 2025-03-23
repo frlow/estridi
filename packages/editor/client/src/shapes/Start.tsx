@@ -1,35 +1,27 @@
-import {
-  BaseBoxShapeUtil,
-  HTMLContainer,
-  Rectangle2d,
-  useDefaultColorTheme,
-} from 'tldraw'
-import { Shapes } from 'editor-common'
+import { BaseBoxShapeUtil, HTMLContainer, Rectangle2d } from 'tldraw'
+import { Shapes, ShapeName } from 'editor-common'
 import { BaseShape } from './index.ts'
+import { BLUE, BORDER, CIRCLE_RADIUS, GREEN } from './util/constants.ts'
 
-const radius = 90
-
-function createStartClass(variant: 'start' | 'end') {
+function createStartClass(variant: 'start-fe' | 'start-be') {
   const shapeType = Shapes[variant]
   type ShapeType = BaseShape<typeof shapeType>
+  const isFe = variant.includes('fe')
 
   return class extends BaseBoxShapeUtil<ShapeType> {
     static override type = shapeType.name
     static override props = shapeType.props
+    static transformations = {
+      'start-fe': [{ value: 'end-fe' as ShapeName, icon: 'end-fe-preview' }],
+      'start-be': [{ value: 'end-be' as ShapeName, icon: 'end-be-preview' }],
+    }[variant]
 
     override getDefaultProps(): ShapeType['props'] {
-      return variant === 'start'
-        ? {
-            h: radius,
-            w: radius,
-            color: 'light-blue',
-            target: 'playwright',
-          }
-        : {
-            h: radius,
-            w: radius,
-            color: 'green',
-          }
+      return {
+        h: CIRCLE_RADIUS,
+        w: CIRCLE_RADIUS,
+        target: isFe ? 'playwright' : 'vitest',
+      }
     }
 
     override canEdit = () => false
@@ -38,30 +30,22 @@ function createStartClass(variant: 'start' | 'end') {
 
     override getGeometry() {
       return new Rectangle2d({
-        width: radius,
-        height: radius,
+        width: CIRCLE_RADIUS,
+        height: CIRCLE_RADIUS,
         isFilled: true,
       })
     }
 
-    override component(shape: ShapeType) {
-      const theme = useDefaultColorTheme()
-
-      const color =
-        'target' in shape.props && shape.props.target === 'vitest'
-          ? theme['green']
-          : theme['light-blue']
+    override component() {
       return (
         <HTMLContainer>
           <div
             style={{
-              width: `${radius}px`,
-              height: `${radius}px`,
-              borderRadius: `${radius}px`,
-              border: { start: '4px solid black', end: '6px solid black' }[
-                variant
-              ],
-              background: color.solid,
+              width: `${CIRCLE_RADIUS}px`,
+              height: `${CIRCLE_RADIUS}px`,
+              borderRadius: `${CIRCLE_RADIUS}px`,
+              border: BORDER,
+              background: isFe ? BLUE : GREEN,
             }}
           ></div>
         </HTMLContainer>
@@ -71,14 +55,14 @@ function createStartClass(variant: 'start' | 'end') {
     override indicator() {
       return (
         <circle
-          cx={radius / 2}
-          cy={radius / 2}
-          r={Math.min(radius, radius) / 2}
+          cx={CIRCLE_RADIUS / 2}
+          cy={CIRCLE_RADIUS / 2}
+          r={Math.min(CIRCLE_RADIUS, CIRCLE_RADIUS) / 2}
         />
       )
     }
   }
 }
 
-export const Start = createStartClass('start')
-export const End = createStartClass('end')
+export const StartFE = createStartClass('start-fe')
+export const StartBE = createStartClass('start-be')

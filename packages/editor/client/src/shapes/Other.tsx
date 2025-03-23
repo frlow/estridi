@@ -2,7 +2,6 @@ import { BaseBoxShapeUtil, HTMLContainer } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape, baseStyle } from './index.ts'
 
-
 const shapeType = Shapes.other
 type ShapeType = BaseShape<typeof shapeType>
 
@@ -14,7 +13,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
     return {
       h: 80,
       w: 80,
-      text: ''
+      text: '',
     }
   }
 

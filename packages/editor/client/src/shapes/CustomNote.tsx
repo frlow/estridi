@@ -1,9 +1,10 @@
-import { BaseBoxShapeUtil, HTMLContainer, useDefaultColorTheme } from 'tldraw'
+import { BaseBoxShapeUtil, HTMLContainer, toRichText } from 'tldraw'
 import { Shapes } from 'editor-common'
-import { BaseShape, figureStyles } from './index.ts'
-import { TextLabelWithAutoHeight } from './util/TextLabelWithAutoHeight'
+import { BaseShape } from './index.ts'
+import { TextLabelWithAutoHeight } from './util/TextLabelWithAutoHeight.tsx'
+import { BORDER, BORDER_RADIUS, GREY } from './util/constants.ts'
 
-const shapeType = Shapes.customNote
+const shapeType = Shapes['custom-note']
 type ShapeType = BaseShape<typeof shapeType>
 
 const DEFAULT_WIDTH = 300
@@ -18,8 +19,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
     return {
       h: MIN_HEIGHT,
       w: DEFAULT_WIDTH,
-      text: 'Note tag..',
-      color: 'grey',
+      richText: toRichText('Add comment...'),
     }
   }
 
@@ -31,15 +31,14 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
 
   override component(shape: ShapeType) {
     const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
-    const theme = useDefaultColorTheme()
 
     return (
       <HTMLContainer
         style={{
-          background: theme[shape.props.color].solid,
-          border: figureStyles.border,
+          background: GREY,
+          border: BORDER,
           padding: '1rem',
-          borderRadius: '10px',
+          borderRadius: BORDER_RADIUS,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',

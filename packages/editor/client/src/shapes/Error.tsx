@@ -1,28 +1,27 @@
-import {
-  BaseBoxShapeUtil,
-  HTMLContainer,
-  Rectangle2d,
-  useDefaultColorTheme,
-} from 'tldraw'
+import { BaseBoxShapeUtil, HTMLContainer, Rectangle2d } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
+import { BORDER, GREEN, INTER_BORDER } from './util/constants.ts'
 
-const radius = 90
+const CIRCLE_RADIUS = 90
 
-function createStartClass(variant: 'error' | 'softError') {
+function createStartClass(variant: 'error' | 'soft-error') {
   const shapeType = Shapes[variant]
   type ShapeType = BaseShape<typeof shapeType>
 
   return class extends BaseBoxShapeUtil<ShapeType> {
     static override type = shapeType.name
     static override props = shapeType.props
+    static transformations = {
+      error: [{ value: 'soft-error', icon: 'soft-error-preview' }],
+      'soft-error': [{ value: 'error', icon: 'error-preview' }],
+    }[variant]
 
     override getDefaultProps(): ShapeType['props'] {
       return {
-        w: radius,
-        h: radius,
+        w: CIRCLE_RADIUS,
+        h: CIRCLE_RADIUS,
         text: '',
-        color: 'light-blue',
       }
     }
 
@@ -33,24 +32,25 @@ function createStartClass(variant: 'error' | 'softError') {
 
     override getGeometry() {
       return new Rectangle2d({
-        width: radius,
-        height: radius,
+        width: CIRCLE_RADIUS,
+        height: CIRCLE_RADIUS,
         isFilled: true,
       })
     }
 
-    override component(shape: ShapeType) {
-      const theme = useDefaultColorTheme()
-
+    override component() {
       return (
         <HTMLContainer>
           <div
             style={{
-              width: `${radius}px`,
-              height: `${radius}px`,
-              borderRadius: `${radius}px`,
-              border: '4px solid black',
-              background: theme[shape.props.color].solid,
+              width: `${CIRCLE_RADIUS}px`,
+              height: `${CIRCLE_RADIUS}px`,
+              borderRadius: `${CIRCLE_RADIUS}px`,
+              border: {
+                error: BORDER,
+                'soft-error': INTER_BORDER,
+              }[variant],
+              background: GREEN,
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -59,7 +59,12 @@ function createStartClass(variant: 'error' | 'softError') {
             <img
               height="60px"
               draggable={false}
-              src={variant === 'error' ? '/error.svg' : '/soft-error.svg'}
+              src={'/error.svg'}
+              onError={(e) => {
+                console.error(`Failed to load image: /error.svg`, e)
+                // Set a fallback background color
+                ;(e.target as HTMLImageElement).style.backgroundColor = '#ddd'
+              }}
             />
           </div>
         </HTMLContainer>
@@ -69,14 +74,14 @@ function createStartClass(variant: 'error' | 'softError') {
     override indicator() {
       return (
         <circle
-          cx={radius / 2}
-          cy={radius / 2}
-          r={Math.min(radius, radius) / 2}
+          cx={CIRCLE_RADIUS / 2}
+          cy={CIRCLE_RADIUS / 2}
+          r={Math.min(CIRCLE_RADIUS, CIRCLE_RADIUS) / 2}
         />
       )
     }
   }
 }
 
-export const Error = createStartClass('error')
-export const SoftError = createStartClass('softError')
+export const HardError = createStartClass('error')
+export const SoftError = createStartClass('soft-error')
