@@ -17,5 +17,7 @@ test-results/
 demo/
 /demo/
 .pnpm-store/
+estridi.json
+
 *DS_Store
 DS_Store

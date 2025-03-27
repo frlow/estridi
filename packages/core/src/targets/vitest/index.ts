@@ -10,9 +10,10 @@ export const generateVitest = async (
   const playwrightTemplate = await generatePlaywright(name, scraped, options)
   const replaced = playwrightTemplate
     .replace(
-      "import { BrowserContext, Page, test, expect } from '@playwright/test'",
+      "import { test, expect } from '@playwright/test'",
       'import { test, expect, describe } from "vitest"',
     )
+    .replace("import type { BrowserContext, Page } from '@playwright/test'", '')
     .replaceAll('test.describe', 'describe')
     .replaceAll(', page: Page, context: BrowserContext', '')
     .replaceAll('page: Page', '')

@@ -58,13 +58,13 @@ export const findShortestPathToNode = (
         }
         temp.push(newPath)
       }
-      crawled = temp
-      if (max-- === 0) {
-        const problemNode = scraped.find((n) => n.id === nodeId)
-        debugger
-        throw `Unable to find a valid path to node: ${problemNode.id}: ${problemNode.text}
+    }
+    crawled = temp
+    if (max-- === 0) {
+      const problemNode = scraped.find((n) => n.id === nodeId)
+      debugger
+      throw `Unable to find a valid path to node: ${problemNode.id}: ${problemNode.text}
 Check if there are conflicting gateways with the same name in the path. `
-      }
     }
   }
 }

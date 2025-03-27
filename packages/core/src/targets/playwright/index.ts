@@ -20,7 +20,8 @@ ${_(indentation)}})`
 export const generatePlaywright = async (name: string, scraped: Scraped, options: EstridiGeneratorOptions) => {
   const testableNodeTree = getTestableNodeTree(scraped)
   const handlesTypeCode = generateHandlesTypeCode(scraped, name)
-  return `import { BrowserContext, Page, test, expect } from '@playwright/test'
+  return `import { test, expect } from '@playwright/test'
+import type { BrowserContext, Page } from '@playwright/test'
 import { handles } from './${name}.js'
 
 ${generateTestBlock(scraped, testableNodeTree, {})}
