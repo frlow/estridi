@@ -175,97 +175,9 @@ describe("core", () => {
     });
   });
   describe("Prepare Testable Nodes", () => {
-    test("No roots found", async () => {
-      const gateways: GatewayCollection = {
-        "Any roots in document": "no",
-      };
-      const state = await handles.setup({ gateways } as any);
-      const args = { gateways, state } as any;
-      await handleServiceCalls(args);
-
-      let testFunc = handles.test_noRootsFound;
-      if (testFunc.length === 2) testFunc = (await testFunc(args)) as any;
-      await handles.start(args);
-      expect(await testFunc(args)).toBeUndefined();
-    });
-    test("Select all roots", async () => {
-      const gateways: GatewayCollection = {
-        "Any roots in document": "yes",
-        "Selected Roots": "all",
-      };
-      const state = await handles.setup({ gateways } as any);
-      const args = { gateways, state } as any;
-      await handleServiceCalls(args);
-
-      let testFunc = handles.test_selectAllRoots;
-      if (testFunc.length === 2) testFunc = (await testFunc(args)) as any;
-      await handles.start(args);
-      expect(await testFunc(args)).toBeUndefined();
-    });
-    test("Root not found", async () => {
-      const gateways: GatewayCollection = {
-        "Any roots in document": "yes",
-        "Selected Roots": "list",
-        "Any selected root not in document": "yes",
-      };
-      const state = await handles.setup({ gateways } as any);
-      const args = { gateways, state } as any;
-      await handleServiceCalls(args);
-
-      let testFunc = handles.test_rootNotFound;
-      if (testFunc.length === 2) testFunc = (await testFunc(args)) as any;
-      await handles.start(args);
-      expect(await testFunc(args)).toBeUndefined();
-    });
-    test("Select listed nodes", async () => {
-      const gateways: GatewayCollection = {
-        "Any roots in document": "yes",
-        "Selected Roots": "list",
-        "Any selected root not in document": "no",
-      };
-      const state = await handles.setup({ gateways } as any);
-      const args = { gateways, state } as any;
-      await handleServiceCalls(args);
-
-      let testFunc = handles.test_selectListedNodes;
-      if (testFunc.length === 2) testFunc = (await testFunc(args)) as any;
-      await handles.start(args);
-      expect(await testFunc(args)).toBeUndefined();
-    });
-    test("Multiple roots found", async () => {
-      const gateways: GatewayCollection = {
-        "Any roots in document": "yes",
-        "Selected Roots": "none",
-        "More than one root in document": "yes",
-      };
-      const state = await handles.setup({ gateways } as any);
-      const args = { gateways, state } as any;
-      await handleServiceCalls(args);
-
-      let testFunc = handles.test_multipleRootsFound;
-      if (testFunc.length === 2) testFunc = (await testFunc(args)) as any;
-      await handles.start(args);
-      expect(await testFunc(args)).toBeUndefined();
-    });
-    test("Select single root", async () => {
-      const gateways: GatewayCollection = {
-        "Any roots in document": "yes",
-        "Selected Roots": "none",
-        "More than one root in document": "no",
-      };
-      const state = await handles.setup({ gateways } as any);
-      const args = { gateways, state } as any;
-      await handleServiceCalls(args);
-
-      let testFunc = handles.test_selectSingleRoot;
-      if (testFunc.length === 2) testFunc = (await testFunc(args)) as any;
-      await handles.start(args);
-      expect(await testFunc(args)).toBeUndefined();
-    });
+    // table Roots Cases not found!
     test("Filter nodes connected to root", async () => {
       const gateways: GatewayCollection = {
-        "Any roots in document": "yes",
-        "Selected Roots": "all",
         "Each root": "",
       };
       const state = await handles.setup({ gateways } as any);
@@ -279,8 +191,6 @@ describe("core", () => {
     });
     test("Filter connected tables", async () => {
       const gateways: GatewayCollection = {
-        "Any roots in document": "yes",
-        "Selected Roots": "all",
         "Each root": "",
       };
       const state = await handles.setup({ gateways } as any);
@@ -292,65 +202,36 @@ describe("core", () => {
       await handles.start(args);
       expect(await testFunc(args)).toBeUndefined();
     });
-    describe("Inject Virtual Node Virtual Node Cases", () => {
-      const testNode = async ({
-        tableRow,
-      }: {
-        tableRow: Record<string, string>;
-      }) => {
-        const gateways: GatewayCollection = {
-          "Any roots in document": "yes",
-          "Selected Roots": "all",
-          "Each root": "",
-          "Virtual nodes enabled": "yes",
-        };
-        const state = await handles.setup({ gateways, tableRow } as any);
-        const args = { gateways, state, tableRow } as any;
-        await handleServiceCalls(args);
-
-        let testFunc = handles.test_injectVirtualNodeVirtualNodeCases;
-        if (testFunc.length === 2) testFunc = (await testFunc(args)) as any;
-        await handles.start(args);
-        expect(await testFunc(args)).toBeUndefined();
+    test("Inject virtual nodes", async () => {
+      const gateways: GatewayCollection = {
+        "Each root": "",
+        "Virtual nodes enabled": "yes",
       };
+      const state = await handles.setup({ gateways } as any);
+      const args = { gateways, state } as any;
+      await handleServiceCalls(args);
 
-      test("base", async () => {
-        const tableRow = {
-          Id: "base",
-        };
-        await testNode({ tableRow });
-      });
+      let testFunc = handles.test_injectVirtualNodes;
+      if (testFunc.length === 2) testFunc = (await testFunc(args)) as any;
+      await handles.start(args);
+      expect(await testFunc(args)).toBeUndefined();
     });
   });
   describe("Generate Test File", () => {
     describe("Generate Playwright", () => {
-      describe("Generate Testable Node Tree Testable Node Tree Cases", () => {
-        const testNode = async ({
-          tableRow,
-        }: {
-          tableRow: Record<string, string>;
-        }) => {
-          const gateways: GatewayCollection = {
-            "Target Type": "playwright",
-            "": "",
-          };
-          const state = await handles.setup({ gateways, tableRow } as any);
-          const args = { gateways, state, tableRow } as any;
-          await handleServiceCalls(args);
-
-          let testFunc =
-            handles.test_generateTestableNodeTreeTestableNodeTreeCases;
-          if (testFunc.length === 2) testFunc = (await testFunc(args)) as any;
-          await handles.start(args);
-          expect(await testFunc(args)).toBeUndefined();
+      test("Generate testable node tree", async () => {
+        const gateways: GatewayCollection = {
+          "Target Type": "playwright",
+          "": "",
         };
+        const state = await handles.setup({ gateways } as any);
+        const args = { gateways, state } as any;
+        await handleServiceCalls(args);
 
-        test("base", async () => {
-          const tableRow = {
-            Id: "base",
-          };
-          await testNode({ tableRow });
-        });
+        let testFunc = handles.test_generateTestableNodeTree;
+        if (testFunc.length === 2) testFunc = (await testFunc(args)) as any;
+        await handles.start(args);
+        expect(await testFunc(args)).toBeUndefined();
       });
       test("Generate type objects", async () => {
         const gateways: GatewayCollection = {
@@ -415,12 +296,9 @@ describe("core", () => {
 export const Gateways = [
   "Target Type",
   "",
-  "Any roots in document",
-  "Selected Roots",
-  "Any selected root not in document",
   "Each root",
   "Virtual nodes enabled",
-  "More than one root in document",
+  "More root nodes",
   "Source type",
 ] as const;
 
@@ -473,10 +351,7 @@ export type CoreGeneratePlaywright<
   TState = HandlesGenerics[0],
   TPageExtensions = HandlesGenerics[1],
 > = {
-  test_generateTestableNodeTreeTestableNodeTreeCases: TestFunction<
-    TState,
-    TPageExtensions
-  >;
+  test_generateTestableNodeTree: TestFunction<TState, TPageExtensions>;
   test_generateTestBlock: TestFunction<TState, TPageExtensions>;
   test_generateTestFile: TestFunction<TState, TPageExtensions>;
   test_generateTypeObjects: TestFunction<TState, TPageExtensions>;
@@ -487,15 +362,10 @@ export type CorePrepareTestableNodes<
   TState = HandlesGenerics[0],
   TPageExtensions = HandlesGenerics[1],
 > = {
-  test_rootNotFound: TestFunction<TState, TPageExtensions>;
-  test_selectListedNodes: TestFunction<TState, TPageExtensions>;
+  test_findRootsRootsCases: TestFunction<TState, TPageExtensions>;
   test_filterNodesConnectedToRoot: TestFunction<TState, TPageExtensions>;
   test_filterConnectedTables: TestFunction<TState, TPageExtensions>;
-  test_injectVirtualNodeVirtualNodeCases: TestFunction<TState, TPageExtensions>;
-  test_selectAllRoots: TestFunction<TState, TPageExtensions>;
-  test_multipleRootsFound: TestFunction<TState, TPageExtensions>;
-  test_selectSingleRoot: TestFunction<TState, TPageExtensions>;
-  test_noRootsFound: TestFunction<TState, TPageExtensions>;
+  test_injectVirtualNodes: TestFunction<TState, TPageExtensions>;
 };
 
 export type CoreLoadScraped<

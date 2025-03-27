@@ -23,7 +23,7 @@ function createStartClass(variant: 'start' | 'end') {
             h: radius,
             w: radius,
             color: 'light-blue',
-            target: 'playwright',
+            target: 'none',
           }
         : {
             h: radius,

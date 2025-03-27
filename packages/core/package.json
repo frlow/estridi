@@ -14,7 +14,6 @@
     "prettier": "^3.4.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.49.1",
     "@types/node": "^22.10.7",
     "@vitest/coverage-v8": "^3.0.3",
     "@figma/rest-api-spec": "^0.23.0",

@@ -8,7 +8,7 @@ const Versions = createMigrationIds(SEQUENCE_ID, {
   AddColors: 1,
   Target: 2,
   SymbolUpgrade: 3,
-  SimplifyTable: 4
+  SimplifyTable: 4,
 })
 
 export const myMigrations = createMigrationSequence({
@@ -73,7 +73,8 @@ export const myMigrations = createMigrationSequence({
       },
       down() {
       }
-    }
+    },
+
   ]
 })
 
