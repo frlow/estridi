@@ -1,5 +1,5 @@
 {
-  "clock": 12949,
+  "clock": 14935,
   "tombstones": {
     "shape:8F-TZSL9AJbBN5yjrurbi": 183,
     "shape:8TFfq1XyTChmHRhBvsDLC": 2824,
@@ -104,7 +104,7 @@
     },
     {
       "state": {
-        "x": 161.26505105928982,
+        "x": 85.28732140852844,
         "y": 530,
         "rotation": 0,
         "isLocked": false,
@@ -123,7 +123,7 @@
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 12532
+      "lastChangedClock": 13175
     },
     {
       "state": {
@@ -434,7 +434,7 @@
     },
     {
       "state": {
-        "x": 2170.75,
+        "x": 2202.407387354484,
         "y": 1094.625,
         "rotation": 0,
         "isLocked": false,
@@ -447,13 +447,13 @@
         "props": {
           "w": 90,
           "h": 90,
-          "text": "Edit me..",
+          "text": "Display errors",
           "color": "light-blue",
           "dash": "draw"
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 11434
+      "lastChangedClock": 14584
     },
     {
       "state": {
@@ -659,7 +659,7 @@
           },
           "arrowheadStart": "none",
           "arrowheadEnd": "arrow",
-          "text": "",
+          "text": "no",
           "labelPosition": 0.5,
           "font": "draw",
           "scale": 1
@@ -668,7 +668,7 @@
         "index": "a9CK6",
         "typeName": "shape"
       },
-      "lastChangedClock": 11434
+      "lastChangedClock": 14857
     },
     {
       "state": {
@@ -737,8 +737,8 @@
           },
           "arrowheadStart": "none",
           "arrowheadEnd": "arrow",
-          "text": "",
-          "labelPosition": 0.5,
+          "text": "yes",
+          "labelPosition": 0.3170470906242415,
           "font": "draw",
           "scale": 1
         },
@@ -746,7 +746,7 @@
         "index": "a71L7",
         "typeName": "shape"
       },
-      "lastChangedClock": 11434
+      "lastChangedClock": 14935
     },
     {
       "state": {
@@ -893,7 +893,7 @@
           },
           "arrowheadStart": "none",
           "arrowheadEnd": "arrow",
-          "text": "root:basic",
+          "text": "root:playwright",
           "labelPosition": 0.5,
           "font": "draw",
           "scale": 1
@@ -1049,7 +1049,7 @@
           },
           "arrowheadStart": "none",
           "arrowheadEnd": "arrow",
-          "text": "",
+          "text": "yes",
           "labelPosition": 0.5,
           "font": "draw",
           "scale": 1
@@ -1058,7 +1058,7 @@
         "index": "aJ6jJ",
         "typeName": "shape"
       },
-      "lastChangedClock": 11434
+      "lastChangedClock": 14046
     },
     {
       "state": {
@@ -1103,7 +1103,7 @@
     {
       "state": {
         "x": 1777,
-        "y": 1325.75,
+        "y": 1538.909741520192,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
@@ -1120,7 +1120,7 @@
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 11434
+      "lastChangedClock": 13940
     },
     {
       "state": {
@@ -1595,7 +1595,7 @@
           },
           "arrowheadStart": "none",
           "arrowheadEnd": "arrow",
-          "text": "",
+          "text": "no",
           "labelPosition": 0.5,
           "font": "draw",
           "scale": 1
@@ -1604,7 +1604,7 @@
         "index": "aN49S",
         "typeName": "shape"
       },
-      "lastChangedClock": 11434
+      "lastChangedClock": 13989
     },
     {
       "state": {
@@ -1748,7 +1748,7 @@
     {
       "state": {
         "x": 230,
-        "y": -100,
+        "y": -492.5516031956013,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
@@ -1757,14 +1757,14 @@
         "type": "frame",
         "props": {
           "w": 2750,
-          "h": 1540,
+          "h": 1853.8115612873662,
           "name": "Root page"
         },
         "parentId": "page:3i4iH0BavcA927frA4DIn",
         "index": "aO1Dp",
         "typeName": "shape"
       },
-      "lastChangedClock": 11530
+      "lastChangedClock": 13876
     },
     {
       "state": {

@@ -1,6 +1,6 @@
 import { defineConfig } from '@playwright/test'
 
-const timeout = 1000 * 50
+const timeout = 1000 * 5
 
 export default defineConfig({
   testDir: './tests',
