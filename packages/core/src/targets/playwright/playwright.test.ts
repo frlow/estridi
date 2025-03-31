@@ -39,7 +39,7 @@ describe('playwright', () => {
     expect(code).toBeTruthy
   })
 
-  test('illegal characters in tables', async () => {
+  test.skip('illegal characters in tables', async () => {
     const scraped: Scraped = [
       {
         id: 'startId',

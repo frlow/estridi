@@ -1,10 +1,11 @@
 export { loadScrapedFromSource } from './index.js'
 
+export type NodeId = string
+
 export type BaseNode = {
-  id: string
+  id: NodeId
   text: string
   raw: string
-  distance?: number
   extra?: {
     target?: string
     testDir?: string
@@ -33,13 +34,13 @@ export type ScrapedNodeType<T extends ScrapedNodeTypes> = T
 
 export type ScrapedOther = {
   type: ScrapedNodeType<'other'>
-  next?: string
+  next?: NodeId
   data?: any
 } & BaseNode
 
 export type ScrapedConnector = {
   type: ScrapedNodeType<'connector'>
-  next?: string
+  next?: NodeId
 } & BaseNode
 
 export type ScrapedTable = {
@@ -50,36 +51,36 @@ export type ScrapedTable = {
 export type ScrapedScript = {
   type: ScrapedNodeType<'script'>
   variant: 'script' | 'message' | 'signalSend'
-  next?: string
+  next?: NodeId
 } & BaseNode
 
 export type ScrapedServiceCall = {
   type: ScrapedNodeType<'serviceCall'>
-  next?: string
+  next?: NodeId
 } & BaseNode
 
 export type ScrapedStart = {
   type: ScrapedNodeType<'start' | 'root' | 'end'>
-  next?: string
+  next?: NodeId
 } & BaseNode
 
 export type ScrapedGateway = {
   type: ScrapedNodeType<'gateway'>
   variant: 'gateway' | 'loop' | 'parallel'
-  options: Record<string, string>
+  options: Record<NodeId, string>
 } & BaseNode
 
 export type ScrapedSubprocess = {
   type: ScrapedNodeType<'subprocess'>
-  next?: string
+  next?: NodeId
   link?: string
   tableKey?: string
 } & BaseNode
 
 export type ScrapedUserAction = {
   type: ScrapedNodeType<'userAction'>
-  next?: string
-  actions?: Record<string, string>
+  next?: NodeId
+  actions?: Record<NodeId, string>
   variant: 'userAction' | 'subprocess'
 } & BaseNode
 
