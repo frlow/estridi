@@ -70,14 +70,12 @@ describe('filter scraped', () => {
     const filtered = filterScraped(scraped, 'demo')
     const expected: Scraped = [
       {
-        distance: 0,
         'id': '0',
         'next': '1',
         ...autoText('demo'),
         'type': 'root'
       },
       {
-        distance: 1,
         'id': '1',
         'next': '2',
         ...autoText('Some script'),
@@ -85,7 +83,6 @@ describe('filter scraped', () => {
         variant: 'script'
       },
       {
-        distance: 2,
         'id': '2',
         'options': {
           '3': 'A'
@@ -95,7 +92,6 @@ describe('filter scraped', () => {
         variant: 'gateway'
       },
       {
-        distance: 3,
         'id': '3',
         'next': '4',
         ...autoText('Show A'),
@@ -103,7 +99,6 @@ describe('filter scraped', () => {
         variant: 'script'
       },
       {
-        distance: 4,
         'actions': {
           '6': 'Click Button'
         },
@@ -114,7 +109,6 @@ describe('filter scraped', () => {
         variant: 'userAction'
       },
       {
-        distance: 5,
         'id': '6',
         'next': '7',
         ...autoText('Clicked Button'),
@@ -122,7 +116,6 @@ describe('filter scraped', () => {
         variant: 'script'
       },
       {
-        distance: 6,
         'id': '7',
         'link': '8',
         'next': 'after',
@@ -131,14 +124,12 @@ describe('filter scraped', () => {
         'type': 'subprocess'
       },
       {
-        distance: 7,
         'id': '8',
         'next': '9',
         ...autoText('Some subprocess'),
         'type': 'start'
       },
       {
-        distance: 8,
         'id': '9',
         'next': undefined,
         ...autoText('In subprocess'),
@@ -146,13 +137,11 @@ describe('filter scraped', () => {
         variant: 'script'
       },
       {
-        distance: 5,
         'id': 'end',
         ...autoText('end'),
         'type': 'end'
       },
       {
-        distance: 7,
         'id': 'after',
         'next': undefined,
         ...autoText('After subprocess'),

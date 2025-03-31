@@ -23,28 +23,24 @@ export const getNodeConnections = (
 }
 
 export const processNode = ({
-  distance = 0,
   node,
   scraped,
   acc = {},
   ignoreLinks,
 }: {
   node: ScrapedNode
-  distance?: number
   scraped: Scraped
   acc?: Record<string, ScrapedNode>
   ignoreLinks?: boolean
 }): Record<string, ScrapedNode> => {
   if (!node) return
   if (acc[node.id]) return
-  node.distance = distance
   acc[node.id] = node
   const connections = getNodeConnections(node, ignoreLinks)
   connections.forEach((c) =>
     processNode({
       scraped,
       node: scraped.find((n) => n.id === c),
-      distance: distance + 1,
       acc,
       ignoreLinks,
     }),
