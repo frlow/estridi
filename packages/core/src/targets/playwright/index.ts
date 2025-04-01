@@ -1,10 +1,10 @@
 import { Scraped } from '../../scraped'
 import {
-  getTestableNodeTree2,
+  getTestableNodeTree,
   NodeBranch,
   NodeLeaf,
   NodeTree,
-} from '../testableNodeTree2'
+} from '../testableNodeTree'
 import {
   camelize,
   capitalCamel,

@@ -1,7 +1,7 @@
 import { generatePlaywright } from '../playwright'
 import { Scraped } from '../../scraped'
 import { EstridiGeneratorOptions } from '../../index'
-import { NodeTree } from '../testableNodeTree2'
+import { NodeTree } from '../testableNodeTree'
 
 export const generateVitest = async (
   nodeTree: NodeTree

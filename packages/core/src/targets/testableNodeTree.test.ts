@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { getTestCase } from '../test/editorTestCases'
-import { getTestableNodeTree2, NodeTree } from './testableNodeTree2'
+import { getTestableNodeTree, NodeTree } from './testableNodeTree'
 
 const runTest = async (
   rootName: string,
@@ -8,7 +8,7 @@ const runTest = async (
 ) => {
   const root = `tc-tree-${rootName}`
   const testCase = await getTestCase(root)
-  const tree = getTestableNodeTree2(testCase, root)
+  const tree = getTestableNodeTree(testCase, root)
   const expected = {
     name: root,
     allGateways: expect.anything(),

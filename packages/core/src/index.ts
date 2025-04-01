@@ -4,7 +4,7 @@ import { Scraped, ScrapedStart } from './scraped'
 import { format } from 'prettier'
 import fs from 'node:fs'
 import { generateVitest } from './targets/vitest'
-import { getTestableNodeTree2, NodeTree } from './targets/testableNodeTree2'
+import { getTestableNodeTree, NodeTree } from './targets/testableNodeTree'
 
 export * from './sources/tldraw.js'
 export * from './scraped.js'
@@ -60,7 +60,7 @@ export const generateEstridiTests = async (args: {
   //   ? await injectVirtualNodes(args.scraped)
   //   : args.scraped
   // scraped = await injectUnifiedTables(scraped)
-  const nodeTree = getTestableNodeTree2(args.scraped, args.rootName)
+  const nodeTree = getTestableNodeTree(args.scraped, args.rootName)
   const code = await target.generatorFunc(nodeTree)
   const prettierOptions = fs.existsSync('.prettierrc')
     ? JSON.parse(fs.readFileSync('.prettierrc', 'utf8'))
