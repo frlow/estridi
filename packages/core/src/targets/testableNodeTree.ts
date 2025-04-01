@@ -42,7 +42,7 @@ export type NodeTree = {
 
 export type UniqueRecord = Record<string, null>
 
-export const getTestableNodeTree2 = (
+export const getTestableNodeTree = (
   scraped: Scraped,
   rootName: string,
 ): NodeTree => {

@@ -7,11 +7,11 @@ import {
 } from '../../test/testCases'
 import path from 'node:path'
 import fs from 'node:fs'
-import { getTestableNodeTree2 } from '../testableNodeTree2'
+import { getTestableNodeTree } from '../testableNodeTree'
 
 describe('playwright', () => {
   test('generate playwright test code', async () => {
-    const nodeTree = getTestableNodeTree2(standardTestCase, 'main')
+    const nodeTree = getTestableNodeTree(standardTestCase, 'main')
     const code = await generatePlaywright(nodeTree)
     const filePath = path.join(
       __dirname,
@@ -29,13 +29,13 @@ describe('playwright', () => {
   })
 
   test('loop should not crash', async () => {
-    const nodeTree = getTestableNodeTree2(loopTestCase, 'loop')
+    const nodeTree = getTestableNodeTree(loopTestCase, 'loop')
     const code = await generatePlaywright(nodeTree)
     expect(code).toBeTruthy
   })
 
   test('subprocess loop should not crash', async () => {
-    const nodeTree = getTestableNodeTree2(subprocessLoopTestCase, 'subloop')
+    const nodeTree = getTestableNodeTree(subprocessLoopTestCase, 'subloop')
     const code = await generatePlaywright(nodeTree)
     expect(code).toBeTruthy
   })
