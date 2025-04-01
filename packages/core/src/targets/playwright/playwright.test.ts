@@ -1,19 +1,18 @@
 import { describe, expect, test } from 'vitest'
-import { filterScraped } from '../../common/filter.js'
 import { generatePlaywright } from './index.js'
 import {
-  autoText,
   loopTestCase,
   standardTestCase,
   subprocessLoopTestCase,
 } from '../../test/testCases'
 import path from 'node:path'
 import fs from 'node:fs'
-import { Scraped } from '../../scraped'
+import { getTestableNodeTree2 } from '../testableNodeTree2'
 
 describe('playwright', () => {
   test('generate playwright test code', async () => {
-    const code = await generatePlaywright('main', standardTestCase, {})
+    const nodeTree = getTestableNodeTree2(standardTestCase, 'main')
+    const code = await generatePlaywright(nodeTree)
     const filePath = path.join(
       __dirname,
       '../../test',
@@ -30,48 +29,14 @@ describe('playwright', () => {
   })
 
   test('loop should not crash', async () => {
-    const code = await generatePlaywright('main', loopTestCase, {})
+    const nodeTree = getTestableNodeTree2(loopTestCase, 'loop')
+    const code = await generatePlaywright(nodeTree)
     expect(code).toBeTruthy
   })
 
   test('subprocess loop should not crash', async () => {
-    const code = await generatePlaywright('main', subprocessLoopTestCase, {})
+    const nodeTree = getTestableNodeTree2(subprocessLoopTestCase, 'subloop')
+    const code = await generatePlaywright(nodeTree)
     expect(code).toBeTruthy
-  })
-
-  test.skip('illegal characters in tables', async () => {
-    const scraped: Scraped = [
-      {
-        id: 'startId',
-        type: 'root',
-        next: 'TableSubprocessId',
-        ...autoText('demo'),
-      },
-      {
-        id: 'TableSubprocessId',
-        type: 'subprocess',
-        ...autoText('Validate: My Table'),
-        tableKey: 'My Table',
-      },
-      {
-        id: 'TableId',
-        ...autoText('My Table'),
-        type: 'table',
-        rows: [
-          ['My Table', 'Content'],
-          ['Line 1', `/^[a-zåäöüA-ZÅÄÖÜ0-9!&*);\\-/,%:'="$(+. §?]{0,30}$/`],
-        ],
-      },
-    ]
-
-    const filtered = filterScraped(scraped, 'demo')
-    const code = await generatePlaywright('main', filtered, {})
-    const offendingLine = code
-      .split('\n')
-      .find((line) => line.includes('"Content":'))
-      .trim()
-    expect(offendingLine).toEqual(
-      `"Content": "/^[a-zåäöüA-ZÅÄÖÜ0-9!&*);\\\\-/,%:'=\\"$(+. §?]{0,30}$/"`,
-    )
   })
 })

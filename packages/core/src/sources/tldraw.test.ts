@@ -22,10 +22,8 @@ import {
 } from '../test/testCases'
 import { processTldraw } from './tldraw'
 import { generatePlaywright } from '../targets/playwright'
-import { filterScraped } from '../common/filter'
 import { Scraped } from '../scraped'
 import { convertToTldraw } from '../converter/tldrawConverter'
-import { getTestCase } from '../test/editorTestCases'
 
 const parserName: keyof typeof parsers = 'tldraw'
 const parser = parsers[parserName]
@@ -54,8 +52,7 @@ describe(`Load from ${parserName}`, () => {
 
 test('tldraw typical case', async () => {
   const scraped = await processTldraw(tlDrawTestCase)
-  const filtered = filterScraped(scraped, 'main')
-  const code = await generatePlaywright('main', filtered, {})
+  const code = await generatePlaywright('main', scraped)
   expect(code).toBeTruthy()
 })
 
