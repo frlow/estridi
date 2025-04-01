@@ -8,17 +8,19 @@ import {
 import path from 'node:path'
 import fs from 'node:fs'
 import { getTestableNodeTree } from '../testableNodeTree'
+import { prettifyCode } from '../../common/prettier'
 
 describe('playwright', () => {
   test('generate playwright test code', async () => {
     const nodeTree = getTestableNodeTree(standardTestCase, 'main')
     const code = await generatePlaywright(nodeTree)
+    const prettyCode = await prettifyCode(code)
     const filePath = path.join(
       __dirname,
       '../../test',
       'playwrightReference.ts',
     )
-    const referenceFileContent = `// @ts-nocheck\n${code}`
+    const referenceFileContent = `// @ts-nocheck\n${prettyCode}`
     // fs.writeFileSync(filePath, referenceFileContent, 'utf8')
     const reference = fs.readFileSync(filePath, 'utf8')
     const normalizeLineEndings = (str, normalized = '\n') =>
