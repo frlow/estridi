@@ -1,8 +1,9 @@
-import { Scraped } from '../../scraped'
-import { EstridiGeneratorOptions } from '../../index'
+import { TargetGenerator } from '../TargetGenerator'
 
-export const generateVitestUnit = async (
-  name: string,
-  scraped: Scraped,
-  options: EstridiGeneratorOptions,
-) => {}
+export const generateVitestUnit: TargetGenerator = async (
+  nodeTree,
+  options = {},
+) => {
+  debugger
+  throw 'Not implemented'
+}
