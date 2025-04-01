@@ -5,7 +5,7 @@ import { convertToTldraw } from '../converter/tldrawConverter'
 import { processTldraw } from '../sources/tldraw'
 import { Scraped } from '../scraped'
 import { expect } from 'vitest'
-import { autoText } from '../common/texts'
+import { autoText } from '../texts'
 
 export { autoText }
 
@@ -307,5 +307,3 @@ export const standardTestCase: Scraped = [
     extra: { x: 350, y: 500, width: 80, height: 80 }
   }
 ]
-
-export const getFigmaTestData = () => JSON.parse(fs.readFileSync('./src/sources/figma.json', 'utf8'))

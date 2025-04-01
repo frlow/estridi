@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 import { program } from 'commander'
-import {
-  EstridiConfig,
-  generateEstridiTests,
-  parseRoots,
-} from 'core'
 import fs from 'node:fs'
 import path from 'node:path'
+import {
+  FigmaConfig,
+  generateEstridiTests,
+  loadFigmaDocument,
+  parseRoots,
+  processFigma,
+} from 'core'
 
 program
   .option('-t, --target <string>')
@@ -24,10 +26,8 @@ const run = async () => {
   try {
     if (!fs.existsSync(configPath))
       throw 'Could not find estridi.json config file'
-    const config: EstridiConfig = JSON.parse(
-      fs.readFileSync(configPath, 'utf8'),
-    )
-    const scraped = await loadScraped(config)
+    const config: FigmaConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'))
+    const scraped = await processFigma(await loadFigmaDocument(config))
     const roots = parseRoots(scraped, options.rootName)
     for (const root of roots) {
       console.log('Root: ', root.raw)

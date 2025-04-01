@@ -7,8 +7,8 @@ import {
 } from '../../test/testCases'
 import path from 'node:path'
 import fs from 'node:fs'
-import { getTestableNodeTree } from '../testableNodeTree'
-import { prettifyCode } from '../../common/prettier'
+import { getTestableNodeTree } from '../../process/testableNodeTree'
+import { prettifyCode } from '../../texts'
 
 describe('playwright', () => {
   test('generate playwright test code', async () => {

@@ -1,8 +1,7 @@
 import * as Figma from 'figma-api'
-import { autoText, sanitizeText } from '../common/texts.js'
+import { autoText, sanitizeText } from '../texts.js'
 import { DocumentNode, Node } from '@figma/rest-api-spec'
-import { afterProcess, getTableKey } from './common'
-import { isNodeInside } from '../common/inside'
+import { afterProcess, getTableKey, isNodeInside } from './common'
 import {
   FigmaConfig,
   Scraped,
