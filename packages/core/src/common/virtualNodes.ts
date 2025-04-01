@@ -1,6 +1,22 @@
 import { Scraped, ScrapedGateway } from '../scraped'
 import { autoText } from './texts'
-import { getNodeConnections } from './filter'
+
+const getNodeConnections = (
+  node: any,
+  ignoreLinks?: boolean,
+): string[] => {
+  const possibleConnections = [
+    node.next,
+    ...Object.keys(node.options || {}),
+    ...Object.keys(node.actions || {}),
+    ignoreLinks ? undefined : node.link,
+  ]
+  const definedConnections = possibleConnections.filter((c) => c)
+  const uniqueConnections = definedConnections.filter((n, index, arr) => {
+    return n && arr.indexOf(n) === index
+  })
+  return uniqueConnections
+}
 
 export const injectVirtualNodes = async (scraped: Scraped): Promise<Scraped> => {
   const ret = structuredClone(scraped)

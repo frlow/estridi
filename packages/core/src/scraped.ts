@@ -1,5 +1,3 @@
-export { loadScrapedFromSource } from './index.js'
-
 export type NodeId = string
 
 export type BaseNode = {

@@ -6,6 +6,15 @@ export const sanitizeText = (text: string) =>
     .replace(/ +/g, ' ')
     .trim()
 
+export const sanitizeAllProps = (obj: Object) =>
+  Object.keys(obj).reduce(
+    (acc, cur) => ({
+      ...acc,
+      [sanitizeText(cur)]: typeof obj[cur] === 'string' ? sanitizeText(obj[cur]) : obj[cur],
+    }),
+    {},
+  )
+
 export function camelize(str: string): string {
   return str
     .toLowerCase()
@@ -18,7 +27,9 @@ export function camelize(str: string): string {
     .replace(/\s+/g, '')
 }
 
-export const _ = (count: number) => ''.padStart(count * 2, ' ')
+export const capitalCamel = (str: string) => str.charAt(0).toUpperCase() + camelize(str.substring(1))
+
+// export const _ = (count: number) => ''.padStart(count * 2, ' ')
 
 
 export const autoText = (raw: string) =>

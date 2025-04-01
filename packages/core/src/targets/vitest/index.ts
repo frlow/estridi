@@ -1,13 +1,12 @@
 import { generatePlaywright } from '../playwright'
 import { Scraped } from '../../scraped'
 import { EstridiGeneratorOptions } from '../../index'
+import { NodeTree } from '../testableNodeTree2'
 
 export const generateVitest = async (
-  name: string,
-  scraped: Scraped,
-  options: EstridiGeneratorOptions,
+  nodeTree: NodeTree
 ) => {
-  const playwrightTemplate = await generatePlaywright(name, scraped, options)
+  const playwrightTemplate = await generatePlaywright(nodeTree)
   const replaced = playwrightTemplate
     .replace(
       "import { test, expect } from '@playwright/test'",

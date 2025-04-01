@@ -3,7 +3,6 @@ import { program } from 'commander'
 import {
   EstridiConfig,
   generateEstridiTests,
-  loadScraped,
   parseRoots,
 } from 'core'
 import fs from 'node:fs'
