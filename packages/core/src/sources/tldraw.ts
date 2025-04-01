@@ -1,6 +1,5 @@
-import { autoText, sanitizeText } from '../common/texts'
-import { afterProcess, getTableKey } from './common'
-import { isNodeInside } from '../common/inside'
+import { autoText, sanitizeText } from '../texts'
+import { afterProcess, getTableKey, isNodeInside } from './common'
 import {
   Scraped,
   ScrapedConnector,

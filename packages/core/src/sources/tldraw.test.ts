@@ -24,6 +24,7 @@ import { processTldraw } from './tldraw'
 import { generatePlaywright } from '../targets/playwright'
 import { Scraped } from '../scraped'
 import { convertToTldraw } from '../converter/tldrawConverter'
+import { getTestableNodeTree } from '../process/testableNodeTree'
 
 const parserName: keyof typeof parsers = 'tldraw'
 const parser = parsers[parserName]
@@ -57,7 +58,8 @@ describe(`Load from ${parserName}`, () => {
 
 test('tldraw typical case', async () => {
   const scraped = await processTldraw(tlDrawTestCase)
-  const code = await generatePlaywright('main', scraped)
+  const nodeTree = getTestableNodeTree(scraped, 'main')
+  const code = await generatePlaywright(nodeTree)
   expect(code).toBeTruthy()
 })
 

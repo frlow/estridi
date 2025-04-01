@@ -4,7 +4,7 @@ import { Scraped, ScrapedStart } from './scraped'
 import { format } from 'prettier'
 import fs from 'node:fs'
 import { generateVitest } from './targets/vitest'
-import { getTestableNodeTree, NodeTree } from './targets/testableNodeTree'
+import { getTestableNodeTree, NodeTree } from './process/testableNodeTree'
 
 export * from './sources/tldraw.js'
 export * from './scraped.js'
@@ -19,11 +19,14 @@ export type EstridiSourceConfig = {
 }
 
 export type EstridiTargetConfig = {
-  generatorFunc: (nodeTree: NodeTree) => Promise<string>
+  generatorFunc: (
+    nodeTree: NodeTree,
+    options: EstridiGeneratorOptions,
+  ) => Promise<string>
   getFileName: (name: string) => string
 }
 
-export type EstridiGeneratorOptions = {}
+export type EstridiGeneratorOptions = { virtualNodes?: boolean }
 
 export type EstridiTargets = 'playwright' | 'vitest'
 
@@ -56,12 +59,10 @@ export const generateEstridiTests = async (args: {
     },
   }
   const target = targets[args.target]
-  // let scraped = args.virtualNodes
-  //   ? await injectVirtualNodes(args.scraped)
-  //   : args.scraped
-  // scraped = await injectUnifiedTables(scraped)
   const nodeTree = getTestableNodeTree(args.scraped, args.rootName)
-  const code = await target.generatorFunc(nodeTree)
+  const code = await target.generatorFunc(nodeTree, {
+    virtualNodes: args.virtualNodes,
+  })
   const prettierOptions = fs.existsSync('.prettierrc')
     ? JSON.parse(fs.readFileSync('.prettierrc', 'utf8'))
     : {}

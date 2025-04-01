@@ -1,16 +1,11 @@
-import { Scraped } from '../../scraped'
-import {
-  getTestableNodeTree,
-  NodeBranch,
-  NodeLeaf,
-  NodeTree,
-} from '../testableNodeTree'
+import { NodeBranch, NodeLeaf, NodeTree } from '../../process/testableNodeTree'
 import {
   camelize,
   capitalCamel,
   sanitizeAllProps,
   sanitizeText,
-} from '../../common/texts'
+} from '../../texts'
+import { EstridiGeneratorOptions } from '../../index'
 
 const generateTest = (leaf: NodeLeaf) => {
   const actions = [
@@ -77,7 +72,7 @@ const getHandlesObjectTypeCode = (nodeTree: NodeTree) => {
 ${setupCode.join('\n')}
 } & ${typeBlocks.map((tb) => `${capitalCamel(sanitizeText(nodeTree.name) + '-' + sanitizeText(tb))}<TState, TPageExtensions>`).join(' & ')}
 
-export type HandlesGenerics<U = typeof handles> = U extends Main<infer A,infer B> ? [A, B] : never
+export type HandlesGenerics<U = typeof handles> = U extends ${capitalCamel(nodeTree.name)}<infer A,infer B> ? [A, B] : never
 
 ${getSubprocessTypes(nodeTree).join('\n\n')}`
 }
@@ -120,7 +115,10 @@ ${handlesObjectTypeCode}`
   return handlesTypeCode
 }
 
-export const generatePlaywright = async (nodeTree: NodeTree) => {
+export const generatePlaywright = async (
+  nodeTree: NodeTree,
+  options: EstridiGeneratorOptions = {},
+) => {
   return `import { test, expect } from '@playwright/test'
 import type { BrowserContext, Page } from '@playwright/test'
 import { handles } from './${nodeTree.name}.js'
