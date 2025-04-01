@@ -125,6 +125,20 @@ describe('testable node tree 2', () => {
       {
         actions: [],
         gateways: {
+          Gateway: '',
+        },
+        name: 'Other3',
+      },
+      {
+        actions: [],
+        gateways: {
+          Gateway: 'yes',
+        },
+        name: 'Other2',
+      },
+      {
+        actions: [],
+        gateways: {
           Gateway: 'yes',
         },
         name: 'YesTarget',
@@ -235,6 +249,24 @@ describe('testable node tree 2', () => {
           },
         ],
         name: 'validate:tc-tree-table-table',
+      },
+    ]))
+
+  test('virtual', async () =>
+    await runTest('virtual', [
+      {
+        actions: [],
+        gateways: {
+          Gateway: 'no',
+        },
+        name: 'Negative: Target',
+      },
+      {
+        actions: [],
+        gateways: {
+          Gateway: 'yes',
+        },
+        name: 'Target',
       },
     ]))
 })

@@ -1,4 +1,10 @@
-import { Scraped, ScrapedStart, ScrapedTable } from '../scraped'
+import {
+  Scraped,
+  ScrapedGateway,
+  ScrapedNode,
+  ScrapedStart,
+  ScrapedTable,
+} from '../scraped'
 
 function getNodeKey(id: string, subprocesses: string[]) {
   return [...subprocesses, id].join('|') // probe.path[probe.path.length - 1]
@@ -41,6 +47,33 @@ export type NodeTree = {
 } & NodeBranch
 
 export type UniqueRecord = Record<string, null>
+
+const findText = (scraped: Scraped, gw: ScrapedGateway): string => {
+  const toProcess = getNodeConnections(gw)
+  while (toProcess.length > 0) {
+    const currentId = toProcess.shift()
+    if (currentId.endsWith('-Virtual')) continue
+    const currentNode = scraped.find((n) => n.id === currentId)
+    if (currentNode.type !== 'gateway' && currentNode.raw)
+      return currentNode.raw
+    if (currentNode.type === 'connector')
+      toProcess.push(...getNodeConnections(currentNode))
+    else toProcess.unshift(...getNodeConnections(currentNode))
+  }
+}
+
+const getNodeConnections = (node: ScrapedNode): string[] => {
+  const possibleConnections = [
+    'next' in node && node.next,
+    ...Object.keys(('options' in node && node.options) || {}),
+    ...Object.keys(('actions' in node && node.actions) || {}),
+  ]
+  const definedConnections = possibleConnections.filter((c) => c)
+  const uniqueConnections = definedConnections.filter((n, index, arr) => {
+    return n && arr.indexOf(n) === index
+  })
+  return uniqueConnections
+}
 
 export const getTestableNodeTree = (
   scraped: Scraped,
@@ -124,6 +157,18 @@ export const getTestableNodeTree = (
         probes.splice(probes.indexOf(probe), 1)
         Object.entries(currentNode.options).forEach((option) => {
           if (probe.path.includes(option[0])) return
+          if (scraped.find((n) => n.id === option[0]).type === 'connector') {
+            const virtualNodeKey = getNodeKey(
+              probe.path[probe.path.length - 1] + '-Virtual',
+              probe.subprocesses,
+            )
+            const text = findText(scraped, currentNode)
+            const probeClone = structuredClone(probe)
+            probeClone.path.push(`${currentNode.id}-Virtual`)
+            probeClone.gateways[currentNode.raw] = option[1]
+            probeClone.testName = `Negative: ${text}`
+            discoveredNodes[virtualNodeKey] = probeClone
+          }
           if (
             probe.gateways[currentNode.raw] &&
             probe.gateways[currentNode.raw] !== option[1]
