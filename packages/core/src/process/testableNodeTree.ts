@@ -250,6 +250,7 @@ export const getTestableNodeTree = (
           probeClone.gateways[currentNode.raw] = row[0]
           probeClone.testName = `${currentNode.raw} ${row[0]}`
           discoveredNodes[rowNodeKey] = probeClone
+          getSubprocess(probe.subprocesses).tests[`${currentNode.raw}-${row[0]}`] = null
         })
       }
       if (

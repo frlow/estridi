@@ -9,10 +9,12 @@ import path from 'node:path'
 import fs from 'node:fs'
 import { getTestableNodeTree } from '../../process/testableNodeTree'
 import { prettifyCode } from '../../texts'
+import { getTestCase } from '../../test/editorTestCases'
 
 describe('playwright', () => {
   test('generate playwright test code', async () => {
-    const nodeTree = getTestableNodeTree(standardTestCase, 'main')
+    const testCase = await getTestCase()
+    const nodeTree = getTestableNodeTree(testCase, 'standard')
     const code = await generatePlaywright(nodeTree)
     const prettyCode = await prettifyCode(code)
     const filePath = path.join(
@@ -21,7 +23,7 @@ describe('playwright', () => {
       'playwrightReference.ts',
     )
     const referenceFileContent = `// @ts-nocheck\n${prettyCode}`
-    // fs.writeFileSync(filePath, referenceFileContent, 'utf8')
+    fs.writeFileSync(filePath, referenceFileContent, 'utf8')
     const reference = fs.readFileSync(filePath, 'utf8')
     const normalizeLineEndings = (str, normalized = '\n') =>
       str.replace(/\r?\n/g, normalized)

@@ -7,6 +7,5 @@
     "allowSyntheticDefaultImports": true
   },
   "exclude": [
-    "**/*Reference.ts"
   ]
 }

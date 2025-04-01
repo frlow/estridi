@@ -1,5 +1,5 @@
 {
-  "clock": 14935,
+  "clock": 15331,
   "tombstones": {
     "shape:8F-TZSL9AJbBN5yjrurbi": 183,
     "shape:8TFfq1XyTChmHRhBvsDLC": 2824,
@@ -104,7 +104,7 @@
     },
     {
       "state": {
-        "x": 85.28732140852844,
+        "x": 67.35883766335087,
         "y": 530,
         "rotation": 0,
         "isLocked": false,
@@ -123,12 +123,12 @@
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 13175
+      "lastChangedClock": 15209
     },
     {
       "state": {
         "x": 875.0150510592898,
-        "y": 251.75,
+        "y": 241.875,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
@@ -146,7 +146,7 @@
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 11434
+      "lastChangedClock": 15331
     },
     {
       "state": {
