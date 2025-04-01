@@ -5,7 +5,7 @@ import {
   sanitizeAllProps,
   sanitizeText,
 } from '../../texts'
-import { EstridiGeneratorOptions } from '../../index'
+import { TargetGenerator } from '../TargetGenerator'
 
 const generateTest = (leaf: NodeLeaf) => {
   const actions = [
@@ -115,9 +115,9 @@ ${handlesObjectTypeCode}`
   return handlesTypeCode
 }
 
-export const generatePlaywright = async (
-  nodeTree: NodeTree,
-  options: EstridiGeneratorOptions = {},
+export const generatePlaywright: TargetGenerator = async (
+  nodeTree,
+  options = {},
 ) => {
   return `import { test, expect } from '@playwright/test'
 import type { BrowserContext, Page } from '@playwright/test'
