@@ -252,21 +252,177 @@ describe('testable node tree 2', () => {
       },
     ]))
 
-  test('virtual', async () =>
-    await runTest('virtual', [
-      {
-        actions: [],
-        gateways: {
-          Gateway: 'no',
+  describe('virtual nodes', () => {
+    test('base', async () =>
+      await runTest('virtual', [
+        {
+          actions: [],
+          gateways: {
+            'Is thing on?': 'no',
+          },
+          name: 'Negative: Show Thing',
         },
-        name: 'Negative: Target',
-      },
-      {
-        actions: [],
-        gateways: {
-          Gateway: 'yes',
+        {
+          actions: [],
+          gateways: {
+            'Is thing on?': 'yes',
+          },
+          name: 'Show Thing',
         },
-        name: 'Target',
-      },
-    ]))
+      ]))
+
+    test('double', async () =>
+      await runTest('virtual-double', [
+        {
+          actions: [],
+          gateways: {
+            'Is thing on?': 'no',
+          },
+          name: 'Negative: Show Warning',
+        },
+        {
+          actions: [],
+          gateways: {
+            'Is thing on?': 'maybe',
+          },
+          name: 'Show Warning',
+        },
+        {
+          actions: [],
+          gateways: {
+            'Is thing on?': 'yes',
+          },
+          name: 'Show Error',
+        },
+      ]))
+
+    test('stair', async () =>
+      await runTest('virtual-stair', [
+        {
+          actions: [],
+          gateways: {
+            'Is thing 1 on?': 'no',
+          },
+          name: 'Negative: Show Thing',
+        },
+        {
+          actions: [],
+          gateways: {
+            'Is thing 1 on?': 'yes',
+            'Is thing 2 on?': 'no',
+          },
+          name: 'Negative: Show Thing',
+        },
+        {
+          actions: [],
+          gateways: {
+            'Is thing 1 on?': 'yes',
+            'Is thing 2 on?': 'yes',
+          },
+          name: 'Show Thing',
+        },
+      ]))
+
+    test('wrong-path', async () =>
+      await runTest('virtual-wrong-path', [
+        {
+          actions: [],
+          gateways: {
+            'Is thing 1 on?': 'no',
+          },
+          name: 'Negative: Show Thing',
+        },
+        {
+          actions: [],
+          gateways: {
+            'Is thing 1 on?': 'yes',
+            'Is thing 2 on?': 'no',
+          },
+          name: 'Negative: Show Thing',
+        },
+        {
+          actions: [],
+          gateways: {
+            'Is thing 1 on?': 'no',
+          },
+          name: 'Wrong',
+        },
+        {
+          actions: [],
+          gateways: {
+            'Is thing 1 on?': 'yes',
+            'Is thing 2 on?': 'yes',
+            'Is thing 3 on?': 'yes',
+            'Is thing 4 on?': 'yes',
+            'Is thing 5 on?': 'yes',
+          },
+          name: 'Show Thing',
+        },
+      ]))
+
+    test.skip('closed-path', async () =>
+      await runTest('virtual-closed-path', [
+        {
+          actions: [],
+          gateways: {
+            Before: 'A',
+          },
+          name: 'A',
+        },
+        {
+          actions: [],
+          gateways: {
+            Before: 'B',
+          },
+          name: 'B',
+        },
+        {
+          actions: [],
+          gateways: {
+            Before: 'A',
+            'Is thing on?': 'yes',
+          },
+          name: 'Negative: Show Thing',
+        },
+        {
+          actions: [],
+          gateways: {
+            Before: 'B',
+          },
+          name: 'Show Thing',
+        },
+        {
+          actions: [],
+          gateways: {
+            Before: 'A',
+            'Is thing on?': 'no',
+          },
+          name: 'Wrong',
+        },
+      ]))
+    test('shortest-path', async () =>
+      await runTest('virtual-shortest-path', [
+        {
+          actions: [],
+          gateways: {
+            'Is thing on?': 'no',
+          },
+          name: 'Negative: Show Thing',
+        },
+        {
+          actions: [],
+          gateways: {
+            'Is thing on?': 'yes',
+          },
+          name: 'Show Thing',
+        },
+        {
+          actions: [],
+          gateways: {
+            'Is thing on?': 'no',
+          },
+          name: 'My node',
+        },
+      ]))
+  })
 })

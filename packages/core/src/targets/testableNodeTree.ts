@@ -3,7 +3,7 @@ import {
   ScrapedGateway,
   ScrapedNode,
   ScrapedStart,
-  ScrapedTable,
+  ScrapedTable
 } from '../scraped'
 
 function getNodeKey(id: string, subprocesses: string[]) {
@@ -48,10 +48,12 @@ export type NodeTree = {
 
 export type UniqueRecord = Record<string, null>
 
-const findText = (scraped: Scraped, gw: ScrapedGateway): string => {
+const findText = (scraped: Scraped, gw: ScrapedGateway, blockedPath: string): string => {
   const toProcess = getNodeConnections(gw)
   while (toProcess.length > 0) {
     const currentId = toProcess.shift()
+    if(currentId===blockedPath)
+      continue
     if (currentId.endsWith('-Virtual')) continue
     const currentNode = scraped.find((n) => n.id === currentId)
     if (currentNode.type !== 'gateway' && currentNode.raw)
@@ -66,7 +68,7 @@ const getNodeConnections = (node: ScrapedNode): string[] => {
   const possibleConnections = [
     'next' in node && node.next,
     ...Object.keys(('options' in node && node.options) || {}),
-    ...Object.keys(('actions' in node && node.actions) || {}),
+    ...Object.keys(('actions' in node && node.actions) || {})
   ]
   const definedConnections = possibleConnections.filter((c) => c)
   const uniqueConnections = definedConnections.filter((n, index, arr) => {
@@ -77,7 +79,7 @@ const getNodeConnections = (node: ScrapedNode): string[] => {
 
 export const getTestableNodeTree = (
   scraped: Scraped,
-  rootName: string,
+  rootName: string
 ): NodeTree => {
   const allGateways: UniqueRecord = {}
   const allServiceCalls: UniqueRecord = {}
@@ -96,25 +98,25 @@ export const getTestableNodeTree = (
     probes.some(
       (p) =>
         getAllNodeKeys(p).includes(nodeKey) &&
-        ['resting', 'active'].includes(p.state),
+        ['resting', 'active'].includes(p.state)
     )
   const getSubprocess = (probeSubprocesses: string[]) => {
     const keyProcesses = [rootNode.id, ...probeSubprocesses]
     const key = keyProcesses.join('|')
     const subProcess = scraped.find(
-      (n) => n.id === keyProcesses[keyProcesses.length - 1],
+      (n) => n.id === keyProcesses[keyProcesses.length - 1]
     )
     if (!subprocesses[key])
       subprocesses[key] = {
         actions: {},
         serviceCalls: {},
         tests: {},
-        name: subProcess.type === 'root' ? 'root' : subProcess.raw,
+        name: subProcess.type === 'root' ? 'root' : subProcess.raw
       }
     return subprocesses[key]
   }
   const rootNode: ScrapedStart = scraped.find(
-    (n: ScrapedStart) => n.type === 'root' && n.raw === rootName,
+    (n: ScrapedStart) => n.type === 'root' && n.raw === rootName
   ) as ScrapedStart
   const discoveredNodes: Record<string, Probe> = {}
   const probes: Probe[] = [
@@ -123,8 +125,8 @@ export const getTestableNodeTree = (
       gateways: {},
       path: [rootNode.id],
       subprocesses: [],
-      state: 'awake',
-    },
+      state: 'awake'
+    }
   ]
   const probesToWake: Probe[] = []
   while (probes.some((p) => ['awake', 'resting'].includes(p.state))) {
@@ -135,16 +137,17 @@ export const getTestableNodeTree = (
       const probe = probes.find((p) => p.state === 'awake')
       const nodeKey = getNodeKey(
         probe.path[probe.path.length - 1],
-        probe.subprocesses,
+        probe.subprocesses
       )
       const currentNode = getCurrentNode(probe)
+      if (!currentNode) debugger
       if (!discoveredNodes[nodeKey]) {
         const probeClone = structuredClone(probe)
-        if (['script', 'serviceCall'].includes(currentNode.type))
+        if (['script', 'serviceCall'].includes(currentNode.type)) {
           probeClone.testName = currentNode.raw
+        }
         discoveredNodes[nodeKey] = probeClone
       }
-      if (!currentNode) debugger
       if (currentNode.type === 'serviceCall') {
         allServiceCalls[currentNode.raw] = null
         getSubprocess(probe.subprocesses).serviceCalls[currentNode.raw] = null
@@ -157,12 +160,12 @@ export const getTestableNodeTree = (
         probes.splice(probes.indexOf(probe), 1)
         Object.entries(currentNode.options).forEach((option) => {
           if (probe.path.includes(option[0])) return
-          if (scraped.find((n) => n.id === option[0]).type === 'connector') {
+          if (scraped.find((n) => n.id === option[0])?.type === 'connector') {
             const virtualNodeKey = getNodeKey(
               probe.path[probe.path.length - 1] + '-Virtual',
-              probe.subprocesses,
+              probe.subprocesses
             )
-            const text = findText(scraped, currentNode)
+            const text = findText(scraped, currentNode, option[0])
             const probeClone = structuredClone(probe)
             probeClone.path.push(`${currentNode.id}-Virtual`)
             probeClone.gateways[currentNode.raw] = option[1]
@@ -176,7 +179,7 @@ export const getTestableNodeTree = (
             const toWake = probes.find(
               (p) =>
                 p.state === 'sleeping' &&
-                p.gateways[currentNode.raw] == option[1],
+                p.gateways[currentNode.raw] == option[1]
             )
             if (toWake) probesToWake.push(toWake)
             return
@@ -218,7 +221,7 @@ export const getTestableNodeTree = (
       }
       if ('link' in currentNode && currentNode.link) {
         const linkLoopCount = probe.subprocesses.filter(
-          (id) => id == currentNode.id,
+          (id) => id == currentNode.id
         ).length
         if (linkLoopCount >= 1) {
           probe.state = 'finished'
@@ -230,12 +233,12 @@ export const getTestableNodeTree = (
       }
       if ('tableKey' in currentNode && currentNode.tableKey) {
         const table = scraped.find(
-          (n) => n.type === 'table' && n.raw === currentNode.tableKey,
+          (n) => n.type === 'table' && n.raw === currentNode.tableKey
         ) as ScrapedTable
         table.rows.slice(1).forEach((row) => {
           const rowNodeKey = getNodeKey(row[0], [
             ...probe.subprocesses,
-            currentNode.id,
+            currentNode.id
           ])
           const probeClone = structuredClone(probe)
           probeClone.subprocesses.push(currentNode.id)
@@ -272,7 +275,7 @@ export const getTestableNodeTree = (
         name: p.testName,
         gateways: p.gateways,
         actions: p.actions,
-        subprocesses: p.subprocesses,
+        subprocesses: p.subprocesses
       }
     })
   testableNodes.sort((a, b) => a.subprocesses.length - b.subprocesses.length)
@@ -282,7 +285,7 @@ export const getTestableNodeTree = (
       const currentSubprocess = cur.subprocesses.reduce((_acc, _cur) => {
         const targetSubprocess = scraped.find((n) => n.id === _cur)
         let subprocessChild = _acc.children.find(
-          (s) => s.name === targetSubprocess.raw,
+          (s) => s.name === targetSubprocess.raw
         )
         if (!subprocessChild) {
           subprocessChild = { name: targetSubprocess.raw, children: [] }
@@ -293,14 +296,14 @@ export const getTestableNodeTree = (
       currentSubprocess.children.push({
         name: cur.name,
         actions: cur.actions,
-        gateways: cur.gateways,
+        gateways: cur.gateways
       })
       return acc
     },
     {
       name: rootNode.raw,
-      children: [],
-    },
+      children: []
+    }
   )
   tree.allGateways = Object.keys(allGateways)
   tree.allServiceCalls = Object.keys(allServiceCalls)
@@ -310,10 +313,10 @@ export const getTestableNodeTree = (
       [cur.name]: {
         actions: Object.keys(cur.actions),
         tests: Object.keys(cur.tests),
-        serviceCalls: Object.keys(cur.serviceCalls),
-      },
+        serviceCalls: Object.keys(cur.serviceCalls)
+      }
     }),
-    {},
+    {}
   )
   return tree
 }
