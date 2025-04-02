@@ -14,7 +14,6 @@ program
   .option('-t, --target <string>')
   .option('-r, --root-name <string>')
   .option('-d, --directory <string>')
-  .option('-v, --virtual-nodes')
 
 program.parse()
 
@@ -35,7 +34,6 @@ const run = async () => {
         target: options.target || 'playwright',
         scraped,
         rootName: root.raw?.trim() || undefined,
-        virtualNodes: options.virtualNodes,
       })
       const dir = options.directory || 'tests'
       fs.mkdirSync(dir, { recursive: true })

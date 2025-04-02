@@ -1,6 +1,6 @@
 import { ScrapedNode } from '../../scraped'
 import { UniqueRecord } from './index'
-import { getNodeKey, isNodeInAnotherProbe, Probe } from './probe'
+import { addProbePath, getNodeKey, isNodeInAnotherProbe, Probe } from './probe'
 
 export function handleLoop(currentNode: ScrapedNode, probe: Probe) {
   if ('options' in currentNode && currentNode.variant === 'loop') {
@@ -10,7 +10,7 @@ export function handleLoop(currentNode: ScrapedNode, probe: Probe) {
     }
     if (Object.keys(currentNode.options).length !== 1)
       throw 'Loop can only have one out path'
-    probe.path.push(Object.keys(currentNode.options)[0])
+    addProbePath(probe, Object.keys(currentNode.options)[0])
     probe.state = 'resting'
   }
 }
@@ -45,7 +45,7 @@ export function handleGateway(
       }
       const newProbe = structuredClone(probe)
       newProbe.state = 'resting'
-      newProbe.path.push(option[0])
+      addProbePath(newProbe, option[0])
       newProbe.gateways[currentNode.raw] = option[1]
       probes.push(newProbe)
     })
