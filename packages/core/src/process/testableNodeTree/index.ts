@@ -5,10 +5,6 @@ import { handleGateway, handleLoop } from './gateway'
 import { handleAction } from './action'
 import { handleLinkedSubprocess } from './linked'
 
-
-
-
-
 export type SubprocessDefinition = {
   actions: string[]
   tests: string[]
@@ -33,8 +29,6 @@ export type NodeTree = {
 } & NodeBranch
 
 export type UniqueRecord = Record<string, null>
-
-
 
 export const getTestableNodeTree = (
   scraped: Scraped,
@@ -149,12 +143,6 @@ export const getTestableNodeTree = (
 
       handleProbeFinished(currentNode, probe)
     }
-    //
-    // // Wake probes in wake list
-    // if (probes.every((p) => p.state !== 'resting') && probesToWake.length > 0) {
-    //   probesToWake.forEach((p) => (p.state = 'awake'))
-    //   probesToWake.splice(0, probesToWake.length)
-    // }
   }
 
   // Get list of testable nodes
