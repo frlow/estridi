@@ -107,12 +107,11 @@ export type TestFunction<TState, TPageExtensions> = (
 ${nodeTree.allServiceCalls.map((sc) => `await handles.serviceCall_${camelize(sanitizeText(sc))}(args)`)}
 }`
 
-  const handlesTypeCode = `${typeDefCode}
+  return `${typeDefCode}
 
 ${serviceCallCode}
 
 ${handlesObjectTypeCode}`
-  return handlesTypeCode
 }
 
 export const generatePlaywright: TargetGenerator = async (nodeTree) => {
