@@ -330,7 +330,7 @@ describe('process node tree', () => {
           Gateway: 'B',
         },
         name: 'Target',
-        index: 1
+        index: 1,
       },
       {
         children: [
@@ -467,71 +467,6 @@ describe('process node tree', () => {
             'Is thing 5 on?': 'yes',
           },
           name: 'Show Thing',
-        },
-      ]))
-
-    test.skip('closed-path', async () =>
-      await runTest('virtual-closed-path', [
-        {
-          actions: [],
-          gateways: {
-            Before: 'A',
-          },
-          name: 'A',
-        },
-        {
-          actions: [],
-          gateways: {
-            Before: 'B',
-          },
-          name: 'B',
-        },
-        {
-          actions: [],
-          gateways: {
-            Before: 'A',
-            'Is thing on?': 'yes',
-          },
-          name: 'Negative: Show Thing',
-        },
-        {
-          actions: [],
-          gateways: {
-            Before: 'B',
-          },
-          name: 'Show Thing',
-        },
-        {
-          actions: [],
-          gateways: {
-            Before: 'A',
-            'Is thing on?': 'no',
-          },
-          name: 'Wrong',
-        },
-      ]))
-    test.skip('shortest-path', async () =>
-      await runTest('virtual-shortest-path', [
-        {
-          actions: [],
-          gateways: {
-            'Is thing on?': 'yes',
-          },
-          name: 'Show Thing',
-        },
-        {
-          actions: [],
-          gateways: {
-            'Is thing on?': 'no',
-          },
-          name: 'Negative: Show Thing',
-        },
-        {
-          actions: [],
-          gateways: {
-            'Is thing on?': 'no',
-          },
-          name: 'My node',
         },
       ]))
   })
