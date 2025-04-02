@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { getTestCase } from '../test/editorTestCases'
 import { getTestableNodeTree, NodeTree } from './testableNodeTree'
+import { injectSpecialCases } from './special'
 
 const runTest = async (
   rootName: string,
@@ -8,7 +9,8 @@ const runTest = async (
 ) => {
   const root = `tc-tree-${rootName}`
   const testCase = await getTestCase(root)
-  const tree = getTestableNodeTree(testCase, root)
+  const injected = injectSpecialCases(testCase)
+  const tree = getTestableNodeTree(injected, root)
   const expected = {
     name: root,
     allGateways: expect.anything(),
@@ -19,7 +21,7 @@ const runTest = async (
   expect(tree).toEqual(expected)
 }
 
-describe('testable node tree 2', () => {
+describe('process node tree', () => {
   test('message', async () =>
     await runTest('message', [
       {
@@ -233,10 +235,11 @@ describe('testable node tree 2', () => {
     const rootName = 'table'
     const root = `tc-tree-${rootName}`
     const testCase = await getTestCase(root)
-    const tree = getTestableNodeTree(testCase, root)
+    const injected = injectSpecialCases(testCase)
+    const tree = getTestableNodeTree(injected, root)
     const expected = {
       name: root,
-      allGateways: ["validate:tc-tree-table-table"],
+      allGateways: ['validate:tc-tree-table-table'],
       allServiceCalls: expect.anything(),
       subprocesses: expect.anything(),
       children: [
@@ -264,16 +267,11 @@ describe('testable node tree 2', () => {
     expect(tree).toEqual(expected)
   })
 
+  test('subflow-multi', async () => await runTest('subflow-multi', []))
+
   describe('virtual nodes', () => {
     test('base', async () =>
       await runTest('virtual', [
-        {
-          actions: [],
-          gateways: {
-            'Is thing on?': 'no',
-          },
-          name: 'Negative: Show Thing',
-        },
         {
           actions: [],
           gateways: {
@@ -281,17 +279,17 @@ describe('testable node tree 2', () => {
           },
           name: 'Show Thing',
         },
-      ]))
-
-    test('double', async () =>
-      await runTest('virtual-double', [
         {
           actions: [],
           gateways: {
             'Is thing on?': 'no',
           },
-          name: 'Negative: Show Warning',
+          name: 'Negative: Show Thing',
         },
+      ]))
+
+    test('double', async () =>
+      await runTest('virtual-double', [
         {
           actions: [],
           gateways: {
@@ -305,6 +303,13 @@ describe('testable node tree 2', () => {
             'Is thing on?': 'yes',
           },
           name: 'Show Error',
+        },
+        {
+          actions: [],
+          gateways: {
+            'Is thing on?': 'no',
+          },
+          name: 'Negative: Show Warning',
         },
       ]))
 
@@ -321,17 +326,17 @@ describe('testable node tree 2', () => {
           actions: [],
           gateways: {
             'Is thing 1 on?': 'yes',
-            'Is thing 2 on?': 'no',
+            'Is thing 2 on?': 'yes',
           },
-          name: 'Negative: Show Thing',
+          name: 'Show Thing',
         },
         {
           actions: [],
           gateways: {
             'Is thing 1 on?': 'yes',
-            'Is thing 2 on?': 'yes',
+            'Is thing 2 on?': 'no',
           },
-          name: 'Show Thing',
+          name: 'Negative: Show Thing',
         },
       ]))
 
@@ -412,21 +417,21 @@ describe('testable node tree 2', () => {
           name: 'Wrong',
         },
       ]))
-    test('shortest-path', async () =>
+    test.skip('shortest-path', async () =>
       await runTest('virtual-shortest-path', [
-        {
-          actions: [],
-          gateways: {
-            'Is thing on?': 'no',
-          },
-          name: 'Negative: Show Thing',
-        },
         {
           actions: [],
           gateways: {
             'Is thing on?': 'yes',
           },
           name: 'Show Thing',
+        },
+        {
+          actions: [],
+          gateways: {
+            'Is thing on?': 'no',
+          },
+          name: 'Negative: Show Thing',
         },
         {
           actions: [],

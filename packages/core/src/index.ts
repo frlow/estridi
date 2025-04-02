@@ -1,10 +1,10 @@
-import { loadFigmaDocument, processFigma } from './sources/figma.js'
 import { generatePlaywright } from './targets/playwright'
 import { Scraped, ScrapedStart } from './scraped'
 import { format } from 'prettier'
 import fs from 'node:fs'
 import { generateVitest } from './targets/vitest'
 import { getTestableNodeTree, NodeTree } from './process/testableNodeTree'
+import { injectSpecialCases } from './process/special'
 
 export * from './sources/tldraw.js'
 export * from './scraped.js'
@@ -59,7 +59,8 @@ export const generateEstridiTests = async (args: {
     },
   }
   const target = targets[args.target]
-  const nodeTree = getTestableNodeTree(args.scraped, args.rootName)
+  const injected = injectSpecialCases(args.scraped)
+  const nodeTree = getTestableNodeTree(injected, args.rootName)
   const code = await target.generatorFunc(nodeTree, {
     virtualNodes: args.virtualNodes,
   })
