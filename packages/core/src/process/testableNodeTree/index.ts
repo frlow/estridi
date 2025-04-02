@@ -1,17 +1,13 @@
 import { Scraped, ScrapedStart } from '../../scraped'
 import { getNodeTree, getTestableNodes } from './nodeTree'
-import { handleLinkedSubprocess } from './linked'
-import { handleProbeFinished, Probe } from './probe'
+import { getNodeKey, handleProbeFinished, isNodeInAnotherProbe, Probe } from './probe'
 import { handleGateway, handleLoop } from './gateway'
 import { handleAction } from './action'
+import { handleLinkedSubprocess } from './linked'
 
-function getNodeKey(id: string, subprocesses: string[]) {
-  return [...subprocesses, id].join('|') // probe.path[probe.path.length - 1]
-}
 
-function getAllNodeKeys(probe: Probe) {
-  return probe.path.map((id) => [...probe.subprocesses, id].join('|'))
-}
+
+
 
 export type SubprocessDefinition = {
   actions: string[]
@@ -38,6 +34,8 @@ export type NodeTree = {
 
 export type UniqueRecord = Record<string, null>
 
+
+
 export const getTestableNodeTree = (
   scraped: Scraped,
   rootName: string,
@@ -55,12 +53,7 @@ export const getTestableNodeTree = (
   > = {}
   const getCurrentNode = (probe: Probe) =>
     scraped.find((n) => n.id === probe.path[probe.path.length - 1])
-  const isNodeInAnotherProbe = (nodeKey: string) =>
-    probes.some(
-      (p) =>
-        getAllNodeKeys(p).includes(nodeKey) &&
-        ['resting', 'active'].includes(p.state),
-    )
+
   const getSubprocess = (probeSubprocesses: string[]) => {
     const keyProcesses = [rootNode.id, ...probeSubprocesses]
     const key = keyProcesses.join('|')
@@ -89,7 +82,7 @@ export const getTestableNodeTree = (
       state: 'awake',
     },
   ]
-  const probesToWake: Probe[] = []
+  const probesAvailableToWake: Probe[] = []
   // Loop over all probes that are still active (awake or resting)
   while (probes.some((p) => ['awake', 'resting'].includes(p.state))) {
     // Wake all resting probes
@@ -129,21 +122,24 @@ export const getTestableNodeTree = (
       if (currentNode.type === 'script')
         getSubprocess(probe.subprocesses).tests[currentNode.raw] = null
 
-      // Process gateway
-      handleGateway(currentNode, allGateways, probes, probe, probesToWake)
-
-      // Handle loops
+      handleGateway(
+        currentNode,
+        allGateways,
+        probes,
+        probe,
+        probesAvailableToWake,
+      )
       handleLoop(currentNode, probe)
-
-      // Handle actions
       handleAction(currentNode, probes, probe, getSubprocess)
+      handleLinkedSubprocess(currentNode, probe, probes)
 
       // Handle next
       if ('next' in currentNode && currentNode.next) {
         if (
-          isNodeInAnotherProbe(getNodeKey(currentNode.next, probe.subprocesses))
+          isNodeInAnotherProbe(getNodeKey(currentNode.next, probe.subprocesses), probes)
         ) {
           probe.state = 'sleeping'
+          probesAvailableToWake.push(probe)
           continue
         } else {
           probe.path.push(currentNode.next)
@@ -151,15 +147,14 @@ export const getTestableNodeTree = (
         }
       }
 
-      handleLinkedSubprocess(currentNode, probe)
       handleProbeFinished(currentNode, probe)
     }
-
-    // Wake probes in wake list
-    if (probes.every((p) => p.state !== 'resting') && probesToWake.length > 0) {
-      probesToWake.forEach((p) => (p.state = 'awake'))
-      probesToWake.splice(0, probesToWake.length)
-    }
+    //
+    // // Wake probes in wake list
+    // if (probes.every((p) => p.state !== 'resting') && probesToWake.length > 0) {
+    //   probesToWake.forEach((p) => (p.state = 'awake'))
+    //   probesToWake.splice(0, probesToWake.length)
+    // }
   }
 
   // Get list of testable nodes
