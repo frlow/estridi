@@ -1,5 +1,6 @@
 import { ScrapedNode } from '../../scraped'
-import { Probe, UniqueRecord } from './index'
+import { UniqueRecord } from './index'
+import { Probe } from './probe'
 
 export function handleAction(
   currentNode:ScrapedNode,
@@ -13,7 +14,6 @@ export function handleAction(
   },
 ) {
   if ('actions' in currentNode) {
-    probes.splice(probes.indexOf(probe), 1)
     Object.entries(currentNode.actions).forEach((action) => {
       getSubprocess(probe.subprocesses).actions[action[1]] = null
       const newProbe = structuredClone(probe)

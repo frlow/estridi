@@ -186,6 +186,11 @@ describe('process node tree', () => {
             },
             name: 'YesSub',
           },
+        ],
+        name: 'tc-tree-linked2-sub',
+      },
+      {
+        children: [
           {
             actions: ['Click'],
             gateways: {
@@ -194,7 +199,7 @@ describe('process node tree', () => {
             name: 'NoSub',
           },
         ],
-        name: 'tc-tree-linked2-sub',
+        name: 'tc-tree-linked2-sub 1',
       },
     ]))
 
@@ -326,6 +331,20 @@ describe('process node tree', () => {
             'Is thing on?': 'no',
           },
           name: 'Negative: Show Thing',
+        },
+        {
+          actions: [],
+          gateways: {
+            'Is thing on?': 'yes',
+          },
+          name: 'Show Thing2',
+        },
+        {
+          actions: [],
+          gateways: {
+            'Is thing on?': 'no',
+          },
+          name: 'Negative: Show Thing2',
         },
       ]))
 

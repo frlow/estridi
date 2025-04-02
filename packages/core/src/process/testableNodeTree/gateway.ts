@@ -1,12 +1,13 @@
 import { ScrapedNode } from '../../scraped'
 import { UniqueRecord } from './index'
-import { Probe } from './probe'
+import { getNodeKey, isNodeInAnotherProbe, Probe } from './probe'
 
-export function handleLoop(
-  currentNode:ScrapedNode,
-  probe: Probe,
-) {
+export function handleLoop(currentNode: ScrapedNode, probe: Probe) {
   if ('options' in currentNode && currentNode.variant === 'loop') {
+    if (probe.path.filter((id) => id === currentNode.id).length >= 2) {
+      probe.state = 'finished'
+      return
+    }
     if (Object.keys(currentNode.options).length !== 1)
       throw 'Loop can only have one out path'
     probe.path.push(Object.keys(currentNode.options)[0])
@@ -15,26 +16,31 @@ export function handleLoop(
 }
 
 export function handleGateway(
-  currentNode:ScrapedNode,
+  currentNode: ScrapedNode,
   allGateways: UniqueRecord,
   probes: Probe[],
   probe: Probe,
-  probesToWake: Probe[],
+  probesAvailableToWake: Probe[],
 ) {
   if ('options' in currentNode && currentNode.variant === 'gateway') {
     allGateways[currentNode.raw] = null
     probes.splice(probes.indexOf(probe), 1)
     Object.entries(currentNode.options).forEach((option) => {
-      if (probe.path.includes(option[0])) return
+      if (
+        isNodeInAnotherProbe(getNodeKey(option[0], probe.subprocesses), probes)
+      )
+        return
       if (
         probe.gateways[currentNode.raw] &&
         probe.gateways[currentNode.raw] !== option[1]
       ) {
-        const toWake = probes.find(
-          (p) =>
-            p.state === 'sleeping' && p.gateways[currentNode.raw] == option[1],
+        const toWake = probesAvailableToWake.find(
+          (p) => p.gateways[currentNode.raw] == option[1],
         )
-        if (toWake) probesToWake.push(toWake)
+        if (toWake) {
+          toWake.state = 'resting'
+          probesAvailableToWake.splice(probesAvailableToWake.indexOf(toWake), 1)
+        }
         return
       }
       const newProbe = structuredClone(probe)
@@ -43,5 +49,6 @@ export function handleGateway(
       newProbe.gateways[currentNode.raw] = option[1]
       probes.push(newProbe)
     })
+    probe.state = 'removed'
   }
 }
