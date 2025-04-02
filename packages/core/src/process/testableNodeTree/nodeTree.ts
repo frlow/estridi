@@ -30,7 +30,7 @@ export const getNodeTree = ({
   allGateways,
   allServiceCalls,
   rootNode,
-  subprocesses
+  subprocesses,
 }: {
   nodes: FlatNodeTree
   scraped: Scraped
@@ -47,15 +47,41 @@ export const getNodeTree = ({
   >
   rootNode: ScrapedStart
 }) => {
+  const namedPaths: { key: string; namedKey: string; path: string[] }[] = []
+  const getNamedPath = (subprocesses: string[]) => {
+    const key = subprocesses.join('|')
+    const existing = namedPaths.find((n) => n.key === key)
+    if (existing) return existing.path
+    const path = subprocesses.map((id) => scraped.find((n) => n.id === id).raw)
+    const namedKey = path.join('|')
+    if (namedPaths.some((n) => n.namedKey === namedKey)) {
+      let count = 1
+      while (true) {
+        const updatedPath = structuredClone(path)
+        updatedPath[path.length - 1] =
+          `${updatedPath[path.length - 1]} ${count++}`
+        const updatedNamedKey = updatedPath.join('|')
+        if (namedPaths.some((n) => n.namedKey === updatedNamedKey)) continue
+        const newNamedPath = {
+          key,
+          namedKey: updatedNamedKey,
+          path: updatedPath,
+        }
+        namedPaths.push(newNamedPath)
+        return updatedPath
+      }
+    }
+    const newNamedPath = { key, namedKey, path }
+    namedPaths.push(newNamedPath)
+    return path
+  }
   const tree: NodeTree = nodes.reduce(
     (acc, cur) => {
-      const currentSubprocess = cur.subprocesses.reduce((_acc, _cur) => {
-        const targetSubprocess = scraped.find((n) => n.id === _cur)
-        let subprocessChild = _acc.children.find(
-          (s) => s.name === targetSubprocess.raw,
-        )
+      const namedPath = getNamedPath(cur.subprocesses)
+      const currentSubprocess = namedPath.reduce((_acc, _cur) => {
+        let subprocessChild = _acc.children.find((s) => s.name === _cur)
         if (!subprocessChild) {
-          subprocessChild = { name: targetSubprocess.raw, children: [] }
+          subprocessChild = { name: _cur, children: [] }
           _acc.children.push(subprocessChild)
         }
         return subprocessChild

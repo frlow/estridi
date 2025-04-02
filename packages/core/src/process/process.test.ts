@@ -267,7 +267,48 @@ describe('process node tree', () => {
     expect(tree).toEqual(expected)
   })
 
-  test('subflow-multi', async () => await runTest('subflow-multi', []))
+  test('subflow-multi', async () =>
+    await runTest('subflow-multi', [
+      {
+        children: [
+          {
+            actions: [],
+            gateways: {
+              Linked: 'B',
+            },
+            name: 'Common',
+          },
+
+          {
+            actions: [],
+            gateways: {
+              Linked: 'B',
+            },
+            name: 'B Message',
+          },
+        ],
+        name: 'tc-tree-subflow-multi',
+      },
+      {
+        children: [
+          {
+            actions: ['Click'],
+            gateways: {
+              Linked: 'A',
+            },
+            name: 'Common',
+          },
+          {
+            actions: ['Click'],
+            gateways: {
+              Linked: 'A',
+            },
+            name: 'A Message',
+          },
+        ],
+        name: 'tc-tree-subflow-multi 1',
+      },
+    ]))
 
   describe('virtual nodes', () => {
     test('base', async () =>
