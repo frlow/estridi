@@ -13,7 +13,7 @@ const generateTest = (leaf: NodeLeaf) => {
     ...leaf.actions.map((action) => `action_${sanitizeText(camelize(action))}`),
   ]
   const lastAction = actions.splice(actions.length - 1, 1)[0]
-  return `test('${sanitizeText(leaf.name)}', async ({page, context})=>{
+  return `test('${sanitizeText(leaf.name)}${leaf.index > 0 ? ` ${leaf.index}` : ''}', async ({page, context})=>{
     const gateways: GatewayCollection = ${JSON.stringify(sanitizeAllProps(leaf.gateways), null, 2)}
     const state = await handles.setup({ gateways, page, context } as any)
     const args = { gateways, state, page, context } as any
@@ -115,10 +115,7 @@ ${handlesObjectTypeCode}`
   return handlesTypeCode
 }
 
-export const generatePlaywright: TargetGenerator = async (
-  nodeTree,
-  options = {},
-) => {
+export const generatePlaywright: TargetGenerator = async (nodeTree) => {
   return `import { test, expect } from '@playwright/test'
 import type { BrowserContext, Page } from '@playwright/test'
 import { handles } from './${nodeTree.name}.js'

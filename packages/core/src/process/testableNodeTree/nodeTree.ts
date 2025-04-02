@@ -1,4 +1,4 @@
-import { NodeTree, UniqueRecord } from './index'
+import { NodeLeaf, NodeTree, UniqueRecord } from './index'
 import { Scraped, ScrapedStart } from '../../scraped'
 import { Probe } from './probe'
 
@@ -86,11 +86,16 @@ export const getNodeTree = ({
         }
         return subprocessChild
       }, acc)
-      currentSubprocess.children.push({
+      const leaf: NodeLeaf = {
         name: cur.name,
         actions: cur.actions,
         gateways: cur.gateways,
-      })
+      }
+      const sameNameCount = currentSubprocess.children.filter(
+        (c) => c.name === leaf.name,
+      ).length
+      if (sameNameCount > 0) leaf.index = sameNameCount
+      currentSubprocess.children.push(leaf)
       return acc
     },
     {

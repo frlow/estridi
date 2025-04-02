@@ -21,12 +21,9 @@ export type EstridiSourceConfig = {
 export type EstridiTargetConfig = {
   generatorFunc: (
     nodeTree: NodeTree,
-    options: EstridiGeneratorOptions,
   ) => Promise<string>
   getFileName: (name: string) => string
 }
-
-export type EstridiGeneratorOptions = { virtualNodes?: boolean }
 
 export type EstridiTargets = 'playwright' | 'vitest'
 
@@ -45,7 +42,6 @@ export const generateEstridiTests = async (args: {
   scraped: Scraped
   target?: string
   rootName: string
-  virtualNodes?: boolean
 }): Promise<{ code: string; fileName: string }> => {
   if (!args.target || args.target === 'none') return undefined
   const targets: Record<EstridiTargets, EstridiTargetConfig> = {
@@ -61,9 +57,7 @@ export const generateEstridiTests = async (args: {
   const target = targets[args.target]
   const injected = injectSpecialCases(args.scraped)
   const nodeTree = getTestableNodeTree(injected, args.rootName)
-  const code = await target.generatorFunc(nodeTree, {
-    virtualNodes: args.virtualNodes,
-  })
+  const code = await target.generatorFunc(nodeTree)
   const prettierOptions = fs.existsSync('.prettierrc')
     ? JSON.parse(fs.readFileSync('.prettierrc', 'utf8'))
     : {}

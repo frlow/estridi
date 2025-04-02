@@ -1,6 +1,6 @@
 import { Scraped, ScrapedStart } from '../../scraped'
 import { getNodeTree, getTestableNodes } from './nodeTree'
-import { getNodeKey, handleProbeFinished, isNodeInAnotherProbe, Probe } from './probe'
+import { addProbePath, getNodeKey, handleProbeFinished, isNodeInAnotherProbe, Probe } from './probe'
 import { handleGateway, handleLoop } from './gateway'
 import { handleAction } from './action'
 import { handleLinkedSubprocess } from './linked'
@@ -13,6 +13,7 @@ export type SubprocessDefinition = {
 
 export type NodeLeaf = {
   name: string
+  index?: number
   gateways: Record<string, string>
   actions: string[]
 }
@@ -136,7 +137,7 @@ export const getTestableNodeTree = (
           probesAvailableToWake.push(probe)
           continue
         } else {
-          probe.path.push(currentNode.next)
+          addProbePath(probe, currentNode.next)
           probe.state = 'resting'
         }
       }

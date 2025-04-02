@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start": "tsx cli.ts -r main -v",
+    "start": "tsx cli.ts -r main",
     "build": "pnpm dlx bun build --target=node ./cli.ts --outdir=../../dist --external prettier"
   },
   "devDependencies": {

@@ -315,6 +315,37 @@ describe('process node tree', () => {
       },
     ]))
 
+  test('linked-script', async () =>
+    await runTest('linked-script', [
+      {
+        actions: [],
+        gateways: {
+          Gateway: 'A',
+        },
+        name: 'Target',
+      },
+      {
+        actions: [],
+        gateways: {
+          Gateway: 'B',
+        },
+        name: 'Target',
+        index: 1
+      },
+      {
+        children: [
+          {
+            actions: [],
+            gateways: {
+              Gateway: 'A',
+            },
+            name: 'Target',
+          },
+        ],
+        name: 'tc-tree-linked-script-sub',
+      },
+    ]))
+
   describe('virtual nodes', () => {
     test('base', async () =>
       await runTest('virtual', [
@@ -396,6 +427,7 @@ describe('process node tree', () => {
             'Is thing 1 on?': 'yes',
             'Is thing 2 on?': 'no',
           },
+          index: 1,
           name: 'Negative: Show Thing',
         },
       ]))
@@ -415,6 +447,7 @@ describe('process node tree', () => {
             'Is thing 1 on?': 'yes',
             'Is thing 2 on?': 'no',
           },
+          index: 1,
           name: 'Negative: Show Thing',
         },
         {

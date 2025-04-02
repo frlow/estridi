@@ -1,5 +1,5 @@
 import { ScrapedNode } from '../../scraped'
-import { Probe } from './probe'
+import { addProbePath, Probe } from './probe'
 
 export function handleLinkedSubprocess(
   currentNode: ScrapedNode,
@@ -13,7 +13,7 @@ export function handleLinkedSubprocess(
     if (linkLoopCount < 1) {
       const newProbe = structuredClone(probe)
       newProbe.state = 'resting'
-      newProbe.path.push(currentNode.link)
+      addProbePath(newProbe, currentNode.link)
       newProbe.subprocesses.push(currentNode.id)
       probes.push(newProbe)
     }

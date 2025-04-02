@@ -5,7 +5,7 @@ import {
   ScrapedScript,
   ScrapedStart,
   ScrapedSubprocess,
-  ScrapedTable
+  ScrapedTable,
 } from '../../scraped'
 import { autoText } from '../../texts'
 
@@ -16,6 +16,7 @@ export const injectLinkedTable = (
   const table = scraped.find(
     (n) => n.type === 'table' && n.raw === node.tableKey,
   ) as ScrapedTable
+  if (!table) return [node]
   const base = structuredClone(node)
   delete base.tableKey
   const outId = `${base.id}-out`
