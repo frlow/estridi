@@ -1,4 +1,4 @@
-import { DefaultColorStyle, DefaultDashStyle, StyleProp, T } from 'tldraw'
+import { richTextValidator, T } from 'tldraw'
 import { icons } from './icons'
 
 export type ShapeProps<T> = {
@@ -17,24 +17,19 @@ export type ShapeDefinition = {
   props: Record<string, T.Validatable<any>>
   icon: keyof typeof icons
 }
-export const targetStyle = StyleProp.defineEnum('start:target', {
-  defaultValue: 'none',
-  values: ['none', 'playwright', 'vitest'],
-})
-
-export const testDirStyle = StyleProp.define('start:dir', {
-  defaultValue: '',
-  type: T.string,
-})
 
 export const Shapes = {
-  start: {
-    name: 'start',
+  'start-fe': {
+    name: 'start-fe',
     props: {
       ...props,
-      color: DefaultColorStyle,
-      target: targetStyle,
-      testDir: testDirStyle,
+    },
+    icon: 'start-icon',
+  },
+  'start-be': {
+    name: 'start-be',
+    props: {
+      ...props,
     },
     icon: 'start-icon',
   },
@@ -43,127 +38,212 @@ export const Shapes = {
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
-      dash: DefaultDashStyle,
     },
     icon: 'message-icon',
   },
-  gateway: {
-    name: 'gateway',
+  'message-inter': {
+    name: 'message-inter',
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
+    },
+    icon: 'message-inter-icon',
+  },
+  'gateway-fe': {
+    name: 'gateway-fe',
+    props: {
+      ...props,
+      text: T.string,
     },
     icon: 'gateway-icon',
   },
-  connector: {
-    name: 'connector',
-    props: { ...props },
-    icon: 'connector-icon',
-  },
-  serviceCall: {
-    name: 'serviceCall',
+  'gateway-be': {
+    name: 'gateway-be',
     props: {
       ...props,
-      w: T.number,
-      h: T.number,
       text: T.string,
-      color: DefaultColorStyle,
+    },
+    icon: 'gateway-icon',
+  },
+  'loop-fe': {
+    name: 'loop-fe',
+    props: {
+      ...props,
+      text: T.string,
+    },
+    icon: 'loop-icon',
+  },
+  'loop-be': {
+    name: 'loop-be',
+    props: {
+      ...props,
+      text: T.string,
+    },
+    icon: 'loop-icon',
+  },
+  'parallel-fe': {
+    name: 'parallel-fe',
+    props: {
+      ...props,
+      text: T.string,
+    },
+    icon: 'parallel-icon',
+  },
+  'parallel-be': {
+    name: 'parallel-be',
+    props: {
+      ...props,
+      text: T.string,
+    },
+    icon: 'parallel-icon',
+  },
+  connector: {
+    name: 'connector',
+    props: {
+      ...props,
+    },
+    icon: 'connector-icon',
+  },
+  'service-call-fe': {
+    name: 'service-call-fe',
+    props: {
+      ...props,
+      richText: richTextValidator,
     },
     icon: 'service-call-icon',
   },
-  subprocess: {
-    name: 'subprocess',
+  'service-call-be': {
+    name: 'service-call-be',
     props: {
       ...props,
-      w: T.number,
-      h: T.number,
-      text: T.string,
-      color: DefaultColorStyle,
+      richText: richTextValidator,
     },
-    icon: 'sub-process-icon',
+    icon: 'service-call-icon',
   },
-  script: {
-    name: 'script',
+  'service-call-be-external': {
+    name: 'service-call-be-external',
     props: {
       ...props,
-      text: T.string,
-      color: DefaultColorStyle,
+      richText: richTextValidator,
+    },
+    icon: 'service-call-icon',
+  },
+  'script-fe': {
+    name: 'script-fe',
+    props: {
+      ...props,
+      richText: richTextValidator,
     },
     icon: 'script-icon',
   },
-  customNote: {
-    name: 'customNote',
+  'script-be': {
+    name: 'script-be',
     props: {
       ...props,
-      text: T.string,
-      color: DefaultColorStyle,
+      richText: richTextValidator,
     },
-    icon: 'custom-note-icon',
+    icon: 'script-icon',
   },
-  table: {
-    name: 'table',
+  'table-fe': {
+    name: 'table-fe',
     props: {
       ...props,
       rows: T.arrayOf(T.arrayOf(T.string)),
     },
     icon: 'table-icon',
   },
-  userAction: {
-    name: 'userAction',
+  'table-be': {
+    name: 'table-be',
     props: {
       ...props,
-      w: T.number,
-      h: T.number,
-      color: DefaultColorStyle,
+      rows: T.arrayOf(T.arrayOf(T.string)),
+    },
+    icon: 'table-icon',
+  },
+  'user-action': {
+    name: 'user-action',
+    props: {
+      ...props,
     },
     icon: 'user-action-icon',
   },
-  signalSend: {
-    name: 'signalSend',
+  'signal-send-fe': {
+    name: 'signal-send-fe',
     props: {
       ...props,
       text: T.string,
-      dash: DefaultDashStyle,
-      color: DefaultColorStyle,
     },
     icon: 'signal-send-icon',
   },
-  signalListen: {
-    name: 'signalListen',
+  'signal-send-be': {
+    name: 'signal-send-be',
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
+    },
+    icon: 'signal-send-icon',
+  },
+  'signal-listen-fe': {
+    name: 'signal-listen-fe',
+    props: {
+      ...props,
+      text: T.string,
     },
     icon: 'signal-listen-icon',
   },
-  loop: {
-    name: 'loop',
+  'signal-listen-fe-inter': {
+    name: 'signal-listen-fe-inter',
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
     },
-    icon: 'loop-icon',
+    icon: 'signal-listen-icon',
   },
-  parallel: {
-    name: 'parallel',
+  'signal-listen-be': {
+    name: 'signal-listen-be',
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
     },
-    icon: 'parallel-icon',
+    icon: 'signal-listen-icon',
   },
-  timer: {
-    name: 'timer',
+  'signal-listen-be-inter': {
+    name: 'signal-listen-be-inter',
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
-      dash: DefaultDashStyle,
+    },
+    icon: 'signal-listen-icon',
+  },
+  'signal-send-fe-inter': {
+    name: 'signal-send-fe-inter',
+    props: {
+      ...props,
+      text: T.string,
+    },
+    icon: 'signal-send-icon',
+  },
+  'signal-send-be-inter': {
+    name: 'signal-send-be-inter',
+    props: {
+      ...props,
+      text: T.string,
+    },
+    icon: 'signal-send-icon',
+  },
+  'timer-fe': {
+    name: 'timer-fe',
+    props: {
+      ...props,
+      text: T.string,
+    },
+    icon: 'timer-icon',
+  },
+  'timer-be': {
+    name: 'timer-be',
+    props: {
+      ...props,
+      text: T.string,
     },
     icon: 'timer-icon',
   },
@@ -172,31 +252,119 @@ export const Shapes = {
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
     },
     icon: 'error-icon',
   },
-  softError: {
-    name: 'softError',
+  'soft-error': {
+    name: 'soft-error',
     props: {
       ...props,
       text: T.string,
-      color: DefaultColorStyle,
     },
-    icon: 'soft-error-icon',
+    icon: 'dev-done-icon',
   },
-  end: {
-    name: 'end',
+  'end-fe': {
+    name: 'end-fe',
     props: {
       ...props,
-      color: DefaultColorStyle,
     },
     icon: 'end-icon',
+  },
+  'end-be': {
+    name: 'end-be',
+    props: {
+      ...props,
+    },
+    icon: 'end-icon',
+  },
+  'not-started': {
+    name: 'not-started',
+    props: {
+      ...props,
+    },
+    icon: 'not-started-icon',
+  },
+  'in-progress': {
+    name: 'in-progress',
+    props: {
+      ...props,
+    },
+    icon: 'in-progress-icon',
+  },
+  'dev-done': {
+    name: 'dev-done',
+    props: {
+      ...props,
+    },
+    icon: 'dev-done-icon',
+  },
+  'test-done': {
+    name: 'test-done',
+    props: {
+      ...props,
+    },
+    icon: 'dev-done-icon',
+  },
+  'test-failed': {
+    name: 'test-failed',
+    props: {
+      ...props,
+    },
+    icon: 'dev-done-icon',
+  },
+  'custom-note': {
+    name: 'custom-note',
+    props: {
+      ...props,
+      richText: richTextValidator,
+    },
+    icon: 'custom-note-icon',
+  },
+  'subprocess-fe': {
+    name: 'subprocess-fe',
+    props: {
+      ...props,
+      richText: richTextValidator,
+    },
+    icon: 'subprocess-icon',
+  },
+  'subprocess-be': {
+    name: 'subprocess-be',
+    props: {
+      ...props,
+      richText: richTextValidator,
+    },
+    icon: 'subprocess-icon',
+  },
+  frame: {
+    name: 'frame',
+    props: {
+      w: T.positiveNumber,
+      h: T.positiveNumber,
+      name: T.string,
+      color: T.literalEnum('white', 'blue', 'yellow', 'red'),
+    },
+    icon: 'frame-icon',
+  },
+  database: {
+    name: 'database',
+    props: {
+      ...props,
+      richText: richTextValidator,
+    },
+    icon: 'database-icon',
   },
   other: {
     name: 'other',
     props: { text: T.string, ...props },
-    icon: 'error-icon',
+    icon: 'start-icon',
+  },
+  'camera-mover': {
+    name: 'camera-mover',
+    props: {
+      ...props,
+    },
+    icon: 'gateway-icon',
   },
 } as const
 

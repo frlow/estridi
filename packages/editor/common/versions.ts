@@ -3,79 +3,11 @@ import { schema } from './schema'
 
 const SEQUENCE_ID = 'com.example.my-app'
 
-const Versions = createMigrationIds(SEQUENCE_ID, {
-  // Migrations must start at 1 and be sequential integers.
-  AddColors: 1,
-  Target: 2,
-  SymbolUpgrade: 3,
-  SimplifyTable: 4,
-})
+const Versions = createMigrationIds(SEQUENCE_ID, {})
 
 export const myMigrations = createMigrationSequence({
   sequenceId: SEQUENCE_ID,
-  sequence: [
-    {
-      id: Versions.AddColors,
-      scope: 'record',
-      filter: (record: any) =>
-        [
-          'userAction',
-          'start',
-          'gateway',
-          'serviceCall',
-          'subprocess',
-          'signalSend',
-          'signalListen',
-          'script',
-          'message'
-        ].includes(record?.state?.type),
-      up(record: any) {
-        record.state.props.color = 'light-blue'
-        if (['message'].includes(record?.state?.type))
-          record.state.props.dash = 'solid'
-      },
-      down() {
-      }
-    },
-    {
-      id: Versions.Target,
-      scope: 'record',
-      filter: (record: any) => ['start'].includes(record?.state?.type),
-      up(record: any) {
-        record.state.props.target = 'none'
-        record.state.props.testDir = ''
-      },
-      down() {
-      }
-    },
-    {
-      id: Versions.SymbolUpgrade,
-      scope: 'record',
-      filter: (record: any) =>
-        ['start', 'signalSend', 'userAction', 'root', 'end', 'table', 'connector'].includes(record?.state?.type),
-      up(record: any) {
-        if (['start', 'userAction', 'end', 'root', 'table', 'connector'].includes(record?.state?.type)) {
-          delete record.state.props.text
-        }
-        if (['signalSend'].includes(record?.state?.type)) {
-          record.state.props.dash = 'solid'
-        }
-      },
-      down() {
-      }
-    },
-    {
-      id: Versions.SimplifyTable,
-      scope: 'record',
-      filter: (record: any) => record?.state?.type === 'table',
-      up(_: any) {
-        debugger
-      },
-      down() {
-      }
-    },
-
-  ]
+  sequence: [],
 })
 
 export const migrateRoomSnapshot = (snapshot: any) => {

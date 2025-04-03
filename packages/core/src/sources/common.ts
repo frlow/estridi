@@ -41,13 +41,13 @@ export const afterProcess = (
       const actions = Object.values(nodes).filter(
         (n) => isSignalListenInside(uaNode, n)
       )
-      if ((ua.type as any) === 'subprocess' && actions.length > 0) {
-        delete (ua as any).link
-        delete (ua as any).tableKey
-        ua.type = 'userAction'
-        ua.variant = 'subprocess'
-        ua.actions = {}
-      }
+      // if ((ua.type as any) === 'subprocess' && actions.length > 0) {
+      //   delete (ua as any).link
+      //   delete (ua as any).tableKey
+      //   ua.type = 'userAction'
+      //   ua.variant = 'subprocess'
+      //   ua.actions = {}
+      // }
       actions.forEach((a) => (ua.actions[getNext(a)] = findText(a)))
     })
 

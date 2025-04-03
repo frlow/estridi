@@ -9,7 +9,7 @@ export const compareToReferenceFile = async (
   override: boolean,
 ) => {
   const prettyCode = await prettifyCode(code)
-  const filePath = path.join(__dirname, `${name}Reference.ts`)
+  const filePath = path.join(__dirname, "references",`${name}Reference.ts`)
   const referenceFileContent = `// @ts-nocheck\n${prettyCode}`
   if (override) fs.writeFileSync(filePath, referenceFileContent, 'utf8')
   const reference = fs.readFileSync(filePath, 'utf8')

@@ -9,15 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tldraw/editor": "^3.10.3",
-    "@tldraw/sync": "^3.10.3",
-    "@tldraw/tlschema": "^3.10.3",
-    "@tldraw/utils": "^3.10.3",
+    "@tldraw/editor": "^3.11.0",
+    "@tldraw/sync": "^3.11.0",
+    "@tldraw/tlschema": "^3.11.0",
+    "@tldraw/utils": "^3.11.0",
     "editor-common": "workspace:*",
     "express": "^5.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tldraw": "^3.10.3",
+    "tldraw": "^3.11.0",
     "classnames": "^2.5.1"
   },
   "devDependencies": {

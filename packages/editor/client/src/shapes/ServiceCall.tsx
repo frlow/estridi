@@ -10,7 +10,6 @@ import { ShapeDefinition, Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { TextLabelWithAutoHeight } from './util/TextLabelWithAutoHeight.tsx'
 import {
-  BLUE,
   BORDER,
   BORDER_RADIUS,
   CIRCLE_RADIUS,

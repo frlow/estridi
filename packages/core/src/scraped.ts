@@ -38,6 +38,8 @@ const scrapedNodeTypesValidator = z.enum([
   'root',
   'end',
   'gateway',
+  'loop',
+  'parallel',
   'subprocess',
   'userAction',
   'connector',
@@ -50,7 +52,6 @@ export type ScrapedNodeType<T extends ScrapedNodeTypes> = T
 export type ScrapedOther = {
   type: ScrapedNodeType<'other'>
   next?: NodeId
-  // data?: any
 } & BaseNode
 
 export type ScrapedConnector = {
@@ -65,7 +66,6 @@ export type ScrapedTable = {
 
 export type ScrapedScript = {
   type: ScrapedNodeType<'script'>
-  variant: 'script' | 'message' | 'signalSend'
   next?: NodeId
 } & BaseNode
 
@@ -80,8 +80,7 @@ export type ScrapedStart = {
 } & BaseNode
 
 export type ScrapedGateway = {
-  type: ScrapedNodeType<'gateway'>
-  variant: 'gateway' | 'loop' | 'parallel'
+  type: ScrapedNodeType<'gateway'| 'loop' | 'parallel'>
   options: Record<NodeId, string>
 } & BaseNode
 
@@ -89,14 +88,12 @@ export type ScrapedSubprocess = {
   type: ScrapedNodeType<'subprocess'>
   next?: NodeId
   link?: string
-  tableKey?: string
 } & BaseNode
 
 export type ScrapedUserAction = {
   type: ScrapedNodeType<'userAction'>
   next?: NodeId
   actions?: Record<NodeId, string>
-  variant: 'userAction' | 'subprocess'
 } & BaseNode
 
 export type ScrapedNode =

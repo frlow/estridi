@@ -3,7 +3,6 @@ import { Shapes, ShapeName } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { BLUE, CIRCLE_RADIUS, END_BORDER, GREEN } from './util/constants.ts'
 import { PresetButton } from './util/PresetButton'
-import { useEffect } from 'react'
 
 function createStartClass(variant: 'end-fe' | 'end-be') {
   const shapeType = Shapes[variant]
@@ -55,7 +54,6 @@ function createStartClass(variant: 'end-fe' | 'end-be') {
           {isSelected && (
             <PresetButton
               id={`${shape.id}-preset-button`}
-              editor={editor}
               shapesToChangeTo={
                 {
                   'end-fe': [

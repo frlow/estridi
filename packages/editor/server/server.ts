@@ -9,8 +9,7 @@ import { generateEstridiTests, parseRoots, processTldraw } from 'core'
 import { migrateRoomSnapshot, schema } from 'editor-common'
 import { program } from 'commander'
 
-program
-  .option('-d, --directory <string>', 'output directory', '.')
+program.option('-d, --directory <string>', 'output directory', '.')
 
 program.parse()
 
@@ -26,8 +25,16 @@ fs.mkdirSync(rootDir, { recursive: true })
 const FILE = path.join(rootDir, 's3d.json')
 const roomId = 'singleton'
 
-const initialSnapshot: RoomSnapshot = fs.existsSync(FILE) ? JSON.parse(fs.readFileSync(FILE, 'utf8')) : undefined
+const initialSnapshot: RoomSnapshot = fs.existsSync(FILE)
+  ? JSON.parse(fs.readFileSync(FILE, 'utf8'))
+  : undefined
 if (initialSnapshot) migrateRoomSnapshot(initialSnapshot)
+
+let timeout: NodeJS.Timeout
+const updateTestTimer = (data: any) => {
+  if (timeout) clearTimeout(timeout)
+  timeout = setTimeout(() => writeTests(data), 500)
+}
 
 const room = new TLSocketRoom({
   schema,
@@ -46,9 +53,9 @@ const room = new TLSocketRoom({
     writeFileSync(FILE, JSON.stringify(data, null, 2))
     updateTestTimer(data)
   },
-  onError(error) {
-    console.error('Sync Error:', error)
-  }
+  // onError(error) {
+  //   console.error('Sync Error:', error)
+  // }
 })
 
 // Simple usage:
@@ -66,16 +73,10 @@ const server = app.createServer()
 console.log(`Server running on http://localhost:${port}`)
 server.listen(port)
 
-let timeout: NodeJS.Timeout
-const updateTestTimer = (data: any) => {
-  if (timeout) clearTimeout(timeout)
-  timeout = setTimeout(() => writeTests(data), 500)
-}
-
 const writeTests = async (data: any) => {
   console.log('writing tests')
   try {
-    const scraped = await processTldraw(data).catch(e => {
+    const scraped = await processTldraw(data).catch((e) => {
       throw e
     })
     const roots = parseRoots(scraped, '+')
@@ -84,20 +85,22 @@ const writeTests = async (data: any) => {
       return
     }
     for (const root of roots) {
-      if(!root.extra?.target) continue
+      if (!root.extra?.target || root.extra.target === 'none') continue
       const fileToWrite = await generateEstridiTests({
         target: root.extra?.target,
         scraped,
-        rootName: root.raw
-      }).catch(e => {
+        rootName: root.raw,
+      }).catch((e) => {
         throw e
       })
       const testDir = path.join(rootDir, root.extra?.testDir || 'tests')
       fs.mkdirSync(testDir, { recursive: true })
-      fs.writeFileSync(path.join(testDir, fileToWrite.fileName), fileToWrite.code, 'utf8')
-
+      fs.writeFileSync(
+        path.join(testDir, fileToWrite.fileName),
+        fileToWrite.code,
+        'utf8',
+      )
     }
-
   } catch (e) {
     console.log(e)
   }
