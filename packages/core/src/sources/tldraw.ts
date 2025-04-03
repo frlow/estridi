@@ -23,17 +23,6 @@ export const processTldraw = async (data: {
 }): Promise<Scraped> => {
   const findRawText = (node: any): string => {
     const text = node.state?.props?.text || ''
-
-    if (node.state?.props?.richText) {
-      return node.state?.props?.richText?.content
-        .map((node) => {
-          if (!node.content) return ''
-          return node.content.map((text) => text.text).join('')
-        })
-        .filter(Boolean)
-        .join('\n')
-    }
-
     if ((text || '').trim() === '') {
       const parent = data.documents.find(
         (n) => n.state.id === node.state.parentId,
@@ -69,6 +58,7 @@ export const processTldraw = async (data: {
       'end',
       'gateway',
       'root',
+      'script',
       'serviceCall',
       'start',
       'subprocess',
@@ -80,45 +70,7 @@ export const processTldraw = async (data: {
       'parallel',
       'connector',
     ]
-
-    // Map from external type names to our internal types
-    const typeMap: Record<string, ExtendedNodeTypes> = {
-      'script-fe': 'script',
-      'script-be': 'script',
-      'service-call-fe': 'serviceCall',
-      'service-call-be': 'serviceCall',
-      'user-action': 'userAction',
-      'signal-send-fe': 'signalSend',
-      'signal-send-be': 'signalSend',
-      'gateway-fe': 'gateway',
-      'gateway-be': 'gateway',
-      'loop-fe': 'loop',
-      'loop-be': 'loop',
-      'parallel-fe': 'parallel',
-      'parallel-be': 'parallel',
-      'table-fe': 'table',
-      'table-be': 'table',
-      'subprocess-fe': 'subprocess',
-      'subprocess-be': 'subprocess',
-      'start-fe': 'start',
-      'start-be': 'start',
-      'end-fe': 'end',
-      'end-be': 'end',
-    }
-
-    const strippedType = node.state?.type
-      ?.replace(/-be$/, '')
-      .replace(/-fe$/, '')
-      .replace(/-inter$/, '') as ExtendedNodeTypes
-
-    if (typeMap[node.state?.type]) {
-      return typeMap[node.state?.type]
-    }
-
-    if (types.includes(strippedType)) {
-      return typeMap[strippedType] || strippedType
-    }
-
+    if (types.includes(node.state?.type)) return node.state?.type
     return 'other'
   }
 
@@ -137,7 +89,7 @@ export const processTldraw = async (data: {
           id: getId(node.state.id),
           next: getNext(node),
           ...autoFindText(node),
-          variant: type
+          variant: type,
         }
         return script
       case 'subprocess':
@@ -168,7 +120,10 @@ export const processTldraw = async (data: {
           text: sanitizeText(connection?.text?.replace('root:', '') || 'start'),
           next: getNext(node),
           raw: connection?.text?.replace('root:', '') || 'start',
-          extra: { target: node.state.props.target },
+          extra: {
+            target: node.state.props.target,
+            testDir: node.state.props.testDir,
+          },
         }
         return start
       case 'serviceCall':
@@ -270,7 +225,7 @@ export const processTldraw = async (data: {
   }
 
   const isSignalListenInside = (host, child) => {
-    if (child.state.type !== 'signal-listen-fe') return false
+    if (child.state.type !== 'signalListen') return false
     return isNodeInside(
       {
         x: host.state.x,
