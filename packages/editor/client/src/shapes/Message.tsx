@@ -9,7 +9,13 @@ import {
 import { BaseShape } from './index'
 import { CSSProperties } from 'react'
 import { ShapeName, Shapes } from 'editor-common'
-import { BLUE, BORDER, CIRCLE_RADIUS, INTER_BORDER } from './util/constants'
+import {
+  BLUE,
+  BORDER,
+  CIRCLE_RADIUS,
+  CIRCLE_SHAPE_TEXT_WIDTH,
+  INTER_BORDER,
+} from './util/constants'
 
 function createMessageClass(variant: 'message' | 'message-inter') {
   const shapeType = Shapes[variant]
@@ -87,7 +93,7 @@ function createMessageClass(variant: 'message' | 'message-inter') {
                 top: `${CIRCLE_RADIUS}px`,
               }}
               font="sans"
-              textWidth={130}
+              textWidth={CIRCLE_SHAPE_TEXT_WIDTH}
               fontSize={LABEL_FONT_SIZES['m']}
               lineHeight={TEXT_PROPS.lineHeight}
               align="middle"

@@ -14,7 +14,7 @@ import {
   RECTANGLE_DEFAULT_WIDTH,
 } from './util/constants.ts'
 import { createArrow } from './util/util.ts'
-import React from 'react'
+import { PresetButton } from './util/PresetButton.tsx'
 
 const shapeType = Shapes['user-action']
 type ShapeType = BaseShape<typeof shapeType>
@@ -41,44 +41,6 @@ const flowConfigs: Record<FlowType, FlowConfig> = {
     getTargetX: (baseX: number, offset: number) =>
       baseX + (100 + offset) - CIRCLE_RADIUS / 2,
   },
-}
-
-function FlowButton({
-  flowType,
-  shape,
-  position,
-  handleAddFlow,
-}: {
-  flowType: FlowType
-  shape: ShapeType
-  position: number
-  handleAddFlow: (flowType: FlowType, shape: ShapeType) => void
-}): React.ReactElement {
-  const config = flowConfigs[flowType]
-
-  return (
-    <button
-      className="shape-switch-menu-button"
-      style={{
-        position: 'absolute',
-        top: 5,
-        right: position,
-        padding: 0,
-        margin: 0,
-      }}
-      onClick={() => handleAddFlow(flowType, shape)}
-    >
-      <img
-        src={config.icon}
-        height="30px"
-        draggable={false}
-        onError={(e) => {
-          console.error(`Failed to load image: ${config.icon}`, e)
-          ;(e.target as HTMLImageElement).style.backgroundColor = '#ddd'
-        }}
-      />
-    </button>
-  )
 }
 
 export default class extends BaseBoxShapeUtil<ShapeType> {
@@ -140,12 +102,16 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
       type: 'user-action',
       props: {
         ...shape.props,
-        w: rightmostShape.x - userBounds.x + 500,
+        w: rightmostShape.x - userBounds.x + 600,
       },
     })
   }
 
-  private createSignalListen(shape: ShapeType, offset: number): TLShapeId {
+  private createSignalListen(
+    shape: ShapeType,
+    offset: number,
+    parentId?: TLShapeId,
+  ): TLShapeId {
     const signalListenFeId = createShapeId()
 
     this.editor.createShape({
@@ -153,6 +119,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
       type: 'signal-listen-fe',
       x: shape.x + (100 + offset) - CIRCLE_RADIUS / 2,
       y: shape.y + shape.props.h - CIRCLE_RADIUS / 2,
+      parentId: parentId ?? undefined,
     })
 
     return signalListenFeId
@@ -162,6 +129,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
     flowType: FlowType,
     shape: ShapeType,
     offset: number,
+    parentId?: TLShapeId,
   ): TLShapeId {
     const targetId = createShapeId()
     const config = flowConfigs[flowType]
@@ -170,7 +138,8 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
       id: targetId,
       type: config.targetType,
       x: config.getTargetX(shape.x, offset),
-      y: shape.y + 300,
+      y: shape.y + shape.props.h + 200,
+      parentId: parentId ?? undefined,
     })
 
     return targetId
@@ -179,17 +148,31 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
   private handleAddFlow = (flowType: FlowType, shape: ShapeType) => {
     const existingSignals = this.findExistingSignals(shape)
     const offset = existingSignals.length * 350
+    const parentId = shape.parentId
+    const parentShape = parentId ? this.editor.getShape(parentId) : null
+    const frameParentId =
+      parentShape?.type === 'frame' ? (parentId as TLShapeId) : undefined
 
     this.updateShapeWidth(shape, existingSignals)
 
-    const signalListenFeId = this.createSignalListen(shape, offset)
-    const targetId = this.createTargetComponent(flowType, shape, offset)
+    const signalListenFeId = this.createSignalListen(
+      shape,
+      offset,
+      frameParentId,
+    )
+    const targetId = this.createTargetComponent(
+      flowType,
+      shape,
+      offset,
+      frameParentId,
+    )
 
     createArrow(this.editor, signalListenFeId, targetId)
   }
 
   override component(shape: ShapeType) {
-    const isEditing = this.editor.getEditingShapeId() === shape.id
+    const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+    const presetId = shape.id + '-preset'
 
     return (
       <HTMLContainer
@@ -202,9 +185,17 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          pointerEvents: isEditing ? 'all' : undefined,
+          pointerEvents: isSelected ? 'all' : 'none',
         }}
-        onPointerDown={isEditing ? stopEventPropagation : undefined}
+        onPointerDown={(e) => {
+          const target = e.target as HTMLElement
+          if (
+            target.id === presetId ||
+            target.closest(`#${CSS.escape(presetId)}`)
+          ) {
+            stopEventPropagation(e)
+          }
+        }}
       >
         <img
           src="./user-action.svg"
@@ -213,19 +204,23 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
             console.error(`Failed to load image: ./user-action.svg`, e)
           }}
         />
-        {isEditing && (
+        {isSelected && (
           <>
-            <FlowButton
-              flowType="subprocess"
-              shape={shape}
-              position={5}
-              handleAddFlow={this.handleAddFlow}
-            />
-            <FlowButton
-              flowType="signal-listen"
-              shape={shape}
-              position={60}
-              handleAddFlow={this.handleAddFlow}
+            <PresetButton
+              id={presetId}
+              shapesToChangeTo={[]}
+              presets={[
+                {
+                  onPresetPressed: () =>
+                    this.handleAddFlow('subprocess', shape),
+                  iconUrl: flowConfigs['subprocess'].icon,
+                },
+                {
+                  onPresetPressed: () =>
+                    this.handleAddFlow('signal-listen', shape),
+                  iconUrl: flowConfigs['signal-listen'].icon,
+                },
+              ]}
             />
           </>
         )}

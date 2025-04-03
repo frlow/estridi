@@ -14,7 +14,7 @@ const tableControlButtonStyles = `
     transition: opacity 0.2s, background-color 0.2s;
   }
   .table-control-button:hover {
-    background-color: #ccaa00 !important;
+    background-color: #2a8c5a !important;
   }
 `
 
@@ -35,7 +35,7 @@ const TableControlButton = ({
       onClick={onClick}
       className="table-control-button"
       style={{
-        background: '#ffcc00',
+        background: '#3cb371',
         color: 'black',
         border: 'none',
         cursor: 'pointer',
@@ -76,7 +76,7 @@ const TableControlGroup = ({
         position: 'absolute',
         display: 'flex',
         flexDirection: isVertical ? 'column' : 'row',
-        background: '#ffcc00',
+        background: '#3cb371',
         borderRadius: '1rem',
         overflow: 'hidden',
         ...style,
@@ -190,7 +190,7 @@ function createTableClass(variant: 'table-fe' | 'table-be') {
                 top: '-24px',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                background: '#ffcc00',
+                background: '#3cb371',
                 color: 'black',
                 padding: '2px 8px',
                 borderRadius: '4px',
@@ -211,10 +211,10 @@ function createTableClass(variant: 'table-fe' | 'table-be') {
               borderCollapse: 'separate',
               borderRadius: '8px',
               overflow: 'hidden',
-              border: `2px solid ${isEditing ? '#ffcc00' : '#cccccc'}`,
+              border: `2px solid ${isEditing ? '#3cb371' : '#cccccc'}`,
               borderSpacing: 0,
               boxShadow: isEditing
-                ? '0 0 0 2px rgba(255, 204, 0, 0.2)'
+                ? '0 0 0 2px rgba(60, 179, 113, 0.2)'
                 : 'none',
               transition: 'border-color 0.5s, box-shadow 0.5s',
               fontSize: '1rem',

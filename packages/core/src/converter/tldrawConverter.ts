@@ -65,7 +65,6 @@ export const convertToTldraw = async (scraped: Scraped) => {
       text,
       start,
       end,
-      dotted,
     }: {
       text?: string
       start: string
@@ -151,9 +150,24 @@ export const convertToTldraw = async (scraped: Scraped) => {
           state: {
             ...base(node),
             id: `shape:${node.id}`,
-            type: 'script-fe',
+            type:
+              node.variant === 'message'
+                ? 'message'
+                : node.variant === 'signalSend'
+                ? 'signal-send-fe'
+                : 'script-fe',
             props: {
-              richText: toRichText(node.raw),
+              ...{
+                message: {
+                  text: node.raw,
+                },
+                script: {
+                  richText: toRichText(node.raw),
+                },
+                signalSend: {
+                  text: node.raw,
+                },
+              }[node.variant],
               w: 270,
               h: 80,
             },
@@ -200,7 +214,7 @@ export const convertToTldraw = async (scraped: Scraped) => {
               start: node.id,
               end: node.next,
               text: node.type === 'root' ? `root:${node.raw}` : node.raw,
-            }),
+            })
           )
         break
       case 'serviceCall':
@@ -231,8 +245,6 @@ export const convertToTldraw = async (scraped: Scraped) => {
                 node.extra?.width ||
                 Object.keys(node.actions).length * 100 + 100,
             },
-            x: node.extra?.x || 0,
-            y: node.extra?.y || 0,
           },
         })
         Object.entries(node.actions).forEach(([key, value], i) => {
@@ -242,7 +254,7 @@ export const convertToTldraw = async (scraped: Scraped) => {
               id: `shape:${node.id}_action_${i}`,
               type: 'signal-listen-fe',
               props: {
-                text: value,
+                text: value as string,
                 h: 80,
                 w: 80,
               },
@@ -251,7 +263,7 @@ export const convertToTldraw = async (scraped: Scraped) => {
             },
           })
           children.push(
-            ...createConnector({ start: `${node.id}_action_${i}`, end: key }),
+            ...createConnector({ start: `${node.id}_action_${i}`, end: key })
           )
         })
         if (node.next)
@@ -262,11 +274,11 @@ export const convertToTldraw = async (scraped: Scraped) => {
           state: {
             ...base(node),
             id: `shape:${node.id}`,
-            type: 'other',
+            type: node.id === 'OtherId' ? 'other' : 'connector',
             props: {
-              text: node.raw,
               w: 80,
               h: 80,
+              ...(node.id === 'OtherId' ? { text: 'Some [text]' } : {}),
             },
           },
         })
@@ -280,7 +292,6 @@ export const convertToTldraw = async (scraped: Scraped) => {
             id: `shape:${node.id}`,
             type: 'connector',
             props: {
-              text: node.raw,
               w: 80,
               h: 80,
             },
@@ -294,7 +305,7 @@ export const convertToTldraw = async (scraped: Scraped) => {
           state: {
             ...base(node),
             id: `shape:${node.id}`,
-            type: 'gateway-fe',
+            type: node.variant === 'loop' ? 'loop-fe' : 'gateway-fe',
             props: {
               text: node.raw,
               w: 80,
@@ -308,7 +319,7 @@ export const convertToTldraw = async (scraped: Scraped) => {
               start: node.id,
               end: option[0],
               text: option[1],
-            }),
+            })
           )
         })
         break

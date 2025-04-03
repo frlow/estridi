@@ -14,6 +14,7 @@ import {
   BLUE,
   BORDER,
   CIRCLE_RADIUS,
+  CIRCLE_SHAPE_TEXT_WIDTH,
   GREEN,
   INTER_BORDER,
 } from './util/constants.ts'
@@ -120,7 +121,7 @@ function createSignalListenClass(
                 top: `${CIRCLE_RADIUS}px`,
               }}
               font="sans"
-              textWidth={130}
+              textWidth={CIRCLE_SHAPE_TEXT_WIDTH}
               fontSize={LABEL_FONT_SIZES['m']}
               lineHeight={TEXT_PROPS.lineHeight}
               align="middle"

@@ -14,7 +14,9 @@ export const getTestableNodeTree = (scraped: Scraped) => {
     const current = toProcess.shift()
     if (current.block.touched.some(n => n === current.id)) continue
     current.block.touched.push(current.id)
-    if (current.type === 'script' || (current.type === 'subprocess' && !current.link && current.tableKey) || current.type === 'serviceCall') {
+    if (current.type === 'script' || 
+        (current.type === 'subprocess' && !current.link && current.tableKey) || 
+        current.type === 'serviceCall') {
       const { block: _, ...temp } = current
       current.block.nodes.push(temp)
     }

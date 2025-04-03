@@ -11,11 +11,10 @@ import {
   useRelevantStyles,
   Editor,
   TLUiStylePanelProps,
-  DefaultFontStyle
+  DefaultFontStyle,
 } from 'tldraw'
 import { icons, Shapes, targetStyle, ShapeName } from 'editor-common'
 import { useEffect, useState } from 'react'
-
 export const customAssetUrls: TLUiAssetUrlOverrides = {
   icons,
 }
@@ -63,13 +62,26 @@ const CustomStylePanel = (props: TLUiStylePanelProps) => {
   const currentToolId = currentTool.id
 
   // Standard creation tools where we want to show the style panel immediately
-  const creationTools = ['geo', 'draw', 'arrow', 'line', 'text', 'note', 'frame']
+  const creationTools = [
+    'geo',
+    'draw',
+    'arrow',
+    'line',
+    'text',
+    'note',
+    'frame',
+    'start-fe',
+    'start-be',
+  ]
   const isInCreationTool = creationTools.includes(currentToolId)
 
   // Check if any selected shape is a default shape (not in our custom Shapes)
   const selectedShapes = editor.getSelectedShapes()
-  const hasDefaultShape = selectedShapes.length > 0 &&
-    selectedShapes.some(shape => !Object.values(Shapes).some(s => s.name === shape.type))
+  const hasDefaultShape =
+    selectedShapes.length > 0 &&
+    selectedShapes.some(
+      (shape) => !Object.values(Shapes).some((s) => s.name === shape.type),
+    )
 
   // Show the style panel if we're using a creation tool or have a default shape selected
   if (!styles || (!hasDefaultShape && !isInCreationTool)) return null
@@ -172,9 +184,9 @@ function CustomLeftMenu() {
             height="15px"
             style={{ transform: 'scaleX(-1)' }}
             onError={(e) => {
-              console.error(`Failed to load image: hide.svg`, e);
+              console.error(`Failed to load image: hide.svg`, e)
               // Set a fallback background color
-              (e.target as HTMLImageElement).style.backgroundColor = '#ddd';
+              ;(e.target as HTMLImageElement).style.backgroundColor = '#ddd'
             }}
           />
         </button>
@@ -252,9 +264,13 @@ function CustomLeftMenu() {
                       width="20px"
                       draggable={false}
                       onError={(e) => {
-                        console.error(`Failed to load image: ${shapeData.icon}.svg`, e);
+                        console.error(
+                          `Failed to load image: ${shapeData.icon}.svg`,
+                          e,
+                        )
                         // Set a fallback background color
-                        (e.target as HTMLImageElement).style.backgroundColor = '#ddd';
+                        ;(e.target as HTMLImageElement).style.backgroundColor =
+                          '#ddd'
                       }}
                     />
                     {shapeData.name
@@ -286,9 +302,9 @@ function CustomLeftMenu() {
               src={`./hide.svg`}
               height="20px"
               onError={(e) => {
-                console.error(`Failed to load image: hide.svg`, e);
+                console.error(`Failed to load image: hide.svg`, e)
                 // Set a fallback background color
-                (e.target as HTMLImageElement).style.backgroundColor = '#ddd';
+                ;(e.target as HTMLImageElement).style.backgroundColor = '#ddd'
               }}
             />
             Hide menu
@@ -346,10 +362,10 @@ const ShapeSwitchMenu = () => {
       setTransformations(getTransformation(editor))
     }
 
-    editor.addListener('change', listener);
+    editor.addListener('change', listener)
 
     return () => {
-      editor.removeListener('change', listener);
+      editor.removeListener('change', listener)
     }
   }, [editor])
 
@@ -382,33 +398,48 @@ const ShapeSwitchMenu = () => {
           borderRadius: 8,
         }}
       >
-        {transformations.map(({ value, icon }: { value: ShapeName; icon: keyof typeof icons }) => {
-          return (
-            <button
-              className='shape-switch-menu-button'
-              key={value}
-              onClick={() => {
-                const selectedShapes = editor.getSelectedShapes()
-                selectedShapes.forEach((shape) => {
-                  editor.deleteShape(shape.id)
-                  editor.createShape({ ...shape, type: value })
-                })
-              }}
-            >
-              <img
-                src={`./${icon}.svg`}
-                alt={value}
-                height="30px"
-                draggable={false}
-                onError={(e) => {
-                  console.error(`Failed to load image: ${icon}.svg`, e);
-                  // Set a fallback background color
-                  (e.target as HTMLImageElement).style.backgroundColor = '#ddd';
+        {transformations.map(
+          ({
+            value,
+            icon,
+            filterProps,
+          }: {
+            value: ShapeName
+            icon: keyof typeof icons
+            filterProps: any
+          }) => {
+            return (
+              <button
+                className="shape-switch-menu-button"
+                key={value}
+                onClick={() => {
+                  const selectedShapes = editor.getSelectedShapes()
+                  selectedShapes.forEach((shape) => {
+                    editor.deleteShape(shape.id)
+                    const newShape = { ...shape, type: value }
+                    if (filterProps) {
+                      newShape.props = filterProps(shape.props)
+                    }
+                    editor.createShape(newShape)
+                  })
                 }}
-              />
-            </button>
-          )
-        })}
+              >
+                <img
+                  src={`./${icon}.svg`}
+                  alt={value}
+                  height="30px"
+                  draggable={false}
+                  onError={(e) => {
+                    console.error(`Failed to load image: ${icon}.svg`, e)
+                    // Set a fallback background color
+                    ;(e.target as HTMLImageElement).style.backgroundColor =
+                      '#ddd'
+                  }}
+                />
+              </button>
+            )
+          },
+        )}
       </div>
     </div>
   )

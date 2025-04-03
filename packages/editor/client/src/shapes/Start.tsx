@@ -12,8 +12,8 @@ function createStartClass(variant: 'start-fe' | 'start-be') {
     static override type = shapeType.name
     static override props = shapeType.props
     static transformations = {
-      'start-fe': [{ value: 'end-fe' as ShapeName, icon: 'end-fe-preview' }],
-      'start-be': [{ value: 'end-be' as ShapeName, icon: 'end-be-preview' }],
+      'start-fe': [{ value: 'end-fe' as ShapeName, icon: 'end-fe-preview', filterProps: (props: any) => ({ h: props.h, w: props.w }) }],
+      'start-be': [{ value: 'end-be' as ShapeName, icon: 'end-be-preview', filterProps: (props: any) => ({ h: props.h, w: props.w }) }],
     }[variant]
 
     override getDefaultProps(): ShapeType['props'] {

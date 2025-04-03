@@ -16,7 +16,6 @@ import {
 } from 'tldraw'
 import { Script, ScriptBe } from './Script.tsx'
 import UserAction from './UserAction.tsx'
-import { SubprocessFE, SubprocessBE } from './Subprocess.tsx'
 import {
   GatewayFe,
   GatewayBe,
@@ -57,6 +56,8 @@ import {
 import { TimerFE, TimerBE } from './Timer.tsx'
 import { FrameShapeUtil } from './frame/FrameShapeUtil.tsx'
 import Database from './Database.tsx'
+import CameraMover from './CameraMover.tsx'
+import { SubprocessFE, SubprocessBE } from './Subprocess.tsx'
 
 const customShapeDefinitions: Record<
   ShapeName,
@@ -106,6 +107,7 @@ const customShapeDefinitions: Record<
   'test-failed': TestFailed,
   frame: FrameShapeUtil,
   database: Database,
+  'camera-mover': CameraMover,
 }
 
 export const customShapes = Object.values(customShapeDefinitions)

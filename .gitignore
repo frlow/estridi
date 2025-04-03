@@ -17,3 +17,5 @@ test-results/
 demo/
 /demo/
 .pnpm-store/
+*DS_Store
+DS_Store

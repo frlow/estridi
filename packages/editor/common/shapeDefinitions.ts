@@ -268,7 +268,7 @@ export const Shapes = {
       ...props,
       text: T.string,
     },
-    icon: 'soft-error-icon',
+    icon: 'dev-done-icon',
   },
   'end-fe': {
     name: 'end-fe',
@@ -365,6 +365,13 @@ export const Shapes = {
     name: 'other',
     props: { text: T.string, ...props },
     icon: 'start-icon',
+  },
+  'camera-mover': {
+    name: 'camera-mover',
+    props: {
+      ...props,
+    },
+    icon: 'gateway-icon',
   },
 } as const
 

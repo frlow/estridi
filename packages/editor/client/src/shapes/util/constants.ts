@@ -1,5 +1,6 @@
 export const CIRCLE_RADIUS = 90;
 export const BORDER_RADIUS = 10;
+export const CIRCLE_SHAPE_TEXT_WIDTH = 200;
 
 export const DIMOND_SIDE_LENGTH = 120;
 

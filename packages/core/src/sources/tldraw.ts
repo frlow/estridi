@@ -13,24 +13,38 @@ import {
   ScrapedStart,
   ScrapedSubprocess,
   ScrapedTable,
-  ScrapedUserAction
+  ScrapedUserAction,
 } from '../scraped'
 
 export type ProcessedNodes = Record<string, any>
 
 type ExtendedNodeTypes = ScrapedNodeTypes | 'loop' | 'parallel'
-export const processTldraw = async (
-  data: { documents: any[] }
-): Promise<Scraped> => {
+export const processTldraw = async (data: {
+  documents: any[]
+}): Promise<Scraped> => {
   const findRawText = (node: any): string => {
     const text = node.state?.props?.text || ''
+
+    if (node.state?.props?.richText) {
+      return node.state?.props?.richText?.content
+        .map((node) => {
+          if (!node.content) return ''
+          return node.content.map((text) => text.text).join('')
+        })
+        .filter(Boolean)
+        .join('\n')
+    }
+
     if ((text || '').trim() === '') {
-      const parent = data.documents.find(n => n.state.id === node.state.parentId)
+      const parent = data.documents.find(
+        (n) => n.state.id === node.state.parentId,
+      )
       const parentType = parent?.state?.type
       if (parentType === 'group') {
-        const groupedText = data.documents.find(n =>
-          n.state.parentId === parent.state.id &&
-          n.state.type === 'text')
+        const groupedText = data.documents.find(
+          (n) =>
+            n.state.parentId === parent.state.id && n.state.type === 'text',
+        )
         return groupedText?.state?.props.text || ''
       }
     }
@@ -41,7 +55,7 @@ export const processTldraw = async (
 
   const autoFindText = (node: any) => ({
     text: findText(node),
-    raw: findRawText(node)
+    raw: findRawText(node),
   })
 
   const getNext = (node: any): string | undefined => {
@@ -52,10 +66,60 @@ export const processTldraw = async (
 
   const getType = (node: any): ExtendedNodeTypes => {
     const types: ExtendedNodeTypes[] = [
-      'script', 'end', 'gateway', 'root', 'script', 'serviceCall',
-      'start', 'subprocess', 'table', 'userAction', 'message', 'signalSend',
-      'loop', 'parallel', 'connector']
-    if (types.includes(node.state?.type)) return node.state?.type
+      'script',
+      'end',
+      'gateway',
+      'root',
+      'serviceCall',
+      'start',
+      'subprocess',
+      'table',
+      'userAction',
+      'message',
+      'signalSend',
+      'loop',
+      'parallel',
+      'connector',
+    ]
+
+    // Map from external type names to our internal types
+    const typeMap: Record<string, ExtendedNodeTypes> = {
+      'script-fe': 'script',
+      'script-be': 'script',
+      'service-call-fe': 'serviceCall',
+      'service-call-be': 'serviceCall',
+      'user-action': 'userAction',
+      'signal-send-fe': 'signalSend',
+      'signal-send-be': 'signalSend',
+      'gateway-fe': 'gateway',
+      'gateway-be': 'gateway',
+      'loop-fe': 'loop',
+      'loop-be': 'loop',
+      'parallel-fe': 'parallel',
+      'parallel-be': 'parallel',
+      'table-fe': 'table',
+      'table-be': 'table',
+      'subprocess-fe': 'subprocess',
+      'subprocess-be': 'subprocess',
+      'start-fe': 'start',
+      'start-be': 'start',
+      'end-fe': 'end',
+      'end-be': 'end',
+    }
+
+    const strippedType = node.state?.type
+      ?.replace(/-be$/, '')
+      .replace(/-fe$/, '')
+      .replace(/-inter$/, '') as ExtendedNodeTypes
+
+    if (typeMap[node.state?.type]) {
+      return typeMap[node.state?.type]
+    }
+
+    if (types.includes(strippedType)) {
+      return typeMap[strippedType] || strippedType
+    }
+
     return 'other'
   }
 
@@ -84,7 +148,7 @@ export const processTldraw = async (
           ...autoFindText(node),
           next: getNext(node),
           tableKey: getTableKey(findRawText(node)),
-          link: undefined
+          link: undefined,
         }
         return subprocess
       case 'start':
@@ -93,7 +157,7 @@ export const processTldraw = async (
             type: 'end',
             id: getId(node.state.id),
             text: 'end',
-            raw: 'end'
+            raw: 'end',
           }
           return end
         }
@@ -105,7 +169,7 @@ export const processTldraw = async (
           text: sanitizeText(connection?.text?.replace('root:', '') || 'start'),
           next: getNext(node),
           raw: connection?.text?.replace('root:', '') || 'start',
-          extra: { target: node.state.props.target }
+          extra: { target: node.state.props.target },
         }
         return start
       case 'serviceCall':
@@ -113,7 +177,7 @@ export const processTldraw = async (
           type: 'serviceCall',
           id: getId(node.state.id),
           next: getNext(node),
-          ...autoFindText(node)
+          ...autoFindText(node),
         }
         return serviceCall
       case 'userAction':
@@ -123,7 +187,7 @@ export const processTldraw = async (
           next: getNext(node),
           ...autoFindText(node),
           variant: 'userAction',
-          actions: {}
+          actions: {},
         }
         return userAction
       case 'loop':
@@ -136,8 +200,8 @@ export const processTldraw = async (
           variant: type,
           options: ((node as any).connections || []).reduce(
             (acc, cur) => ({ ...acc, [cur.id]: cur.text }),
-            {}
-          )
+            {},
+          ),
         }
         return gateway
       case 'table':
@@ -145,7 +209,7 @@ export const processTldraw = async (
           id: getId(node.state.id),
           type: 'table',
           ...autoText(node.state.props.rows[0][0]),
-          rows: node.state.props.rows
+          rows: node.state.props.rows,
         }
         return table
       case 'connector':
@@ -153,7 +217,7 @@ export const processTldraw = async (
           id: getId(node.state.id),
           type: 'connector',
           ...autoText(''),
-          next: getNext(node)
+          next: getNext(node),
         }
         return connector
       default: {
@@ -162,7 +226,7 @@ export const processTldraw = async (
           id: getId(node.state.id),
           next: getNext(node),
           text: findText(node),
-          raw: findRawText(node)
+          raw: findRawText(node),
         } as ScrapedOther
       }
     }
@@ -180,12 +244,17 @@ export const processTldraw = async (
     const temp = structuredClone(nodes)
     const connections = Object.values(temp)
       .filter((n) => n.state.type === 'arrow' && n.state.typeName === 'shape')
-      .map(n => {
-        const findBinding = (terminal: 'start' | 'end') => getId(Object.values(temp).find(c =>
-          c.state.type === 'arrow' &&
-          c.state.typeName === 'binding' &&
-          c.state.fromId === n.state.id &&
-          c.state.props?.terminal === terminal)?.state?.toId)
+      .map((n) => {
+        const findBinding = (terminal: 'start' | 'end') =>
+          getId(
+            Object.values(temp).find(
+              (c) =>
+                c.state.type === 'arrow' &&
+                c.state.typeName === 'binding' &&
+                c.state.fromId === n.state.id &&
+                c.state.props?.terminal === terminal,
+            )?.state?.toId,
+          )
         const from = findBinding('start')
         const to = findBinding('end')
         return { from, to, text: n.state.props?.text }
@@ -202,10 +271,20 @@ export const processTldraw = async (
   }
 
   const isSignalListenInside = (host, child) => {
-    if (child.state.type !== 'signalListen') return false
+    if (child.state.type !== 'signal-listen-fe') return false
     return isNodeInside(
-      { x: host.state.x, y: host.state.y, width: host.state.props.w, height: host.state.props.h },
-      { x: child.state.x, y: child.state.y, width: child.state.props.w, height: child.state.props.h }
+      {
+        x: host.state.x,
+        y: host.state.y,
+        width: host.state.props.w,
+        height: host.state.props.h,
+      },
+      {
+        x: child.state.x,
+        y: child.state.y,
+        width: child.state.props.w,
+        height: child.state.props.h,
+      },
     )
   }
 
@@ -216,8 +295,20 @@ export const processTldraw = async (
   const scraped = nodeValues.map((n) => {
     const meta = getNodeMetadata(n)
     if (n.state.x && n.state.y && n.state.props?.w && n.state.props?.h)
-      meta.extra = { ...meta.extra, x: n.state.x, y: n.state.y, height: n.state.props?.h, width: n.state.props?.w }
+      meta.extra = {
+        ...meta.extra,
+        x: n.state.x,
+        y: n.state.y,
+        height: n.state.props?.h,
+        width: n.state.props?.w,
+      }
     return meta
   })
-  return afterProcess({ scraped, nodes: nodesWithConnections, findText, getNext, isSignalListenInside })
+  return afterProcess({
+    scraped,
+    nodes: nodesWithConnections,
+    findText,
+    getNext,
+    isSignalListenInside,
+  })
 }

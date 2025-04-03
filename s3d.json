@@ -1,5 +1,5 @@
 {
-  "clock": 77585,
+  "clock": 78383,
   "tombstones": {
     "shape:xFtWYExKIEzvn4p2G6UJp": 396,
     "shape:ZsQ0ZV2fp2cvQFBsmf83-": 488,
@@ -133,35 +133,59 @@
       "com.tldraw.shape.draw": 2,
       "com.tldraw.shape.embed": 4,
       "com.tldraw.shape.frame": 0,
-      "com.tldraw.shape.geo": 9,
+      "com.tldraw.shape.geo": 10,
       "com.tldraw.shape.group": 0,
       "com.tldraw.shape.highlight": 1,
       "com.tldraw.shape.image": 4,
       "com.tldraw.shape.line": 5,
-      "com.tldraw.shape.note": 8,
-      "com.tldraw.shape.text": 2,
+      "com.tldraw.shape.note": 9,
+      "com.tldraw.shape.text": 3,
       "com.tldraw.shape.video": 2,
-      "com.tldraw.shape.start": 0,
+      "com.tldraw.shape.start-fe": 0,
+      "com.tldraw.shape.start-be": 0,
       "com.tldraw.shape.message": 0,
-      "com.tldraw.shape.gateway": 0,
+      "com.tldraw.shape.message-inter": 0,
+      "com.tldraw.shape.gateway-fe": 0,
+      "com.tldraw.shape.gateway-be": 0,
+      "com.tldraw.shape.loop-fe": 0,
+      "com.tldraw.shape.loop-be": 0,
+      "com.tldraw.shape.parallel-fe": 0,
+      "com.tldraw.shape.parallel-be": 0,
       "com.tldraw.shape.connector": 0,
-      "com.tldraw.shape.serviceCall": 0,
-      "com.tldraw.shape.subprocess": 0,
-      "com.tldraw.shape.script": 0,
-      "com.tldraw.shape.customNote": 0,
-      "com.tldraw.shape.table": 0,
-      "com.tldraw.shape.userAction": 0,
-      "com.tldraw.shape.signalSend": 0,
-      "com.tldraw.shape.signalListen": 0,
-      "com.tldraw.shape.loop": 0,
-      "com.tldraw.shape.parallel": 0,
-      "com.tldraw.shape.timer": 0,
+      "com.tldraw.shape.service-call-fe": 0,
+      "com.tldraw.shape.service-call-be": 0,
+      "com.tldraw.shape.service-call-be-external": 0,
+      "com.tldraw.shape.script-fe": 0,
+      "com.tldraw.shape.script-be": 0,
+      "com.tldraw.shape.table-fe": 0,
+      "com.tldraw.shape.table-be": 0,
+      "com.tldraw.shape.user-action": 0,
+      "com.tldraw.shape.signal-send-fe": 0,
+      "com.tldraw.shape.signal-send-be": 0,
+      "com.tldraw.shape.signal-listen-fe": 0,
+      "com.tldraw.shape.signal-listen-fe-inter": 0,
+      "com.tldraw.shape.signal-listen-be": 0,
+      "com.tldraw.shape.signal-listen-be-inter": 0,
+      "com.tldraw.shape.signal-send-fe-inter": 0,
+      "com.tldraw.shape.signal-send-be-inter": 0,
+      "com.tldraw.shape.timer-fe": 0,
+      "com.tldraw.shape.timer-be": 0,
       "com.tldraw.shape.error": 0,
-      "com.tldraw.shape.softError": 0,
-      "com.tldraw.shape.end": 0,
+      "com.tldraw.shape.soft-error": 0,
+      "com.tldraw.shape.end-fe": 0,
+      "com.tldraw.shape.end-be": 0,
+      "com.tldraw.shape.not-started": 0,
+      "com.tldraw.shape.in-progress": 0,
+      "com.tldraw.shape.dev-done": 0,
+      "com.tldraw.shape.test-done": 0,
+      "com.tldraw.shape.test-failed": 0,
+      "com.tldraw.shape.custom-note": 0,
+      "com.tldraw.shape.subprocess-fe": 0,
+      "com.tldraw.shape.subprocess-be": 0,
+      "com.tldraw.shape.database": 0,
       "com.tldraw.shape.other": 0,
       "com.tldraw.binding.arrow": 0,
-      "com.example.my-app": 4
+      "com.example.my-app": 5
     }
   },
   "documents": [
@@ -194,14 +218,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:lI_t0iMAE9ggmbVs-bUsV",
-        "type": "subprocess",
+        "type": "subprocess-fe",
         "parentId": "shape:FsRVHXnqRoJWHodW6JCf-",
         "index": "a1",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Load Scraped",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -216,14 +252,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:odpOWrvrSe1Vv8mxEFXtw",
-        "type": "subprocess",
+        "type": "subprocess-fe",
         "parentId": "shape:FsRVHXnqRoJWHodW6JCf-",
         "index": "a24fP",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Prepare Testable Nodes",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -238,14 +286,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:WqlqYq7nnb1vLWTMhsH4v",
-        "type": "subprocess",
+        "type": "subprocess-fe",
         "parentId": "shape:FsRVHXnqRoJWHodW6JCf-",
         "index": "a44Z2",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Generate Test File",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -532,14 +592,13 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:i0ecjam-xvF6fxsrjR8Ax",
-        "type": "start",
+        "type": "start-fe",
         "parentId": "shape:FsRVHXnqRoJWHodW6JCf-",
         "index": "a8C1b",
         "props": {
           "h": 80,
           "w": 80,
-          "color": "light-blue",
-          "target": "vitest"
+          "target": "playwright"
         },
         "typeName": "shape"
       },
@@ -574,13 +633,12 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:cSaZ_UXU_fp2ssORK2VDi",
-        "type": "start",
+        "type": "start-fe",
         "parentId": "shape:XICvu7GGf7wFo7puLi0PY",
         "index": "a1",
         "props": {
           "h": 80,
           "w": 80,
-          "color": "light-blue",
           "target": "playwright"
         },
         "typeName": "shape"
@@ -654,14 +712,13 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:QS7h768LIFyWG3K_dUxEv",
-        "type": "gateway",
+        "type": "gateway-fe",
         "parentId": "shape:XICvu7GGf7wFo7puLi0PY",
         "index": "a22wl",
         "props": {
           "h": 0,
           "w": 0,
-          "text": "Source type?",
-          "color": "light-blue"
+          "text": "Source type?"
         },
         "typeName": "shape"
       },
@@ -754,14 +811,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:i-9slul9s_BEgPA-xfbYo",
-        "type": "subprocess",
+        "type": "subprocess-fe",
         "parentId": "shape:XICvu7GGf7wFo7puLi0PY",
         "index": "a40Pw",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Process Figma",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -796,13 +865,12 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:BJhbHC-J1J36Nf9ezglq3",
-        "type": "start",
+        "type": "start-fe",
         "parentId": "shape:MR3KFatbRgxGkexkhERWp",
         "index": "a1",
         "props": {
           "h": 80,
           "w": 80,
-          "color": "light-blue",
           "target": "playwright"
         },
         "typeName": "shape"
@@ -876,14 +944,13 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:a6Rfyrjlatfq_iu4IQIxq",
-        "type": "loop",
+        "type": "loop-fe",
         "parentId": "shape:MR3KFatbRgxGkexkhERWp",
         "index": "a49nL",
         "props": {
           "h": 0,
           "w": 0,
-          "text": "Process each node",
-          "color": "light-blue"
+          "text": "Process each node"
         },
         "typeName": "shape"
       },
@@ -902,7 +969,8 @@
         "props": {
           "w": 2510,
           "h": 747.7008781809191,
-          "name": "Root Flow"
+          "name": "Root Flow",
+          "color": "white"
         },
         "parentId": "page:wgUkdZQZaqGxB7s-FUAOH",
         "index": "aRC8z",
@@ -923,7 +991,8 @@
         "props": {
           "w": 3310,
           "h": 1130,
-          "name": "Load Scraped"
+          "name": "Load Scraped",
+          "color": "white"
         },
         "parentId": "page:wgUkdZQZaqGxB7s-FUAOH",
         "index": "aS9wB",
@@ -944,7 +1013,8 @@
         "props": {
           "w": 3290,
           "h": 1450,
-          "name": "Process Figma"
+          "name": "Process Figma",
+          "color": "white"
         },
         "parentId": "page:wgUkdZQZaqGxB7s-FUAOH",
         "index": "aT4S0",
@@ -1077,14 +1147,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:7J0qjCXNRluDzC3QgO0fA",
-        "type": "subprocess",
+        "type": "subprocess-fe",
         "parentId": "shape:MR3KFatbRgxGkexkhERWp",
         "index": "a71ja",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Parse Figma To Scraped: Node Type",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -1099,7 +1181,7 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:9DcoTxMDg4-sfaMa18-W_",
-        "type": "table",
+        "type": "table-be",
         "parentId": "shape:cG__zmhZdWqt_cligs3n3",
         "index": "a1",
         "props": {
@@ -1243,14 +1325,13 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:H3j85s34pzChPIKJasia-",
-        "type": "gateway",
+        "type": "gateway-fe",
         "parentId": "shape:MR3KFatbRgxGkexkhERWp",
         "index": "aACMx",
         "props": {
           "h": 0,
           "w": 0,
-          "text": "More nodes?",
-          "color": "light-blue"
+          "text": "More nodes?"
         },
         "typeName": "shape"
       },
@@ -1363,18 +1444,30 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:YoFRwAUDY7KVEeRbiJv55",
-        "type": "serviceCall",
+        "type": "service-call-be",
         "parentId": "shape:MR3KFatbRgxGkexkhERWp",
         "index": "aD4SI",
         "props": {
-          "h": 191,
+          "h": 150,
           "w": 300,
-          "text": "Load From Figma API",
-          "color": "green"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 42882
+      "lastChangedClock": 78188
     },
     {
       "state": {
@@ -1483,13 +1576,12 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:tO_EU8VwQ9L__aCTfM_x4",
-        "type": "end",
+        "type": "end-fe",
         "parentId": "shape:MR3KFatbRgxGkexkhERWp",
         "index": "aG4lY",
         "props": {
           "h": 80,
-          "w": 80,
-          "color": "light-blue"
+          "w": 80
         },
         "typeName": "shape"
       },
@@ -1632,13 +1724,12 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:alJZzoZ8ChYmi75bi-o7b",
-        "type": "end",
+        "type": "end-fe",
         "parentId": "shape:XICvu7GGf7wFo7puLi0PY",
         "index": "a84yw",
         "props": {
           "h": 80,
-          "w": 80,
-          "color": "light-blue"
+          "w": 80
         },
         "typeName": "shape"
       },
@@ -1745,23 +1836,22 @@
     {
       "state": {
         "x": 2039.5,
-        "y": 230,
+        "y": 260,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
         "meta": {},
         "id": "shape:Ae0vxE4Mbn4xW03ZJsFn4",
-        "type": "end",
+        "type": "end-be",
         "parentId": "shape:FsRVHXnqRoJWHodW6JCf-",
         "index": "aA5Ry",
         "props": {
           "h": 90,
-          "w": 90,
-          "color": "black"
+          "w": 90
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 46542
+      "lastChangedClock": 78383
     },
     {
       "state": {
@@ -1798,7 +1888,8 @@
         "props": {
           "w": 5660,
           "h": 2057.8525179856115,
-          "name": "Prepare Testable Nodes"
+          "name": "Prepare Testable Nodes",
+          "color": "white"
         },
         "typeName": "shape"
       },
@@ -1813,14 +1904,13 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:UC6KOc4OxB2Og2TYrr-UK",
-        "type": "start",
+        "type": "start-be",
         "parentId": "shape:IADVxpmC2RJIawF-bE7nW",
         "index": "a1",
         "props": {
           "h": 90,
           "w": 90,
-          "color": "black",
-          "target": "playwright"
+          "target": "vitest"
         },
         "typeName": "shape"
       },
@@ -1913,14 +2003,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:qxmx2XZbUwCNZWCEkDgIi",
-        "type": "script",
+        "type": "script-fe",
         "parentId": "shape:IADVxpmC2RJIawF-bE7nW",
         "index": "a2BFB",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Select all roots",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -1935,14 +2037,13 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:ubLF2MIm5q5uhNqDaRPV2",
-        "type": "gateway",
+        "type": "gateway-fe",
         "parentId": "shape:IADVxpmC2RJIawF-bE7nW",
         "index": "a3C4Z",
         "props": {
           "h": 120,
           "w": 120,
-          "text": "Selected Roots?",
-          "color": "light-blue"
+          "text": "Selected Roots?"
         },
         "typeName": "shape"
       },
@@ -1957,14 +2058,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:0CsYaRk2_Cm24vanBoCoS",
-        "type": "script",
+        "type": "script-fe",
         "parentId": "shape:IADVxpmC2RJIawF-bE7nW",
         "index": "a59SY",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Select listed nodes",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -1979,14 +2092,13 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:xa_1RLcbsmevwb4GEK-Gz",
-        "type": "gateway",
+        "type": "gateway-fe",
         "parentId": "shape:IADVxpmC2RJIawF-bE7nW",
         "index": "a6Bo6",
         "props": {
           "h": 120,
           "w": 120,
-          "text": "Any selected root not in document?",
-          "color": "light-blue"
+          "text": "Any selected root not in document?"
         },
         "typeName": "shape"
       },
@@ -2241,9 +2353,7 @@
         "props": {
           "w": 90,
           "h": 90,
-          "text": "Root not found",
-          "color": "light-blue",
-          "dash": "draw"
+          "text": "Root not found"
         },
         "typeName": "shape"
       },
@@ -2336,14 +2446,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:91EkHxbOUr2IpbvohLMnf",
-        "type": "script",
+        "type": "script-fe",
         "parentId": "shape:IADVxpmC2RJIawF-bE7nW",
         "index": "aA5Pj",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Select single root",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -2358,14 +2480,13 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:9SZaIRr76gphmElbH4Y8A",
-        "type": "gateway",
+        "type": "gateway-fe",
         "parentId": "shape:IADVxpmC2RJIawF-bE7nW",
         "index": "aB2wk",
         "props": {
           "h": 120,
           "w": 120,
-          "text": "More than one root in document?",
-          "color": "light-blue"
+          "text": "More than one root in document?"
         },
         "typeName": "shape"
       },
@@ -2386,9 +2507,7 @@
         "props": {
           "w": 90,
           "h": 90,
-          "text": "Multiple roots found",
-          "color": "light-blue",
-          "dash": "draw"
+          "text": "Multiple roots found"
         },
         "typeName": "shape"
       },
@@ -2637,14 +2756,13 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:h_XcXq88tIuMNzIXfEjBP",
-        "type": "gateway",
+        "type": "gateway-fe",
         "parentId": "shape:IADVxpmC2RJIawF-bE7nW",
         "index": "aE39e",
         "props": {
           "h": 120,
           "w": 120,
-          "text": "Any roots in document?",
-          "color": "light-blue"
+          "text": "Any roots in document?"
         },
         "typeName": "shape"
       },
@@ -2743,9 +2861,7 @@
         "props": {
           "w": 90,
           "h": 90,
-          "text": "No roots found",
-          "color": "light-blue",
-          "dash": "draw"
+          "text": "No roots found"
         },
         "typeName": "shape"
       },
@@ -3092,14 +3208,13 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:BCs4m1cI0uoLMCfr0tYuV",
-        "type": "loop",
+        "type": "loop-fe",
         "parentId": "shape:IADVxpmC2RJIawF-bE7nW",
         "index": "aN85J",
         "props": {
           "h": 0,
           "w": 0,
-          "text": "Each root",
-          "color": "light-blue"
+          "text": "Each root"
         },
         "typeName": "shape"
       },
@@ -3192,14 +3307,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:E-9E5wy54CwzonVz-gsJI",
-        "type": "script",
+        "type": "script-fe",
         "parentId": "shape:IADVxpmC2RJIawF-bE7nW",
         "index": "aP8lr",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Filter nodes connected to root",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -3292,14 +3419,13 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:iDqzLxP5V-YH2np2pCpdr",
-        "type": "gateway",
+        "type": "gateway-fe",
         "parentId": "shape:IADVxpmC2RJIawF-bE7nW",
         "index": "aRASj",
         "props": {
           "h": 120,
           "w": 120,
-          "text": "Virtual nodes enabled?",
-          "color": "light-blue"
+          "text": "Virtual nodes enabled?"
         },
         "typeName": "shape"
       },
@@ -3392,14 +3518,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:TPBXZJqGUWRE66kH6KzAN",
-        "type": "script",
+        "type": "script-fe",
         "parentId": "shape:IADVxpmC2RJIawF-bE7nW",
         "index": "aT4bi",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Inject virtual nodes",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -3668,13 +3806,12 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:ol5RzzCXyD4JozBypev2E",
-        "type": "end",
+        "type": "end-be",
         "parentId": "shape:IADVxpmC2RJIawF-bE7nW",
         "index": "aY0GN",
         "props": {
           "h": 90,
-          "w": 90,
-          "color": "black"
+          "w": 90
         },
         "typeName": "shape"
       },
@@ -3771,7 +3908,8 @@
         "props": {
           "w": 3310,
           "h": 1130,
-          "name": "Generate Test File"
+          "name": "Generate Test File",
+          "color": "white"
         },
         "parentId": "page:wgUkdZQZaqGxB7s-FUAOH",
         "index": "aW7tu",
@@ -3788,13 +3926,12 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:ZjdcePsGhTrFxN1eGL7mV",
-        "type": "start",
+        "type": "start-fe",
         "parentId": "shape:S02Tf7KnQzeZVIZ-ZVXRm",
         "index": "a1",
         "props": {
           "h": 80,
           "w": 80,
-          "color": "light-blue",
           "target": "playwright"
         },
         "typeName": "shape"
@@ -3810,14 +3947,13 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:7Tnmg8ESfrsseFxlvZGuA",
-        "type": "gateway",
+        "type": "gateway-fe",
         "parentId": "shape:S02Tf7KnQzeZVIZ-ZVXRm",
         "index": "a22wl",
         "props": {
           "h": 0,
           "w": 0,
-          "text": "Target Type",
-          "color": "light-blue"
+          "text": "Target Type"
         },
         "typeName": "shape"
       },
@@ -3870,14 +4006,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:0i_6lCDWro23qpZvsXIC3",
-        "type": "subprocess",
+        "type": "subprocess-fe",
         "parentId": "shape:S02Tf7KnQzeZVIZ-ZVXRm",
         "index": "a40Pw",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Generate Playwright",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -3988,13 +4136,12 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:vETOo4W9V0ERjDntslpZY",
-        "type": "end",
+        "type": "end-fe",
         "parentId": "shape:S02Tf7KnQzeZVIZ-ZVXRm",
         "index": "a84yw",
         "props": {
           "h": 80,
-          "w": 80,
-          "color": "light-blue"
+          "w": 80
         },
         "typeName": "shape"
       },
@@ -4211,7 +4358,8 @@
         "props": {
           "w": 930,
           "h": 770,
-          "name": "Node types"
+          "name": "Node types",
+          "color": "white"
         },
         "parentId": "page:wgUkdZQZaqGxB7s-FUAOH",
         "index": "aX6Xk",
@@ -4232,7 +4380,8 @@
         "props": {
           "w": 3570.4214263466074,
           "h": 1130,
-          "name": "Generate Playwright"
+          "name": "Generate Playwright",
+          "color": "white"
         },
         "parentId": "page:wgUkdZQZaqGxB7s-FUAOH",
         "index": "aY5K9",
@@ -4249,14 +4398,13 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:N2LYnR_hK7n5OU8gnO2EH",
-        "type": "start",
+        "type": "start-be",
         "parentId": "shape:TfX4aqs9ar5GdtiEStP24",
         "index": "a1",
         "props": {
           "h": 90,
           "w": 90,
-          "color": "black",
-          "target": "playwright"
+          "target": "vitest"
         },
         "typeName": "shape"
       },
@@ -4349,14 +4497,13 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:MMYkWvIhHKRu7CUvJrnTo",
-        "type": "parallel",
+        "type": "parallel-fe",
         "parentId": "shape:TfX4aqs9ar5GdtiEStP24",
         "index": "a4CKE",
         "props": {
           "h": 120,
           "w": 120,
-          "text": "",
-          "color": "light-blue"
+          "text": ""
         },
         "typeName": "shape"
       },
@@ -4507,14 +4654,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:8pM97K-9B0kVum-nDlqEH",
-        "type": "script",
+        "type": "script-fe",
         "parentId": "shape:TfX4aqs9ar5GdtiEStP24",
         "index": "a29zQ",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Generate testable node tree",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -4529,14 +4688,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:5ldvChKiQXa20Dnmo8tDB",
-        "type": "script",
+        "type": "script-fe",
         "parentId": "shape:TfX4aqs9ar5GdtiEStP24",
         "index": "a7BM2",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Generate test block",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -4571,14 +4742,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:uF3ZDVfadDS4kvDmQPCDw",
-        "type": "script",
+        "type": "script-fe",
         "parentId": "shape:TfX4aqs9ar5GdtiEStP24",
         "index": "a93dU",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Generate handles type block",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -4847,14 +5030,26 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:wodefHYn32uo1sEN4R8Yx",
-        "type": "script",
+        "type": "script-fe",
         "parentId": "shape:TfX4aqs9ar5GdtiEStP24",
         "index": "aEARh",
         "props": {
           "h": 150,
           "w": 300,
-          "text": "Generate test file",
-          "color": "light-blue"
+          "richText": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Edit me.."
+                  }
+                ]
+              }
+            ]
+          }
         },
         "typeName": "shape"
       },
@@ -4947,13 +5142,12 @@
         "opacity": 1,
         "meta": {},
         "id": "shape:SU3hB4DGq3Rj4Wsf_ypn1",
-        "type": "end",
+        "type": "end-be",
         "parentId": "shape:TfX4aqs9ar5GdtiEStP24",
         "index": "aG8GJ",
         "props": {
           "h": 90,
-          "w": 90,
-          "color": "black"
+          "w": 90
         },
         "typeName": "shape"
       },

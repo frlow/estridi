@@ -30,8 +30,7 @@ import { getTestCase } from '../test/editorTestCases'
 const parserName: keyof typeof parsers = 'tldraw'
 const parser = parsers[parserName]
 
-// TODO: Fix test cases, ask Fredrik for help
-describe.skip(`Load from ${parserName}`, () => {
+describe(`Load from ${parserName}`, () => {
   describe('test cases', () => {
     test('message', async () => await testTestCase(parser, messageTestCase))
     test('script', async () => await testTestCase(parser, scriptTestCase))

@@ -2,6 +2,7 @@ import { BaseBoxShapeUtil, HTMLContainer, Rectangle2d } from 'tldraw'
 import { Shapes, ShapeName } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { BLUE, CIRCLE_RADIUS, END_BORDER, GREEN } from './util/constants.ts'
+import { PresetButton } from './util/PresetButton'
 import { useEffect } from 'react'
 
 function createStartClass(variant: 'end-fe' | 'end-be') {
@@ -37,9 +38,9 @@ function createStartClass(variant: 'end-fe' | 'end-be') {
     }
 
     override component(shape: ShapeType) {
-      useEffect(() => {
-        console.log('nex props', shape.x)
-      }, [shape.x])
+      const editor = this.editor
+      const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+
       return (
         <HTMLContainer>
           <div
@@ -51,6 +52,39 @@ function createStartClass(variant: 'end-fe' | 'end-be') {
               background: isFe ? BLUE : GREEN,
             }}
           ></div>
+          {isSelected && (
+            <PresetButton
+              id={`${shape.id}-preset-button`}
+              editor={editor}
+              shapesToChangeTo={
+                {
+                  'end-fe': [
+                    {
+                      iconUrl: '/start-fe-preview.svg',
+                      onSelected: () => {
+                        editor.updateShape({
+                          id: shape.id,
+                          type: 'start-fe',
+                        })
+                      },
+                    },
+                  ],
+                  'end-be': [
+                    {
+                      iconUrl: '/start-be-preview.svg',
+                      onSelected: () => {
+                        editor.updateShape({
+                          id: shape.id,
+                          type: 'start-be',
+                        })
+                      },
+                    },
+                  ],
+                }[variant]
+              }
+              presets={[]}
+            />
+          )}
         </HTMLContainer>
       )
     }

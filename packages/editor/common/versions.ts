@@ -131,6 +131,7 @@ export const myMigrations = createMigrationSequence({
           switch (record.state.type) {
             case 'start':
               record.state.type = 'start' + suffix
+              record.state.props.target = isFe ? 'playwright' : 'vitest'
               break
             case 'end':
               record.state.type = 'end' + suffix
