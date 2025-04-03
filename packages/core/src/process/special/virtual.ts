@@ -4,7 +4,6 @@ import {
   ScrapedNode,
   ScrapedScript,
 } from '../../scraped'
-import { autoText } from '../../texts'
 
 const getNodeConnections = (node: ScrapedNode): string[] => {
   const possibleConnections = [
@@ -38,22 +37,15 @@ const findText = (
   }
 }
 
-export const hasVirtualNodeSlot = (
-  node: ScrapedNode,
-  scraped: Scraped,
-): boolean => {
-  if (!('options' in node)) return false
-  if (node.variant !== 'gateway') return false
-  return Object.keys(node.options).some(
-    (key) => scraped.find((n) => n.id === key).type === 'connector',
-  )
-}
-
 export const injectVirtualNodes = (
   node: ScrapedNode,
   scraped: Scraped,
-): Scraped => {
-  if (!('options' in node)) throw 'This should not happen!'
+): Scraped | undefined => {
+  if (node.type !== 'gateway') return undefined
+  const hasSlot = Object.keys(node.options).some(
+    (key) => scraped.find((n) => n.id === key).type === 'connector',
+  )
+  if (!hasSlot) return undefined
   const emptyPaths = Object.keys(node.options)
     .map((key) => scraped.find((n) => n.id === key))
     .filter((n) => n.type === 'connector')
@@ -65,9 +57,8 @@ export const injectVirtualNodes = (
   gateway.options[virtualId] = node.options[outId]
   const virtualNode: ScrapedScript = {
     type: 'script',
-    variant: 'script',
     id: virtualId,
-    ...autoText(`Negative: ${findText(scraped, node, outId)}`),
+    raw: `Negative: ${findText(scraped, node, outId)}`,
     next: outId,
   }
   return [gateway, virtualNode]

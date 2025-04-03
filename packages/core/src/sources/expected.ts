@@ -1,14 +1,18 @@
 import {
   ScrapedConnector,
   ScrapedGateway,
+  ScrapedLoop,
   ScrapedNode,
+  ScrapedParallel,
   ScrapedScript,
+  ScrapedServiceCall,
   ScrapedStart,
+  ScrapedSubprocess,
   ScrapedUserAction,
 } from '../scraped'
 import { expect } from 'vitest'
 
-const idRegex = /^.{4,40}$/
+const idRegex = /^.{3,40}$/
 const idMatch = expect.stringMatching(idRegex)
 
 const script: ScrapedScript = {
@@ -25,7 +29,7 @@ const root: ScrapedStart = {
   type: 'root',
 }
 
-const gatewayFe: ScrapedGateway = {
+const gateway: ScrapedGateway = {
   id: idMatch,
   raw: 'Target',
   options: expect.toSatisfy((opts: Record<string, string>) =>
@@ -61,12 +65,60 @@ const userAction: ScrapedUserAction = {
   next: idMatch,
 }
 
+const serviceCall: ScrapedServiceCall = {
+  id: idMatch,
+  next: idMatch,
+  raw: 'Target',
+  type: 'serviceCall',
+}
+
+const subprocess: ScrapedSubprocess = {
+  type: 'subprocess',
+  raw: 'tc-node-subprocess-fe-sub',
+  id: idMatch,
+  next: idMatch,
+  link: idMatch,
+}
+
+const start: ScrapedStart = {
+  id: idMatch,
+  raw: 'tc-node-subprocess-fe-sub',
+  type: 'start',
+  next: idMatch,
+}
+
+const loop: ScrapedLoop = {
+  type: 'loop',
+  next: idMatch,
+  raw: 'Target',
+  id: idMatch,
+}
+
+const parallel: ScrapedParallel = {
+  type: 'parallel',
+  options: expect.toSatisfy((opts: Record<string, null>) =>
+    [
+      !!Object.keys(opts)[0].match(idRegex),
+      !!Object.keys(opts)[1].match(idRegex),
+      Object.values(opts)[0] === null,
+      Object.values(opts)[1] === null,
+    ].every((v) => v),
+  ),
+  raw: 'Target',
+  id: idMatch,
+}
+
 export const expected: Record<string, ScrapedNode> = {
   root: root,
   script,
   message: script,
-  gateway: gatewayFe,
+  gateway,
   connector,
   userAction,
-  signalSend: script
+  signalSend: script,
+  serviceCall,
+  subprocess,
+  start,
+  loop,
+  parallel
 }

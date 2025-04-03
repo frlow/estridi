@@ -1,6 +1,12 @@
 import { Scraped, ScrapedStart } from '../../scraped'
 import { getNodeTree, getTestableNodes } from './nodeTree'
-import { addProbePath, getNodeKey, handleProbeFinished, isNodeInAnotherProbe, Probe } from './probe'
+import {
+  addProbePath,
+  getNodeKey,
+  handleProbeFinished,
+  isNodeInAnotherProbe,
+  Probe,
+} from './probe'
 import { handleGateway, handleLoop } from './gateway'
 import { handleAction } from './action'
 import { handleLinkedSubprocess } from './linked'
@@ -129,9 +135,16 @@ export const getTestableNodeTree = (
       handleLinkedSubprocess(currentNode, probe, probes)
 
       // Handle next
-      if ('next' in currentNode && currentNode.next) {
+      if (
+        'next' in currentNode &&
+        currentNode.next &&
+        probe.state === 'awake'
+      ) {
         if (
-          isNodeInAnotherProbe(getNodeKey(currentNode.next, probe.subprocesses), probes)
+          isNodeInAnotherProbe(
+            getNodeKey(currentNode.next, probe.subprocesses),
+            probes,
+          )
         ) {
           probe.state = 'sleeping'
           probesAvailableToWake.push(probe)

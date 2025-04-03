@@ -6,9 +6,11 @@ export type NodeId = z.infer<typeof nodeIdValidator>
 const baseNodeValidator = z.object({
   id: nodeIdValidator,
   raw: z.string(),
-  special: z.optional(z.object({
-    tableKey: z.optional(nodeIdValidator)
-  }))
+  special: z.optional(
+    z.object({
+      tableKey: z.optional(nodeIdValidator),
+    }),
+  ),
   // extra: z.any(),
 })
 
@@ -48,7 +50,6 @@ export type ScrapedNodeTypes = z.infer<typeof scrapedNodeTypesValidator>
 
 export type ScrapedNodeType<T extends ScrapedNodeTypes> = T
 
-
 export type ScrapedOther = {
   type: ScrapedNodeType<'other'>
   next?: NodeId
@@ -80,8 +81,18 @@ export type ScrapedStart = {
 } & BaseNode
 
 export type ScrapedGateway = {
-  type: ScrapedNodeType<'gateway'| 'loop' | 'parallel'>
+  type: ScrapedNodeType<'gateway'>
   options: Record<NodeId, string>
+} & BaseNode
+
+export type ScrapedLoop = {
+  type: ScrapedNodeType<'loop'>
+  next?: NodeId
+} & BaseNode
+
+export type ScrapedParallel = {
+  type: ScrapedNodeType<'parallel'>
+  options?: Record<NodeId, null>
 } & BaseNode
 
 export type ScrapedSubprocess = {
@@ -106,6 +117,8 @@ export type ScrapedNode =
   | ScrapedSubprocess
   | ScrapedUserAction
   | ScrapedConnector
+  | ScrapedLoop
+  | ScrapedParallel
 export type Scraped = ScrapedNode[]
 
 export type FigmaConfig = {

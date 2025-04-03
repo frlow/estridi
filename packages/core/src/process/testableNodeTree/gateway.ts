@@ -3,15 +3,11 @@ import { UniqueRecord } from './index'
 import { addProbePath, getNodeKey, isNodeInAnotherProbe, Probe } from './probe'
 
 export function handleLoop(currentNode: ScrapedNode, probe: Probe) {
-  if ('options' in currentNode && currentNode.variant === 'loop') {
+  if (currentNode.type === 'loop') {
     if (probe.path.filter((id) => id === currentNode.id).length >= 2) {
       probe.state = 'finished'
       return
     }
-    if (Object.keys(currentNode.options).length !== 1)
-      throw 'Loop can only have one out path'
-    addProbePath(probe, Object.keys(currentNode.options)[0])
-    probe.state = 'resting'
   }
 }
 
@@ -22,8 +18,8 @@ export function handleGateway(
   probe: Probe,
   probesAvailableToWake: Probe[],
 ) {
-  if ('options' in currentNode && currentNode.variant === 'gateway') {
-    allGateways[currentNode.raw] = null
+  if ('options' in currentNode) {
+    if (currentNode.type === 'gateway') allGateways[currentNode.raw] = null
     probes.splice(probes.indexOf(probe), 1)
     Object.entries(currentNode.options).forEach((option) => {
       if (
@@ -31,6 +27,7 @@ export function handleGateway(
       )
         return
       if (
+        currentNode.type === 'gateway' &&
         probe.gateways[currentNode.raw] &&
         probe.gateways[currentNode.raw] !== option[1]
       ) {
@@ -46,7 +43,8 @@ export function handleGateway(
       const newProbe = structuredClone(probe)
       newProbe.state = 'resting'
       addProbePath(newProbe, option[0])
-      newProbe.gateways[currentNode.raw] = option[1]
+      if (currentNode.type === 'gateway')
+        newProbe.gateways[currentNode.raw] = option[1]
       probes.push(newProbe)
     })
     probe.state = 'removed'

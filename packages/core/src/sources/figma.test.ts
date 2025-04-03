@@ -1,78 +1,35 @@
-import { describe, expect, test } from 'vitest'
-import {
-  complexStringTestCase, connectorTestCase,
-  endTestCase,
-  gatewayTestCase,
-  loopTestCase,
-  messageTestCase,
-  otherTestCase,
-  parsers,
-  rootTestCase,
-  scriptTestCase,
-  serviceCallTestCase,
-  signalSendTestCase,
-  startTestCase,
-  subprocessActionsTestCase,
-  subprocessLoopTestCase,
-  subProcessTestCase,
-  tableTestCase,
-  testTestCase,
-  userActionTestCase
-} from '../test/testCases'
+import { beforeAll, describe, expect, test } from 'vitest'
+import { Scraped, ScrapedNodeTypes } from '../scraped'
+import { expected } from './expected'
+import { filterScraped, getFigmaData } from '../test/editorTestCases'
 
-const parserName: keyof typeof parsers = 'figma'
-const parser = parsers[parserName]
-
-
-describe(`Load from ${parserName}`, () => {
-  describe('test cases', () => {
-    test('message', async () => await testTestCase(parser, messageTestCase))
-    test('script', async () => await testTestCase(parser, scriptTestCase))
-    test('signalSend', async () => await testTestCase(parser, signalSendTestCase))
-    test('subprocess', async () => await testTestCase(parser, subProcessTestCase))
-    test('serviceCall', async () => await testTestCase(parser, serviceCallTestCase))
-    test('userAction', async () => await testTestCase(parser, userActionTestCase))
-    test('gateway', async () => await testTestCase(parser, gatewayTestCase))
-    test('start', async () => await testTestCase(parser, startTestCase))
-    test('root', async () => await testTestCase(parser, rootTestCase))
-    test('end', async () => await testTestCase(parser, endTestCase))
-    test('other', async () => await testTestCase(parser, otherTestCase))
-    test('complex string', async () => await testTestCase(parser, complexStringTestCase))
-    test('table', async () => await testTestCase(parser, tableTestCase))
-    test('subprocess-actions', async () => await testTestCase(parser, subprocessActionsTestCase))
-    test('loop', async () => await testTestCase(parser, loopTestCase))
-    test('subprocess-loop', async () => await testTestCase(parser, subprocessLoopTestCase))
-    test('connector', async () => await testTestCase(parser, connectorTestCase))
-  })
-})
-
-test('position imported from figma', async () => {
-  const document = {
-    id: 'document', children: [{
-      id: 'page', children: [
-        {
-          'id': '7835:4552',
-          'name': '2. Subprocess',
-          'children': [
-            {
-              'type': 'TEXT',
-              'characters': 'Country logic',
-            },
-          ],
-          'absoluteBoundingBox': {
-            'x': 5,
-            'y': 10,
-            'width': 231,
-            'height': 100
-          }
-        }
-      ]
-    }]
+describe(`Load from figma`, () => {
+  let figmaData: Scraped
+  const runTest = (name: string, type: ScrapedNodeTypes) => async () => {
+    const testCase = filterScraped(figmaData, `tc-node-${name}`)
+    const targetNode = testCase.find((n) => n.type === type)
+    expect(targetNode).toBeTruthy()
+    const expectedValue = expected[type]
+    expect(expectedValue).toEqual(targetNode)
   }
-  const scraped = await parser.processor(document)
-  const subprocess = scraped.find(n=>n.type==="subprocess")
-  expect(subprocess.extra.x).toEqual(5)
-  expect(subprocess.extra.y).toEqual(10)
-  expect(subprocess.extra.width).toEqual(231)
-  expect(subprocess.extra.height).toEqual(100)
+
+  beforeAll(async () => {
+    figmaData = await getFigmaData()
+  })
+  describe('common', () => {
+    test('connector', runTest('connector', 'connector'))
+  })
+  describe('front end', () => {
+    test('root', runTest('root-fe', 'root'))
+    test('message', runTest('message-fe', 'script'))
+    test('gateway', runTest('gateway-fe', 'gateway'))
+    test('user action', runTest('user-action', 'userAction'))
+    test('signal send', runTest('signal-send-fe', 'script'))
+    test('service call', runTest('service-call-fe', 'serviceCall'))
+    test('subprocess', runTest('subprocess-fe', 'subprocess'))
+    test('start', runTest('subprocess-fe', 'start'))
+    test('script', runTest('script-fe', 'script'))
+    test('loop', runTest('loop-fe', 'loop'))
+    test('parallel', runTest('parallel-fe', 'parallel'))
+  })
 })

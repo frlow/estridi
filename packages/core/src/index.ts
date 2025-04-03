@@ -33,7 +33,7 @@ export const parseRoots = (
     (n: ScrapedStart) => n.type === 'root',
   ) as ScrapedStart[]
   if (rootName === '+') return allRoots
-  return allRoots.filter((r) => rootName.split(',').includes(r.text))
+  return allRoots.filter((r) => rootName.split(',').includes(r.raw))
 }
 
 export const generateEstridiTests = async (args: {

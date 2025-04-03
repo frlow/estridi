@@ -1,12 +1,8 @@
 import fs from 'node:fs'
 import { processTldraw } from '../sources/tldraw'
 import path from 'node:path'
-import {
-  Scraped,
-  ScrapedNode,
-  ScrapedStart,
-  ScrapedSubprocess,
-} from '../scraped'
+import { Scraped, ScrapedNode, ScrapedStart } from '../scraped'
+import { loadFigmaDocument, processFigma } from '../sources/figma'
 
 export const getNodeConnections = (
   node: any,
@@ -48,13 +44,6 @@ export const processNode = ({
       ignoreLinks,
     }),
   )
-  if ((node as ScrapedSubprocess).tableKey) {
-    const table = scraped.find(
-      (n) =>
-        n.type === 'table' && n.raw === (node as ScrapedSubprocess).tableKey,
-    )
-    if (table && !acc[table.id]) acc[table.id] = table
-  }
   return acc
 }
 
@@ -63,7 +52,9 @@ export const filterScraped = (scraped: Scraped, rootName: string): Scraped => {
     (r: ScrapedStart) => r.type === 'root' && r.raw === rootName,
   )
   const processed = processNode({ node: root, scraped })
-  return Object.values(processed)
+  const filtered = Object.values(processed)
+  filtered.push(...scraped.filter((n) => n.type === 'table'))
+  return filtered
 }
 
 export const getTestCase = async (name?: string) => {
@@ -72,4 +63,18 @@ export const getTestCase = async (name?: string) => {
 
   const scraped = await processTldraw(data)
   return name ? filterScraped(scraped, name) : scraped
+}
+
+export const getFigmaData = async () => {
+  const configPath = path.join(__dirname, 'estridi.json')
+  const figmaDataPath = path.join(__dirname, 'figma.json')
+  const estridiConfig = fs.existsSync(configPath)
+    ? JSON.parse(fs.readFileSync(configPath, 'utf8'))
+    : undefined
+  const data = estridiConfig
+    ? await loadFigmaDocument(estridiConfig)
+    : JSON.parse(fs.readFileSync(figmaDataPath, 'utf8'))
+  if (estridiConfig)
+    fs.writeFileSync(figmaDataPath, JSON.stringify(data, null, 2), 'utf8')
+  return await processFigma(data)
 }

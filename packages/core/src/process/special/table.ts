@@ -2,38 +2,48 @@ import {
   Scraped,
   ScrapedConnector,
   ScrapedGateway,
+  ScrapedNode,
   ScrapedScript,
   ScrapedStart,
-  ScrapedSubprocess,
   ScrapedTable,
 } from '../../scraped'
-import { autoText } from '../../texts'
+
+const getTableKey = (
+  node: ScrapedNode,
+  scraped: Scraped,
+): string | undefined => {
+  if (node.raw.includes(':')) {
+    return scraped.find(
+      (n) => n.type === 'table' && n.raw === node.raw.split(':')[1].trim(),
+    )?.id
+  }
+  return undefined
+}
 
 export const injectLinkedTable = (
-  node: ScrapedSubprocess,
+  node: ScrapedNode,
   scraped: Scraped,
-): Scraped => {
-  const table = scraped.find(
-    (n) => n.type === 'table' && n.raw === node.tableKey,
-  ) as ScrapedTable
-  if (!table) return [node]
+): Scraped | undefined => {
+  if (node.type !== 'subprocess') return undefined
+  const tableKey = getTableKey(node, scraped)
+  if (!tableKey) return undefined
+  const table = scraped.find((n) => n.id === tableKey) as ScrapedTable
+  if (!table) return undefined
   const base = structuredClone(node)
-  delete base.tableKey
   const outId = `${base.id}-out`
   const gatewayId = `${base.id}-gateway`
   const startId = `${base.id}-start`
   base.link = startId
   const start: ScrapedStart = {
     type: 'start',
-    ...autoText(node.raw),
+    raw: node.raw,
     id: startId,
     next: gatewayId,
   }
   const gateway: ScrapedGateway = {
     type: 'gateway',
-    ...autoText(node.raw),
+    raw: node.raw,
     id: gatewayId,
-    variant: 'gateway',
     options: {
       [outId]: 'default',
     },
@@ -42,8 +52,7 @@ export const injectLinkedTable = (
     const testId = `${base.id}-${row[0]}`
     const test: ScrapedScript = {
       id: testId,
-      ...autoText(`${node.raw} ${row[0]}`),
-      variant: 'script',
+      raw: `${node.raw} ${row[0]}`,
       type: 'script',
       next: outId,
     }
@@ -52,7 +61,7 @@ export const injectLinkedTable = (
   })
   const out: ScrapedConnector = {
     id: outId,
-    ...autoText(''),
+    raw: '',
     type: 'connector',
   }
   return [base, start, gateway, out, ...tests]

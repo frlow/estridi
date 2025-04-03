@@ -34,12 +34,12 @@ export const capitalCamel = (str: string) => str.charAt(0).toUpperCase() + camel
 // export const _ = (count: number) => ''.padStart(count * 2, ' ')
 
 
-export const autoText = (raw: string) =>
-  ({
-      raw,
-      text: sanitizeText(raw)
-    }
-  )
+// export const autoText = (raw: string) =>
+//   ({
+//       raw,
+//       text: sanitizeText(raw)
+//     }
+//   )
 
 export const prettifyCode = async (code: string) =>
   await format(code, {

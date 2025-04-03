@@ -29,25 +29,17 @@ export const afterProcess = (
   ret
     .filter((node) => node.type === 'subprocess')
     .forEach((sp: ScrapedSubprocess) => {
-      const linkNode = ret.find((n) => n.type === 'start' && n.text === sp.text)
+      const linkNode = ret.find((n) => n.type === 'start' && n.raw === sp.raw)
       sp.link = linkNode?.id
     })
 
-  // Map actions for userAction and special cases for external subprocesses
   ret
-    .filter((node) => ['userAction', 'subprocess'].includes(node.type))
+    .filter((node) => node.type==="userAction")
     .forEach((ua: ScrapedUserAction) => {
       const uaNode = nodes[ua.id]
       const actions = Object.values(nodes).filter(
         (n) => isSignalListenInside(uaNode, n)
       )
-      // if ((ua.type as any) === 'subprocess' && actions.length > 0) {
-      //   delete (ua as any).link
-      //   delete (ua as any).tableKey
-      //   ua.type = 'userAction'
-      //   ua.variant = 'subprocess'
-      //   ua.actions = {}
-      // }
       actions.forEach((a) => (ua.actions[getNext(a)] = findText(a)))
     })
 

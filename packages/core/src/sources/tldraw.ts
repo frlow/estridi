@@ -1,12 +1,14 @@
-import { autoText, camelize } from '../texts'
-import { afterProcess, getTableKey, isNodeInside } from './common'
+import { camelize } from '../texts'
+import { afterProcess, isNodeInside } from './common'
 import {
   Scraped,
   ScrapedConnector,
   ScrapedGateway,
+  ScrapedLoop,
   ScrapedNode,
   ScrapedNodeTypes,
   ScrapedOther,
+  ScrapedParallel,
   ScrapedScript,
   ScrapedServiceCall,
   ScrapedStart,
@@ -17,12 +19,25 @@ import {
 
 export type ProcessedNodes = Record<string, any>
 
+type RichText = { content: any }
+const parseRichText = (richText: RichText): string[] => {
+  if (!richText) return undefined
+  const text = richText.content.flatMap((c) => {
+    if (c.content) return parseRichText(c)
+    return c.text
+  })
+  return text
+}
+
 type ExtendedNodeTypes = ScrapedNodeTypes | 'loop' | 'parallel'
 export const processTldraw = async (data: {
   documents: any[]
 }): Promise<Scraped> => {
   const findRawText = (node: any): string => {
-    const text = node.state?.props?.text || ''
+    const text =
+      node.state?.props?.text ||
+      parseRichText(node.state?.props?.richText)?.join(' ') ||
+      ''
     if ((text || '').trim() === '') {
       const parent = data.documents.find(
         (n) => n.state.id === node.state.parentId,
@@ -37,16 +52,6 @@ export const processTldraw = async (data: {
       }
     }
     return text
-  }
-
-  const findText = (node: any) => {
-    debugger
-    throw 'findText is deprecated!'
-    //sanitizeText(findRawText(node))
-  }
-
-  const autoFindText = (node: any) => {
-    return undefined
   }
 
   const getNext = (node: any): string | undefined => {
@@ -101,9 +106,8 @@ export const processTldraw = async (data: {
         const subprocess: ScrapedSubprocess = {
           type: 'subprocess',
           id: getId(node.state.id),
-          ...autoFindText(node),
+          raw: findRawText(node),
           next: getNext(node),
-          tableKey: getTableKey(findRawText(node)),
           link: undefined,
         }
         return subprocess
@@ -130,7 +134,7 @@ export const processTldraw = async (data: {
           type: 'serviceCall',
           id: getId(node.state.id),
           next: getNext(node),
-          ...autoFindText(node),
+          raw: findRawText(node),
         }
         return serviceCall
       case 'userAction':
@@ -143,7 +147,24 @@ export const processTldraw = async (data: {
         }
         return userAction
       case 'loop':
+        const loop: ScrapedLoop = {
+          type: 'loop',
+          id: getId(node.state.id),
+          raw: findRawText(node),
+          next: getNext(node),
+        }
+        return loop
       case 'parallel':
+        const parallel: ScrapedParallel = {
+          type: 'parallel',
+          id: getId(node.state.id),
+          raw: findRawText(node),
+          options: ((node as any).connections || []).reduce(
+            (acc, cur) => ({ ...acc, [cur.id]: null }),
+            {},
+          ),
+        }
+        return parallel
       case 'gateway':
         const gateway: ScrapedGateway = {
           type: type,
@@ -159,7 +180,7 @@ export const processTldraw = async (data: {
         const table: ScrapedTable = {
           id: getId(node.state.id),
           type: 'table',
-          ...autoText(node.state.props.rows[0][0]),
+          raw: node.state.props.rows[0][0],
           rows: node.state.props.rows,
         }
         return table

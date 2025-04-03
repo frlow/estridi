@@ -346,6 +346,21 @@ describe('process node tree', () => {
       },
     ]))
 
+  test('parallel', async () => {
+    await runTest('parallel', [
+      {
+        actions: [],
+        gateways: {},
+        name: 'Target 1',
+      },
+      {
+        actions: [],
+        gateways: {},
+        name: 'Target 2',
+      },
+    ])
+  })
+
   describe('virtual nodes', () => {
     test('base', async () =>
       await runTest('virtual', [
