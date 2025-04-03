@@ -1,39 +1,56 @@
-export type NodeId = string
+import { z } from 'zod'
 
-export type BaseNode = {
-  id: NodeId
-  text: string
-  raw: string
-  extra?: {
-    target?: string
-    testDir?: string
-    width?: number
-    height?: number
-    x?: number
-    y?: number
-  }
-}
+const nodeIdValidator = z.string()
+export type NodeId = z.infer<typeof nodeIdValidator>
 
-export type ScrapedNodeTypes =
-  | 'table'
-  | 'other'
-  | 'script'
-  | 'message'
-  | 'signalSend'
-  | 'serviceCall'
-  | 'start'
-  | 'root'
-  | 'end'
-  | 'gateway'
-  | 'subprocess'
-  | 'userAction'
-  | 'connector'
+const baseNodeValidator = z.object({
+  id: nodeIdValidator,
+  raw: z.string(),
+  special: z.optional(z.object({
+    tableKey: z.optional(nodeIdValidator)
+  }))
+  // extra: z.any(),
+})
+
+export type BaseNode = z.infer<typeof baseNodeValidator>
+// export type BaseNode = {
+//   id: NodeId
+//   text: string
+//   raw: string
+//   extra?: {
+//     target?: string
+//     testDir?: string
+//     width?: number
+//     height?: number
+//     x?: number
+//     y?: number
+//   }
+// }
+
+const scrapedNodeTypesValidator = z.enum([
+  'table',
+  'other',
+  'script',
+  'message',
+  'signalSend',
+  'serviceCall',
+  'start',
+  'root',
+  'end',
+  'gateway',
+  'subprocess',
+  'userAction',
+  'connector',
+])
+export type ScrapedNodeTypes = z.infer<typeof scrapedNodeTypesValidator>
+
 export type ScrapedNodeType<T extends ScrapedNodeTypes> = T
+
 
 export type ScrapedOther = {
   type: ScrapedNodeType<'other'>
   next?: NodeId
-  data?: any
+  // data?: any
 } & BaseNode
 
 export type ScrapedConnector = {
@@ -98,8 +115,3 @@ export type FigmaConfig = {
   token: string
   fileId: string
 }
-
-export type FileConfig = {
-  file: string
-}
-export type EstridiConfig = FigmaConfig | FileConfig
