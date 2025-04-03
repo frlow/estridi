@@ -147,8 +147,8 @@ test.describe("playwright", () => {
 
 export const Gateways = [
   "Errors loading colors",
-  "Validate Fields User",
   "Any User validation errors",
+  "Validate Fields User",
 ] as const;
 
 export type GatewayKey = (typeof Gateways)[number];
@@ -176,6 +176,7 @@ export type Playwright<TState = {}, TPageExtensions = {}> = {
   ) => Promise<TState>;
   start: (args: TestArgs<TState, TPageExtensions>) => Promise<void>;
 } & PlaywrightRoot<TState, TPageExtensions> &
+  PlaywrightValidateFieldsUser<TState, TPageExtensions> &
   PlaywrightShowWelcomePage<TState, TPageExtensions>;
 
 export type HandlesGenerics<U = typeof handles> =
@@ -194,10 +195,16 @@ export type PlaywrightRoot<
   test_apiColors: TestFunction<TState, TPageExtensions>;
   test_showInputsFirstNameLastNameColor: TestFunction<TState, TPageExtensions>;
   test_showErrorLoadingColors: TestFunction<TState, TPageExtensions>;
+  test_displayErrors: TestFunction<TState, TPageExtensions>;
+};
+
+export type PlaywrightValidateFieldsUser<
+  TState = HandlesGenerics[0],
+  TPageExtensions = HandlesGenerics[1],
+> = {
   test_validateFieldsUserFirstName: TestFunction<TState, TPageExtensions>;
   test_validateFieldsUserLastName: TestFunction<TState, TPageExtensions>;
   test_validateFieldsUserColor: TestFunction<TState, TPageExtensions>;
-  test_displayErrors: TestFunction<TState, TPageExtensions>;
 };
 
 export type PlaywrightShowWelcomePage<

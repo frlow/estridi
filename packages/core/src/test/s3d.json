@@ -1,5 +1,5 @@
 {
-  "clock": 139952,
+  "clock": 142800,
   "tombstones": {
     "shape:xN50zD45q16gwgFEmWJC1": 469,
     "shape:qxU7qYsMqg8a1WkOKPfOL": 616,
@@ -4972,15 +4972,15 @@
         "id": "shape:YJB6FbxiVegICd2lL2XJE",
         "type": "frame",
         "props": {
-          "w": 8620,
-          "h": 7210,
+          "w": 5280,
+          "h": 4210,
           "name": "Virtual Nodes"
         },
         "parentId": "page:SvV065UALWFYAuwML7L-L",
         "index": "b0X7gC",
         "typeName": "shape"
       },
-      "lastChangedClock": 128172
+      "lastChangedClock": 142643
     },
     {
       "state": {
@@ -5980,15 +5980,15 @@
         "id": "shape:2etTFpt_FJnvaXQTL0KqP",
         "type": "frame",
         "props": {
-          "w": 2930,
-          "h": 2858.019197550251,
+          "w": 2910,
+          "h": 2528.019197550251,
           "name": "Shortest path"
         },
         "parentId": "page:SvV065UALWFYAuwML7L-L",
         "index": "b0a706",
         "typeName": "shape"
       },
-      "lastChangedClock": 40391
+      "lastChangedClock": 142800
     },
     {
       "state": {

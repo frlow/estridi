@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "figma-api": "2.0.1-beta",
-    "prettier": "^3.4.2"
+    "prettier": "^3.4.2",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "^22.10.7",

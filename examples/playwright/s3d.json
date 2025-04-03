@@ -1,5 +1,5 @@
 {
-  "clock": 15331,
+  "clock": 17124,
   "tombstones": {
     "shape:8F-TZSL9AJbBN5yjrurbi": 183,
     "shape:8TFfq1XyTChmHRhBvsDLC": 2824,
@@ -292,8 +292,8 @@
     },
     {
       "state": {
-        "x": 1777,
-        "y": 129.375,
+        "x": 2292.407387354484,
+        "y": 808.5,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
@@ -330,7 +330,7 @@
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 12949
+      "lastChangedClock": 17124
     },
     {
       "state": {
