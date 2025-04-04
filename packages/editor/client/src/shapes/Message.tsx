@@ -4,6 +4,7 @@ import {
   PlainTextLabel,
   Rectangle2d,
   ShapeUtil,
+  stopEventPropagation,
   TEXT_PROPS,
 } from 'tldraw'
 import { BaseShape } from './index'
@@ -16,6 +17,15 @@ import {
   CIRCLE_SHAPE_TEXT_WIDTH,
   INTER_BORDER,
 } from './util/constants'
+import { TransformButton } from './util/TransformButton'
+import { changeShape, mapTransformations } from './util/util'
+
+const transformationMap = {
+  message: [
+    { value: 'message-inter' as ShapeName, icon: 'message-inter-preview' },
+  ],
+  'message-inter': [{ value: 'message' as ShapeName, icon: 'message-preview' }],
+}
 
 function createMessageClass(variant: 'message' | 'message-inter') {
   const shapeType = Shapes[variant]
@@ -25,14 +35,6 @@ function createMessageClass(variant: 'message' | 'message-inter') {
   return class extends ShapeUtil<ShapeType> {
     static override type = shapeType.name
     static override props = shapeType.props
-    static transformations = {
-      message: [
-        { value: 'message-inter' as ShapeName, icon: 'message-inter-preview' },
-      ],
-      'message-inter': [
-        { value: 'message' as ShapeName, icon: 'message-preview' },
-      ],
-    }[variant]
 
     getDefaultProps(): ShapeType['props'] {
       return {
@@ -57,9 +59,32 @@ function createMessageClass(variant: 'message' | 'message-inter') {
     override component(shape: ShapeType) {
       const style: CSSProperties = { pointerEvents: 'all' }
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+      const presetId = shape.id + '-preset'
 
       return (
-        <HTMLContainer style={style}>
+        <HTMLContainer
+          style={style}
+          onPointerDown={(e) => {
+            const target = e.target as HTMLElement
+            if (
+              target.id === presetId ||
+              target.closest(`#${CSS.escape(presetId)}`)
+            ) {
+              stopEventPropagation(e)
+            }
+          }}
+        >
+          {isSelected && (
+            <TransformButton
+              id={presetId}
+              presets={mapTransformations(
+                transformationMap,
+                variant,
+                shape,
+                this.editor,
+              )}
+            />
+          )}
           <div>
             <div
               style={{

@@ -14,7 +14,7 @@ function createStartClass(variant: 'error' | 'soft-error') {
     static override props = shapeType.props
     static transformations = {
       error: [{ value: 'soft-error', icon: 'soft-error-preview' }],
-      'soft-error': [{ value: 'error', icon: 'error-preview' }],
+      'soft-error': [{ value: 'error', icon: 'hard-error-preview' }],
     }[variant]
 
     override getDefaultProps(): ShapeType['props'] {

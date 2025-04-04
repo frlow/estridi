@@ -1,7 +1,31 @@
-import { BaseBoxShapeUtil, HTMLContainer, Rectangle2d } from 'tldraw'
-import { Shapes, ShapeName } from 'editor-common'
+import {
+  BaseBoxShapeUtil,
+  HTMLContainer,
+  Rectangle2d,
+  stopEventPropagation,
+} from 'tldraw'
+import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { BLUE, BORDER, CIRCLE_RADIUS, GREEN } from './util/constants.ts'
+import { TransformButton } from './util/TransformButton.tsx'
+import { mapTransformations } from './util/util.ts'
+
+const transformationsMap = {
+  'start-fe': [
+    {
+      value: 'end-fe',
+      icon: 'end-fe-preview',
+      updateProps: (props: any) => ({ h: props.h, w: props.w }),
+    },
+  ],
+  'start-be': [
+    {
+      value: 'end-be',
+      icon: 'end-be-preview',
+      updateProps: (props: any) => ({ h: props.h, w: props.w }),
+    },
+  ],
+}
 
 function createStartClass(variant: 'start-fe' | 'start-be') {
   const shapeType = Shapes[variant]
@@ -11,10 +35,6 @@ function createStartClass(variant: 'start-fe' | 'start-be') {
   return class extends BaseBoxShapeUtil<ShapeType> {
     static override type = shapeType.name
     static override props = shapeType.props
-    static transformations = {
-      'start-fe': [{ value: 'end-fe' as ShapeName, icon: 'end-fe-preview', filterProps: (props: any) => ({ h: props.h, w: props.w }) }],
-      'start-be': [{ value: 'end-be' as ShapeName, icon: 'end-be-preview', filterProps: (props: any) => ({ h: props.h, w: props.w }) }],
-    }[variant]
 
     override getDefaultProps(): ShapeType['props'] {
       return {
@@ -36,9 +56,33 @@ function createStartClass(variant: 'start-fe' | 'start-be') {
       })
     }
 
-    override component() {
+    override component(shape: ShapeType) {
+      const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+      const presetId = shape.id + '-preset'
+
       return (
-        <HTMLContainer>
+        <HTMLContainer
+          onPointerDown={(e) => {
+            const target = e.target as HTMLElement
+            if (
+              target.id === presetId ||
+              target.closest(`#${CSS.escape(presetId)}`)
+            ) {
+              stopEventPropagation(e)
+            }
+          }}
+        >
+          {isSelected && (
+            <TransformButton
+              id={presetId}
+              presets={mapTransformations(
+                transformationsMap,
+                variant,
+                shape,
+                this.editor,
+              )}
+            />
+          )}
           <div
             style={{
               width: `${CIRCLE_RADIUS}px`,

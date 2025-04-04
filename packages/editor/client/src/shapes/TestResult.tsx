@@ -1,4 +1,4 @@
-import { BaseBoxShapeUtil, HTMLContainer } from 'tldraw'
+import { BaseBoxShapeUtil, HTMLContainer, stopEventPropagation } from 'tldraw'
 import { ShapeName, Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import {
@@ -7,6 +7,121 @@ import {
   GREY,
   IN_PROGRESS_COLOR,
 } from './util/constants.ts'
+import { mapTransformations } from './util/util.ts'
+import { TransformButton } from './util/TransformButton'
+
+const transformationMap = {
+  'not-started': [
+    {
+      value: 'in-progress' as ShapeName,
+      icon: 'in-progress-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'dev-done' as ShapeName,
+      icon: 'dev-done-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'test-done' as ShapeName,
+      icon: 'test-done-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'test-failed' as ShapeName,
+      icon: 'test-failed-preview',
+      updateProps: (props: any) => props,
+    },
+  ],
+  'in-progress': [
+    {
+      value: 'not-started' as ShapeName,
+      icon: 'not-started-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'dev-done' as ShapeName,
+      icon: 'dev-done-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'test-failed' as ShapeName,
+      icon: 'test-failed-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'test-done' as ShapeName,
+      icon: 'test-done-preview',
+      updateProps: (props: any) => props,
+    },
+  ],
+  'test-done': [
+    {
+      value: 'not-started' as ShapeName,
+      icon: 'not-started-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'in-progress' as ShapeName,
+      icon: 'in-progress-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'dev-done' as ShapeName,
+      icon: 'dev-done-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'test-failed' as ShapeName,
+      icon: 'test-failed-preview',
+      updateProps: (props: any) => props,
+    },
+  ],
+  'dev-done': [
+    {
+      value: 'not-started' as ShapeName,
+      icon: 'not-started-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'in-progress' as ShapeName,
+      icon: 'in-progress-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'test-failed' as ShapeName,
+      icon: 'test-failed-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'test-done' as ShapeName,
+      icon: 'test-done-preview',
+      updateProps: (props: any) => props,
+    },
+  ],
+  'test-failed': [
+    {
+      value: 'not-started' as ShapeName,
+      icon: 'not-started-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'in-progress' as ShapeName,
+      icon: 'in-progress-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'dev-done' as ShapeName,
+      icon: 'dev-done-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'test-done' as ShapeName,
+      icon: 'test-done-preview',
+      updateProps: (props: any) => props,
+    },
+  ],
+}
 
 function createShape(
   variant:
@@ -22,38 +137,6 @@ function createShape(
   return class extends BaseBoxShapeUtil<ShapeType> {
     static override type = shapeType.name
     static override props = shapeType.props
-    static transformations = {
-      'not-started': [
-        { value: 'in-progress' as ShapeName, icon: 'in-progress-preview' },
-        { value: 'dev-done' as ShapeName, icon: 'dev-done-preview' },
-        { value: 'test-done' as ShapeName, icon: 'test-done-preview' },
-        { value: 'test-failed' as ShapeName, icon: 'test-failed-preview' },
-      ],
-      'in-progress': [
-        { value: 'not-started' as ShapeName, icon: 'not-started-preview' },
-        { value: 'dev-done' as ShapeName, icon: 'dev-done-preview' },
-        { value: 'test-failed' as ShapeName, icon: 'test-failed-preview' },
-        { value: 'test-done' as ShapeName, icon: 'test-done-preview' },
-      ],
-      'test-done': [
-        { value: 'not-started' as ShapeName, icon: 'not-started-preview' },
-        { value: 'in-progress' as ShapeName, icon: 'in-progress-preview' },
-        { value: 'dev-done' as ShapeName, icon: 'dev-done-preview' },
-        { value: 'test-failed' as ShapeName, icon: 'test-failed-preview' },
-      ],
-      'dev-done': [
-        { value: 'not-started' as ShapeName, icon: 'not-started-preview' },
-        { value: 'in-progress' as ShapeName, icon: 'in-progress-preview' },
-        { value: 'test-failed' as ShapeName, icon: 'test-failed-preview' },
-        { value: 'test-done' as ShapeName, icon: 'test-done-preview' },
-      ],
-      'test-failed': [
-        { value: 'not-started' as ShapeName, icon: 'not-started-preview' },
-        { value: 'in-progress' as ShapeName, icon: 'in-progress-preview' },
-        { value: 'dev-done' as ShapeName, icon: 'dev-done-preview' },
-        { value: 'test-done' as ShapeName, icon: 'test-done-preview' },
-      ],
-    }[variant]
 
     override getDefaultProps(): ShapeType['props'] {
       return {
@@ -67,7 +150,10 @@ function createShape(
     override hideResizeHandles = () => true
     override canResize = () => false
 
-    override component() {
+    override component(shape: ShapeType) {
+      const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+      const presetId = shape.id + '-preset'
+
       return (
         <HTMLContainer
           style={{
@@ -84,7 +170,27 @@ function createShape(
             borderRadius: `${CIRCLE_RADIUS}px`,
             padding: '10px',
           }}
+          onPointerDown={(e) => {
+            const target = e.target as HTMLElement
+            if (
+              target.id === presetId ||
+              target.closest(`#${CSS.escape(presetId)}`)
+            ) {
+              stopEventPropagation(e)
+            }
+          }}
         >
+          {isSelected && (
+            <TransformButton
+              id={presetId}
+              presets={mapTransformations(
+                transformationMap,
+                variant,
+                shape,
+                this.editor,
+              )}
+            />
+          )}
           {variant === 'test-failed' && (
             <span
               style={{

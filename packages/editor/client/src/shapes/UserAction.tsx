@@ -14,14 +14,14 @@ import {
   RECTANGLE_DEFAULT_WIDTH,
 } from './util/constants.ts'
 import { createArrow } from './util/util.ts'
-import { PresetButton } from './util/PresetButton.tsx'
+import { TransformButton } from './util/TransformButton.tsx'
 
 const shapeType = Shapes['user-action']
 type ShapeType = BaseShape<typeof shapeType>
 
 export type { ShapeType }
 
-type FlowType = 'subprocess' | 'signal-listen'
+type FlowType = 'subprocess' | 'signal-listen' | 'script-fe'
 interface FlowConfig {
   targetType: string
   icon: string
@@ -31,15 +31,21 @@ interface FlowConfig {
 const flowConfigs: Record<FlowType, FlowConfig> = {
   subprocess: {
     targetType: 'subprocess-fe',
-    icon: '/subprocess-fe-preview.svg',
+    icon: '/message-listen-to-subprocess.svg',
     getTargetX: (baseX: number, offset: number) =>
       baseX + (100 + offset) - RECTANGLE_DEFAULT_WIDTH / 2,
   },
   'signal-listen': {
     targetType: 'signal-send-fe',
-    icon: '/signal-listen-fe-preview.svg',
+    icon: '/message-listen-to-send.svg',
     getTargetX: (baseX: number, offset: number) =>
       baseX + (100 + offset) - CIRCLE_RADIUS / 2,
+  },
+  'script-fe': {
+    targetType: 'script-fe',
+    icon: '/message-listen-to-script.svg',
+    getTargetX: (baseX: number, offset: number) =>
+      baseX + (100 + offset) - RECTANGLE_DEFAULT_WIDTH / 2,
   },
 }
 
@@ -206,19 +212,20 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
         />
         {isSelected && (
           <>
-            <PresetButton
+            <TransformButton
               id={presetId}
-              shapesToChangeTo={[]}
               presets={[
                 {
-                  onPresetPressed: () =>
-                    this.handleAddFlow('subprocess', shape),
+                  onSelected: () => this.handleAddFlow('subprocess', shape),
                   iconUrl: flowConfigs['subprocess'].icon,
                 },
                 {
-                  onPresetPressed: () =>
-                    this.handleAddFlow('signal-listen', shape),
+                  onSelected: () => this.handleAddFlow('signal-listen', shape),
                   iconUrl: flowConfigs['signal-listen'].icon,
+                },
+                {
+                  onSelected: () => this.handleAddFlow('script-fe', shape),
+                  iconUrl: flowConfigs['script-fe'].icon,
                 },
               ]}
             />

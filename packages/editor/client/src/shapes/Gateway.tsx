@@ -4,7 +4,8 @@ import {
   Rectangle2d,
   ShapeUtil,
   TEXT_PROPS,
-  TextLabel,
+  PlainTextLabel,
+  stopEventPropagation,
 } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
@@ -16,6 +17,35 @@ import {
   DIMOND_SIDE_LENGTH,
   GREEN,
 } from './util/constants.ts'
+import { TransformButton } from './util/TransformButton.tsx'
+import { changeShape, mapTransformations } from './util/util.ts'
+
+const transformationMap = {
+  'gateway-fe': [
+    { value: 'loop-fe', icon: 'loop-fe-preview' },
+    { value: 'parallel-fe', icon: 'parallel-fe-preview' },
+  ],
+  'gateway-be': [
+    { value: 'loop-be', icon: 'loop-be-preview' },
+    { value: 'parallel-be', icon: 'parallel-be-preview' },
+  ],
+  'loop-fe': [
+    { value: 'gateway-fe', icon: 'gateway-fe-preview' },
+    { value: 'parallel-fe', icon: 'parallel-fe-preview' },
+  ],
+  'loop-be': [
+    { value: 'gateway-be', icon: 'gateway-be-preview' },
+    { value: 'parallel-be', icon: 'parallel-be-preview' },
+  ],
+  'parallel-fe': [
+    { value: 'gateway-fe', icon: 'gateway-fe-preview' },
+    { value: 'loop-fe', icon: 'loop-fe-preview' },
+  ],
+  'parallel-be': [
+    { value: 'gateway-be', icon: 'gateway-be-preview' },
+    { value: 'loop-be', icon: 'loop-be-preview' },
+  ],
+}
 
 const createGatewayClass = (
   variant:
@@ -33,32 +63,6 @@ const createGatewayClass = (
   return class extends ShapeUtil<ShapeType> {
     static override type = shapeType.name
     static override props = shapeType.props
-    static transformations = {
-      'gateway-fe': [
-        { value: 'loop-fe', icon: 'loop-fe-preview' },
-        { value: 'parallel-fe', icon: 'parallel-fe-preview' },
-      ],
-      'gateway-be': [
-        { value: 'loop-be', icon: 'loop-be-preview' },
-        { value: 'parallel-be', icon: 'parallel-be-preview' },
-      ],
-      'loop-fe': [
-        { value: 'gateway-fe', icon: 'gateway-fe-preview' },
-        { value: 'parallel-fe', icon: 'parallel-fe-preview' },
-      ],
-      'loop-be': [
-        { value: 'gateway-be', icon: 'gateway-be-preview' },
-        { value: 'parallel-be', icon: 'parallel-be-preview' },
-      ],
-      'parallel-fe': [
-        { value: 'gateway-fe', icon: 'gateway-fe-preview' },
-        { value: 'loop-fe', icon: 'loop-fe-preview' },
-      ],
-      'parallel-be': [
-        { value: 'gateway-be', icon: 'gateway-be-preview' },
-        { value: 'loop-be', icon: 'loop-be-preview' },
-      ],
-    }[variant]
 
     override getDefaultProps(): ShapeType['props'] {
       return {
@@ -82,9 +86,32 @@ const createGatewayClass = (
     override component(shape: ShapeType) {
       const style: CSSProperties = { pointerEvents: 'all' }
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+      const presetId = shape.id + '-preset'
 
       return (
-        <HTMLContainer style={style}>
+        <HTMLContainer
+          style={style}
+          onPointerDown={(e) => {
+            const target = e.target as HTMLElement
+            if (
+              target.id === presetId ||
+              target.closest(`#${CSS.escape(presetId)}`)
+            ) {
+              stopEventPropagation(e)
+            }
+          }}
+        >
+          {isSelected && (
+            <TransformButton
+              id={presetId}
+              presets={mapTransformations(
+                transformationMap,
+                variant,
+                shape,
+                this.editor,
+              )}
+            />
+          )}
           <div>
             <div
               style={{
@@ -139,7 +166,7 @@ const createGatewayClass = (
                 )}
               </div>
             </div>
-            <TextLabel
+            <PlainTextLabel
               shapeId={shape.id}
               type="text"
               labelColor="black"

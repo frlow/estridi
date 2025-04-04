@@ -6,6 +6,7 @@ import {
   Rectangle2d,
   TEXT_PROPS,
   PlainTextLabel,
+  stopEventPropagation,
 } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
@@ -18,6 +19,79 @@ import {
   GREEN,
   INTER_BORDER,
 } from './util/constants.ts'
+import { mapTransformations } from './util/util.ts'
+import { TransformButton } from './util/TransformButton'
+
+const transformationMap = {
+  'signal-listen-fe': [
+    {
+      value: 'signal-listen-fe-inter',
+      icon: 'signal-listen-fe-inter-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'signal-send-fe',
+      icon: 'signal-send-fe-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'signal-send-fe-inter',
+      icon: 'signal-send-fe-inter-preview',
+      updateProps: (props: any) => props,
+    },
+  ],
+  'signal-listen-be': [
+    {
+      value: 'signal-listen-be-inter',
+      icon: 'signal-listen-be-inter-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'signal-send-be',
+      icon: 'signal-send-be-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'signal-send-be-inter',
+      icon: 'signal-send-be-inter-preview',
+      updateProps: (props: any) => props,
+    },
+  ],
+  'signal-listen-fe-inter': [
+    {
+      value: 'signal-listen-fe',
+      icon: 'signal-listen-fe-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'signal-send-fe',
+      icon: 'signal-send-fe-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'signal-send-fe-inter',
+      icon: 'signal-send-fe-inter-preview',
+      updateProps: (props: any) => props,
+    },
+  ],
+  'signal-listen-be-inter': [
+    {
+      value: 'signal-listen-be',
+      icon: 'signal-listen-be-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'signal-send-be',
+      icon: 'signal-send-be-preview',
+      updateProps: (props: any) => props,
+    },
+    {
+      value: 'signal-send-be-inter',
+      icon: 'signal-send-be-inter-preview',
+      updateProps: (props: any) => props,
+    },
+  ],
+}
 
 function createSignalListenClass(
   variant:
@@ -34,34 +108,6 @@ function createSignalListenClass(
   return class extends BaseBoxShapeUtil<ShapeType> {
     static override type = shapeType.name
     static override props = shapeType.props
-    static transformations = {
-      'signal-listen-fe': [
-        {
-          value: 'signal-listen-fe-inter',
-          icon: 'signal-listen-fe-inter-preview',
-        },
-        { value: 'signal-send-fe', icon: 'signal-send-fe-preview' },
-        { value: 'signal-send-fe-inter', icon: 'signal-send-fe-inter-preview' },
-      ],
-      'signal-listen-be': [
-        {
-          value: 'signal-listen-be-inter',
-          icon: 'signal-listen-be-inter-preview',
-        },
-        { value: 'signal-send-be', icon: 'signal-send-be-preview' },
-        { value: 'signal-send-be-inter', icon: 'signal-send-be-inter-preview' },
-      ],
-      'signal-listen-fe-inter': [
-        { value: 'signal-listen-fe', icon: 'signal-listen-fe-preview' },
-        { value: 'signal-send-fe', icon: 'signal-send-fe-preview' },
-        { value: 'signal-send-fe-inter', icon: 'signal-send-fe-inter-preview' },
-      ],
-      'signal-listen-be-inter': [
-        { value: 'signal-listen-be', icon: 'signal-listen-be-preview' },
-        { value: 'signal-send-be', icon: 'signal-send-be-preview' },
-        { value: 'signal-send-be-inter', icon: 'signal-send-be-inter-preview' },
-      ],
-    }[variant]
 
     override getDefaultProps(): ShapeType['props'] {
       return {
@@ -86,9 +132,32 @@ function createSignalListenClass(
     override component(shape: ShapeType) {
       const style: CSSProperties = { pointerEvents: 'all' }
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+      const presetId = shape.id + '-preset-button'
 
       return (
-        <HTMLContainer style={style}>
+        <HTMLContainer
+          style={style}
+          onPointerDown={(e) => {
+            const target = e.target as HTMLElement
+            if (
+              target.id === presetId ||
+              target.closest(`#${CSS.escape(presetId)}`)
+            ) {
+              stopEventPropagation(e)
+            }
+          }}
+        >
+          {isSelected && (
+            <TransformButton
+              id={`${shape.id}-preset-button`}
+              presets={mapTransformations(
+                transformationMap,
+                variant,
+                shape,
+                this.editor,
+              )}
+            />
+          )}
           <div>
             <div
               style={{

@@ -1,9 +1,39 @@
-import { BaseBoxShapeUtil, HTMLContainer, Rectangle2d } from 'tldraw'
-import { Shapes, ShapeName } from 'editor-common'
+import {
+  BaseBoxShapeUtil,
+  HTMLContainer,
+  Rectangle2d,
+  stopEventPropagation,
+} from 'tldraw'
+import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { BLUE, CIRCLE_RADIUS, END_BORDER, GREEN } from './util/constants.ts'
-import { PresetButton } from './util/PresetButton'
-import { useEffect } from 'react'
+import { TransformButton } from './util/TransformButton'
+import { mapTransformations } from './util/util.ts'
+
+const transformationMap = {
+  'end-fe': [
+    {
+      value: 'start-fe',
+      icon: 'start-fe-preview',
+      updateProps: (props: any) => ({
+        h: props.h,
+        w: props.w,
+        target: 'playwright',
+      }),
+    },
+  ],
+  'end-be': [
+    {
+      value: 'start-be',
+      icon: 'start-be-preview',
+      updateProps: (props: any) => ({
+        h: props.h,
+        w: props.w,
+        target: 'vitest',
+      }),
+    },
+  ],
+}
 
 function createStartClass(variant: 'end-fe' | 'end-be') {
   const shapeType = Shapes[variant]
@@ -13,10 +43,6 @@ function createStartClass(variant: 'end-fe' | 'end-be') {
   return class extends BaseBoxShapeUtil<ShapeType> {
     static override type = shapeType.name
     static override props = shapeType.props
-    static transformations = {
-      'end-fe': [{ value: 'start-fe' as ShapeName, icon: 'start-fe-preview' }],
-      'end-be': [{ value: 'start-be' as ShapeName, icon: 'start-be-preview' }],
-    }[variant]
 
     override getDefaultProps(): ShapeType['props'] {
       return {
@@ -38,11 +64,21 @@ function createStartClass(variant: 'end-fe' | 'end-be') {
     }
 
     override component(shape: ShapeType) {
-      const editor = this.editor
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+      const presetId = shape.id + '-preset-button'
 
       return (
-        <HTMLContainer>
+        <HTMLContainer
+          onPointerDown={(e) => {
+            const target = e.target as HTMLElement
+            if (
+              target.id === presetId ||
+              target.closest(`#${CSS.escape(presetId)}`)
+            ) {
+              stopEventPropagation(e)
+            }
+          }}
+        >
           <div
             style={{
               width: `${CIRCLE_RADIUS}px`,
@@ -53,36 +89,14 @@ function createStartClass(variant: 'end-fe' | 'end-be') {
             }}
           ></div>
           {isSelected && (
-            <PresetButton
+            <TransformButton
               id={`${shape.id}-preset-button`}
-              editor={editor}
-              shapesToChangeTo={
-                {
-                  'end-fe': [
-                    {
-                      iconUrl: '/start-fe-preview.svg',
-                      onSelected: () => {
-                        editor.updateShape({
-                          id: shape.id,
-                          type: 'start-fe',
-                        })
-                      },
-                    },
-                  ],
-                  'end-be': [
-                    {
-                      iconUrl: '/start-be-preview.svg',
-                      onSelected: () => {
-                        editor.updateShape({
-                          id: shape.id,
-                          type: 'start-be',
-                        })
-                      },
-                    },
-                  ],
-                }[variant]
-              }
-              presets={[]}
+              presets={mapTransformations(
+                transformationMap,
+                variant,
+                shape,
+                this.editor,
+              )}
             />
           )}
         </HTMLContainer>

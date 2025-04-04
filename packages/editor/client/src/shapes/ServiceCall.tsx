@@ -22,21 +22,23 @@ import {
   RECTANGLE_ICON_HEIGHT,
   RECTANGLE_ICON_PADDING,
 } from './util/constants.ts'
-import { createArrow } from './util/util.ts'
-import { PresetButton } from './util/PresetButton.tsx'
+import { createArrow, mapTransformations } from './util/util.ts'
+import { TransformButton } from './util/TransformButton.tsx'
 
 function addFePreset<T extends ShapeDefinition>(
   shape: BaseShape<T>,
   editor: Editor,
 ) {
   const parentId = shape.parentId || editor.getCurrentPageId()
+  const parentIsFrame = editor.getShape(parentId)?.type === 'frame'
+  console.log(parentIsFrame)
   const inputTextId = createShapeId()
 
   editor.createShape({
     id: inputTextId,
     type: 'text',
     parentId: parentId,
-    x: shape.x,
+    x: shape.x + (parentIsFrame ? 10 : 0),
     y: shape.y + shape.props.h + 100,
     props: { richText: toRichText('Input'), font: 'sans' },
   })
@@ -47,7 +49,7 @@ function addFePreset<T extends ShapeDefinition>(
     id: outputTextId,
     type: 'text',
     parentId: parentId,
-    x: shape.x + shape.props.w - 60,
+    x: shape.x + shape.props.w - 60 + (parentIsFrame ? 10 : 0),
     y: shape.y + shape.props.h + 100,
     props: { richText: toRichText('Output'), font: 'sans' },
   })
@@ -123,18 +125,20 @@ function addBePreset<T extends ShapeDefinition>(
   })
 }
 
-function changeShape(
-  shape: BaseShape<ShapeDefinition>,
-  editor: Editor,
-  shapeName: string,
-  filterProps?: (props: any) => any,
-) {
-  editor.deleteShape(shape.id)
-  const newShape = { ...shape, type: shapeName }
-  if (filterProps) {
-    newShape.props = filterProps(shape.props)
-  }
-  editor.createShape(newShape)
+const shapeChangeMap = {
+  'service-call-be': [
+    {
+      value: 'service-call-be-external',
+      icon: 'service-call-be-external-preview',
+    },
+  ],
+  'service-call-be-external': [
+    {
+      value: 'service-call-be',
+      icon: 'service-call-be-preview',
+    },
+  ],
+  'service-call-fe': [],
 }
 
 function createServiceCallClass(
@@ -146,18 +150,6 @@ function createServiceCallClass(
   return class extends BaseBoxShapeUtil<ShapeType> {
     static override type = shapeType.name
     static override props = shapeType.props
-    static transformations = {
-      'service-call-be': [
-        {
-          value: 'service-call-be-external',
-          icon: 'service-call-be-external-preview',
-        },
-      ],
-      'service-call-be-external': [
-        { value: 'service-call-be', icon: 'service-call-be-preview' },
-      ],
-      'service-call-fe': [],
-    }[variant]
 
     override getDefaultProps(): ShapeType['props'] {
       return {
@@ -203,6 +195,39 @@ function createServiceCallClass(
             }
           }}
         >
+          {isSelected && (
+            <TransformButton
+              id={presetId}
+              presets={[
+                ...mapTransformations(
+                  shapeChangeMap,
+                  variant,
+                  shape,
+                  this.editor,
+                ),
+                ...({
+                  'service-call-be': [
+                    {
+                      onSelected: () => addBePreset(shape, this.editor),
+                      iconUrl: '/service-be-preset.svg',
+                    },
+                  ],
+                  'service-call-be-external': [
+                    {
+                      onSelected: () => addBePreset(shape, this.editor),
+                      iconUrl: '/service-be-preset.svg',
+                    },
+                  ],
+                  'service-call-fe': [
+                    {
+                      onSelected: () => addFePreset(shape, this.editor),
+                      iconUrl: '/service-fe-preset.svg',
+                    },
+                  ],
+                }[variant] || []),
+              ]}
+            />
+          )}
           <div
             style={{
               display: 'flex',
@@ -225,56 +250,6 @@ function createServiceCallClass(
             minHeight={RECTANGLE_DEFAULT_HEIGHT}
             padding={RECTANGLE_ICON_PADDING}
           />
-          {isSelected && (
-            <PresetButton
-              id={presetId}
-              presets={
-                {
-                  'service-call-be': [
-                    {
-                      onPresetPressed: () => addBePreset(shape, this.editor),
-                      iconUrl: '/gateway-be-preview.svg',
-                    },
-                  ],
-                  'service-call-be-external': [
-                    {
-                      onPresetPressed: () => addBePreset(shape, this.editor),
-                      iconUrl: '/gateway-be-preview.svg',
-                    },
-                  ],
-                  'service-call-fe': [
-                    {
-                      onPresetPressed: () => addFePreset(shape, this.editor),
-                      iconUrl: '/gateway-fe-preview.svg',
-                    },
-                  ],
-                }[variant]
-              }
-              shapesToChangeTo={
-                {
-                  'service-call-be': [
-                    {
-                      onSelected: () =>
-                        changeShape(
-                          shape,
-                          this.editor,
-                          'service-call-be-external',
-                        ),
-                      iconUrl: '/service-call-be-external-preview.svg',
-                    },
-                  ],
-                  'service-call-be-external': [
-                    {
-                      onSelected: () =>
-                        changeShape(shape, this.editor, 'service-call-be'),
-                      iconUrl: '/service-call-be-preview.svg',
-                    },
-                  ],
-                  'service-call-fe': [],
-                }[variant]
-              }
-            />
-          )}
         </HTMLContainer>
       )
     }
