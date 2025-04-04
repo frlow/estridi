@@ -13,12 +13,8 @@ export function handleAction(
     serviceCalls: UniqueRecord
   },
 ) {
-  if (
-    currentNode.type === 'userAction' &&
-    currentNode.special &&
-    'actions' in currentNode.special
-  ) {
-    Object.entries(currentNode.special.actions).forEach((action) => {
+  if (currentNode.type === 'userAction') {
+    Object.entries(currentNode.actions).forEach((action) => {
       getSubprocess(probe.subprocesses).actions[action[1]] = null
       const newProbe = structuredClone(probe)
       newProbe.state = 'resting'

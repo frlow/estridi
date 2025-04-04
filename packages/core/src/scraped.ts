@@ -104,7 +104,7 @@ export type ScrapedSubprocess = {
 export type ScrapedUserAction = {
   type: ScrapedNodeType<'userAction'>
   next?: NodeId
-  // actions?: Record<NodeId, string>
+  actions?: Record<NodeId, string>
 } & BaseNode
 
 export type ScrapedNode =

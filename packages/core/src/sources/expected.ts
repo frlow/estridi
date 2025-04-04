@@ -2,7 +2,6 @@ import {
   ScrapedConnector,
   ScrapedGateway,
   ScrapedLoop,
-  ScrapedNode,
   ScrapedParallel,
   ScrapedScript,
   ScrapedServiceCall,
@@ -12,7 +11,7 @@ import {
 } from '../scraped'
 import { expect } from 'vitest'
 
-const idRegex = /^.{3,40}$/
+const idRegex = /^.{3,60}$/
 const idMatch = expect.stringMatching(idRegex)
 
 const script: ScrapedScript = {
@@ -54,15 +53,13 @@ const userAction: ScrapedUserAction = {
   id: idMatch,
   raw: '',
   type: 'userAction',
-  special: {
-    actions: expect.toSatisfy((opts: Record<string, string>) =>
-      [
-        !!Object.keys(opts).every(key=>key.match(idRegex)),
-        !!Object.values(opts).some(t=>t.match(/ClickA/)),
-        !!Object.values(opts).some(t=>t.match(/ClickB/)),
-      ].every((v) => v),
-    ),
-  },
+  actions: expect.toSatisfy((opts: Record<string, string>) =>
+    [
+      !!Object.keys(opts).every((key) => key.match(idRegex)),
+      !!Object.values(opts).some((t) => t.match(/ClickA/)),
+      !!Object.values(opts).some((t) => t.match(/ClickB/)),
+    ].every((v) => v),
+  ),
   next: idMatch,
 }
 
@@ -82,9 +79,9 @@ const subprocess: ScrapedSubprocess = {
   special: {
     actions: expect.toSatisfy((opts: Record<string, string>) =>
       [
-        !!Object.keys(opts).every(key=>key.match(idRegex)),
-        !!Object.values(opts).some(t=>t.match(/ClickA/)),
-        !!Object.values(opts).some(t=>t.match(/ClickB/)),
+        !!Object.keys(opts).every((key) => key.match(idRegex)),
+        !!Object.values(opts).some((t) => t.match(/ClickA/)),
+        !!Object.values(opts).some((t) => t.match(/ClickB/)),
       ].every((v) => v),
     ),
   },

@@ -27,5 +27,7 @@ describe('inject special transformations', () => {
 
   describe('subprocess', () => {
     test('subprocess with table linked by :', createTest('table'))
+
+    test("subprocess with actions", createTest("subprocess-action"))
   })
 })

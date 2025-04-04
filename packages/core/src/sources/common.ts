@@ -30,11 +30,20 @@ export const mapActions = ({
     .filter((node) => ['userAction', 'subprocess'].includes(node.type))
     .forEach((ua: ScrapedNode) => {
       const uaNode = nodes[ua.id]
-      const actions = Object.values(nodes)
-        .filter((n) => isSignalListenInside(uaNode, n))
+      const actions = Object.values(nodes).filter((n) =>
+        isSignalListenInside(uaNode, n),
+      )
       if (actions.length > 0) {
-        ua.special = { ...(ua.special || {}), actions: {} }
-        actions.forEach((a) => (ua.special.actions[getNext(a)] = findText(a)))
+        actions.forEach((a) => {
+          if (ua.type === 'userAction') {
+            if (!ua.actions) ua.actions = {}
+            ua.actions[getNext(a)] = findText(a)
+          } else {
+            if (!ua.special) ua.special = {}
+            if (!ua.special.actions) ua.special.actions = {}
+            ua.special.actions[getNext(a)] = findText(a)
+          }
+        })
       }
     })
 

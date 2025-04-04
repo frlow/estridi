@@ -9,6 +9,7 @@ export const getNodeConnections = (node: any): string[] => {
     node.next,
     ...Object.keys(node.options || {}),
     ...Object.keys(node.special?.actions || {}),
+    ...Object.keys(node.actions || {}),
     node.link,
   ]
   const definedConnections = possibleConnections.filter((c) => c)

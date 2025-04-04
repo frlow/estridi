@@ -86,7 +86,7 @@ export const processTldraw = async (data: {
   }
 
   const getId = (id: string) => {
-    return id?.replace(/^shape:/, '')
+    return id //?.replace(/^shape:/, '')
   }
 
   const getNodeMetadata = (node: any): ScrapedNode => {
@@ -240,31 +240,34 @@ export const processTldraw = async (data: {
     return temp
   }
 
+  const getCoordinates = (node: any) => {
+    const height = node.state.props?.h
+    const width = node.state.props?.w
+    if (!height || !width) return undefined
+    const x = [node.state.x]
+    const y = [node.state.y]
+    let parentId = node.state.parentId
+    while (parentId) {
+      const parent = nodes[parentId]
+      parentId = parent.state.parentId
+      if (!parent.state.x || !parent.state.y) break
+      x.push(parent.state.x)
+      y.push(parent.state.y)
+    }
+    return {
+      x: x.reduce((acc, cur) => acc + cur, 0),
+      y: y.reduce((acc, cur) => acc + cur, 0),
+      width,
+      height,
+    }
+  }
+
   const isSignalListenInside = (host, child) => {
     if (child.state.type !== 'signal-listen-fe') return false
-    if (
-      [
-        host.state.props?.w,
-        host.state.props?.h,
-        child.state.props?.w,
-        child.state.props?.h,
-      ].some((n) => !n)
-    )
-      return false
-    return isNodeInside(
-      {
-        x: host.state.x,
-        y: host.state.y,
-        width: host.state.props.w,
-        height: host.state.props.h,
-      },
-      {
-        x: child.state.x,
-        y: child.state.y,
-        width: child.state.props.w,
-        height: child.state.props.h,
-      },
-    )
+    const hostCoordinates = getCoordinates(host)
+    const childCoordinates = getCoordinates(child)
+    if (!hostCoordinates || !childCoordinates) return false
+    return isNodeInside(hostCoordinates, childCoordinates)
   }
 
   const nodes: ProcessedNodes = {}

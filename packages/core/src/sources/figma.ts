@@ -197,7 +197,7 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         type: 'userAction',
         id: node.id,
         next: getNext(node),
-        raw: "" //findRawText(node),
+        raw: '', //findRawText(node),
       }
       ret = userAction
       break
