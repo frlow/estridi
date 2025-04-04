@@ -3,12 +3,13 @@ import { getTestCase } from '../test/editorTestCases'
 import { ScrapedNodeTypes } from '../scraped'
 import { expected } from './expected'
 
-const runTest = (name: string, type: ScrapedNodeTypes) => async () => {
-  const testCase = await getTestCase(`tc-node-${name}`)
-  const targetNode = testCase.find((n) => n.type === type)
-  expect(targetNode).toBeTruthy()
-  expect(expected[type]).toEqual(targetNode)
-}
+const runTest =
+  (name: string, type: ScrapedNodeTypes, expectedName?: string) => async () => {
+    const testCase = await getTestCase(`tc-node-${name}`)
+    const targetNode = testCase.find((n) => n.type === type)
+    expect(targetNode).toBeTruthy()
+    expect(expected[expectedName || type]).toEqual(targetNode)
+  }
 
 describe(`Load from tldraw`, () => {
   describe('common', () => {

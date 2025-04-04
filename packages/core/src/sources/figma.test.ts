@@ -5,13 +5,15 @@ import { filterScraped, getFigmaData } from '../test/editorTestCases'
 
 describe(`Load from figma`, () => {
   let figmaData: Scraped
-  const runTest = (name: string, type: ScrapedNodeTypes) => async () => {
-    const testCase = filterScraped(figmaData, `tc-node-${name}`)
-    const targetNode = testCase.find((n) => n.type === type)
-    expect(targetNode).toBeTruthy()
-    const expectedValue = expected[type]
-    expect(expectedValue).toEqual(targetNode)
-  }
+  const runTest =
+    (name: string, type: ScrapedNodeTypes, expectedName?: string) =>
+    async () => {
+      const testCase = filterScraped(figmaData, `tc-node-${name}`)
+      const targetNode = testCase.find((n) => n.type === type)
+      expect(targetNode).toBeTruthy()
+      const expectedValue = expected[expectedName || type]
+      expect(expectedValue).toEqual(targetNode)
+    }
 
   beforeAll(async () => {
     figmaData = await getFigmaData()
