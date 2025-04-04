@@ -5,26 +5,27 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsx --watch ./server.ts",
-    "build": "pnpm dlx bun build --target=node --outfile=../../../dist/editor.js ./server.ts --external prettier"
+    "dev": "tsx --watch src/index.ts",
+    "build": "pnpm dlx bun build --target=node --outfile=../../../dist/editor.js src/index.ts --external prettier"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "editor-common": "workspace:*",
-    "core": "workspace:*",
-    "ws": "^8.18.0",
     "@tldraw/sync-core": "^3.11.0",
-    "tldraw": "^3.11.0",
+    "commander": "^13.1.0",
+    "core": "workspace:*",
+    "editor-common": "workspace:*",
     "express": "^4.21.2",
+    "tldraw": "^3.11.0",
     "websocket-express": "^3.1.2",
-    "commander": "^13.1.0"
+    "ws": "^8.18.0"
   },
   "devDependencies": {
-    "tsx": "^4.19.2",
     "@types/express": "^5.0.0",
     "esbuild": "^0.24.2",
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "tsx": "^4.19.2",
+    "vitest": "^3.0.3"
   }
 }

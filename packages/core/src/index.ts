@@ -23,7 +23,8 @@ export type EstridiTargetConfig = {
   getFileName: (name: string) => string
 }
 
-export type EstridiTargets = 'playwright' | 'vitest'
+export const estridiTargets = ['playwright' , 'vitest'] as const
+export type EstridiTargets = typeof estridiTargets[number]
 
 export const parseRoots = (
   scraped: Scraped,
