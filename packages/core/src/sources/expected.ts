@@ -53,15 +53,16 @@ const connector: ScrapedConnector = {
 const userAction: ScrapedUserAction = {
   id: idMatch,
   raw: '',
-  actions: expect.toSatisfy((opts: Record<string, string>) =>
-    [
-      !!Object.keys(opts)[0].match(idRegex),
-      !!Object.keys(opts)[1].match(idRegex),
-      !!Object.values(opts)[0].match(/ClickA/),
-      !!Object.values(opts)[1].match(/ClickB/),
-    ].every((v) => v),
-  ),
   type: 'userAction',
+  special: {
+    actions: expect.toSatisfy((opts: Record<string, string>) =>
+      [
+        !!Object.keys(opts).every(key=>key.match(idRegex)),
+        !!Object.values(opts).some(t=>t.match(/ClickA/)),
+        !!Object.values(opts).some(t=>t.match(/ClickB/)),
+      ].every((v) => v),
+    ),
+  },
   next: idMatch,
 }
 
@@ -78,6 +79,15 @@ const subprocess: ScrapedSubprocess = {
   id: idMatch,
   next: idMatch,
   link: idMatch,
+  special: {
+    actions: expect.toSatisfy((opts: Record<string, string>) =>
+      [
+        !!Object.keys(opts).every(key=>key.match(idRegex)),
+        !!Object.values(opts).some(t=>t.match(/ClickA/)),
+        !!Object.values(opts).some(t=>t.match(/ClickB/)),
+      ].every((v) => v),
+    ),
+  },
 }
 
 const start: ScrapedStart = {
@@ -108,7 +118,7 @@ const parallel: ScrapedParallel = {
   id: idMatch,
 }
 
-export const expected: Record<string, ScrapedNode> = {
+export const expected = {
   root: root,
   script,
   message: script,
@@ -120,5 +130,5 @@ export const expected: Record<string, ScrapedNode> = {
   subprocess,
   start,
   loop,
-  parallel
+  parallel,
 }

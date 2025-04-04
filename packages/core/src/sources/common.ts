@@ -1,42 +1,56 @@
 import { ProcessedNodes } from './tldraw'
-import { Scraped, ScrapedSubprocess, ScrapedUserAction } from '../scraped'
+import { Scraped, ScrapedNode, ScrapedSubprocess } from '../scraped'
 
-export const afterProcess = (
-  {
-    scraped,
-    nodes,
-    getNext,
-    findText,
-    isSignalListenInside
-  }: {
-    scraped: Scraped,
-    nodes: ProcessedNodes,
-    getNext: (node: any)=>string|undefined
-    findText: (node: any)=>string|undefined,
-    isSignalListenInside: (host: any, child: any)=>boolean
-  }
-): Scraped => {
-  const ret = structuredClone(scraped)
-
-  // Map sub process links
+export const linkSubprocesses = (args: { scraped: Scraped }) => {
+  const ret = structuredClone(args.scraped)
   ret
     .filter((node) => node.type === 'subprocess')
     .forEach((sp: ScrapedSubprocess) => {
       const linkNode = ret.find((n) => n.type === 'start' && n.raw === sp.raw)
       sp.link = linkNode?.id
     })
+  return ret
+}
 
+export const mapActions = ({
+  scraped,
+  nodes,
+  getNext,
+  findText,
+  isSignalListenInside,
+}: {
+  scraped: Scraped
+  nodes: ProcessedNodes
+  getNext: (node: any) => string | undefined
+  findText: (node: any) => string | undefined
+  isSignalListenInside: (host: any, child: any) => boolean
+}) => {
+  const ret = structuredClone(scraped)
   ret
-    .filter((node) => node.type==="userAction")
-    .forEach((ua: ScrapedUserAction) => {
+    .filter((node) => ['userAction', 'subprocess'].includes(node.type))
+    .forEach((ua: ScrapedNode) => {
       const uaNode = nodes[ua.id]
-      const actions = Object.values(nodes).filter(
-        (n) => isSignalListenInside(uaNode, n)
-      )
-      actions.forEach((a) => (ua.actions[getNext(a)] = findText(a)))
+      const actions = Object.values(nodes)
+        .filter((n) => isSignalListenInside(uaNode, n))
+      if (actions.length > 0) {
+        ua.special = { ...(ua.special || {}), actions: {} }
+        actions.forEach((a) => (ua.special.actions[getNext(a)] = findText(a)))
+      }
     })
 
   return ret
+}
+
+export const afterProcess = (args: {
+  scraped: Scraped
+  nodes: ProcessedNodes
+  getNext: (node: any) => string | undefined
+  findText: (node: any) => string | undefined
+  isSignalListenInside: (host: any, child: any) => boolean
+}): Scraped => {
+  const linked = linkSubprocesses({ scraped: args.scraped })
+  const withActions = mapActions({ ...args, scraped: linked })
+  return withActions
 }
 
 type Points = { x0: number; x1: number; y0: number; y1: number }

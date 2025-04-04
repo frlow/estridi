@@ -108,7 +108,6 @@ export const processTldraw = async (data: {
           id: getId(node.state.id),
           raw: findRawText(node),
           next: getNext(node),
-          link: undefined,
         }
         return subprocess
       case 'start':
@@ -143,7 +142,6 @@ export const processTldraw = async (data: {
           id: getId(node.state.id),
           next: getNext(node),
           raw: '',
-          actions: {},
         }
         return userAction
       case 'loop':
@@ -244,6 +242,15 @@ export const processTldraw = async (data: {
 
   const isSignalListenInside = (host, child) => {
     if (child.state.type !== 'signal-listen-fe') return false
+    if (
+      [
+        host.state.props?.w,
+        host.state.props?.h,
+        child.state.props?.w,
+        child.state.props?.h,
+      ].some((n) => !n)
+    )
+      return false
     return isNodeInside(
       {
         x: host.state.x,

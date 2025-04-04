@@ -187,7 +187,6 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         type: 'subprocess',
         id: node.id,
         next: getNext(node),
-        link: undefined,
         raw: findRawText(node),
       }
       ret = subprocess
@@ -198,7 +197,6 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         type: 'userAction',
         id: node.id,
         next: getNext(node),
-        actions: {},
         raw: "" //findRawText(node),
       }
       ret = userAction

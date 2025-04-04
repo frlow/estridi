@@ -8,7 +8,7 @@ const baseNodeValidator = z.object({
   raw: z.string(),
   special: z.optional(
     z.object({
-      tableKey: z.optional(nodeIdValidator),
+      actions: z.optional(z.record(nodeIdValidator, z.string())),
     }),
   ),
   // extra: z.any(),
@@ -104,7 +104,7 @@ export type ScrapedSubprocess = {
 export type ScrapedUserAction = {
   type: ScrapedNodeType<'userAction'>
   next?: NodeId
-  actions?: Record<NodeId, string>
+  // actions?: Record<NodeId, string>
 } & BaseNode
 
 export type ScrapedNode =

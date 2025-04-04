@@ -4,15 +4,12 @@ import path from 'node:path'
 import { Scraped, ScrapedNode, ScrapedStart } from '../scraped'
 import { loadFigmaDocument, processFigma } from '../sources/figma'
 
-export const getNodeConnections = (
-  node: any,
-  ignoreLinks?: boolean,
-): string[] => {
+export const getNodeConnections = (node: any): string[] => {
   const possibleConnections = [
     node.next,
     ...Object.keys(node.options || {}),
-    ...Object.keys(node.actions || {}),
-    ignoreLinks ? undefined : node.link,
+    ...Object.keys(node.special?.actions || {}),
+    node.link,
   ]
   const definedConnections = possibleConnections.filter((c) => c)
   const uniqueConnections = definedConnections.filter((n, index, arr) => {
@@ -25,23 +22,20 @@ export const processNode = ({
   node,
   scraped,
   acc = {},
-  ignoreLinks,
 }: {
   node: ScrapedNode
   scraped: Scraped
   acc?: Record<string, ScrapedNode>
-  ignoreLinks?: boolean
 }): Record<string, ScrapedNode> => {
   if (!node) return
   if (acc[node.id]) return
   acc[node.id] = node
-  const connections = getNodeConnections(node, ignoreLinks)
+  const connections = getNodeConnections(node)
   connections.forEach((c) =>
     processNode({
       scraped,
       node: scraped.find((n) => n.id === c),
       acc,
-      ignoreLinks,
     }),
   )
   return acc
