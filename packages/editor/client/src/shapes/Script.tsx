@@ -3,10 +3,6 @@ import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { TextLabelWithAutoHeight } from './util/TextLabelWithAutoHeight'
 import {
-  BLUE,
-  BORDER,
-  BORDER_RADIUS,
-  GREEN,
   RECTANGLE_DEFAULT_HEIGHT,
   RECTANGLE_DEFAULT_WIDTH,
   RECTANGLE_ICON_HEIGHT,
@@ -41,10 +37,10 @@ function createScriptClass(variant: 'script-fe' | 'script-be') {
       return (
         <HTMLContainer
           style={{
-            background: isFe ? BLUE : GREEN,
-            border: BORDER,
+            background: isFe ? 'var(--primary-blue)' : 'var(--primary-green)',
+            border: 'var(--border)',
             padding: '1rem',
-            borderRadius: BORDER_RADIUS,
+            borderRadius: 'var(--border-radius-px)',
           }}
         >
           <div
@@ -53,7 +49,7 @@ function createScriptClass(variant: 'script-fe' | 'script-be') {
               justifyContent: 'center',
               alignItems: 'center',
               width: '100%',
-              height: `${RECTANGLE_ICON_HEIGHT}px`,
+              height: 'var(--rectangle-icon-height-px)',
             }}
           >
             <img

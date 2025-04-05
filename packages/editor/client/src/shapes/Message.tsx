@@ -10,13 +10,7 @@ import {
 import { BaseShape } from './index'
 import { CSSProperties } from 'react'
 import { ShapeName, Shapes } from 'editor-common'
-import {
-  BLUE,
-  BORDER,
-  CIRCLE_RADIUS,
-  CIRCLE_SHAPE_TEXT_WIDTH,
-  INTER_BORDER,
-} from './util/constants'
+import { CIRCLE_RADIUS, CIRCLE_SHAPE_TEXT_WIDTH } from './util/constants'
 import { TransformButton } from './util/TransformButton'
 import { changeShape, mapTransformations } from './util/util'
 
@@ -88,14 +82,16 @@ function createMessageClass(variant: 'message' | 'message-inter') {
           <div>
             <div
               style={{
-                width: `${CIRCLE_RADIUS}px`,
-                height: `${CIRCLE_RADIUS}px`,
-                borderRadius: `${CIRCLE_RADIUS}px`,
+                width: 'var(--circle-radius-px)',
+                height: 'var(--circle-radius-px)',
+                borderRadius: 'var(--circle-radius-px)',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                border: isIntermediate ? INTER_BORDER : BORDER,
-                background: BLUE,
+                border: isIntermediate
+                  ? 'var(--inter-border)'
+                  : 'var(--border)',
+                background: 'var(--primary-blue)',
               }}
             >
               <img
@@ -115,7 +111,7 @@ function createMessageClass(variant: 'message' | 'message-inter') {
               labelColor="black"
               style={{
                 position: 'absolute',
-                top: `${CIRCLE_RADIUS}px`,
+                top: 'var(--circle-radius-px)',
               }}
               font="sans"
               textWidth={CIRCLE_SHAPE_TEXT_WIDTH}

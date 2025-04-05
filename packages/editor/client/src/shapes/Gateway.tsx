@@ -9,16 +9,11 @@ import {
 } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
-import { CSSProperties } from 'react'
-import {
-  BLUE,
-  BORDER,
-  BORDER_RADIUS,
-  DIMOND_SIDE_LENGTH,
-  GREEN,
-} from './util/constants.ts'
+import { CSSProperties, useState } from 'react'
+import { DIMOND_SIDE_LENGTH } from './util/constants.ts'
 import { TransformButton } from './util/TransformButton.tsx'
-import { changeShape, mapTransformations } from './util/util.ts'
+import { mapTransformations } from './util/util.ts'
+import { ShapeSelectMenu } from './util/ShapeSelectMenu.tsx'
 
 const transformationMap = {
   'gateway-fe': [
@@ -86,37 +81,55 @@ const createGatewayClass = (
     override component(shape: ShapeType) {
       const style: CSSProperties = { pointerEvents: 'all' }
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+      const isEditing = shape.id === this.editor.getEditingShapeId()
       const presetId = shape.id + '-preset'
+      const [showSelectMenu, setShowSelectMenu] = useState(false)
+      const selectMenuId = shape.id + '-select-menu'
+      const handleId = `${selectMenuId}-handle`
 
       return (
         <HTMLContainer
           style={style}
           onPointerDown={(e) => {
             const target = e.target as HTMLElement
-            if (
-              target.id === presetId ||
-              target.closest(`#${CSS.escape(presetId)}`)
-            ) {
+            const elementId = target.id
+            const isMenuElement =
+              elementId === presetId ||
+              elementId === selectMenuId ||
+              elementId === handleId ||
+              target.closest(`#${CSS.escape(presetId)}`) ||
+              target.closest(`#${CSS.escape(selectMenuId)}`) ||
+              target.closest(`#${CSS.escape(handleId)}`)
+
+            if (isMenuElement) {
               stopEventPropagation(e)
             }
           }}
         >
-          {isSelected && (
-            <TransformButton
-              id={presetId}
-              presets={mapTransformations(
-                transformationMap,
-                variant,
-                shape,
-                this.editor,
-              )}
-            />
-          )}
+          <TransformButton
+            show={isSelected && !showSelectMenu && !isEditing}
+            id={presetId}
+            presets={mapTransformations(
+              transformationMap,
+              variant,
+              shape,
+              this.editor,
+            )}
+          />
+          <ShapeSelectMenu
+            isFe={isFe}
+            id={selectMenuId}
+            sourceShapeId={shape.id}
+            show={showSelectMenu}
+            onClose={() => setShowSelectMenu(!showSelectMenu)}
+            editor={this.editor}
+            showNextButton={isSelected && !isEditing}
+          />
           <div>
             <div
               style={{
-                width: DIMOND_SIDE_LENGTH,
-                height: DIMOND_SIDE_LENGTH,
+                width: 'var(--dimond-side-length-px)',
+                height: 'var(--dimond-side-length-px)',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -124,15 +137,17 @@ const createGatewayClass = (
             >
               <div
                 style={{
-                  width: `${0.7 * DIMOND_SIDE_LENGTH}px`,
-                  height: `${0.7 * DIMOND_SIDE_LENGTH}px`,
+                  width: `calc(0.7 * var(--dimond-side-length-px))`,
+                  height: `calc(0.7 * var(--dimond-side-length-px))`,
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  border: BORDER,
+                  border: 'var(--border)',
                   borderStyle: 'solid',
-                  borderRadius: BORDER_RADIUS,
-                  background: isFe ? BLUE : GREEN,
+                  borderRadius: 'var(--border-radius-px)',
+                  background: isFe
+                    ? 'var(--primary-blue)'
+                    : 'var(--primary-green)',
                   transform: 'rotate(45deg)',
                 }}
               >
@@ -172,7 +187,7 @@ const createGatewayClass = (
               labelColor="black"
               style={{
                 position: 'absolute',
-                top: `${DIMOND_SIDE_LENGTH}px`,
+                top: 'var(--dimond-side-length-px)',
               }}
               font="sans"
               textWidth={130}

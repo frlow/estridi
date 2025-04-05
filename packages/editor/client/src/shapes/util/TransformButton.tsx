@@ -3,17 +3,31 @@ import React from 'react'
 export function TransformButton({
   id,
   presets,
+  show,
 }: {
   id: string
   presets: { iconUrl: string; onSelected: () => void }[]
+  show: boolean
 }): React.ReactElement | null {
   if (!presets || presets.length === 0) {
     return null
   }
 
   return (
-    <div id={id} className="transform-menu">
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div
+      id={id}
+      className="transform-menu-wrapper"
+      style={{
+        opacity: show ? '1' : '0',
+      }}
+    >
+      <div
+        className="transform-menu"
+        style={{
+          opacity: show ? '1' : '0',
+          transform: show ? 'scale(1)' : 'scale(0)',
+        }}
+      >
         {presets.map((preset) => (
           <button
             key={preset.iconUrl}

@@ -2,9 +2,6 @@ import { BaseBoxShapeUtil, HTMLContainer, toRichText } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import {
-  BORDER,
-  BORDER_RADIUS,
-  GREEN,
   RECTANGLE_DEFAULT_HEIGHT,
   RECTANGLE_DEFAULT_WIDTH,
   RECTANGLE_ICON_HEIGHT,
@@ -38,10 +35,10 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
     return (
       <HTMLContainer
         style={{
-          background: GREEN,
-          border: BORDER,
+          background: 'var(--primary-green)',
+          border: 'var(--border)',
           padding: '1rem',
-          borderRadius: BORDER_RADIUS,
+          borderRadius: 'var(--border-radius-px)',
         }}
       >
         <div
@@ -50,7 +47,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
             justifyContent: 'center',
             alignItems: 'center',
             width: '100%',
-            height: `${RECTANGLE_ICON_HEIGHT}px`,
+            height: 'var(--rectangle-icon-height-px)',
           }}
         >
           <img

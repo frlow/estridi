@@ -10,13 +10,8 @@ import { ShapeDefinition, Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { TextLabelWithAutoHeight } from './util/TextLabelWithAutoHeight.tsx'
 import {
-  BLUE,
-  BORDER,
-  BORDER_RADIUS,
   CIRCLE_RADIUS,
   DIMOND_SIDE_LENGTH,
-  GREEN,
-  GREY,
   RECTANGLE_DEFAULT_HEIGHT,
   RECTANGLE_DEFAULT_WIDTH,
   RECTANGLE_ICON_HEIGHT,
@@ -172,13 +167,13 @@ function createServiceCallClass(
         <HTMLContainer
           style={{
             background: {
-              'service-call-fe': GREEN,
-              'service-call-be': GREEN,
-              'service-call-be-external': GREY,
+              'service-call-fe': 'var(--primary-green)',
+              'service-call-be': 'var(--primary-green)',
+              'service-call-be-external': 'var(--grey)',
             }[variant],
-            border: BORDER,
+            border: 'var(--border)',
             padding: '1rem',
-            borderRadius: BORDER_RADIUS,
+            borderRadius: 'var(--border-radius-px)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -234,7 +229,7 @@ function createServiceCallClass(
               justifyContent: 'center',
               alignItems: 'center',
               width: '100%',
-              height: `${RECTANGLE_ICON_HEIGHT}px`,
+              height: 'var(--rectangle-icon-height-px)',
             }}
           >
             <img

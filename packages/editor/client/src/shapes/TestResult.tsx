@@ -1,12 +1,7 @@
 import { BaseBoxShapeUtil, HTMLContainer, stopEventPropagation } from 'tldraw'
 import { ShapeName, Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
-import {
-  CIRCLE_RADIUS,
-  DEV_DONE_COLOR,
-  GREY,
-  IN_PROGRESS_COLOR,
-} from './util/constants.ts'
+import { CIRCLE_RADIUS } from './util/constants.ts'
 import { mapTransformations } from './util/util.ts'
 import { TransformButton } from './util/TransformButton'
 
@@ -158,16 +153,16 @@ function createShape(
         <HTMLContainer
           style={{
             background: {
-              'not-started': GREY,
-              'in-progress': IN_PROGRESS_COLOR,
-              'test-done': DEV_DONE_COLOR,
-              'dev-done': DEV_DONE_COLOR,
-              'test-failed': DEV_DONE_COLOR,
+              'not-started': 'var(--grey)',
+              'in-progress': 'var(--in-progress-color)',
+              'test-done': 'var(--dev-done-color)',
+              'dev-done': 'var(--dev-done-color)',
+              'test-failed': 'var(--dev-done-color)',
             }[variant],
             border: '6px solid rgba(0, 0, 0, 0.2)',
-            width: `${CIRCLE_RADIUS}px`,
-            height: `${CIRCLE_RADIUS}px`,
-            borderRadius: `${CIRCLE_RADIUS}px`,
+            width: 'var(--circle-radius-px)',
+            height: 'var(--circle-radius-px)',
+            borderRadius: 'var(--circle-radius-px)',
             padding: '10px',
           }}
           onPointerDown={(e) => {

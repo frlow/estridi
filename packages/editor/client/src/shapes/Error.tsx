@@ -1,7 +1,6 @@
 import { BaseBoxShapeUtil, HTMLContainer, Rectangle2d } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
-import { BORDER, GREEN, INTER_BORDER } from './util/constants.ts'
 
 const CIRCLE_RADIUS = 90
 
@@ -43,14 +42,14 @@ function createStartClass(variant: 'error' | 'soft-error') {
         <HTMLContainer>
           <div
             style={{
-              width: `${CIRCLE_RADIUS}px`,
-              height: `${CIRCLE_RADIUS}px`,
-              borderRadius: `${CIRCLE_RADIUS}px`,
+              width: 'var(--circle-radius-px)',
+              height: 'var(--circle-radius-px)',
+              borderRadius: 'var(--circle-radius-px)',
               border: {
-                error: BORDER,
-                'soft-error': INTER_BORDER,
+                error: 'var(--border)',
+                'soft-error': 'var(--inter-border)',
               }[variant],
-              background: GREEN,
+              background: 'var(--primary-green)',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',

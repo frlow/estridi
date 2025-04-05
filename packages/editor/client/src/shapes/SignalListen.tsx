@@ -11,14 +11,7 @@ import {
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { CSSProperties } from 'react'
-import {
-  BLUE,
-  BORDER,
-  CIRCLE_RADIUS,
-  CIRCLE_SHAPE_TEXT_WIDTH,
-  GREEN,
-  INTER_BORDER,
-} from './util/constants.ts'
+import { CIRCLE_RADIUS, CIRCLE_SHAPE_TEXT_WIDTH } from './util/constants.ts'
 import { mapTransformations } from './util/util.ts'
 import { TransformButton } from './util/TransformButton'
 
@@ -161,14 +154,16 @@ function createSignalListenClass(
           <div>
             <div
               style={{
-                width: `${CIRCLE_RADIUS}px`,
-                height: `${CIRCLE_RADIUS}px`,
-                borderRadius: `${CIRCLE_RADIUS}px`,
+                width: 'var(--circle-radius-px)',
+                height: 'var(--circle-radius-px)',
+                borderRadius: 'var(--circle-radius-px)',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                border: isInter ? INTER_BORDER : BORDER,
-                background: isFe ? BLUE : GREEN,
+                border: isInter ? 'var(--inter-border)' : 'var(--border)',
+                background: isFe
+                  ? 'var(--primary-blue)'
+                  : 'var(--primary-green)',
               }}
             >
               <img
@@ -187,7 +182,7 @@ function createSignalListenClass(
               labelColor="black"
               style={{
                 position: 'absolute',
-                top: `${CIRCLE_RADIUS}px`,
+                top: 'var(--circle-radius-px)',
               }}
               font="sans"
               textWidth={CIRCLE_SHAPE_TEXT_WIDTH}

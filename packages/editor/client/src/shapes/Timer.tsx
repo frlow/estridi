@@ -5,12 +5,12 @@ import {
   LABEL_FONT_SIZES,
   Rectangle2d,
   TEXT_PROPS,
-  TextLabel,
+  PlainTextLabel,
 } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { CSSProperties } from 'react'
-import { BLUE, CIRCLE_RADIUS, GREEN, INTER_BORDER } from './util/constants.ts'
+import { CIRCLE_RADIUS } from './util/constants.ts'
 
 function createShape(variant: 'timer-fe' | 'timer-be') {
   const shapeType = Shapes[variant]
@@ -50,14 +50,16 @@ function createShape(variant: 'timer-fe' | 'timer-be') {
           <div>
             <div
               style={{
-                width: `${CIRCLE_RADIUS}px`,
-                height: `${CIRCLE_RADIUS}px`,
-                borderRadius: `${CIRCLE_RADIUS}px`,
+                width: 'var(--circle-radius-px)',
+                height: 'var(--circle-radius-px)',
+                borderRadius: 'var(--circle-radius-px)',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                border: INTER_BORDER,
-                background: isFe ? BLUE : GREEN,
+                border: 'var(--inter-border)',
+                background: isFe
+                  ? 'var(--primary-blue)'
+                  : 'var(--primary-green)',
               }}
             >
               <img
@@ -71,13 +73,13 @@ function createShape(variant: 'timer-fe' | 'timer-be') {
                 }}
               />
             </div>
-            <TextLabel
+            <PlainTextLabel
               shapeId={shape.id}
               type="text"
               labelColor="black"
               style={{
                 position: 'absolute',
-                top: `${CIRCLE_RADIUS}px`,
+                top: 'var(--circle-radius-px)',
               }}
               font="sans"
               textWidth={130}

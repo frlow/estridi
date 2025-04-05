@@ -8,8 +8,8 @@ import {
 } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
-import { BLUE, BORDER, BORDER_RADIUS, CIRCLE_RADIUS } from './util/constants.ts'
 import {
+  CIRCLE_RADIUS,
   RECTANGLE_DEFAULT_HEIGHT,
   RECTANGLE_DEFAULT_WIDTH,
 } from './util/constants.ts'
@@ -183,10 +183,10 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
     return (
       <HTMLContainer
         style={{
-          background: BLUE,
-          border: BORDER,
+          background: 'var(--primary-blue)',
+          border: 'var(--border)',
           padding: '1rem',
-          borderRadius: BORDER_RADIUS,
+          borderRadius: 'var(--border-radius)',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',

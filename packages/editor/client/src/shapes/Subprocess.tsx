@@ -2,7 +2,6 @@ import { BaseBoxShapeUtil, HTMLContainer, toRichText } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { TextLabelWithAutoHeight } from './util/TextLabelWithAutoHeight.tsx'
-import { BLUE, BORDER, BORDER_RADIUS, GREEN } from './util/constants.ts'
 
 const DEFAULT_WIDTH = 300
 const MIN_HEIGHT = 150
@@ -37,10 +36,10 @@ function createSubprocessClass(variant: 'subprocess-fe' | 'subprocess-be') {
       return (
         <HTMLContainer
           style={{
-            background: isFe ? BLUE : GREEN,
-            border: BORDER,
+            background: isFe ? 'var(--primary-blue)' : 'var(--primary-green)',
+            border: 'var(--border)',
             padding: '1rem',
-            borderRadius: BORDER_RADIUS,
+            borderRadius: 'var(--border-radius-px)',
           }}
         >
           <div

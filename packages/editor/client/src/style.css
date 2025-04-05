@@ -1,19 +1,62 @@
-.transform-menu {
-    top: -75px;
-    left: 50%;
-    transform: translate(-50%, 0) scale(min(calc(1 / var(--tl-zoom)), 2));
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: absolute;
-    transform-origin: 50% 100%;
-    pointer-events: all;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    border: 1px solid rgb(221, 221, 221);
-    padding: 3px;
+:root {
+  /* Sizing constants */
+  --circle-radius: 90;
+  --circle-radius-px: 90px;
+  --border-radius: 10;
+  --border-radius-px: 10px;
+  --circle-shape-text-width: 200;
+  --circle-shape-text-width-px: 200px;
+  --dimond-side-length: 120;
+  --dimond-side-length-px: 120px;
+  --rectangle-default-width: 300;
+  --rectangle-default-width-px: 300px;
+  --rectangle-default-height: 150;
+  --rectangle-default-height-px: 150px;
+  --rectangle-icon-padding: 16;
+  --rectangle-icon-padding-px: 16px;
+  --rectangle-icon-height: 36;
+  --rectangle-icon-height-px: 36px;
+  --rectangle-border-radius: 10;
+  --rectangle-border-radius-px: 10px;
+
+  /* Colors */
+  --primary-green: #66cc72;
+  --primary-blue: #6AAFE3;
+  --grey: #E5E5E5;
+  --in-progress-color: #F3E354;
+  --dev-done-color: #6EDC7B;
+
+  /* Borders */
+  --border: 4px solid black;
+  --end-border: 6px solid black;
+  --inter-border: 4px dashed black;
+
+  /* Frame colors */
+  --frame-color-white: rgb(255, 255, 255);
+  --frame-color-blue: rgb(223, 239, 254);
+  --frame-color-yellow: rgb(251, 247, 170);
+  --frame-color-red: rgb(245, 186, 181);
+  --frame-color-white-transparent: rgba(255, 255, 255, 0.3);
+  --frame-color-blue-transparent: rgba(223, 239, 254, 0.3);
+  --frame-color-yellow-transparent: rgba(251, 247, 170, 0.3);
+  --frame-color-red-transparent: rgba(245, 186, 181, 0.3);
 }
 
+.transform-menu-wrapper {
+    top: -60px;
+    left: 50%;
+    transform: translate(-50%, 0) scale(min(calc(1.4 / var(--tl-zoom)), 2));
+    transform-origin: 50% 100%;
+    position: absolute;
+    transition: opacity 0.1s ease, transform 0.2s ease;
+}
+
+.transform-menu {
+    display: flex;
+    transform-origin: 50% 100%;
+    transition: opacity 0.1s ease, transform 0.1s ease;
+
+}
 .switch-wrapper {
     display: flex;
     align-items: center;
@@ -103,7 +146,7 @@
 }
 
 .shape-switch-menu-button:hover {
-    background: #eeeeec;
+    background: rgba(247, 247, 247, 0.9);
     transform: scale(1.1);
 }
 
@@ -144,4 +187,78 @@
 
 .tl-color-picker-button.selected {
     box-shadow: 0 0 0 2px rgb(49, 130, 237);
+}
+
+.new-shape-handle-wrapper {
+    top: 50%;
+    right: -60px;  
+    display: flex;
+    transform-origin: 0% 50%;
+    transform: translate(0, -50%) scale(min(calc(1.8 / var(--tl-zoom)), 2));
+    position: absolute;
+    pointer-events: all;
+}
+
+.new-shape-handle {
+    background: rgba(255, 255, 255, 0.9) url("/arrow-25.svg") no-repeat center;
+    transform-origin: 0% 50%;
+    border: 1px solid rgb(221, 221, 221);
+    width: 38px;
+    height: 25px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+    pointer-events: all;
+}
+
+.new-shape-handle:hover {
+    background-color: rgba(247, 247, 247, 0.9);
+    transform: scale(1.2);
+}
+
+.select-menu-wrapper {
+    position: absolute;
+    top: 50px;
+    right: -250px;
+    transform-origin: 0% 50%;
+    transform: translate(0, -45%) scale(min(calc(1.4 / var(--tl-zoom)), 2));
+}
+
+.select-menu {
+    padding: 5px;
+    border-radius: 10px;
+    transform-origin: 0% 50%;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-wrap: wrap;
+    width: 236px;
+    height: 236px;
+    transition: opacity 0.1s ease, transform 0.2s ease;
+}
+
+.select-menu-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #E0E0E0;
+    height: 50px;
+    width: 50px;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 3px;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.select-menu-button:hover {
+    transform: scale(1.1);
+}
+
+.select-menu-button:active {
+    transform: scale(1.3);
 }

@@ -6,7 +6,7 @@ import {
 } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
-import { BLUE, CIRCLE_RADIUS, END_BORDER, GREEN } from './util/constants.ts'
+import { CIRCLE_RADIUS } from './util/constants.ts'
 import { TransformButton } from './util/TransformButton'
 import { mapTransformations } from './util/util.ts'
 
@@ -79,15 +79,6 @@ function createStartClass(variant: 'end-fe' | 'end-be') {
             }
           }}
         >
-          <div
-            style={{
-              width: `${CIRCLE_RADIUS}px`,
-              height: `${CIRCLE_RADIUS}px`,
-              borderRadius: `${CIRCLE_RADIUS}px`,
-              border: END_BORDER,
-              background: isFe ? BLUE : GREEN,
-            }}
-          ></div>
           {isSelected && (
             <TransformButton
               id={`${shape.id}-preset-button`}
@@ -99,6 +90,15 @@ function createStartClass(variant: 'end-fe' | 'end-be') {
               )}
             />
           )}
+          <div
+            style={{
+              width: 'var(--circle-radius-px)',
+              height: 'var(--circle-radius-px)',
+              borderRadius: 'var(--circle-radius-px)',
+              border: 'var(--end-border)',
+              background: isFe ? 'var(--primary-blue)' : 'var(--primary-green)',
+            }}
+          ></div>
         </HTMLContainer>
       )
     }

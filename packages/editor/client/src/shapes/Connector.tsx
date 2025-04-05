@@ -1,7 +1,6 @@
 import { BaseBoxShapeUtil, HTMLContainer, Rectangle2d } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
-import { BORDER_RADIUS } from './util/constants.ts'
 
 const shapeType = Shapes.connector
 type ShapeType = BaseShape<typeof shapeType>
@@ -42,7 +41,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
             transform: 'translate(-50%, -50%) rotate(45deg)',
             height: `${squareSize}px`,
             width: `${squareSize}px`,
-            borderRadius: BORDER_RADIUS,
+            borderRadius: 'var(--border-radius-px)',
           }}
         ></div>
       </HTMLContainer>

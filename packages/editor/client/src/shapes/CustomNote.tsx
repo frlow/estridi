@@ -2,7 +2,6 @@ import { BaseBoxShapeUtil, HTMLContainer, toRichText } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { TextLabelWithAutoHeight } from './util/TextLabelWithAutoHeight.tsx'
-import { BORDER, BORDER_RADIUS, GREY } from './util/constants.ts'
 
 const shapeType = Shapes['custom-note']
 type ShapeType = BaseShape<typeof shapeType>
@@ -35,10 +34,10 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
     return (
       <HTMLContainer
         style={{
-          background: GREY,
-          border: BORDER,
+          background: 'var(--grey)',
+          border: 'var(--border)',
           padding: '1rem',
-          borderRadius: BORDER_RADIUS,
+          borderRadius: 'var(--border-radius-px)',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
