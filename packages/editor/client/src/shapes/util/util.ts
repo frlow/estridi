@@ -3,21 +3,17 @@ import { BaseShape } from '..'
 import { ShapeDefinition } from 'editor-common'
 
 type TransformationMap = {
-  [key: string]: {
-    value: string
-    icon: string
-    updateProps?: (props: any) => any
-  }[]
+  value: string
+  icon: string
+  updateProps?: (props: any) => any
 }
 
 export function mapTransformations(
-  transformationMap: TransformationMap,
-  variant: string,
+  transformationMap: TransformationMap[],
   shape: BaseShape<ShapeDefinition>,
   editor: Editor,
 ) {
-  const transformations = transformationMap[variant] || []
-  return transformations.map((transformation) => ({
+  return transformationMap.map((transformation) => ({
     iconUrl: `/${transformation.icon}.svg`,
     onSelected: () =>
       changeShape(

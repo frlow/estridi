@@ -14,6 +14,7 @@ import { DIMOND_SIDE_LENGTH } from './util/constants.ts'
 import { TransformButton } from './util/TransformButton.tsx'
 import { mapTransformations } from './util/util.ts'
 import { ShapeSelectMenu } from './util/ShapeSelectMenu.tsx'
+import { ShapeMenus } from './util/ShapeMenus.tsx'
 
 const transformationMap = {
   'gateway-fe': [
@@ -83,9 +84,7 @@ const createGatewayClass = (
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
       const isEditing = shape.id === this.editor.getEditingShapeId()
       const presetId = shape.id + '-preset'
-      const [showSelectMenu, setShowSelectMenu] = useState(false)
       const selectMenuId = shape.id + '-select-menu'
-      const handleId = `${selectMenuId}-handle`
 
       return (
         <HTMLContainer
@@ -96,34 +95,23 @@ const createGatewayClass = (
             const isMenuElement =
               elementId === presetId ||
               elementId === selectMenuId ||
-              elementId === handleId ||
               target.closest(`#${CSS.escape(presetId)}`) ||
-              target.closest(`#${CSS.escape(selectMenuId)}`) ||
-              target.closest(`#${CSS.escape(handleId)}`)
+              target.closest(`#${CSS.escape(selectMenuId)}`)
 
             if (isMenuElement) {
               stopEventPropagation(e)
             }
           }}
         >
-          <TransformButton
-            show={isSelected && !showSelectMenu && !isEditing}
-            id={presetId}
-            presets={mapTransformations(
-              transformationMap,
-              variant,
-              shape,
-              this.editor,
-            )}
-          />
-          <ShapeSelectMenu
+          <ShapeMenus
+            isSelected={isSelected}
+            isEditing={isEditing}
+            presetId={presetId}
+            selectMenuId={selectMenuId}
+            shape={shape}
             isFe={isFe}
-            id={selectMenuId}
-            sourceShapeId={shape.id}
-            show={showSelectMenu}
-            onClose={() => setShowSelectMenu(!showSelectMenu)}
             editor={this.editor}
-            showNextButton={isSelected && !isEditing}
+            transformationMap={transformationMap[variant]}
           />
           <div>
             <div

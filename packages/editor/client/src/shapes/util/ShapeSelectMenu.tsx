@@ -92,7 +92,7 @@ export function ShapeSelectMenu({
 
   return (
     <>
-      <div className="new-shape-handle-wrapper">
+      <div className="new-shape-handle-wrapper" id={id}>
         <div
           style={{
             display: 'flex',
@@ -100,7 +100,6 @@ export function ShapeSelectMenu({
           }}
         >
           <button
-            id={`${id}-handle`}
             className="new-shape-handle"
             onClick={(e) => {
               e.stopPropagation()
@@ -119,7 +118,6 @@ export function ShapeSelectMenu({
         style={{
           pointerEvents: show ? 'auto' : 'none',
         }}
-        id={id}
         ref={menuRef}
         onPointerDown={stopEventPropagation}
       >
