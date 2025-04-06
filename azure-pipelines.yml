@@ -29,9 +29,14 @@ jobs:
       - script: |
           npm install -g pnpm
           pnpm install
+          # Build client
           cd packages/editor/client
           pnpm build
-        displayName: 'Install dependencies and build'
+          cd ../../..
+          # Build server
+          cd packages/editor/server
+          pnpm build
+        displayName: 'Install dependencies and build client/server'
 
       - task: AzureStaticWebApp@0
         inputs:
@@ -40,3 +45,4 @@ jobs:
           api_location: '/packages/editor/server'
           output_location: 'dist'
           skip_app_build: true
+          skip_api_build: true
