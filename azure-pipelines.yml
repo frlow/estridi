@@ -1,4 +1,4 @@
-name: Azure Static Web Apps CI/CD
+name: Azure Static Web Apps
 
 pr:
   branches:
@@ -44,5 +44,6 @@ jobs:
           app_location: '/packages/editor/client'
           api_location: '/packages/editor/server'
           output_location: 'dist'
+          api_language: 'node'
           skip_app_build: true
           skip_api_build: true
