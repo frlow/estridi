@@ -12,7 +12,7 @@ import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { CIRCLE_RADIUS, CIRCLE_SHAPE_TEXT_WIDTH } from './util/constants.ts'
 import { ShapeMenus } from './util/ShapeMenus.tsx'
-
+import { handleDropShapeOnArrow } from './util/util.ts'
 const transformationMap = {
   'signal-send-fe': [
     {
@@ -99,6 +99,10 @@ function createSignalSendClass(
     override canResize = () => false
     override canEdit = () => true
     override hideSelectionBoundsFg = () => true
+    override hideRotateHandle = () => true
+
+    override onTranslateEnd = (shape: ShapeType) =>
+      handleDropShapeOnArrow(this.editor, shape.id)
 
     override getGeometry(): Geometry2d {
       return new Rectangle2d({

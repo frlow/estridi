@@ -13,7 +13,7 @@ import {
   RECTANGLE_DEFAULT_HEIGHT,
   RECTANGLE_DEFAULT_WIDTH,
 } from './util/constants.ts'
-import { createArrow } from './util/util.ts'
+import { createArrow, handleDropShapeOnArrow } from './util/util.ts'
 import { TransformButton } from './util/TransformButton.tsx'
 
 const shapeType = Shapes['user-action']
@@ -64,6 +64,10 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
   override hideSelectionBoundsFg = () => true
   override hideResizeHandles = () => false
   override canResize = () => true
+  override hideRotateHandle = () => true
+
+  override onTranslateEnd = (shape: ShapeType) =>
+    handleDropShapeOnArrow(this.editor, shape.id)
 
   private findExistingSignals(shape: ShapeType): TLShape[] {
     const userBounds = this.editor.getShapePageBounds(shape)

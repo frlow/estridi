@@ -11,7 +11,7 @@ import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { DIMOND_SIDE_LENGTH } from './util/constants.ts'
 import { ShapeMenus } from './util/ShapeMenus.tsx'
-
+import { handleDropShapeOnArrow } from './util/util.ts'
 const transformationMap = {
   'gateway-fe': [
     { value: 'loop-fe', icon: 'loop-fe-preview' },
@@ -67,6 +67,10 @@ const createGatewayClass = (
     override hideSelectionBoundsFg = () => true
     override canEdit = () => true
     override canResize = () => false
+    override hideRotateHandle = () => true
+
+    override onTranslateEnd = (shape: ShapeType) =>
+      handleDropShapeOnArrow(this.editor, shape.id)
 
     override getGeometry = () =>
       new Rectangle2d({

@@ -8,6 +8,7 @@ import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { ShapeSelectMenu } from './util/ShapeSelectMenu.tsx'
 import { useState } from 'react'
+import { handleDropShapeOnArrow } from './util/util.ts'
 
 const shapeType = Shapes.connector
 type ShapeType = BaseShape<typeof shapeType>
@@ -35,6 +36,12 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
   }
   override canResize = () => false
   override hideSelectionBoundsFg = () => true
+  override hideRotateHandle = () => true
+  override hideResizeHandles = () => true
+  override canEdit = () => false
+
+  override onTranslateEnd = (shape: ShapeType) =>
+    handleDropShapeOnArrow(this.editor, shape.id)
 
   override component(shape: ShapeType) {
     const isSelected = shape.id === this.editor.getOnlySelectedShapeId()

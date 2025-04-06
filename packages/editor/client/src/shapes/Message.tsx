@@ -6,12 +6,13 @@ import {
   ShapeUtil,
   stopEventPropagation,
   TEXT_PROPS,
+  TLShape,
 } from 'tldraw'
 import { BaseShape } from './index'
 import { ShapeName, Shapes } from 'editor-common'
 import { CIRCLE_RADIUS, CIRCLE_SHAPE_TEXT_WIDTH } from './util/constants'
-import { TransformButton } from './util/TransformButton'
-import { mapTransformations } from './util/util'
+import { ShapeMenus } from './util/ShapeMenus'
+import { handleDropShapeOnArrow } from './util/util'
 
 const transformationMap = {
   message: [
@@ -40,6 +41,7 @@ function createMessageClass(variant: 'message' | 'message-inter') {
     override canEdit = () => true
     override canResize = () => false
     override hideSelectionBoundsFg = () => true
+    override hideRotateHandle = () => true
 
     override getGeometry() {
       return new Rectangle2d({
@@ -49,9 +51,14 @@ function createMessageClass(variant: 'message' | 'message-inter') {
       })
     }
 
+    override onTranslateEnd = (shape: ShapeType) =>
+      handleDropShapeOnArrow(this.editor, shape.id)
+
     override component(shape: ShapeType) {
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+      const isEditing = shape.id === this.editor.getEditingShapeId()
       const presetId = shape.id + '-preset'
+      const selectMenuId = shape.id + '-select-menu'
 
       return (
         <HTMLContainer
@@ -60,20 +67,23 @@ function createMessageClass(variant: 'message' | 'message-inter') {
             const target = e.target as HTMLElement
             if (
               target.id === presetId ||
-              target.closest(`#${CSS.escape(presetId)}`)
+              target.closest(`#${CSS.escape(presetId)}`) ||
+              target.id === selectMenuId ||
+              target.closest(`#${CSS.escape(selectMenuId)}`)
             ) {
               stopEventPropagation(e)
             }
           }}
         >
-          <TransformButton
-            id={presetId}
-            presets={mapTransformations(
-              transformationMap[variant],
-              shape,
-              this.editor,
-            )}
-            show={isSelected}
+          <ShapeMenus
+            isSelected={isSelected}
+            isEditing={isEditing}
+            presetId={presetId}
+            selectMenuId={selectMenuId}
+            shape={shape}
+            isFe={true}
+            editor={this.editor}
+            transformationMap={transformationMap[variant]}
           />
           <div>
             <div

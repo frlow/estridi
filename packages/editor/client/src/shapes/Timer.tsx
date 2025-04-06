@@ -10,7 +10,7 @@ import {
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { CIRCLE_RADIUS } from './util/constants.ts'
-
+import { handleDropShapeOnArrow } from './util/util.ts'
 function createShape(variant: 'timer-fe' | 'timer-be') {
   const shapeType = Shapes[variant]
   type ShapeType = BaseShape<typeof shapeType>
@@ -31,6 +31,10 @@ function createShape(variant: 'timer-fe' | 'timer-be') {
     override canResize = () => false
     override canEdit = () => true
     override hideSelectionBoundsFg = () => true
+    override hideRotateHandle = () => true
+
+    override onTranslateEnd = (shape: ShapeType) =>
+      handleDropShapeOnArrow(this.editor, shape.id)
 
     override getGeometry(_: ShapeType): Geometry2d {
       return new Rectangle2d({

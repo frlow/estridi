@@ -2,6 +2,7 @@ import { BaseBoxShapeUtil, HTMLContainer, toRichText } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { TextLabelWithAutoHeight } from './util/TextLabelWithAutoHeight.tsx'
+import { handleDropShapeOnArrow } from './util/util.ts'
 
 const DEFAULT_WIDTH = 300
 const MIN_HEIGHT = 150
@@ -29,6 +30,10 @@ function createSubprocessClass(variant: 'subprocess-fe' | 'subprocess-be') {
     override hideSelectionBoundsFg = () => true
     override hideResizeHandles = () => false
     override canResize = () => true
+    override hideRotateHandle = () => true
+
+    override onTranslateEnd = (shape: ShapeType) =>
+      handleDropShapeOnArrow(this.editor, shape.id)
 
     override component(shape: ShapeType) {
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()

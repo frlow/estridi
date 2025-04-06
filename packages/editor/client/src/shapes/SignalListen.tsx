@@ -11,7 +11,7 @@ import {
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { CIRCLE_RADIUS, CIRCLE_SHAPE_TEXT_WIDTH } from './util/constants.ts'
-import { mapTransformations } from './util/util.ts'
+import { handleDropShapeOnArrow, mapTransformations } from './util/util.ts'
 import { TransformButton } from './util/TransformButton'
 
 const transformationMap = {
@@ -100,6 +100,10 @@ function createSignalListenClass(
     override canResize = () => false
     override canEdit = () => true
     override hideSelectionBoundsFg = () => true
+    override hideRotateHandle = () => true
+
+    override onTranslateEnd = (shape: ShapeType) =>
+      handleDropShapeOnArrow(this.editor, shape.id)
 
     override getGeometry(_: ShapeType): Geometry2d {
       return new Rectangle2d({

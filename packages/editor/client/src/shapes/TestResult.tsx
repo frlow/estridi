@@ -2,7 +2,7 @@ import { BaseBoxShapeUtil, HTMLContainer, stopEventPropagation } from 'tldraw'
 import { ShapeName, Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { CIRCLE_RADIUS } from './util/constants.ts'
-import { mapTransformations } from './util/util.ts'
+import { handleDropShapeOnArrow, mapTransformations } from './util/util.ts'
 import { TransformButton } from './util/TransformButton'
 
 const transformationMap = {
@@ -124,6 +124,10 @@ function createShape(
     override hideSelectionBoundsFg = () => true
     override hideResizeHandles = () => true
     override canResize = () => false
+    override hideRotateHandle = () => true
+
+    override onTranslateEnd = (shape: ShapeType) =>
+      handleDropShapeOnArrow(this.editor, shape.id)
 
     override component(shape: ShapeType) {
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()

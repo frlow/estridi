@@ -17,7 +17,11 @@ import {
   RECTANGLE_ICON_HEIGHT,
   RECTANGLE_ICON_PADDING,
 } from './util/constants.ts'
-import { createArrow, mapTransformations } from './util/util.ts'
+import {
+  createArrow,
+  handleDropShapeOnArrow,
+  mapTransformations,
+} from './util/util.ts'
 import { TransformButton } from './util/TransformButton.tsx'
 
 function addFePreset<T extends ShapeDefinition>(
@@ -26,7 +30,6 @@ function addFePreset<T extends ShapeDefinition>(
 ) {
   const parentId = shape.parentId || editor.getCurrentPageId()
   const parentIsFrame = editor.getShape(parentId)?.type === 'frame'
-  console.log(parentIsFrame)
   const inputTextId = createShapeId()
 
   editor.createShape({
@@ -158,6 +161,10 @@ function createServiceCallClass(
     override hideSelectionBoundsFg = () => true
     override hideResizeHandles = () => false
     override canResize = () => true
+    override hideRotateHandle = () => true
+
+    override onTranslateEnd = (shape: ShapeType) =>
+      handleDropShapeOnArrow(this.editor, shape.id)
 
     override component(shape: ShapeType) {
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()

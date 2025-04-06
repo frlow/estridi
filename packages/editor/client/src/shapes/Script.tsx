@@ -8,6 +8,7 @@ import {
   RECTANGLE_ICON_HEIGHT,
   RECTANGLE_ICON_PADDING,
 } from './util/constants.ts'
+import { handleDropShapeOnArrow } from './util/util.ts'
 
 function createScriptClass(variant: 'script-fe' | 'script-be') {
   const shapeType = Shapes[variant]
@@ -30,6 +31,10 @@ function createScriptClass(variant: 'script-fe' | 'script-be') {
     override hideSelectionBoundsFg = () => true
     override hideResizeHandles = () => false
     override canResize = () => true
+    override hideRotateHandle = () => true
+
+    override onTranslateEnd = (shape: ShapeType) =>
+      handleDropShapeOnArrow(this.editor, shape.id)
 
     override component(shape: ShapeType) {
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()

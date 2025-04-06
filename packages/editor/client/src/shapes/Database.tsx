@@ -15,7 +15,7 @@ import {
 import { TextLabelWithAutoHeight } from './util/TextLabelWithAutoHeight.tsx'
 import { ShapeSelectMenu } from './util/ShapeSelectMenu.tsx'
 import { useState } from 'react'
-
+import { handleDropShapeOnArrow } from './util/util.ts'
 const shapeType = Shapes.database
 type ShapeType = BaseShape<typeof shapeType>
 
@@ -35,6 +35,10 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
   override hideSelectionBoundsFg = () => true
   override hideResizeHandles = () => false
   override canResize = () => true
+  override hideRotateHandle = () => true
+
+  override onTranslateEnd = (shape: ShapeType) =>
+    handleDropShapeOnArrow(this.editor, shape.id)
 
   override component(shape: ShapeType) {
     const isSelected = shape.id === this.editor.getOnlySelectedShapeId()

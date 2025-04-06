@@ -110,6 +110,7 @@ function createTableClass(variant: 'table-fe' | 'table-be') {
 
     override canScroll = () => false
     override canEdit = () => true
+    override hideRotateHandle = () => true
 
     override getDefaultProps() {
       return {

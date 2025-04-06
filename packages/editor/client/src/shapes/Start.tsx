@@ -8,7 +8,7 @@ import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { CIRCLE_RADIUS } from './util/constants'
 import { ShapeMenus } from './util/ShapeMenus.tsx'
-
+import { handleDropShapeOnArrow } from './util/util.ts'
 const transformationMap = {
   'start-fe': [
     {
@@ -46,6 +46,10 @@ function createStartClass(variant: 'start-fe' | 'start-be') {
     override canEdit = () => false
     override canResize = () => false
     override hideSelectionBoundsFg = () => true
+    override hideRotateHandle = () => true
+
+    override onTranslateEnd = (shape: ShapeType) =>
+      handleDropShapeOnArrow(this.editor, shape.id)
 
     override getGeometry() {
       return new Rectangle2d({

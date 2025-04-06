@@ -7,8 +7,8 @@ import {
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { ShapeMenus } from './util/ShapeMenus.tsx'
-
-const CIRCLE_RADIUS = 90
+import { handleDropShapeOnArrow } from './util/util.ts'
+import { CIRCLE_RADIUS } from './util/constants.ts'
 
 const transformationMap = {
   error: [{ value: 'soft-error', icon: 'soft-error-preview' }],
@@ -35,6 +35,10 @@ function createStartClass(variant: 'error' | 'soft-error') {
     override canResize = () => false
     override hideSelectionBoundsBg = () => true
     override hideSelectionBoundsFg = () => true
+    override hideRotateHandle = () => true
+
+    override onTranslateEnd = (shape: ShapeType) =>
+      handleDropShapeOnArrow(this.editor, shape.id)
 
     override getGeometry() {
       return new Rectangle2d({
