@@ -25,6 +25,7 @@ export const injectLinkedTable = (
   scraped: Scraped,
 ): Scraped | undefined => {
   if (node.type !== 'subprocess') return undefined
+  if (node.link) return undefined
   const tableKey = getTableKey(node, scraped)
   if (!tableKey) return undefined
   const table = scraped.find((n) => n.id === tableKey) as ScrapedTable

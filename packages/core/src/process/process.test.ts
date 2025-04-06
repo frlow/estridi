@@ -256,7 +256,7 @@ describe('process node tree', () => {
             name: 'B Message',
           },
         ],
-        name: 'tc-tree-subflow-multi',
+        name: 'tc-tree-subflow-multi-sub',
       },
       {
         children: [
@@ -275,7 +275,7 @@ describe('process node tree', () => {
             name: 'A Message',
           },
         ],
-        name: 'tc-tree-subflow-multi 1',
+        name: 'tc-tree-subflow-multi-sub 1',
       },
     ]))
 

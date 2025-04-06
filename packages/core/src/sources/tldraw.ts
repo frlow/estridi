@@ -1,5 +1,5 @@
 import { camelize } from '../texts'
-import { afterProcess, isNodeInside } from './common'
+import { isNodeInside } from './common'
 import {
   Scraped,
   ScrapedConnector,
@@ -7,6 +7,7 @@ import {
   ScrapedLoop,
   ScrapedNode,
   ScrapedNodeTypes,
+  scrapedNodeTypes,
   ScrapedOther,
   ScrapedParallel,
   ScrapedScript,
@@ -19,6 +20,28 @@ import {
 
 export type ProcessedNodes = Record<string, any>
 
+const getDimensions = (node: any, nodes: any) => {
+  const height = node.state.props?.h
+  const width = node.state.props?.w
+  if (!height || !width) return undefined
+  const x = [node.state.x]
+  const y = [node.state.y]
+  let parentId = node.state.parentId
+  while (parentId) {
+    const parent = nodes.find(n=>n.state.id===parentId)
+    parentId = parent.state.parentId
+    if (!parent.state.x || !parent.state.y) break
+    x.push(parent.state.x)
+    y.push(parent.state.y)
+  }
+  return {
+    x: x.reduce((acc, cur) => acc + cur, 0),
+    y: y.reduce((acc, cur) => acc + cur, 0),
+    width,
+    height,
+  }
+}
+
 type RichText = { content: any }
 const parseRichText = (richText: RichText): string[] => {
   if (!richText) return undefined
@@ -29,7 +52,6 @@ const parseRichText = (richText: RichText): string[] => {
   return text
 }
 
-type ExtendedNodeTypes = ScrapedNodeTypes | 'loop' | 'parallel'
 export const processTldraw = async (data: {
   documents: any[]
 }): Promise<Scraped> => {
@@ -60,24 +82,8 @@ export const processTldraw = async (data: {
     return undefined
   }
 
-  const getType = (node: any): ExtendedNodeTypes => {
-    const types: ExtendedNodeTypes[] = [
-      'script',
-      'end',
-      'gateway',
-      'root',
-      'script',
-      'serviceCall',
-      'start',
-      'subprocess',
-      'table',
-      'userAction',
-      'message',
-      'signalSend',
-      'loop',
-      'parallel',
-      'connector',
-    ]
+  const getType = (node: any): ScrapedNodeTypes | 'signalListen' => {
+    const types = [...scrapedNodeTypes, 'signalListen']
     const nodeType: any = camelize(
       node.state?.type?.replace('-be', '')?.replace('-fe', '') || '',
     )
@@ -89,7 +95,22 @@ export const processTldraw = async (data: {
     return id //?.replace(/^shape:/, '')
   }
 
-  const getNodeMetadata = (node: any): ScrapedNode => {
+  const getActions = (node: any, data: any) =>
+    data
+      .filter(
+        (n) =>
+          getType(n) === 'signalListen' &&
+          isNodeInside(getDimensions(node, data), getDimensions(n, data)),
+      )
+      .reduce((acc, cur) => {
+        acc[getNext(cur)] = findRawText(cur)
+        return acc
+      }, {}) as Record<string, string>
+
+  const getNodeMetadata = (
+    node: any,
+    data: Record<string, any>,
+  ): ScrapedNode => {
     const type = getType(node)
     switch (type) {
       case 'message':
@@ -102,14 +123,22 @@ export const processTldraw = async (data: {
           raw: findRawText(node),
         }
         return script
-      case 'subprocess':
+      case 'subprocess': {
+        const raw = findRawText(node)
+        const link = data.find(
+          (n) => getType(n) === 'start' && getNodeMetadata(n, data).raw === raw,
+        )?.state?.id
+        const actions = getActions(node, data)
         const subprocess: ScrapedSubprocess = {
           type: 'subprocess',
           id: getId(node.state.id),
-          raw: findRawText(node),
+          raw,
           next: getNext(node),
+          link,
         }
+        if (Object.keys(actions).length > 0) subprocess.special = { actions }
         return subprocess
+      }
       case 'start':
         if ((node as any).connections.length === 0) {
           const end: ScrapedStart = {
@@ -142,6 +171,7 @@ export const processTldraw = async (data: {
           id: getId(node.state.id),
           next: getNext(node),
           raw: '',
+          actions: getActions(node, data),
         }
         return userAction
       case 'loop':
@@ -240,46 +270,9 @@ export const processTldraw = async (data: {
     return temp
   }
 
-  const getCoordinates = (node: any) => {
-    const height = node.state.props?.h
-    const width = node.state.props?.w
-    if (!height || !width) return undefined
-    const x = [node.state.x]
-    const y = [node.state.y]
-    let parentId = node.state.parentId
-    while (parentId) {
-      const parent = nodes[parentId]
-      parentId = parent.state.parentId
-      if (!parent.state.x || !parent.state.y) break
-      x.push(parent.state.x)
-      y.push(parent.state.y)
-    }
-    return {
-      x: x.reduce((acc, cur) => acc + cur, 0),
-      y: y.reduce((acc, cur) => acc + cur, 0),
-      width,
-      height,
-    }
-  }
-
-  const isSignalListenInside = (host, child) => {
-    if (child.state.type !== 'signal-listen-fe') return false
-    const hostCoordinates = getCoordinates(host)
-    const childCoordinates = getCoordinates(child)
-    if (!hostCoordinates || !childCoordinates) return false
-    return isNodeInside(hostCoordinates, childCoordinates)
-  }
-
   const nodes: ProcessedNodes = {}
   processData(data.documents, nodes)
   const nodesWithConnections = mapConnections(nodes)
   const nodeValues = Object.values(nodesWithConnections)
-  const scraped = nodeValues.map((n) => getNodeMetadata(n))
-  return afterProcess({
-    scraped,
-    nodes: nodesWithConnections,
-    findText: findRawText,
-    getNext,
-    isSignalListenInside,
-  })
+  return nodeValues.map((n) => getNodeMetadata(n, nodeValues))
 }

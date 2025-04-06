@@ -15,21 +15,8 @@ const baseNodeValidator = z.object({
 })
 
 export type BaseNode = z.infer<typeof baseNodeValidator>
-// export type BaseNode = {
-//   id: NodeId
-//   text: string
-//   raw: string
-//   extra?: {
-//     target?: string
-//     testDir?: string
-//     width?: number
-//     height?: number
-//     x?: number
-//     y?: number
-//   }
-// }
 
-const scrapedNodeTypesValidator = z.enum([
+export const scrapedNodeTypes = [
   'table',
   'other',
   'script',
@@ -45,7 +32,8 @@ const scrapedNodeTypesValidator = z.enum([
   'subprocess',
   'userAction',
   'connector',
-])
+] as const
+const scrapedNodeTypesValidator = z.enum(scrapedNodeTypes)
 export type ScrapedNodeTypes = z.infer<typeof scrapedNodeTypesValidator>
 
 export type ScrapedNodeType<T extends ScrapedNodeTypes> = T

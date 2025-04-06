@@ -1,6 +1,6 @@
 import * as Figma from 'figma-api'
 import { DocumentNode, Node } from '@figma/rest-api-spec'
-import { afterProcess, isNodeInside } from './common'
+import { isNodeInside } from './common'
 import {
   FigmaConfig,
   Scraped,
@@ -46,7 +46,7 @@ const findRawText = (node: any): string => {
   return rawText
 }
 
-const getType = (node: Node): ScrapedNodeTypes => {
+const getType = (node: Node): ScrapedNodeTypes | 'signalListen' => {
   if ((node.type as any) === 'TABLE') return 'table'
   if (node.name?.replace('02.', '').trim() === 'Message') return 'message'
   if (node.name?.replace('06.', '').trim() === 'Signal send')
@@ -70,7 +70,19 @@ const getNext = (node: any): string | undefined => {
   return undefined
 }
 
-const getNodeMetadata = (node: Node): ScrapedNode => {
+const getActions = (node: any, data: any) =>
+  data
+    .filter(
+      (n: any) =>
+        getType(n) === 'signalListen' &&
+        isNodeInside(node.absoluteBoundingBox, n.absoluteBoundingBox),
+    )
+    .reduce((acc, cur) => {
+      acc[getNext(cur)] = findRawText(cur)
+      return acc
+    }, {}) as Record<string, string>
+
+const getNodeMetadata = (node: Node, data: any): ScrapedNode => {
   const type = getType(node)
   let ret: ScrapedNode
   switch (type) {
@@ -189,15 +201,25 @@ const getNodeMetadata = (node: Node): ScrapedNode => {
         next: getNext(node),
         raw: findRawText(node),
       }
+      const link = data.find(
+        (n) =>
+          getType(n) === 'start' &&
+          getNodeMetadata(n, data).raw === subprocess.raw,
+      )?.id
+      if (link) subprocess.link = link
+      const actions = getActions(node, data)
+      if (Object.keys(actions).length > 0) subprocess.special = { actions }
       ret = subprocess
       break
     }
     case 'userAction': {
+      const actions = getActions(node, data)
       const userAction: ScrapedUserAction = {
         type: 'userAction',
         id: node.id,
         next: getNext(node),
-        raw: '', //findRawText(node),
+        raw: '',
+        actions,
       }
       ret = userAction
       break
@@ -237,14 +259,7 @@ export const processFigma = async (data: any): Promise<Scraped> => {
   processNode(data, nodes)
   const nodesWithConnections = mapConnections(nodes)
   const nodeValues = Object.values(nodesWithConnections)
-  const scraped = nodeValues.map((n) => getNodeMetadata(n))
-  return afterProcess({
-    scraped,
-    nodes: nodesWithConnections,
-    findText: findRawText,
-    getNext,
-    isSignalListenInside,
-  })
+  return nodeValues.map((n) => getNodeMetadata(n, nodeValues))
 }
 
 const processNode = (node: any, acc: ProcessedNodes) => {
