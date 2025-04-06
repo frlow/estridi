@@ -1,10 +1,9 @@
 import { TLAssetStore, uniqueId } from 'tldraw'
 
-export const WORKER_URL = `${window.location.protocol}//${window.location.host}`
+export const WORKER_URL = `${window.location.protocol}//${window.location.hostname}:4005`
 
 // @ts-ignore
 export const multiplayerAssets: TLAssetStore = {
-  // to upload an asset, we prefix it with a unique id, POST it to our worker, and return the URL
   async upload(_asset, file) {
     const id = uniqueId()
 
@@ -20,7 +19,6 @@ export const multiplayerAssets: TLAssetStore = {
       throw new Error(`Failed to upload asset: ${response.statusText}`)
     }
 
-    // TODO: Fråga fredrik om det här verkligen är rätt, men borde va!
     return { src: url }
   },
   // to retrieve an asset, we can just use the same URL. you could customize this to add extra

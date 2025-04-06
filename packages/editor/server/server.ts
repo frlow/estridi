@@ -27,9 +27,14 @@ const router = new Router()
 fs.mkdirSync(rootDir, { recursive: true })
 const TEST_DIR = path.join(rootDir, 'tests')
 const FILE = path.join(rootDir, 's3d.json')
+const UPLOADS_DIR = path.join(rootDir, 'uploads')
+fs.mkdirSync(UPLOADS_DIR, { recursive: true })
+
 const roomId = 'singleton'
 
-const initialSnapshot: RoomSnapshot = fs.existsSync(FILE) ? JSON.parse(fs.readFileSync(FILE, 'utf8')) : undefined
+const initialSnapshot: RoomSnapshot = fs.existsSync(FILE)
+  ? JSON.parse(fs.readFileSync(FILE, 'utf8'))
+  : undefined
 if (initialSnapshot) migrateRoomSnapshot(initialSnapshot)
 
 const room = new TLSocketRoom({
@@ -49,10 +54,31 @@ const room = new TLSocketRoom({
     writeFileSync(FILE, JSON.stringify(data, null, 2))
     updateTestTimer(data)
   },
-  onError(error) {
-    console.error('Sync Error:', error)
-  }
+
+  // Commeting out this since its not correct
+  // onError(error) {
+  //   console.error('Sync Error:', error)
+  // },
 })
+
+// Add CORS middleware
+app.use((req: any, res: any, next: any) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS')
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end()
+  }
+
+  next()
+})
+
+// Can be used for debugging:
+// app.use((req: any, res: any, next: any) => {
+//   console.log(`${req.method} ${req.url}`)
+//   next()
+// })
 
 // Simple usage:
 router.ws('/sync', async (req, res) => {
@@ -60,6 +86,56 @@ router.ws('/sync', async (req, res) => {
   const ws = await res.accept()
   room.handleSocketConnect({ sessionId, socket: ws })
 })
+
+// Handle file uploads
+app.put('/uploads/:filename', (req, res) => {
+  try {
+    const filename = decodeURIComponent(req.params.filename)
+    console.log(`Processing upload for file: ${filename}`)
+    const filePath = path.join(UPLOADS_DIR, filename)
+    const stream = fs.createWriteStream(filePath)
+
+    req.pipe(stream)
+
+    stream.on('finish', () => {
+      console.log(`File uploaded successfully: ${filename}`)
+      res.status(200).send('File uploaded successfully')
+    })
+
+    stream.on('error', (err) => {
+      console.error(`Error uploading file: ${err.message}`)
+      res.status(500).send('Error uploading file')
+    })
+  } catch (error) {
+    console.error(`Upload error: ${error.message}`)
+    res.status(500).send('Error processing upload')
+  }
+})
+
+// Handle file deletions
+app.delete('/uploads/:filename', (req, res) => {
+  try {
+    const filename = decodeURIComponent(req.params.filename)
+    console.log(`Processing deletion for file: ${filename}`)
+    const filePath = path.join(UPLOADS_DIR, filename)
+
+    // Check if file exists
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath)
+      console.log(`File deleted successfully: ${filename}`)
+      res.status(200).send('File deleted successfully')
+    } else {
+      console.log(`File not found: ${filename}`)
+      res.status(404).send('File not found')
+    }
+  } catch (error) {
+    console.error(`Delete error: ${error.message}`)
+    res.status(500).send('Error deleting file')
+  }
+})
+
+// Serve uploaded files
+app.use('/uploads', express.static(UPLOADS_DIR))
 
 app.use(router)
 app.use(express.static(path.join(import.meta.dirname, 'editor')))
@@ -79,7 +155,7 @@ const updateTestTimer = (data: any) => {
 const writeTests = async (data: any) => {
   console.log('writing tests')
   try {
-    const scraped = await processTldraw(data).catch(e => {
+    const scraped = await processTldraw(data).catch((e) => {
       throw e
     })
     const roots = parseRoots(scraped, '+')
@@ -91,15 +167,17 @@ const writeTests = async (data: any) => {
       const fileToWrite = await generateEstridiTests({
         target: root.extra?.target || 'playwright',
         scraped,
-        rootName: root.raw
-      }).catch(e => {
+        rootName: root.raw,
+      }).catch((e) => {
         throw e
       })
       fs.mkdirSync(TEST_DIR, { recursive: true })
-      fs.writeFileSync(path.join(TEST_DIR, fileToWrite.fileName), fileToWrite.code, 'utf8')
-
+      fs.writeFileSync(
+        path.join(TEST_DIR, fileToWrite.fileName),
+        fileToWrite.code,
+        'utf8',
+      )
     }
-
   } catch (e) {
     console.log(e)
   }
