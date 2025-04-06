@@ -32,28 +32,12 @@ jobs:
           # Build client
           cd packages/editor/client
           pnpm build
-          cd ../../..
-          # Build server
-          cd packages/editor/server
-          pnpm build
-          # Create staticwebapp.config.json if it doesn't exist
-          if [ ! -f "staticwebapp.config.json" ]; then
-            echo '{
-              "platform": {
-                "apiRuntime": "node:18"
-              }
-            }' > staticwebapp.config.json
-          fi
-        displayName: 'Install dependencies and build client/server'
+        displayName: 'Install dependencies and build client'
 
       - task: AzureStaticWebApp@0
         displayName: 'Deploy to Azure Static Web Apps'
         inputs:
           azure_static_web_apps_api_token: $(AZURE_STATIC_WEB_APPS_API_TOKEN_WHITE_WATER_063486803)
           app_location: '/packages/editor/client'
-          api_location: '/packages/editor/server'
           output_location: 'dist'
-          api_language: 'nodejs'
-          api_version: '18'
           skip_app_build: true
-          skip_api_build: true
