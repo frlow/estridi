@@ -27,10 +27,11 @@ jobs:
         displayName: 'Install Node.js'
 
       - script: |
+          npm install -g pnpm
+          pnpm install
           cd packages/editor/client
-          npm install
-          npm run build
-        displayName: 'npm install and build'
+          pnpm build
+        displayName: 'Install dependencies and build'
 
       - task: AzureStaticWebApp@0
         inputs:
