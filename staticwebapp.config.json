@@ -1,0 +1,11 @@
+{
+  "routes": [],
+  "navigationFallback": {
+    "rewrite": "/index.html"
+  },
+  "globalHeaders": {},
+  "responseOverrides": {},
+  "platform": {
+    "apiRuntime": "node:18"
+  }
+}
