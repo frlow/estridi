@@ -11,8 +11,8 @@ import {
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { CIRCLE_RADIUS, CIRCLE_SHAPE_TEXT_WIDTH } from './util/constants.ts'
-import { handleDropShapeOnArrow, mapTransformations } from './util/util.ts'
-import { TransformButton } from './util/TransformButton'
+import { handleDropShapeOnArrow } from './util/util.ts'
+import { ShapeMenus } from './util/ShapeMenus.tsx'
 
 const transformationMap = {
   'signal-listen-fe': [
@@ -115,9 +115,9 @@ function createSignalListenClass(
 
     override component(shape: ShapeType) {
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
-      const presetId = shape.id + '-preset-button'
       const isEditing = shape.id === this.editor.getEditingShapeId()
-
+      const presetId = shape.id + '-preset-button'
+      const selectMenuId = shape.id + '-select-menu'
       return (
         <HTMLContainer
           style={{ pointerEvents: isSelected ? 'all' : 'none' }}
@@ -125,20 +125,23 @@ function createSignalListenClass(
             const target = e.target as HTMLElement
             if (
               target.id === presetId ||
-              target.closest(`#${CSS.escape(presetId)}`)
+              target.closest(`#${CSS.escape(presetId)}`) ||
+              target.id === selectMenuId ||
+              target.closest(`#${CSS.escape(selectMenuId)}`)
             ) {
               stopEventPropagation(e)
             }
           }}
         >
-          <TransformButton
-            id={`${shape.id}-preset-button`}
-            presets={mapTransformations(
-              transformationMap[variant],
-              shape,
-              this.editor,
-            )}
-            show={isSelected && !isEditing}
+          <ShapeMenus
+            isSelected={isSelected}
+            isEditing={isEditing}
+            presetId={presetId}
+            selectMenuId={selectMenuId}
+            shape={shape}
+            isFe={isFe}
+            editor={this.editor}
+            transformationMap={transformationMap[variant]}
           />
           <div>
             <div

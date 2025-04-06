@@ -11,10 +11,11 @@ interface ArrowBindingProps {
 }
 
 type TransformationMap = {
-  value: string
+  value?: string
   icon: string
   filterProps?: (props: any) => any
   addProps?: Record<string, any>
+  onSelected?: () => void
 }
 
 export function mapTransformations(
@@ -24,14 +25,16 @@ export function mapTransformations(
 ) {
   return transformationMap.map((transformation) => ({
     iconUrl: `/${transformation.icon}.svg`,
-    onSelected: () =>
-      changeShape(
-        shape,
-        editor,
-        transformation.value,
-        transformation?.filterProps,
-        transformation?.addProps,
-      ),
+    onSelected: transformation.onSelected
+      ? transformation.onSelected
+      : () =>
+          changeShape(
+            shape,
+            editor,
+            transformation.value ?? '',
+            transformation?.filterProps,
+            transformation?.addProps,
+          ),
   }))
 }
 

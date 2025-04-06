@@ -49,6 +49,29 @@ interface ShapeSelectMenuProps {
   isFe: boolean
 }
 
+// TODO: Use animation when component is mounted instead, so we dont have to sen in "show"
+/*
+import { useEffect, useState } from "react";
+import "./FadeIn.css";
+
+function FadeIn({ children }) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  return (
+    <div className={`fade-in ${isVisible ? "visible" : ""}`}>{children}</div>
+  );
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+}*/
+
 export function ShapeSelectMenu({
   id,
   sourceShapeId,

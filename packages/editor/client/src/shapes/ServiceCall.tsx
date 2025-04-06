@@ -17,12 +17,8 @@ import {
   RECTANGLE_ICON_HEIGHT,
   RECTANGLE_ICON_PADDING,
 } from './util/constants.ts'
-import {
-  createArrow,
-  handleDropShapeOnArrow,
-  mapTransformations,
-} from './util/util.ts'
-import { TransformButton } from './util/TransformButton.tsx'
+import { createArrow, handleDropShapeOnArrow } from './util/util.ts'
+import { ShapeMenus } from './util/ShapeMenus.tsx'
 
 function addFePreset<T extends ShapeDefinition>(
   shape: BaseShape<T>,
@@ -123,27 +119,12 @@ function addBePreset<T extends ShapeDefinition>(
   })
 }
 
-const shapeChangeMap = {
-  'service-call-be': [
-    {
-      value: 'service-call-be-external',
-      icon: 'service-call-be-external-preview',
-    },
-  ],
-  'service-call-be-external': [
-    {
-      value: 'service-call-be',
-      icon: 'service-call-be-preview',
-    },
-  ],
-  'service-call-fe': [],
-}
-
 function createServiceCallClass(
   variant: 'service-call-fe' | 'service-call-be' | 'service-call-be-external',
 ) {
   const shapeType = Shapes[variant]
   type ShapeType = BaseShape<typeof shapeType>
+  const isFe = variant.includes('fe')
 
   return class extends BaseBoxShapeUtil<ShapeType> {
     static override type = shapeType.name
@@ -168,7 +149,9 @@ function createServiceCallClass(
 
     override component(shape: ShapeType) {
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+      const isEditing = shape.id === this.editor.getEditingShapeId()
       const presetId = shape.id + '-preset'
+      const selectMenuId = shape.id + '-select-menu'
 
       return (
         <HTMLContainer
@@ -191,42 +174,52 @@ function createServiceCallClass(
             const target = e.target as HTMLElement
             if (
               target.id === presetId ||
-              target.closest(`#${CSS.escape(presetId)}`)
+              target.closest(`#${CSS.escape(presetId)}`) ||
+              target.id === selectMenuId ||
+              target.closest(`#${CSS.escape(selectMenuId)}`)
             ) {
               stopEventPropagation(e)
             }
           }}
         >
-          <TransformButton
-            id={presetId}
-            presets={[
-              ...mapTransformations(
-                shapeChangeMap[variant],
-                shape,
-                this.editor,
-              ),
-              ...({
+          <ShapeMenus
+            isSelected={isSelected}
+            isEditing={isEditing}
+            presetId={presetId}
+            selectMenuId={selectMenuId}
+            shape={shape}
+            isFe={isFe}
+            editor={this.editor}
+            transformationMap={
+              {
                 'service-call-be': [
                   {
+                    value: 'service-call-be-external',
+                    icon: 'service-call-be-external-preview',
+                  },
+                  {
                     onSelected: () => addBePreset(shape, this.editor),
-                    iconUrl: '/service-be-preset.svg',
+                    icon: 'service-be-preset',
                   },
                 ],
                 'service-call-be-external': [
                   {
+                    value: 'service-call-be',
+                    icon: 'service-call-be-preview',
+                  },
+                  {
                     onSelected: () => addBePreset(shape, this.editor),
-                    iconUrl: '/service-be-preset.svg',
+                    icon: 'service-be-preset',
                   },
                 ],
                 'service-call-fe': [
                   {
                     onSelected: () => addFePreset(shape, this.editor),
-                    iconUrl: '/service-fe-preset.svg',
+                    icon: 'service-fe-preset',
                   },
                 ],
-              }[variant] || []),
-            ]}
-            show={isSelected}
+              }[variant]
+            }
           />
           <div
             style={{

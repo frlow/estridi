@@ -14,7 +14,7 @@ import {
   RECTANGLE_DEFAULT_WIDTH,
 } from './util/constants.ts'
 import { createArrow, handleDropShapeOnArrow } from './util/util.ts'
-import { TransformButton } from './util/TransformButton.tsx'
+import { ShapeMenus } from './util/ShapeMenus.tsx'
 
 const shapeType = Shapes['user-action']
 type ShapeType = BaseShape<typeof shapeType>
@@ -31,19 +31,19 @@ interface FlowConfig {
 const flowConfigs: Record<FlowType, FlowConfig> = {
   subprocess: {
     targetType: 'subprocess-fe',
-    icon: '/message-listen-to-subprocess.svg',
+    icon: 'message-listen-to-subprocess',
     getTargetX: (baseX: number, offset: number) =>
       baseX + (100 + offset) - RECTANGLE_DEFAULT_WIDTH / 2,
   },
   'signal-listen': {
     targetType: 'signal-send-fe',
-    icon: '/message-listen-to-send.svg',
+    icon: 'message-listen-to-send',
     getTargetX: (baseX: number, offset: number) =>
       baseX + (100 + offset) - CIRCLE_RADIUS / 2,
   },
   'script-fe': {
     targetType: 'script-fe',
-    icon: '/message-listen-to-script.svg',
+    icon: 'message-listen-to-script',
     getTargetX: (baseX: number, offset: number) =>
       baseX + (100 + offset) - RECTANGLE_DEFAULT_WIDTH / 2,
   },
@@ -183,6 +183,7 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
   override component(shape: ShapeType) {
     const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
     const presetId = shape.id + '-preset'
+    const selectMenuId = shape.id + '-select-menu'
 
     return (
       <HTMLContainer
@@ -201,36 +202,43 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
           const target = e.target as HTMLElement
           if (
             target.id === presetId ||
-            target.closest(`#${CSS.escape(presetId)}`)
+            target.closest(`#${CSS.escape(presetId)}`) ||
+            target.id === selectMenuId ||
+            target.closest(`#${CSS.escape(selectMenuId)}`)
           ) {
             stopEventPropagation(e)
           }
         }}
       >
+        <ShapeMenus
+          isSelected={isSelected}
+          isEditing={false}
+          presetId={presetId}
+          selectMenuId={selectMenuId}
+          shape={shape}
+          isFe={true}
+          editor={this.editor}
+          transformationMap={[
+            {
+              onSelected: () => this.handleAddFlow('subprocess', shape),
+              icon: flowConfigs['subprocess'].icon,
+            },
+            {
+              onSelected: () => this.handleAddFlow('signal-listen', shape),
+              icon: flowConfigs['signal-listen'].icon,
+            },
+            {
+              onSelected: () => this.handleAddFlow('script-fe', shape),
+              icon: flowConfigs['script-fe'].icon,
+            },
+          ]}
+        />
         <img
           src="./user-action.svg"
           alt="user-action"
           onError={(e) => {
             console.error(`Failed to load image: ./user-action.svg`, e)
           }}
-        />
-        <TransformButton
-          id={presetId}
-          presets={[
-            {
-              onSelected: () => this.handleAddFlow('subprocess', shape),
-              iconUrl: flowConfigs['subprocess'].icon,
-            },
-            {
-              onSelected: () => this.handleAddFlow('signal-listen', shape),
-              iconUrl: flowConfigs['signal-listen'].icon,
-            },
-            {
-              onSelected: () => this.handleAddFlow('script-fe', shape),
-              iconUrl: flowConfigs['script-fe'].icon,
-            },
-          ]}
-          show={isSelected}
         />
 
         <div

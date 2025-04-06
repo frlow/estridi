@@ -52,7 +52,7 @@ export function TransformButton({
 
 //TODO: AI generated version that makes the buttons always be on top, use ?
 
-// import React, { useEffect, useRef, useState } from 'react'
+// import { useEffect, useRef, useState } from 'react'
 // import ReactDOM from 'react-dom'
 
 // interface PositionState {
@@ -63,12 +63,14 @@ export function TransformButton({
 //   zIndex?: number
 // }
 
-// export function PresetButton({
+// export function TransformButton({
 //   id,
 //   presets,
+//   show,
 // }: {
 //   id: string
 //   presets: { iconUrl: string; onSelected: () => void }[]
+//   show: boolean
 // }): React.ReactElement | null {
 //   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(
 //     null,
@@ -161,6 +163,7 @@ export function TransformButton({
 //         justifyContent: 'space-between',
 //         pointerEvents: 'all',
 //         zIndex: position.zIndex || 2147483647,
+//         opacity: show ? '1' : '0',
 //       }}
 //     >
 //       <div style={{ display: 'flex', alignItems: 'center' }}>
