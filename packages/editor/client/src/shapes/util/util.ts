@@ -1,7 +1,6 @@
 import { Editor, createShapeId, TLShapeId, TLBinding } from 'tldraw'
 import { BaseShape } from '..'
 import { ShapeDefinition } from 'editor-common'
-import { TLEventMapHandler } from 'tldraw'
 
 // Add interface for arrow binding props
 interface ArrowBindingProps {

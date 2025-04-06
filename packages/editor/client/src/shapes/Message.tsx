@@ -6,7 +6,6 @@ import {
   ShapeUtil,
   stopEventPropagation,
   TEXT_PROPS,
-  TLShape,
 } from 'tldraw'
 import { BaseShape } from './index'
 import { ShapeName, Shapes } from 'editor-common'
