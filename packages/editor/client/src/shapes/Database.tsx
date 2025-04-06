@@ -1,4 +1,9 @@
-import { BaseBoxShapeUtil, HTMLContainer, toRichText } from 'tldraw'
+import {
+  BaseBoxShapeUtil,
+  HTMLContainer,
+  stopEventPropagation,
+  toRichText,
+} from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import {
@@ -8,6 +13,8 @@ import {
   RECTANGLE_ICON_PADDING,
 } from './util/constants.ts'
 import { TextLabelWithAutoHeight } from './util/TextLabelWithAutoHeight.tsx'
+import { ShapeSelectMenu } from './util/ShapeSelectMenu.tsx'
+import { useState } from 'react'
 
 const shapeType = Shapes.database
 type ShapeType = BaseShape<typeof shapeType>
@@ -31,16 +38,38 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
 
   override component(shape: ShapeType) {
     const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+    const isEditing = shape.id === this.editor.getEditingShapeId()
+    const presetId = shape.id + '-preset-button'
+    const [showSelectMenu, setShowSelectMenu] = useState(false)
 
     return (
       <HTMLContainer
         style={{
+          pointerEvents: isSelected ? 'all' : 'none',
           background: 'var(--primary-green)',
           border: 'var(--border)',
           padding: '1rem',
           borderRadius: 'var(--border-radius-px)',
         }}
+        onPointerDown={(e) => {
+          const target = e.target as HTMLElement
+          if (
+            target.id === presetId ||
+            target.closest(`#${CSS.escape(presetId)}`)
+          ) {
+            stopEventPropagation(e)
+          }
+        }}
       >
+        <ShapeSelectMenu
+          isFe={false}
+          id={presetId}
+          sourceShapeId={shape.id}
+          show={showSelectMenu}
+          onClose={() => setShowSelectMenu(!showSelectMenu)}
+          editor={this.editor}
+          showNextButton={isSelected && !isEditing}
+        />
         <div
           style={{
             display: 'flex',

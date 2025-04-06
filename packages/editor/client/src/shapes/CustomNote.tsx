@@ -2,7 +2,6 @@ import { BaseBoxShapeUtil, HTMLContainer, toRichText } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { TextLabelWithAutoHeight } from './util/TextLabelWithAutoHeight.tsx'
-
 const shapeType = Shapes['custom-note']
 type ShapeType = BaseShape<typeof shapeType>
 

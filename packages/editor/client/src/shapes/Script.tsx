@@ -41,6 +41,7 @@ function createScriptClass(variant: 'script-fe' | 'script-be') {
             border: 'var(--border)',
             padding: '1rem',
             borderRadius: 'var(--border-radius-px)',
+            pointerEvents: isSelected ? 'all' : 'none',
           }}
         >
           <div

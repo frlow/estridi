@@ -5,7 +5,8 @@ import { ShapeDefinition } from 'editor-common'
 type TransformationMap = {
   value: string
   icon: string
-  updateProps?: (props: any) => any
+  filterProps?: (props: any) => any
+  addProps?: Record<string, any>
 }
 
 export function mapTransformations(
@@ -20,7 +21,8 @@ export function mapTransformations(
         shape,
         editor,
         transformation.value,
-        transformation?.updateProps,
+        transformation?.filterProps,
+        transformation?.addProps,
       ),
   }))
 }
@@ -29,15 +31,31 @@ export function changeShape(
   shape: BaseShape<ShapeDefinition>,
   editor: Editor,
   shapeName: string,
-  updateProps?: (props: any) => any,
+  filterProps?: (props: any) => any,
+  addProps?: Record<string, any>,
 ) {
   editor.deleteShape(shape.id)
 
   const newShape = { ...shape, type: shapeName }
-  if (updateProps) {
-    newShape.props = updateProps(shape.props)
+
+  if (filterProps) {
+    console.log('filterProps', filterProps)
+    newShape.props = filterProps(shape.props)
+  }
+
+  if (addProps) {
+    newShape.props = {
+      ...newShape.props,
+      ...addProps,
+    }
   }
   editor.createShape(newShape)
+
+  editor.updateShape({
+    id: newShape.id,
+    type: shapeName,
+    props: newShape.props,
+  })
 }
 
 export function createArrow(

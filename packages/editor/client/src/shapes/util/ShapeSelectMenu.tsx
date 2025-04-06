@@ -65,7 +65,6 @@ export function ShapeSelectMenu({
     if (!show) return
 
     const handleOutsideClick = (e: MouseEvent) => {
-      // Skip if click is on the menu itself or on the handle button
       if (
         menuRef.current?.contains(e.target as Node) ||
         handleRef.current?.contains(e.target as Node)
@@ -92,7 +91,14 @@ export function ShapeSelectMenu({
 
   return (
     <>
-      <div className="new-shape-handle-wrapper" id={id}>
+      <div
+        style={{
+          pointerEvents: showNextButton && !show ? 'all' : 'none',
+          display: show ? 'none' : 'block',
+        }}
+        className="new-shape-handle-wrapper"
+        id={id}
+      >
         <div
           style={{
             display: 'flex',
@@ -108,7 +114,8 @@ export function ShapeSelectMenu({
             ref={handleRef}
             style={{
               transform: showNextButton && !show ? 'scale(1)' : 'scale(0)',
-              pointerEvents: showNextButton ? 'auto' : 'none',
+              pointerEvents: showNextButton && !show ? 'auto' : 'none',
+              display: showNextButton && !show ? 'block' : 'none',
             }}
           ></button>
         </div>
@@ -117,6 +124,7 @@ export function ShapeSelectMenu({
         className="select-menu-wrapper"
         style={{
           pointerEvents: show ? 'auto' : 'none',
+          display: show ? 'block' : 'none',
         }}
         ref={menuRef}
         onPointerDown={stopEventPropagation}
@@ -134,15 +142,30 @@ export function ShapeSelectMenu({
               className="select-menu-button"
               onClick={() => {
                 const newShapeId = createShapeId()
+                const sourceShape = editor.getShape(sourceShapeId)
+                const sourceBounds = editor.getShapePageBounds(sourceShapeId)
+
                 editor.createShape({
                   id: newShapeId,
                   type: _shape.type,
-                  x: (editor.getShape(sourceShapeId)?.x || 0) + 300,
-                  y: editor.getShape(sourceShapeId)?.y || 0,
+                  x:
+                    sourceBounds && sourceShape?.x
+                      ? sourceShape?.x + sourceBounds.width / 2 + 200
+                      : (sourceShape?.x || 0) + 300,
+                  y: sourceShape?.y || 0,
                 })
 
                 const createdShape = editor.getShape(newShapeId)
                 if (createdShape) {
+                  // Check if source shape has a parent and apply it to the new shape
+                  if (sourceShape?.parentId) {
+                    editor.updateShape({
+                      id: newShapeId,
+                      parentId: sourceShape.parentId,
+                      type: createdShape.type,
+                    })
+                  }
+
                   const sourceBounds = editor.getShapePageBounds(sourceShapeId)
                   const newShapeBounds = editor.getShapePageBounds(newShapeId)
 

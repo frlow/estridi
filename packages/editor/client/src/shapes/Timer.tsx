@@ -9,7 +9,6 @@ import {
 } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
-import { CSSProperties } from 'react'
 import { CIRCLE_RADIUS } from './util/constants.ts'
 
 function createShape(variant: 'timer-fe' | 'timer-be') {
@@ -42,11 +41,10 @@ function createShape(variant: 'timer-fe' | 'timer-be') {
     }
 
     override component(shape: ShapeType) {
-      const style: CSSProperties = { pointerEvents: 'all' }
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
 
       return (
-        <HTMLContainer style={style}>
+        <HTMLContainer style={{ pointerEvents: isSelected ? 'all' : 'none' }}>
           <div>
             <div
               style={{
@@ -62,16 +60,7 @@ function createShape(variant: 'timer-fe' | 'timer-be') {
                   : 'var(--primary-green)',
               }}
             >
-              <img
-                height="60px"
-                draggable={false}
-                src="/timer.svg"
-                onError={(e) => {
-                  console.error(`Failed to load image: /timer.svg`, e)
-                  // Set a fallback background color
-                  ;(e.target as HTMLImageElement).style.backgroundColor = '#ddd'
-                }}
-              />
+              <img height="60px" draggable={false} src="/timer.svg" />
             </div>
             <PlainTextLabel
               shapeId={shape.id}

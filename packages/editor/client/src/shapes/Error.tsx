@@ -1,8 +1,19 @@
-import { BaseBoxShapeUtil, HTMLContainer, Rectangle2d } from 'tldraw'
+import {
+  BaseBoxShapeUtil,
+  HTMLContainer,
+  Rectangle2d,
+  stopEventPropagation,
+} from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
+import { ShapeMenus } from './util/ShapeMenus.tsx'
 
 const CIRCLE_RADIUS = 90
+
+const transformationMap = {
+  error: [{ value: 'soft-error', icon: 'soft-error-preview' }],
+  'soft-error': [{ value: 'error', icon: 'hard-error-preview' }],
+}
 
 function createStartClass(variant: 'error' | 'soft-error') {
   const shapeType = Shapes[variant]
@@ -11,10 +22,6 @@ function createStartClass(variant: 'error' | 'soft-error') {
   return class extends BaseBoxShapeUtil<ShapeType> {
     static override type = shapeType.name
     static override props = shapeType.props
-    static transformations = {
-      error: [{ value: 'soft-error', icon: 'soft-error-preview' }],
-      'soft-error': [{ value: 'error', icon: 'hard-error-preview' }],
-    }[variant]
 
     override getDefaultProps(): ShapeType['props'] {
       return {
@@ -37,9 +44,35 @@ function createStartClass(variant: 'error' | 'soft-error') {
       })
     }
 
-    override component() {
+    override component(shape: ShapeType) {
+      const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+      const isEditing = shape.id === this.editor.getEditingShapeId()
+      const selectMenuId = shape.id + '-select-menu'
+      const presetId = shape.id + '-preset-button'
+
       return (
-        <HTMLContainer>
+        <HTMLContainer
+          style={{ pointerEvents: isSelected ? 'all' : 'none' }}
+          onPointerDown={(e) => {
+            const target = e.target as HTMLElement
+            if (
+              target.id === presetId ||
+              target.closest(`#${CSS.escape(presetId)}`)
+            ) {
+              stopEventPropagation(e)
+            }
+          }}
+        >
+          <ShapeMenus
+            isSelected={isSelected}
+            isEditing={isEditing}
+            presetId={presetId}
+            selectMenuId={selectMenuId}
+            shape={shape}
+            isFe={false}
+            editor={this.editor}
+            transformationMap={transformationMap[variant]}
+          />
           <div
             style={{
               width: 'var(--circle-radius-px)',
@@ -55,16 +88,7 @@ function createStartClass(variant: 'error' | 'soft-error') {
               alignItems: 'center',
             }}
           >
-            <img
-              height="60px"
-              draggable={false}
-              src={'/error.svg'}
-              onError={(e) => {
-                console.error(`Failed to load image: /error.svg`, e)
-                // Set a fallback background color
-                ;(e.target as HTMLImageElement).style.backgroundColor = '#ddd'
-              }}
-            />
+            <img height="60px" draggable={false} src={'/error.svg'} />
           </div>
         </HTMLContainer>
       )

@@ -9,11 +9,10 @@ import {
   TLUiOverrides,
   useEditor,
   useRelevantStyles,
-  Editor,
   TLUiStylePanelProps,
   DefaultFontStyle,
 } from 'tldraw'
-import { icons, Shapes, targetStyle, ShapeName } from 'editor-common'
+import { icons, Shapes, targetStyle } from 'editor-common'
 import { useEffect, useState } from 'react'
 export const customAssetUrls: TLUiAssetUrlOverrides = {
   icons,

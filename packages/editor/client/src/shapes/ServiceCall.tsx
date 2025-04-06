@@ -190,39 +190,37 @@ function createServiceCallClass(
             }
           }}
         >
-          {isSelected && (
-            <TransformButton
-              id={presetId}
-              presets={[
-                ...mapTransformations(
-                  shapeChangeMap,
-                  variant,
-                  shape,
-                  this.editor,
-                ),
-                ...({
-                  'service-call-be': [
-                    {
-                      onSelected: () => addBePreset(shape, this.editor),
-                      iconUrl: '/service-be-preset.svg',
-                    },
-                  ],
-                  'service-call-be-external': [
-                    {
-                      onSelected: () => addBePreset(shape, this.editor),
-                      iconUrl: '/service-be-preset.svg',
-                    },
-                  ],
-                  'service-call-fe': [
-                    {
-                      onSelected: () => addFePreset(shape, this.editor),
-                      iconUrl: '/service-fe-preset.svg',
-                    },
-                  ],
-                }[variant] || []),
-              ]}
-            />
-          )}
+          <TransformButton
+            id={presetId}
+            presets={[
+              ...mapTransformations(
+                shapeChangeMap[variant],
+                shape,
+                this.editor,
+              ),
+              ...({
+                'service-call-be': [
+                  {
+                    onSelected: () => addBePreset(shape, this.editor),
+                    iconUrl: '/service-be-preset.svg',
+                  },
+                ],
+                'service-call-be-external': [
+                  {
+                    onSelected: () => addBePreset(shape, this.editor),
+                    iconUrl: '/service-be-preset.svg',
+                  },
+                ],
+                'service-call-fe': [
+                  {
+                    onSelected: () => addFePreset(shape, this.editor),
+                    iconUrl: '/service-fe-preset.svg',
+                  },
+                ],
+              }[variant] || []),
+            ]}
+            show={isSelected}
+          />
           <div
             style={{
               display: 'flex',

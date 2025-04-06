@@ -9,11 +9,7 @@ import {
 } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
-import { CSSProperties, useState } from 'react'
 import { DIMOND_SIDE_LENGTH } from './util/constants.ts'
-import { TransformButton } from './util/TransformButton.tsx'
-import { mapTransformations } from './util/util.ts'
-import { ShapeSelectMenu } from './util/ShapeSelectMenu.tsx'
 import { ShapeMenus } from './util/ShapeMenus.tsx'
 
 const transformationMap = {
@@ -80,7 +76,6 @@ const createGatewayClass = (
       })
 
     override component(shape: ShapeType) {
-      const style: CSSProperties = { pointerEvents: 'all' }
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
       const isEditing = shape.id === this.editor.getEditingShapeId()
       const presetId = shape.id + '-preset'
@@ -88,7 +83,7 @@ const createGatewayClass = (
 
       return (
         <HTMLContainer
-          style={style}
+          style={{ pointerEvents: isSelected ? 'all' : 'none' }}
           onPointerDown={(e) => {
             const target = e.target as HTMLElement
             const elementId = target.id

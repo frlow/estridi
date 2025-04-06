@@ -1,6 +1,13 @@
-import { BaseBoxShapeUtil, HTMLContainer, Rectangle2d } from 'tldraw'
+import {
+  BaseBoxShapeUtil,
+  HTMLContainer,
+  Rectangle2d,
+  stopEventPropagation,
+} from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
+import { ShapeSelectMenu } from './util/ShapeSelectMenu.tsx'
+import { useState } from 'react'
 
 const shapeType = Shapes.connector
 type ShapeType = BaseShape<typeof shapeType>
@@ -29,9 +36,34 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
   override canResize = () => false
   override hideSelectionBoundsFg = () => true
 
-  override component() {
+  override component(shape: ShapeType) {
+    const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+    const isEditing = shape.id === this.editor.getEditingShapeId()
+    const presetId = shape.id + '-preset-button'
+    const [showSelectMenu, setShowSelectMenu] = useState(false)
+
     return (
-      <HTMLContainer>
+      <HTMLContainer
+        style={{ pointerEvents: isSelected ? 'all' : 'none' }}
+        onPointerDown={(e) => {
+          const target = e.target as HTMLElement
+          if (
+            target.id === presetId ||
+            target.closest(`#${CSS.escape(presetId)}`)
+          ) {
+            stopEventPropagation(e)
+          }
+        }}
+      >
+        <ShapeSelectMenu
+          isFe={false}
+          id={presetId}
+          sourceShapeId={shape.id}
+          show={showSelectMenu}
+          onClose={() => setShowSelectMenu(!showSelectMenu)}
+          editor={this.editor}
+          showNextButton={isSelected && !isEditing}
+        />
         <div
           style={{
             position: 'absolute',

@@ -10,110 +10,90 @@ const transformationMap = {
     {
       value: 'in-progress' as ShapeName,
       icon: 'in-progress-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'dev-done' as ShapeName,
       icon: 'dev-done-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'test-done' as ShapeName,
       icon: 'test-done-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'test-failed' as ShapeName,
       icon: 'test-failed-preview',
-      updateProps: (props: any) => props,
     },
   ],
   'in-progress': [
     {
       value: 'not-started' as ShapeName,
       icon: 'not-started-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'dev-done' as ShapeName,
       icon: 'dev-done-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'test-failed' as ShapeName,
       icon: 'test-failed-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'test-done' as ShapeName,
       icon: 'test-done-preview',
-      updateProps: (props: any) => props,
     },
   ],
   'test-done': [
     {
       value: 'not-started' as ShapeName,
       icon: 'not-started-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'in-progress' as ShapeName,
       icon: 'in-progress-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'dev-done' as ShapeName,
       icon: 'dev-done-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'test-failed' as ShapeName,
       icon: 'test-failed-preview',
-      updateProps: (props: any) => props,
     },
   ],
   'dev-done': [
     {
       value: 'not-started' as ShapeName,
       icon: 'not-started-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'in-progress' as ShapeName,
       icon: 'in-progress-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'test-failed' as ShapeName,
       icon: 'test-failed-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'test-done' as ShapeName,
       icon: 'test-done-preview',
-      updateProps: (props: any) => props,
     },
   ],
   'test-failed': [
     {
       value: 'not-started' as ShapeName,
       icon: 'not-started-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'in-progress' as ShapeName,
       icon: 'in-progress-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'dev-done' as ShapeName,
       icon: 'dev-done-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'test-done' as ShapeName,
       icon: 'test-done-preview',
-      updateProps: (props: any) => props,
     },
   ],
 }
@@ -164,6 +144,7 @@ function createShape(
             height: 'var(--circle-radius-px)',
             borderRadius: 'var(--circle-radius-px)',
             padding: '10px',
+            pointerEvents: isSelected ? 'all' : 'none',
           }}
           onPointerDown={(e) => {
             const target = e.target as HTMLElement
@@ -175,17 +156,15 @@ function createShape(
             }
           }}
         >
-          {isSelected && (
-            <TransformButton
-              id={presetId}
-              presets={mapTransformations(
-                transformationMap,
-                variant,
-                shape,
-                this.editor,
-              )}
-            />
-          )}
+          <TransformButton
+            id={presetId}
+            presets={mapTransformations(
+              transformationMap[variant],
+              shape,
+              this.editor,
+            )}
+            show={isSelected}
+          />
           {variant === 'test-failed' && (
             <span
               style={{

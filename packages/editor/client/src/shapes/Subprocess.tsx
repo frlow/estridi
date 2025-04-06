@@ -40,6 +40,7 @@ function createSubprocessClass(variant: 'subprocess-fe' | 'subprocess-be') {
             border: 'var(--border)',
             padding: '1rem',
             borderRadius: 'var(--border-radius-px)',
+            pointerEvents: isSelected ? 'all' : 'none',
           }}
         >
           <div

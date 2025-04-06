@@ -10,78 +10,64 @@ import {
 } from 'tldraw'
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
-import { CSSProperties } from 'react'
 import { CIRCLE_RADIUS, CIRCLE_SHAPE_TEXT_WIDTH } from './util/constants.ts'
-import { mapTransformations } from './util/util.ts'
-import { TransformButton } from './util/TransformButton'
+import { ShapeMenus } from './util/ShapeMenus.tsx'
 
 const transformationMap = {
   'signal-send-fe': [
     {
       value: 'signal-send-fe-inter',
       icon: 'signal-send-fe-inter-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'signal-listen-fe',
       icon: 'signal-listen-fe-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'signal-listen-fe-inter',
       icon: 'signal-listen-fe-inter-preview',
-      updateProps: (props: any) => props,
     },
   ],
   'signal-send-be': [
     {
       value: 'signal-send-be-inter',
       icon: 'signal-send-be-inter-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'signal-listen-be',
       icon: 'signal-listen-be-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'signal-listen-be-inter',
       icon: 'signal-listen-be-inter-preview',
-      updateProps: (props: any) => props,
     },
   ],
   'signal-send-fe-inter': [
     {
       value: 'signal-send-fe',
       icon: 'signal-send-fe-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'signal-listen-fe',
       icon: 'signal-listen-fe-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'signal-listen-fe-inter',
       icon: 'signal-listen-fe-inter-preview',
-      updateProps: (props: any) => props,
     },
   ],
   'signal-send-be-inter': [
     {
       value: 'signal-send-be',
       icon: 'signal-send-be-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'signal-listen-be',
       icon: 'signal-listen-be-preview',
-      updateProps: (props: any) => props,
     },
     {
       value: 'signal-listen-be-inter',
       icon: 'signal-listen-be-inter-preview',
-      updateProps: (props: any) => props,
     },
   ],
 }
@@ -123,13 +109,14 @@ function createSignalSendClass(
     }
 
     override component(shape: ShapeType) {
-      const style: CSSProperties = { pointerEvents: 'all' }
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+      const isEditing = shape.id === this.editor.getEditingShapeId()
       const presetId = shape.id + '-preset-button'
+      const selectMenuId = shape.id + '-select-menu'
 
       return (
         <HTMLContainer
-          style={style}
+          style={{ pointerEvents: isSelected ? 'all' : 'none' }}
           onPointerDown={(e) => {
             const target = e.target as HTMLElement
             if (
@@ -140,17 +127,16 @@ function createSignalSendClass(
             }
           }}
         >
-          {isSelected && (
-            <TransformButton
-              id={`${shape.id}-preset-button`}
-              presets={mapTransformations(
-                transformationMap,
-                variant,
-                shape,
-                this.editor,
-              )}
-            />
-          )}
+          <ShapeMenus
+            isSelected={isSelected}
+            isEditing={isEditing}
+            presetId={presetId}
+            selectMenuId={selectMenuId}
+            shape={shape}
+            isFe={isFe}
+            editor={this.editor}
+            transformationMap={transformationMap[variant]}
+          />
           <div>
             <div
               style={{

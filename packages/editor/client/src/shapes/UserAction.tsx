@@ -210,27 +210,24 @@ export default class extends BaseBoxShapeUtil<ShapeType> {
             console.error(`Failed to load image: ./user-action.svg`, e)
           }}
         />
-        {isSelected && (
-          <>
-            <TransformButton
-              id={presetId}
-              presets={[
-                {
-                  onSelected: () => this.handleAddFlow('subprocess', shape),
-                  iconUrl: flowConfigs['subprocess'].icon,
-                },
-                {
-                  onSelected: () => this.handleAddFlow('signal-listen', shape),
-                  iconUrl: flowConfigs['signal-listen'].icon,
-                },
-                {
-                  onSelected: () => this.handleAddFlow('script-fe', shape),
-                  iconUrl: flowConfigs['script-fe'].icon,
-                },
-              ]}
-            />
-          </>
-        )}
+        <TransformButton
+          id={presetId}
+          presets={[
+            {
+              onSelected: () => this.handleAddFlow('subprocess', shape),
+              iconUrl: flowConfigs['subprocess'].icon,
+            },
+            {
+              onSelected: () => this.handleAddFlow('signal-listen', shape),
+              iconUrl: flowConfigs['signal-listen'].icon,
+            },
+            {
+              onSelected: () => this.handleAddFlow('script-fe', shape),
+              iconUrl: flowConfigs['script-fe'].icon,
+            },
+          ]}
+          show={isSelected}
+        />
 
         <div
           className="tl-text-label tl-text-wrapper"

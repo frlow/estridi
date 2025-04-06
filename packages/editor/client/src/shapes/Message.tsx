@@ -8,11 +8,10 @@ import {
   TEXT_PROPS,
 } from 'tldraw'
 import { BaseShape } from './index'
-import { CSSProperties } from 'react'
 import { ShapeName, Shapes } from 'editor-common'
 import { CIRCLE_RADIUS, CIRCLE_SHAPE_TEXT_WIDTH } from './util/constants'
 import { TransformButton } from './util/TransformButton'
-import { changeShape, mapTransformations } from './util/util'
+import { mapTransformations } from './util/util'
 
 const transformationMap = {
   message: [
@@ -51,13 +50,12 @@ function createMessageClass(variant: 'message' | 'message-inter') {
     }
 
     override component(shape: ShapeType) {
-      const style: CSSProperties = { pointerEvents: 'all' }
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
       const presetId = shape.id + '-preset'
 
       return (
         <HTMLContainer
-          style={style}
+          style={{ pointerEvents: isSelected ? 'all' : 'none' }}
           onPointerDown={(e) => {
             const target = e.target as HTMLElement
             if (
@@ -68,17 +66,15 @@ function createMessageClass(variant: 'message' | 'message-inter') {
             }
           }}
         >
-          {isSelected && (
-            <TransformButton
-              id={presetId}
-              presets={mapTransformations(
-                transformationMap,
-                variant,
-                shape,
-                this.editor,
-              )}
-            />
-          )}
+          <TransformButton
+            id={presetId}
+            presets={mapTransformations(
+              transformationMap[variant],
+              shape,
+              this.editor,
+            )}
+            show={isSelected}
+          />
           <div>
             <div
               style={{

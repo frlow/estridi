@@ -7,22 +7,21 @@ import {
 import { Shapes } from 'editor-common'
 import { BaseShape } from './index.ts'
 import { CIRCLE_RADIUS } from './util/constants'
-import { TransformButton } from './util/TransformButton.tsx'
-import { mapTransformations } from './util/util.ts'
+import { ShapeMenus } from './util/ShapeMenus.tsx'
 
-const transformationsMap = {
+const transformationMap = {
   'start-fe': [
     {
       value: 'end-fe',
       icon: 'end-fe-preview',
-      updateProps: (props: any) => ({ h: props.h, w: props.w }),
+      filterProps: (props: any) => ({ h: props.h, w: props.w }),
     },
   ],
   'start-be': [
     {
       value: 'end-be',
       icon: 'end-be-preview',
-      updateProps: (props: any) => ({ h: props.h, w: props.w }),
+      filterProps: (props: any) => ({ h: props.h, w: props.w }),
     },
   ],
 }
@@ -58,31 +57,37 @@ function createStartClass(variant: 'start-fe' | 'start-be') {
 
     override component(shape: ShapeType) {
       const isSelected = shape.id === this.editor.getOnlySelectedShapeId()
+      const isEditing = shape.id === this.editor.getEditingShapeId()
+      const selectMenuId = shape.id + '-select-menu'
       const presetId = shape.id + '-preset'
 
       return (
         <HTMLContainer
+          style={{ pointerEvents: isSelected ? 'all' : 'none' }}
           onPointerDown={(e) => {
             const target = e.target as HTMLElement
-            if (
-              target.id === presetId ||
-              target.closest(`#${CSS.escape(presetId)}`)
-            ) {
+            const elementId = target.id
+            const isMenuElement =
+              elementId === presetId ||
+              elementId === selectMenuId ||
+              target.closest(`#${CSS.escape(presetId)}`) ||
+              target.closest(`#${CSS.escape(selectMenuId)}`)
+
+            if (isMenuElement) {
               stopEventPropagation(e)
             }
           }}
         >
-          {isSelected && (
-            <TransformButton
-              id={presetId}
-              presets={mapTransformations(
-                transformationsMap,
-                variant,
-                shape,
-                this.editor,
-              )}
-            />
-          )}
+          <ShapeMenus
+            isSelected={isSelected}
+            isEditing={isEditing}
+            presetId={presetId}
+            selectMenuId={selectMenuId}
+            shape={shape}
+            isFe={isFe}
+            editor={this.editor}
+            transformationMap={transformationMap[variant]}
+          />
           <div
             style={{
               width: 'var(--circle-radius-px)',
