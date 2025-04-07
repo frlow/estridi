@@ -1,0 +1,4 @@
+Generate a list of 50 movies in this format:
+{ title: string, franchise: string, description: string }[]
+Make up fictional titles and descriptions.
+I want the movies to be either fantasy or sci-fi Make sure that there are multiple movies per franchise

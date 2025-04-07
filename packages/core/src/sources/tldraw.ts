@@ -1,5 +1,5 @@
 import { camelize } from '../texts'
-import { isNodeInside } from './common'
+import { getOutPaths, isNodeInside } from './common'
 import {
   Scraped,
   ScrapedConnector,
@@ -28,7 +28,7 @@ const getDimensions = (node: any, nodes: any) => {
   const y = [node.state.y]
   let parentId = node.state.parentId
   while (parentId) {
-    const parent = nodes.find(n=>n.state.id===parentId)
+    const parent = nodes.find((n) => n.state.id === parentId)
     parentId = parent.state.parentId
     if (!parent.state.x || !parent.state.y) break
     x.push(parent.state.x)
@@ -122,6 +122,8 @@ export const processTldraw = async (data: {
           next: getNext(node),
           raw: findRawText(node),
         }
+        const outPaths = getOutPaths(node)
+        if (outPaths) script.special = { out: outPaths }
         return script
       case 'subprocess': {
         const raw = findRawText(node)

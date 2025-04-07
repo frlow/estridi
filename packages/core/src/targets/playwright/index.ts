@@ -10,7 +10,7 @@ import { TargetGenerator } from '../TargetGenerator'
 const generateTest = (leaf: NodeLeaf) => {
   const actions = [
     'start',
-    ...leaf.actions.map((action) => `action_${sanitizeText(camelize(action))}`),
+    ...leaf.actions.map((action) => `action_${camelize(sanitizeText(action))}`),
   ]
   const lastAction = actions.splice(actions.length - 1, 1)[0]
   return `test('${sanitizeText(leaf.name)}${leaf.index > 0 ? ` ${leaf.index}` : ''}', async ({page, context})=>{

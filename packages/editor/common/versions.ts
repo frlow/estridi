@@ -1,9 +1,9 @@
-import { createMigrationIds, createMigrationSequence } from 'tldraw'
+import { createMigrationSequence } from 'tldraw'
 import { schema } from './schema'
 
 const SEQUENCE_ID = 'com.example.my-app'
 
-const Versions = createMigrationIds(SEQUENCE_ID, {})
+// const Versions = createMigrationIds(SEQUENCE_ID, {})
 
 export const myMigrations = createMigrationSequence({
   sequenceId: SEQUENCE_ID,

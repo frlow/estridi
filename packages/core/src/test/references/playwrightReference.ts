@@ -96,6 +96,19 @@ test.describe('standard', () => {
       await handles.start(args)
       expect(await testFunc(args)).toBeUndefined()
     })
+    test('Test for problem name', async ({ page, context }) => {
+      const gateways: GatewayCollection = {
+        Linked: 'B',
+      }
+      const state = await handles.setup({ gateways, page, context } as any)
+      const args = { gateways, state, page, context } as any
+      await handleServiceCalls(args)
+      await handles.start(args)
+      let testFunc = handles.test_testForProblemName
+      if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+      await handles.action_clickedButtonLabelWithSlashInName(args)
+      expect(await testFunc(args)).toBeUndefined()
+    })
     test.describe('Standard Sub', () => {
       test('Script', async ({ page, context }) => {
         const gateways: GatewayCollection = {
@@ -108,6 +121,20 @@ test.describe('standard', () => {
         let testFunc = handles.test_script
         if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
         await handles.action_reload(args)
+        expect(await testFunc(args)).toBeUndefined()
+      })
+      test('Test for problem name', async ({ page, context }) => {
+        const gateways: GatewayCollection = {
+          Linked: 'B',
+        }
+        const state = await handles.setup({ gateways, page, context } as any)
+        const args = { gateways, state, page, context } as any
+        await handleServiceCalls(args)
+        await handles.start(args)
+        await handles.action_reload(args)
+        let testFunc = handles.test_testForProblemName
+        if (testFunc.length === 2) testFunc = (await testFunc(args)) as any
+        await handles.action_clickedButtonLabelWithSlashInName(args)
         expect(await testFunc(args)).toBeUndefined()
       })
     })
@@ -231,7 +258,11 @@ export type StandardStandardSub<
   TPageExtensions = HandlesGenerics[1],
 > = {
   action_reload: (args: TestArgs<TState, TPageExtensions>) => Promise<void>
+  action_clickedButtonLabelWithSlashInName: (
+    args: TestArgs<TState, TPageExtensions>,
+  ) => Promise<void>
   test_script: TestFunction<TState, TPageExtensions>
+  test_testForProblemName: TestFunction<TState, TPageExtensions>
 }
 
 export type StandardValidateStandardCaseTable<

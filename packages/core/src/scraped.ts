@@ -9,6 +9,7 @@ const baseNodeValidator = z.object({
   special: z.optional(
     z.object({
       actions: z.optional(z.record(nodeIdValidator, z.string())),
+      out: z.optional(z.array(z.string())),
     }),
   ),
   // extra: z.any(),

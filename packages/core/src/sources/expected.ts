@@ -115,6 +115,19 @@ const parallel: ScrapedParallel = {
   id: idMatch,
 }
 
+const scriptMultipleOut: ScrapedScript = {
+  raw: 'Target',
+  id: idMatch,
+  next: undefined,
+  type: 'script',
+  special: {
+    out: expect.toSatisfy((opts) => {
+      if (opts.length !== 2) return false
+      return  opts.every((o) => o.match(idRegex))
+    }),
+  },
+}
+
 export const expected = {
   root: root,
   script,
@@ -128,4 +141,5 @@ export const expected = {
   start,
   loop,
   parallel,
+  scriptMultipleOut,
 }

@@ -1,6 +1,6 @@
 import * as Figma from 'figma-api'
 import { DocumentNode, Node } from '@figma/rest-api-spec'
-import { isNodeInside } from './common'
+import { getOutPaths, isNodeInside } from './common'
 import {
   FigmaConfig,
   Scraped,
@@ -118,6 +118,8 @@ const getNodeMetadata = (node: Node, data: any): ScrapedNode => {
         next: getNext(node),
         raw: findRawText(node),
       }
+      const outPaths = getOutPaths(node)
+      if (outPaths) script.special = { out: outPaths }
       ret = script
       break
     }

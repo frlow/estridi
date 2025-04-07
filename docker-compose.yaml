@@ -1,0 +1,11 @@
+services:
+  estridi-editor:
+    image: estridi-editor
+    build: .
+    ports:
+      - "4005:4005"
+    volumes:
+      - estridi:/config
+
+volumes:
+  estridi:

@@ -23,3 +23,8 @@ const isInside = (host: Points, child: Points) => {
   if (compare(child.x1, child.y1)) return true
   return false
 }
+
+export const getOutPaths = (node: any) => {
+  if (node.connections.length < 2) return undefined
+  return node.connections.map((c) => c.id)
+}
