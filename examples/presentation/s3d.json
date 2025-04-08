@@ -1,5 +1,5 @@
 {
-  "clock": 70955,
+  "clock": 72868,
   "tombstones": {
     "binding:iUEhV8aYC391qGCEA6DI7": 489,
     "asset:1746150305": 721,
@@ -7617,16 +7617,16 @@
     },
     {
       "state": {
-        "x": 1440.785724130651,
-        "y": 367.6414922258118,
+        "x": 170.32228447759985,
+        "y": 30.428495217296586,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
         "meta": {},
         "id": "shape:zcAAhVjyano-6SY0DzfHP",
         "type": "signal-listen-fe",
-        "parentId": "shape:wAQ9biSVGBFq718qVid_2",
-        "index": "aGAUI",
+        "parentId": "shape:bwnPCxUNKPhnr24z2gIDA",
+        "index": "a1",
         "props": {
           "w": 90,
           "h": 90,
@@ -7634,12 +7634,12 @@
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 67042
+      "lastChangedClock": 72868
     },
     {
       "state": {
-        "x": 1484.8188706978522,
-        "y": 429.06373852789875,
+        "x": 214.35543104480098,
+        "y": 68.26757372615612,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
@@ -7668,11 +7668,11 @@
           "font": "draw",
           "scale": 1
         },
-        "parentId": "shape:wAQ9biSVGBFq718qVid_2",
-        "index": "aI8mz",
+        "parentId": "shape:bwnPCxUNKPhnr24z2gIDA",
+        "index": "a39KO",
         "typeName": "shape"
       },
-      "lastChangedClock": 67042
+      "lastChangedClock": 72868
     },
     {
       "state": {
@@ -7696,16 +7696,16 @@
     },
     {
       "state": {
-        "x": 1335.785724130651,
-        "y": 555.683263651521,
+        "x": 65.32228447759985,
+        "y": 194.88709884977834,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
         "meta": {},
         "id": "shape:hEwWLyFnskVinzBrVBrQr",
         "type": "subprocess-fe",
-        "parentId": "shape:wAQ9biSVGBFq718qVid_2",
-        "index": "aH2eV",
+        "parentId": "shape:bwnPCxUNKPhnr24z2gIDA",
+        "index": "a21LF",
         "props": {
           "h": 150,
           "w": 300,
@@ -7729,7 +7729,7 @@
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 67042
+      "lastChangedClock": 72268
     },
     {
       "state": {
@@ -7809,13 +7809,13 @@
           "w": 2600,
           "h": 770,
           "name": "Details page",
-          "color": "yellow"
+          "color": "blue"
         },
         "parentId": "page:g-xkoV0F-Bf-oUBD4p6aF",
         "index": "b0v6tn",
         "typeName": "shape"
       },
-      "lastChangedClock": 57030
+      "lastChangedClock": 72015
     },
     {
       "state": {
@@ -12298,6 +12298,28 @@
         "typeName": "shape"
       },
       "lastChangedClock": 70955
+    },
+    {
+      "state": {
+        "x": 1270.4634396530512,
+        "y": 360.79616480174263,
+        "rotation": 0,
+        "isLocked": false,
+        "opacity": 1,
+        "meta": {},
+        "id": "shape:bwnPCxUNKPhnr24z2gIDA",
+        "type": "frame",
+        "props": {
+          "w": 420,
+          "h": 370,
+          "name": "New",
+          "color": "blue"
+        },
+        "parentId": "shape:wAQ9biSVGBFq718qVid_2",
+        "index": "aJ5ef",
+        "typeName": "shape"
+      },
+      "lastChangedClock": 72672
     }
   ]
 }
