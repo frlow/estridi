@@ -117,6 +117,7 @@ export const handles: Movies = {
   // },
   // test_showDescription: async function (args) {
   //   // Wait for the movie details to be visible
+  //   await args.page.pause()
   //   await args.page.waitForSelector('.movie-details')
   //
   //   // Check that the description is displayed
