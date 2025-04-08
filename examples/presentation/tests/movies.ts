@@ -27,14 +27,16 @@ export const handles: Movies = {
         gateways['Error from search'] === 'yes'
           ? { status: 500 }
           : {
-            status: 200,
-            contentType: 'application/json',
-            body: JSON.stringify(
-              gateways["No movies found"] === "yes" ? [] : data.filter((movie) =>
-                (movie.title + movie.franchise).includes(query),
+              status: 200,
+              contentType: 'application/json',
+              body: JSON.stringify(
+                gateways['No movies found'] === 'yes'
+                  ? []
+                  : data.filter((movie) =>
+                      (movie.title + movie.franchise).includes(query),
+                    ),
               ),
-            ),
-          }
+            }
       await route.fulfill(response)
     })
   },
@@ -63,7 +65,63 @@ export const handles: Movies = {
     await args.page.getByRole('list').waitFor()
 
     // Check for a movie with the title "The Colossus Wars" and franchise "Titanfall Legacy"
-    await expect(args.page.locator(".movie-item .movie-title")).toHaveText("Titanfall Legacy")
-    await expect(args.page.locator(".movie-item .movie-franchise")).toHaveText("The Colossus Wars")
+    await expect(args.page.locator('.movie-item .movie-title')).toHaveText(
+      'Titanfall Legacy',
+    )
+    await expect(args.page.locator('.movie-item .movie-franchise')).toHaveText(
+      'The Colossus Wars',
+    )
   },
+
+  // serviceCall_movieDetailsApiMoviesId: async function ({ page, gateways }) {
+  //   await page.route('/api/movies/**', async (route) => {
+  //     const url = new URL(route.request().url())
+  //     // Extract the movie ID from the path
+  //     const pathParts = url.pathname.split('/')
+  //     const movieName = decodeURI(pathParts[pathParts.length - 1])
+  //
+  //     const response =
+  //       gateways['Error from details'] === 'yes'
+  //         ? { status: 500 }
+  //         : {
+  //             status: 200,
+  //             contentType: 'application/json',
+  //             body: JSON.stringify(
+  //               data.find((movie) => movie.title === movieName),
+  //             ),
+  //           }
+  //     await route.fulfill(response)
+  //   })
+  // },
+  // action_movieClicked: async function (args) {
+  //   // Wait for the movie list to be visible
+  //   await args.page.getByRole('list').waitFor()
+  //
+  //   // Click on the first movie in the list
+  //   await args.page.locator('.movie-item').first().click()
+  // },
+  // test_movieDetailsApiMoviesId: async function (args, _) {
+  //   const requestPromise = args.page.waitForRequest('/api/movies**')
+  //   return async () => {
+  //     const request = await requestPromise
+  //     expect(request.url()).toEqual("sdifugsdxfygu")
+  //   }
+  // },
+  // test_showTitleFranchise: async function (args) {
+  //   // Wait for the movie details to be visible
+  //   await args.page.waitForSelector('.movie-details')
+  //
+  //   // Check that the title and franchise are displayed
+  //   await expect(args.page.locator('.movie-details h2')).toHaveText('The Colossus Wars')
+  //   await expect(args.page.locator('.movie-details .movie-franchise')).toHaveText('Titanfall Legacy')
+  // },
+  // test_showDescription: async function (args) {
+  //   // Wait for the movie details to be visible
+  //   await args.page.waitForSelector('.movie-details')
+  //
+  //   // Check that the description is displayed
+  //   await expect(args.page.locator('.movie-details .movie-description')).toHaveText(
+  //     'A thrilling sci-fi adventure set in the Titanfall universe.'
+  //   )
+  // }
 }

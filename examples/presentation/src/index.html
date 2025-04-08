@@ -64,6 +64,11 @@
         border: 1px solid #dee2e6;
         border-radius: 4px;
         margin-bottom: 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      .movie-item:hover {
+        background-color: #f8f9fa;
       }
       .movie-title {
         font-weight: bold;
@@ -72,21 +77,38 @@
       .movie-franchise {
         color: #6c757d;
       }
+      .back-button {
+        margin-bottom: 1rem;
+        background-color: #6c757d;
+      }
+      .back-button:hover {
+        background-color: #5a6268;
+      }
+      .movie-details {
+        padding: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+      }
+      .movie-description {
+        margin-top: 1rem;
+        line-height: 1.6;
+      }
     </style>
   </head>
   <body
     x-data="{
       query: '',
       movies: [],
+      selectedMovie: null,
       error: null,
       loading: false,
       async search() {
         this.loading = true;
         this.error = null;
+        this.selectedMovie = null;
         try {
           const url = `/api/movies?q=${encodeURIComponent(this.query)}`
           const response = await fetch(url);
-          debugger
           if (!response.ok) throw new Error('Error');
           const data = await response.json();
           console.log('API Response:', data);
@@ -96,41 +118,71 @@
           this.error = 'Error';
         }
         this.loading = false;
+      },
+      async viewMovieDetails(movie) {
+        this.loading = true;
+        this.error = null;
+        try {
+          const url = `/api/movies/${movie.title}`;
+          const response = await fetch(url);
+          if (!response.ok) throw new Error('Error');
+          const data = await response.json();
+          this.selectedMovie = data;
+        } catch (e) {
+          console.error('Movie details error:', e);
+          this.error = 'Error';
+        }
+        this.loading = false;
+      },
+      backToSearch() {
+        this.selectedMovie = null;
       }
     }"
   >
     <h1>Welcome to the Movies Page</h1>
 
-    <div class="search-container">
-      <label for="search">Search</label>
-      <input
-        type="text"
-        id="search"
-        name="Search"
-        x-model="query"
-        placeholder="Search for movies..."
-      />
-      <button @click="search()">Search</button>
-    </div>
-
-    <div>
-      <div x-show="error" class="error">Error</div>
-
-      <div
-        x-show="!error && movies.length === 0 && !loading"
-        class="no-results"
-      >
-        No results found
+    <div x-show="!selectedMovie">
+      <div class="search-container">
+        <label for="search">Search</label>
+        <input
+          type="text"
+          id="search"
+          name="Search"
+          x-model="query"
+          placeholder="Search for movies..."
+        />
+        <button @click="search()">Search</button>
       </div>
 
-      <ul x-show="movies.length > 0" class="movie-list">
-        <template x-for="movie in movies">
-          <li class="movie-item">
-            <div class="movie-title" x-text="movie.title"></div>
-            <div class="movie-franchise" x-text="movie.franchise"></div>
-          </li>
-        </template>
-      </ul>
+      <div>
+        <div x-show="error" class="error">Error</div>
+
+        <div
+          x-show="!error && movies.length === 0 && !loading"
+          class="no-results"
+        >
+          No results found
+        </div>
+
+        <ul x-show="movies.length > 0" class="movie-list">
+          <template x-for="movie in movies">
+            <li class="movie-item" @click="viewMovieDetails(movie)">
+              <div class="movie-title" x-text="movie.title"></div>
+              <div class="movie-franchise" x-text="movie.franchise"></div>
+            </li>
+          </template>
+        </ul>
+      </div>
+    </div>
+
+    <div x-show="selectedMovie">
+      <button class="back-button" @click="backToSearch()">Back to Search</button>
+
+      <div class="movie-details">
+        <h2 x-text="selectedMovie.title"></h2>
+        <div class="movie-franchise" x-text="selectedMovie.franchise"></div>
+        <div class="movie-description" x-text="selectedMovie.description"></div>
+      </div>
     </div>
   </body>
 </html>
