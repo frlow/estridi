@@ -143,7 +143,7 @@ test.describe('standard', () => {
     test('Validate Standard Case Table AAA', async ({ page, context }) => {
       const gateways: GatewayCollection = {
         Linked: 'A',
-        'Validate Standard Case Table': 'AAA',
+        'Validate Standard Case Table': 'AAA|aaa',
       }
       const state = await handles.setup({ gateways, page, context } as any)
       const args = { gateways, state, page, context } as any
@@ -157,7 +157,7 @@ test.describe('standard', () => {
     test('Validate Standard Case Table BBB', async ({ page, context }) => {
       const gateways: GatewayCollection = {
         Linked: 'A',
-        'Validate Standard Case Table': 'BBB',
+        'Validate Standard Case Table': 'BBB|bbb',
       }
       const state = await handles.setup({ gateways, page, context } as any)
       const args = { gateways, state, page, context } as any
@@ -171,7 +171,7 @@ test.describe('standard', () => {
     test('Validate Standard Case Table CCC', async ({ page, context }) => {
       const gateways: GatewayCollection = {
         Linked: 'A',
-        'Validate Standard Case Table': 'CCC',
+        'Validate Standard Case Table': 'CCC|ccc',
       }
       const state = await handles.setup({ gateways, page, context } as any)
       const args = { gateways, state, page, context } as any

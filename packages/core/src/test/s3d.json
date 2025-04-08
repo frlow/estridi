@@ -1,5 +1,5 @@
 {
-  "clock": 232154,
+  "clock": 232708,
   "tombstones": {
     "binding:WSq4LSECIpKaaljyqCT_W": 143916,
     "binding:9FmHs86R2LLmQM0KD3SoG": 148059,
@@ -15727,8 +15727,8 @@
     },
     {
       "state": {
-        "x": 4749.823816720822,
-        "y": 1043.2413417149878,
+        "x": 4812.523909320693,
+        "y": 1050.2221804827868,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
@@ -15760,7 +15760,7 @@
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 198245
+      "lastChangedClock": 232600
     },
     {
       "state": {
@@ -15789,7 +15789,7 @@
           },
           "arrowheadStart": "none",
           "arrowheadEnd": "arrow",
-          "text": "AAA",
+          "text": "AAA|aaa",
           "labelPosition": 0.5,
           "font": "draw",
           "scale": 1
@@ -15798,7 +15798,7 @@
         "index": "aP5Be",
         "typeName": "shape"
       },
-      "lastChangedClock": 197100
+      "lastChangedClock": 232502
     },
     {
       "state": {
@@ -15842,8 +15842,8 @@
     },
     {
       "state": {
-        "x": 4749.823816720822,
-        "y": 1406.4503439756759,
+        "x": 4812.523909320693,
+        "y": 1392.7703237720677,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
@@ -15875,7 +15875,7 @@
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 198339
+      "lastChangedClock": 232645
     },
     {
       "state": {
@@ -15904,7 +15904,7 @@
           },
           "arrowheadStart": "none",
           "arrowheadEnd": "arrow",
-          "text": "BBB",
+          "text": "BBB|bbb",
           "labelPosition": 0.5,
           "font": "draw",
           "scale": 1
@@ -15913,7 +15913,7 @@
         "index": "aR8wL",
         "typeName": "shape"
       },
-      "lastChangedClock": 197100
+      "lastChangedClock": 232708
     },
     {
       "state": {

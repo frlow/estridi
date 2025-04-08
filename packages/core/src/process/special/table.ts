@@ -31,7 +31,6 @@ export const injectLinkedTable = (
   const table = scraped.find((n) => n.id === tableKey) as ScrapedTable
   if (!table) return undefined
   const base = structuredClone(node)
-  const outId = `${base.id}-out`
   const gatewayId = `${base.id}-gateway`
   const startId = `${base.id}-start`
   base.link = startId
@@ -45,9 +44,7 @@ export const injectLinkedTable = (
     type: 'gateway',
     raw: node.raw,
     id: gatewayId,
-    options: {
-      [outId]: 'default',
-    },
+    options: {},
   }
   const tests = table.rows.slice(1).map((row) => {
     const testId = `${base.id}-${row[0]}`
@@ -55,15 +52,9 @@ export const injectLinkedTable = (
       id: testId,
       raw: `${node.raw} ${row[0]}`,
       type: 'script',
-      next: outId,
     }
-    gateway.options[testId] = row[0]
+    gateway.options[testId] = row.join("|")
     return test
   })
-  const out: ScrapedConnector = {
-    id: outId,
-    raw: '',
-    type: 'connector',
-  }
-  return [base, start, gateway, out, ...tests]
+  return [base, start, gateway, ...tests]
 }

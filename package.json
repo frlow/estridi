@@ -17,8 +17,7 @@
     "docs": "pnpm --filter docs dev",
     "editor": "pnpm --filter \"editor-*\" dev",
     "requirements": "concurrently \"pnpm --filter editor-client dev\" \"pnpm --filter editor-server dev -d \"../../..\"\"",
-    "test-cases": "concurrently \"pnpm --filter editor-client dev\" \"pnpm --filter editor-server dev -d \"../../core/src/test\"\"",
-    "present": "concurrently \"pnpm --filter editor-client dev\" \"pnpm --filter editor-server dev -d \"../../../examples/presentation\"\""
+    "test-cases": "concurrently \"pnpm --filter editor-client dev\" \"pnpm --filter editor-server dev -d \"../../core/src/test\"\""
   },
   "keywords": [],
   "author": "",

@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "generate": "curl -s http://localhost:4005/api/code/movies/playwright | jq .code -r > tests/movies.spec.ts",
-    "test": "playwright test"
+    "test": "playwright test",
+    "present": "concurrently \"pnpm --filter editor-client dev\" \"pnpm --filter editor-server dev -d \"../../../examples/presentation\"\""
   },
   "keywords": [],
   "author": "",
@@ -14,5 +15,8 @@
   "packageManager": "pnpm@10.7.0",
   "dependencies": {
     "@playwright/test": "^1.51.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }

@@ -1,6 +1,6 @@
 import { format } from 'prettier'
 
-export const allowedRegex = /[^a-zA-Z0-9åäöÅÄÖ ]/g
+export const allowedRegex = /[^a-zA-Z0-9åäöÅÄÖ |]/g
 export const sanitizeText = (text: string) =>
   (text || '')
     .replaceAll(allowedRegex, ' ')
