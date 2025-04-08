@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movies Page</title>
+    <!-- Include Alpine.js from CDN -->
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        line-height: 1.6;
+      }
+      .search-container {
+        margin: 2rem 0;
+      }
+      input[type='text'] {
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-right: 10px;
+      }
+      button {
+        padding: 8px 16px;
+        font-size: 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .error {
+        color: #dc3545;
+        padding: 1rem;
+        background-color: #f8d7da;
+        border-radius: 4px;
+        margin: 1rem 0;
+      }
+      .no-results {
+        color: #6c757d;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        margin: 1rem 0;
+      }
+      .movie-list {
+        list-style: none;
+        padding: 0;
+      }
+      .movie-item {
+        padding: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+      }
+      .movie-title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+      .movie-franchise {
+        color: #6c757d;
+      }
+    </style>
+  </head>
+  <body
+    x-data="{
+      query: '',
+      movies: [],
+      error: null,
+      loading: false,
+      async search() {
+        this.loading = true;
+        this.error = null;
+        try {
+          const url = `/api/movies?q=${encodeURIComponent(this.query)}`
+          const response = await fetch(url);
+          debugger
+          if (!response.ok) throw new Error('Error');
+          const data = await response.json();
+          console.log('API Response:', data);
+          this.movies = Array.isArray(data) ? data : [];
+        } catch (e) {
+          console.error('Search error:', e);
+          this.error = 'Error';
+        }
+        this.loading = false;
+      }
+    }"
+  >
+    <h1>Welcome to the Movies Page</h1>
+
+    <div class="search-container">
+      <label for="search">Search</label>
+      <input
+        type="text"
+        id="search"
+        name="Search"
+        x-model="query"
+        placeholder="Search for movies..."
+      />
+      <button @click="search()">Search</button>
+    </div>
+
+    <div>
+      <div x-show="error" class="error">Error</div>
+
+      <div
+        x-show="!error && movies.length === 0 && !loading"
+        class="no-results"
+      >
+        No results found
+      </div>
+
+      <ul x-show="movies.length > 0" class="movie-list">
+        <template x-for="movie in movies">
+          <li class="movie-item">
+            <div class="movie-title" x-text="movie.title"></div>
+            <div class="movie-franchise" x-text="movie.franchise"></div>
+          </li>
+        </template>
+      </ul>
+    </div>
+  </body>
+</html>
