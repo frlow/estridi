@@ -1,5 +1,5 @@
 {
-  "clock": 77159,
+  "clock": 79978,
   "tombstones": {
     "binding:iUEhV8aYC391qGCEA6DI7": 489,
     "asset:1746150305": 721,
@@ -7622,16 +7622,16 @@
     },
     {
       "state": {
-        "x": 165,
-        "y": 22.66787247686989,
+        "x": 1435.4634396530512,
+        "y": 270.79616480174263,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
         "meta": {},
         "id": "shape:zcAAhVjyano-6SY0DzfHP",
         "type": "signal-listen-fe",
-        "parentId": "shape:bwnPCxUNKPhnr24z2gIDA",
-        "index": "a31eO",
+        "parentId": "shape:wAQ9biSVGBFq718qVid_2",
+        "index": "aK6hx",
         "props": {
           "w": 90,
           "h": 90,
@@ -7639,12 +7639,12 @@
         },
         "typeName": "shape"
       },
-      "lastChangedClock": 73223
+      "lastChangedClock": 79978
     },
     {
       "state": {
-        "x": 214.35543104480098,
-        "y": 68.26757372615612,
+        "x": 1484.8188706978522,
+        "y": 429.06373852789875,
         "rotation": 0,
         "isLocked": false,
         "opacity": 1,
@@ -7673,11 +7673,11 @@
           "font": "draw",
           "scale": 1
         },
-        "parentId": "shape:bwnPCxUNKPhnr24z2gIDA",
-        "index": "a40aW",
+        "parentId": "shape:wAQ9biSVGBFq718qVid_2",
+        "index": "aL8Q1",
         "typeName": "shape"
       },
-      "lastChangedClock": 73200
+      "lastChangedClock": 79953
     },
     {
       "state": {
