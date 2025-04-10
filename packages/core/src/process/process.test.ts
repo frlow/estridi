@@ -28,6 +28,7 @@ describe('process node tree', () => {
         name: 'Target',
         actions: [],
         gateways: {},
+        path: expect.anything(),
       },
     ]))
 
@@ -37,20 +38,23 @@ describe('process node tree', () => {
         name: 'Target',
         actions: [],
         gateways: {},
+        path: expect.anything(),
       },
       {
         name: 'Other',
         actions: [],
         gateways: {},
+        path: expect.anything(),
       },
     ]))
 
-  test('gateway', async () => async () =>
+  test('gateway', async () =>
     await runTest('gateway', [
       {
         name: 'Target',
         actions: [],
         gateways: { Gateway: 'AAA' },
+        path: expect.anything(),
       },
     ]))
 
@@ -60,6 +64,7 @@ describe('process node tree', () => {
         name: 'Target',
         actions: ['Click'],
         gateways: {},
+        path: expect.anything(),
       },
     ]))
 
@@ -72,6 +77,7 @@ describe('process node tree', () => {
             actions: [],
             gateways: {},
             name: 'Target',
+            path: expect.anything(),
           },
         ],
       },
@@ -86,11 +92,13 @@ describe('process node tree', () => {
             actions: [],
             gateways: {},
             name: 'Target',
+            path: expect.anything(),
           },
           {
             actions: [],
             gateways: {},
             name: 'Other',
+            path: expect.anything(),
           },
         ],
       },
@@ -106,6 +114,7 @@ describe('process node tree', () => {
                 actions: [],
                 gateways: {},
                 name: 'Target',
+                path: expect.anything(),
               },
             ],
             name: 'tc-tree-subflow3-sub2',
@@ -123,6 +132,7 @@ describe('process node tree', () => {
           Gateway: 'yes',
         },
         name: 'Other',
+        path: expect.anything(),
       },
       {
         actions: [],
@@ -130,6 +140,7 @@ describe('process node tree', () => {
           Gateway: '',
         },
         name: 'Other3',
+        path: expect.anything(),
       },
       {
         actions: [],
@@ -137,6 +148,7 @@ describe('process node tree', () => {
           Gateway: 'yes',
         },
         name: 'Other2',
+        path: expect.anything(),
       },
       {
         actions: [],
@@ -144,6 +156,7 @@ describe('process node tree', () => {
           Gateway: 'yes',
         },
         name: 'YesTarget',
+        path: expect.anything(),
       },
       {
         actions: [],
@@ -151,6 +164,7 @@ describe('process node tree', () => {
           Gateway: 'no',
         },
         name: 'NoTarget',
+        path: expect.anything(),
       },
       {
         actions: [],
@@ -158,6 +172,7 @@ describe('process node tree', () => {
           Gateway: 'yes',
         },
         name: 'After',
+        path: expect.anything(),
       },
     ]))
 
@@ -169,6 +184,7 @@ describe('process node tree', () => {
           Gateway: 'no',
         },
         name: 'NoBase',
+        path: expect.anything(),
       },
       {
         actions: [],
@@ -176,6 +192,7 @@ describe('process node tree', () => {
           Gateway: 'yes',
         },
         name: 'YesBase',
+        path: expect.anything(),
       },
       {
         children: [
@@ -185,6 +202,7 @@ describe('process node tree', () => {
               Gateway: 'yes',
             },
             name: 'YesSub',
+            path: expect.anything(),
           },
         ],
         name: 'tc-tree-linked2-sub',
@@ -197,6 +215,7 @@ describe('process node tree', () => {
               Gateway: 'no',
             },
             name: 'NoSub',
+            path: expect.anything(),
           },
         ],
         name: 'tc-tree-linked2-sub 1',
@@ -209,6 +228,7 @@ describe('process node tree', () => {
         actions: [],
         gateways: {},
         name: 'Target',
+        path: expect.anything(),
       },
     ]))
 
@@ -220,6 +240,7 @@ describe('process node tree', () => {
             actions: [],
             gateways: {},
             name: 'Target',
+            path: expect.anything(),
           },
           {
             children: [
@@ -227,6 +248,7 @@ describe('process node tree', () => {
                 actions: ['Click'],
                 gateways: {},
                 name: 'Target',
+                path: expect.anything(),
               },
             ],
             name: 'tc-tree-subloop-sub',
@@ -246,6 +268,7 @@ describe('process node tree', () => {
               Linked: 'B',
             },
             name: 'Common',
+            path: expect.anything(),
           },
 
           {
@@ -254,6 +277,7 @@ describe('process node tree', () => {
               Linked: 'B',
             },
             name: 'B Message',
+            path: expect.anything(),
           },
         ],
         name: 'tc-tree-subflow-multi-sub',
@@ -266,6 +290,7 @@ describe('process node tree', () => {
               Linked: 'A',
             },
             name: 'Common',
+            path: expect.anything(),
           },
           {
             actions: ['Click'],
@@ -273,6 +298,7 @@ describe('process node tree', () => {
               Linked: 'A',
             },
             name: 'A Message',
+            path: expect.anything(),
           },
         ],
         name: 'tc-tree-subflow-multi-sub 1',
@@ -287,6 +313,7 @@ describe('process node tree', () => {
           Gateway: 'A',
         },
         name: 'Target',
+        path: expect.anything(),
       },
       {
         actions: [],
@@ -295,6 +322,7 @@ describe('process node tree', () => {
         },
         name: 'Target',
         index: 1,
+        path: expect.anything(),
       },
       {
         children: [
@@ -304,6 +332,7 @@ describe('process node tree', () => {
               Gateway: 'A',
             },
             name: 'Target',
+            path: expect.anything(),
           },
         ],
         name: 'tc-tree-linked-script-sub',
@@ -316,12 +345,69 @@ describe('process node tree', () => {
         actions: [],
         gateways: {},
         name: 'Target 1',
+        path: expect.anything(),
       },
       {
         actions: [],
         gateways: {},
         name: 'Target 2',
+        path: expect.anything(),
       },
     ])
   })
+
+  test('path', async () =>
+    await runTest('path', [
+      {
+        actions: [],
+        gateways: {
+          Gateway: '',
+        },
+        name: 'Serivce Call..',
+        path: [
+          {
+            raw: 'Gateway',
+            type: 'gateway',
+            value: '',
+          },
+          {
+            raw: 'Serivce Call..',
+            type: 'serviceCall',
+          },
+        ],
+      },
+      {
+        actions: ["Click"],
+        gateways: {
+          Gateway: '',
+          Other: '',
+        },
+        name: 'Target',
+        path: [
+          {
+            raw: 'Gateway',
+            type: 'gateway',
+            value: '',
+          },
+          {
+            raw: 'Serivce Call..',
+            type: 'serviceCall',
+          },
+          {
+            raw: 'Gateway',
+            type: 'gateway',
+            value: '',
+          },
+          {
+            raw: 'Other',
+            type: 'gateway',
+            value: '',
+          },
+          {
+            raw: "Click",
+            type: 'action',
+          },
+        ],
+      },
+    ]))
 })

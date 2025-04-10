@@ -22,6 +22,7 @@ export type NodeLeaf = {
   index?: number
   gateways: Record<string, string>
   actions: string[]
+  path: { type: 'serviceCall' | 'action' | 'gateway'; raw: string; value?: string }[]
 }
 
 export type NodeBranch = {

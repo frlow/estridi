@@ -7,6 +7,7 @@ export type FlatNodeTree = {
   gateways: Record<string, string>
   actions: string[]
   subprocesses: string[]
+  path: string[]
 }[]
 
 export function getTestableNodes(discoveredNodes: Record<string, Probe>) {
@@ -18,6 +19,7 @@ export function getTestableNodes(discoveredNodes: Record<string, Probe>) {
         gateways: p.gateways,
         actions: p.actions,
         subprocesses: p.subprocesses,
+        path: p.path,
       }
     })
   testableNodes.sort((a, b) => a.subprocesses.length - b.subprocesses.length)
@@ -48,6 +50,28 @@ export const getNodeTree = ({
   rootNode: ScrapedStart
 }) => {
   const namedPaths: { key: string; namedKey: string; path: string[] }[] = []
+  const getLeafPath = (path: string[]): NodeLeaf['path'] => {
+    const pathNodes = path.map((p) => scraped.find((n) => n.id === p))
+    return pathNodes.reduce((acc, cur, index, arr) => {
+      if (cur.type === 'userAction')
+        acc.push({
+          raw: cur.actions[arr[index + 1].id],
+          type: 'action',
+        })
+      else if(cur.type==="gateway")
+        acc.push({
+          raw: cur.raw,
+          value: cur.options[arr[index + 1].id],
+          type: 'gateway',
+        })
+      else if(cur.type==="serviceCall")
+        acc.push({
+          raw: cur.raw,
+          type: 'serviceCall',
+        })
+      return acc
+    }, [])
+  }
   const getNamedPath = (subprocesses: string[]) => {
     const key = subprocesses.join('|')
     const existing = namedPaths.find((n) => n.key === key)
@@ -87,6 +111,7 @@ export const getNodeTree = ({
         return subprocessChild
       }, acc)
       const leaf: NodeLeaf = {
+        path: getLeafPath(cur.path),
         name: cur.name,
         actions: cur.actions,
         gateways: cur.gateways,

@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "GITHUB_CLIENT_ID=Iv23liAVcz1XgBPlk4Gn GITHUB_CLIENT_SECRET=0609d21e0087c7423c4df2a607b7f21a64263a67 AUTH_SECRET=f49349a18a636bb0c74bf0e51e5cc29e AUTH_TRUST_HOST=true astro dev",
     "start": "astro dev",
     "build": "astro build && node ./wrapper.js",
     "preview": "astro preview",
@@ -12,7 +12,10 @@
   "dependencies": {
     "@astrojs/node": "^9.1.3",
     "@astrojs/starlight": "^0.32.2",
-    "astro": "^5.5.2"
+    "@auth/core": "^0.37.4",
+    "astro": "^5.5.2",
+    "auth-astro": "^4.2.0",
+    "cookie": "^1.0.2"
   },
   "devDependencies": {
     "sass-embedded": "^1.82.0"
