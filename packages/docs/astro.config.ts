@@ -1,11 +1,13 @@
 import starlight from '@astrojs/starlight'
 import { defineConfig, passthroughImageService } from 'astro/config'
-import node from '@astrojs/node'
+import nodeWebSocket from "astro-node-websocket"
 import fs from 'node:fs'
 import path from 'node:path'
 import url from 'node:url'
 
 import auth from 'auth-astro'
+
+import react from '@astrojs/react';
 
 const integration = starlight({
   title: 'estridi',
@@ -52,11 +54,11 @@ export default defineConfig({
     host: true,
   },
 
-  integrations: [auth(), integration],
+  integrations: [auth(), integration, react()],
 
   output: 'server',
 
-  adapter: node({
+  adapter: nodeWebSocket({
     mode: 'standalone',
   }),
 })
