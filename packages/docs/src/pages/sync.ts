@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro'
 import { schema } from 'editor-common'
 import { TLSocketRoom } from '@tldraw/sync-core'
 import fs from 'node:fs'
-import { loadSnapshot, saveSnapshot } from './snapshot'
+import { loadSnapshot, saveSnapshot } from './snapshot.ts'
 
 const rootDir = '.'
 fs.mkdirSync(rootDir, { recursive: true })

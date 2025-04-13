@@ -141,6 +141,9 @@ importers:
       core:
         specifier: workspace:*
         version: link:../core
+      editor-client:
+        specifier: workspace:*
+        version: link:../editor/client
       editor-common:
         specifier: workspace:*
         version: link:../editor/common
