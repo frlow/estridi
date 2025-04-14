@@ -1,9 +1,7 @@
 // auth.config.ts
 import GitHub from '@auth/core/providers/github'
 import { defineConfig } from 'auth-astro'
-import type { Profile } from '@auth/core/types'
-
-const approvedUsers = ['lowet84']
+import { saveUserId } from './src/pages/files.ts'
 
 export default defineConfig({
   providers: [
@@ -14,8 +12,12 @@ export default defineConfig({
   ],
   callbacks: {
     async signIn(args) {
-      const profile = args.profile as Profile & { login: string }
-      return approvedUsers.includes(profile.login)
+      saveUserId(args.user, args.account!)
+      return true
+    },
+    session: async (args) => {
+      args.session.user.id = args.token.sub!
+      return args.session
     },
   },
 })
