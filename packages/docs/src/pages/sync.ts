@@ -3,12 +3,14 @@ import { schema } from 'editor-common'
 import { TLSocketRoom } from '@tldraw/sync-core'
 import { getAccount, loadSnapshot, saveSnapshot } from './files.ts'
 import { getSession } from 'auth-astro/server'
+import type { TLRecord } from 'tldraw'
 
+const rooms: Record<string, TLSocketRoom<TLRecord>> = {}
 const getRoom = (roomId: string) => {
   if (rooms[roomId]) return rooms[roomId]
   const initialSnapshot = loadSnapshot(roomId)
+  console.log(`Connection to room`, roomId)
   const room = new TLSocketRoom({
-    // @ts-ignore
     schema,
     initialSnapshot,
     onSessionRemoved(room, args) {
@@ -17,6 +19,7 @@ const getRoom = (roomId: string) => {
       if (args.numSessionsRemaining === 0) {
         console.log('closing room', roomId)
         room.close()
+        delete rooms[roomId]
       }
     },
     async onDataChange() {
@@ -25,10 +28,9 @@ const getRoom = (roomId: string) => {
       saveSnapshot(roomId, data)
     },
   })
+  rooms[roomId] = room
   return room
 }
-
-const rooms: Record<string, TLSocketRoom> = {}
 
 export const GET: APIRoute = async (ctx) => {
   const session = await getSession(ctx.request)

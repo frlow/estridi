@@ -2,10 +2,15 @@
   "name": "docs",
   "type": "module",
   "version": "0.0.1",
+  "config": {
+    "clientId": "Iv23liAVcz1XgBPlk4Gn",
+    "githubSecret": "0609d21e0087c7423c4df2a607b7f21a64263a67",
+    "authSecret": "f49349a18a636bb0c74bf0e51e5cc29e"
+  },
   "scripts": {
     "dev": "GITHUB_CLIENT_ID=Iv23liAVcz1XgBPlk4Gn GITHUB_CLIENT_SECRET=0609d21e0087c7423c4df2a607b7f21a64263a67 AUTH_SECRET=f49349a18a636bb0c74bf0e51e5cc29e AUTH_TRUST_HOST=true astro dev",
     "start": "astro dev",
-    "build": "astro build && node ./wrapper.js",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -14,9 +19,9 @@
     "@astrojs/react": "^4.2.3",
     "@astrojs/starlight": "^0.32.2",
     "@auth/core": "^0.37.4",
-    "@tldraw/editor": "^3.11.0",
-    "@tldraw/sync": "^3.11.0",
-    "@tldraw/sync-core": "^3.11.0",
+    "@tldraw/editor": "catalog:",
+    "@tldraw/sync": "catalog:",
+    "@tldraw/sync-core": "catalog:",
     "@types/react-dom": "^19.1.2",
     "astro": "^5.5.2",
     "astro-node-websocket": "^1.1.3",
@@ -28,7 +33,7 @@
     "editor-client": "workspace:*",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "tldraw": "^3.11.0",
+    "tldraw": "catalog:",
     "ws": "^8.18.0"
   },
   "devDependencies": {

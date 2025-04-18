@@ -5,3 +5,11 @@ onlyBuiltDependencies:
   - core-js
   - esbuild
   - sharp
+
+catalog:
+  "@tldraw/editor": "3.11.1"
+  "@tldraw/sync": "3.11.1"
+  "@tldraw/tlschema": "3.11.1"
+  "@tldraw/utils": "3.11.1"
+  "tldraw": "3.11.1"
+  "@tldraw/sync-core": "3.11.1"

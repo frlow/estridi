@@ -12,12 +12,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tldraw/sync-core": "^3.11.0",
+    "@tldraw/sync-core": "catalog:",
     "commander": "^13.1.0",
     "core": "workspace:*",
     "editor-common": "workspace:*",
     "express": "^4.21.2",
-    "tldraw": "^3.11.0",
+    "tldraw": "catalog:",
     "websocket-express": "^3.1.2",
     "ws": "^8.18.0"
   },
