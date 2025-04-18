@@ -16,7 +16,6 @@ export default defineConfig({
   server: {
     host: true,
   },
-
   integrations: [auth(), starlight({
     title: 'estridi',
     social: {},
