@@ -8,17 +8,29 @@ import {
   ScrapedNode,
   ScrapedNodeTypes,
   scrapedNodeTypes,
-  ScrapedOther,
+  ScrapedOther, ScrapedPage,
   ScrapedParallel,
   ScrapedScript,
   ScrapedServiceCall,
   ScrapedStart,
   ScrapedSubprocess,
   ScrapedTable,
-  ScrapedUserAction,
+  ScrapedUserAction
 } from '../scraped'
 
 export type ProcessedNodes = Record<string, any>
+
+const findChildNodes = (nodes: any[], parentId: string): string[] =>{
+  const toProcess = [parentId]
+  const acc: string[] = []
+  while(toProcess.length>0){
+    const childIds = nodes.filter(n=>toProcess.includes(n.state.parentId)).map(n=>n.state.id)
+    toProcess.splice(0, toProcess.length)
+    toProcess.push(...childIds)
+    acc.push(...childIds)
+  }
+  return acc
+}
 
 const getDimensions = (node: any, nodes: any) => {
   const height = node.state.props?.h
@@ -88,6 +100,7 @@ export const processTldraw = async (data: {
       node.state?.type?.replace('-be', '')?.replace('-fe', '') || '',
     )
     if (types.includes(nodeType)) return nodeType
+    if (node.state.typeName === 'page') return 'page'
     return 'other'
   }
 
@@ -109,7 +122,7 @@ export const processTldraw = async (data: {
 
   const getNodeMetadata = (
     node: any,
-    data: Record<string, any>,
+    data: any[],
   ): ScrapedNode => {
     const type = getType(node)
     switch (type) {
@@ -222,6 +235,14 @@ export const processTldraw = async (data: {
           next: getNext(node),
         }
         return connector
+      case 'page':
+        const page : ScrapedPage = {
+          id: getId(node.state.id),
+          type: "page",
+          raw: node.state.name,
+          nodes: findChildNodes(data, getId(node.state.id))
+        }
+        return page
       default: {
         // console.log(`Node type not found: ${node.state?.type}`)
         return {

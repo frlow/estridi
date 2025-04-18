@@ -9,14 +9,14 @@ import {
   ScrapedLoop,
   ScrapedNode,
   ScrapedNodeTypes,
-  ScrapedOther,
+  ScrapedOther, ScrapedPage,
   ScrapedParallel,
   ScrapedScript,
   ScrapedServiceCall,
   ScrapedStart,
   ScrapedSubprocess,
   ScrapedTable,
-  ScrapedUserAction,
+  ScrapedUserAction
 } from '../scraped'
 
 export type ProcessedNodes = Record<string, any>
@@ -31,6 +31,19 @@ export const loadFigmaDocument = async ({
 
   const file = await api.getFile({ file_key: fileId })
   return file.document
+}
+
+const findChildNodes = (node: any): string[] =>{
+  const toProcess = [node]
+  const acc: string[] = []
+  while(toProcess.length>0){
+    const children = toProcess.flatMap(n=>n.children).filter(n=>n)
+    const childIds = children.flatMap(c=>c.id)
+    toProcess.splice(0, toProcess.length)
+    toProcess.push(...children)
+    acc.push(...childIds)
+  }
+  return acc
 }
 
 const findRawText = (node: any): string => {
@@ -61,6 +74,7 @@ const getType = (node: Node): ScrapedNodeTypes | 'signalListen' => {
   if (node.name?.replace('10.', '').trim() === 'Connector') return 'connector'
   if (node.name?.replace('05.', '').trim() === 'Signal listen')
     return 'signalListen' as any
+  if(node.type==="CANVAS") return "page"
   return 'other'
 }
 
@@ -234,6 +248,16 @@ const getNodeMetadata = (node: Node, data: any): ScrapedNode => {
         next: getNext(node),
       }
       ret = connector
+      break
+    }
+    case "page": {
+      const page: ScrapedPage = {
+        id: node.id,
+        type: 'page',
+        raw: node.name,
+        nodes: findChildNodes(node),
+      }
+      ret = page
       break
     }
     default: {

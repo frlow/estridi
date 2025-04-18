@@ -2,6 +2,7 @@ import {
   ScrapedConnector,
   ScrapedGateway,
   ScrapedLoop,
+  ScrapedPage,
   ScrapedParallel,
   ScrapedScript,
   ScrapedServiceCall,
@@ -123,9 +124,19 @@ const scriptMultipleOut: ScrapedScript = {
   special: {
     out: expect.toSatisfy((opts) => {
       if (opts.length !== 2) return false
-      return  opts.every((o) => o.match(idRegex))
+      return opts.every((o) => o.match(idRegex))
     }),
   },
+}
+
+const page: ScrapedPage = {
+  type: 'page',
+  id: idMatch,
+  raw: 'Test Cases',
+  nodes: expect.toSatisfy(opts=>{
+    if(opts.length<100) return false
+    return opts.every((o) => o.match(idRegex))
+  }),
 }
 
 export const expected = {
@@ -142,4 +153,5 @@ export const expected = {
   loop,
   parallel,
   scriptMultipleOut,
+  page,
 }

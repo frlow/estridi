@@ -49,6 +49,7 @@ export const filterScraped = (scraped: Scraped, rootName: string): Scraped => {
   const processed = processNode({ node: root, scraped })
   const filtered = Object.values(processed)
   filtered.push(...scraped.filter((n) => n.type === 'table'))
+  filtered.push(...scraped.filter((n) => n.type === 'page'))
   return filtered
 }
 

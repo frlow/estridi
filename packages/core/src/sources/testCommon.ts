@@ -10,6 +10,7 @@ export const allTests = (
 ) => {
   describe('common', () => {
     test('connector', runTest('connector', 'connector'))
+    test('page', runTest('root-fe', 'page'))
   })
   describe('front end', () => {
     test('root', runTest('root-fe', 'root'))

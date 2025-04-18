@@ -33,11 +33,17 @@ export const scrapedNodeTypes = [
   'subprocess',
   'userAction',
   'connector',
+  'page',
 ] as const
 const scrapedNodeTypesValidator = z.enum(scrapedNodeTypes)
 export type ScrapedNodeTypes = z.infer<typeof scrapedNodeTypesValidator>
 
 export type ScrapedNodeType<T extends ScrapedNodeTypes> = T
+
+export type ScrapedPage = {
+  type: ScrapedNodeType<'page'>
+  nodes: NodeId[]
+} & BaseNode
 
 export type ScrapedOther = {
   type: ScrapedNodeType<'other'>
@@ -108,6 +114,7 @@ export type ScrapedNode =
   | ScrapedConnector
   | ScrapedLoop
   | ScrapedParallel
+  | ScrapedPage
 export type Scraped = ScrapedNode[]
 
 export type FigmaConfig = {
