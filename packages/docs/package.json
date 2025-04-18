@@ -11,7 +11,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "GITHUB_CLIENT_ID=Iv23liAVcz1XgBPlk4Gn GITHUB_CLIENT_SECRET=0609d21e0087c7423c4df2a607b7f21a64263a67 AUTH_SECRET=f49349a18a636bb0c74bf0e51e5cc29e AUTH_TRUST_HOST=true node dist/server/entry.mjs",
+    "preview": "node dist/server/entry.mjs",
     "astro": "astro"
   },
   "dependencies": {
